@@ -67,7 +67,7 @@ export class MonsterCreatorDialog extends DC20Dialog {
         size: "medium",
         reactionPoints: 0,
         itemTraits: {},
-        baseTraits: DEFAULT_BASIC_TRAITS
+        baseTraits: foundry.utils.deepClone(DEFAULT_BASIC_TRAITS)
       }
     }
   }
@@ -118,7 +118,7 @@ export class MonsterCreatorDialog extends DC20Dialog {
     else if (this.data.trait === "epic") this.data.reactionPoints = 3;
     else this.data.reactionPoints = 0;
 
-    this.data.baseTraits = DEFAULT_BASIC_TRAITS;
+    this.data.baseTraits = foundry.utils.deepClone(DEFAULT_BASIC_TRAITS);
     const roleChanges = CONFIG.DC20RPG.MONSTERS.ROLE_CHANGES[this.data.creatureRole];
     const typeChanges = CONFIG.DC20RPG.MONSTERS.TYPE_CHANGES[this.data.creatureType];
     if (roleChanges) {
@@ -216,7 +216,7 @@ export class MonsterCreatorDialog extends DC20Dialog {
   async _onSave(event, target) {
     event.preventDefault();
     const baseTraits = this.data.baseTraits;
-    const updateData = CLEAN_UPDATE_DATA;
+    const updateData = foundry.utils.deepClone(CLEAN_UPDATE_DATA);
     updateData.name = this.data.name;
 
     // Senses

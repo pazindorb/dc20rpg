@@ -200,7 +200,6 @@ export function activateCharacterLinsters(html, actor) {
 }
 
 export function activateNpcLinsters(html, actor) {
-  html.find(".level-scaling").click(() => actor.monsterConfig.scaleToLevel());
   html.find(".monster-creator").click(() => MonsterCreatorDialog.open({actor: actor}));
 }
 

@@ -555,6 +555,16 @@ export class DC20RpgActor extends Actor {
         }
       }
     }
+
+    // Scale monster level
+    if (this.type === "npc") {
+      const levelChanged = changed?.system?.details?.level;
+      if (levelChanged) {
+        SimplePopup.confirm("Run Monster Level Scaling?").then(result => {
+          if (result) this.monsterConfig.scaleToLevel();
+        })
+      }
+    }
   }
 
   /** @inheritDoc */

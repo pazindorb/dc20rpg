@@ -17,12 +17,11 @@
           <div class="cm-wrapper">
             <input disabled value="{{system.details.combatMastery}}" title="{{localize 'dc20rpg.sheet.combatMastery'}}"/>
           </div>
-        </div>
 
           <div class="char-level-wrapper">
-            {{{small-button "level-scaling" "fa fa-lg fa-circle-up" (localize 'dc20rpg.sheet.levelUp') (data "item-id" class._id "up" "true")}}}
-            {{{small-button "monster-creator" "fa fa-lg fa-gear" (localize 'dc20rpg.sheet.levelUp') (data "item-id" class._id "up" "true")}}}
+            {{{small-button "monster-creator" "fa fa-lg fa-gear" (localize 'dc20rpg.sheet.monsterConfig')}}}
           </div>
+        </div>
         
         {{!-- Image --}}
         <div class="border-box">
