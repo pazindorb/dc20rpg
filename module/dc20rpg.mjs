@@ -28,7 +28,7 @@ import { expandEnrichHTML, registerGlobalInlineRollListener } from "./helpers/te
 import { registerUniqueSystemItems } from "./subsystems/character-progress/advancement/advancements.mjs";
 import { SimplePopup } from "./dialogs/simple-popup.mjs";
 import { runMigrationCheck, testMigration } from "./settings/migrationRunner.mjs";
-import { characterWizardButton } from "./sidebar/actor-directory.mjs";
+import { actorCreatorButton } from "./sidebar/actor-directory.mjs";
 import { canvasDrop } from "./helpers/actors/tokens.mjs";
 import { registerSystemKeybindings } from "./settings/keybindings.mjs";
 import './npc-pdf-builder-exporter/npc-pdf-foundry.mjs';
@@ -154,7 +154,7 @@ Hooks.once("ready", async function() {
   }
 });
 Hooks.on("renderCompendiumDirectory", (application, element, context, option) => compendiumBrowserButton(element));
-Hooks.on("renderActorDirectory", (application, element, context, option) => characterWizardButton(element));
+Hooks.on("renderActorDirectory", (application, element, context, option) => actorCreatorButton(element));
 Hooks.on("renderDialogV2", (app, element, context, option) => {
   // We want to remove "basicAction" from "Create Item Dialog"
   const selector = element.querySelector('[name="type"]');

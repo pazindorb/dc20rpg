@@ -69,6 +69,7 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
         treshold: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         formula: new f.StringField({required: true, initial: "- @prime - @combatMastery - @death.bonus"}),
         bonus: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        applicable: new f.BooleanField({required: true, initial: false}),
       }),
       saveDC: new f.SchemaField({
         value: new f.SchemaField({
@@ -213,6 +214,13 @@ export class DC20CharacterData extends DC20BaseActorData {
           max: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         })
       }),
+      death: new f.SchemaField({
+        active: new f.BooleanField({required: true, initial: false}),
+        treshold: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        formula: new f.StringField({required: true, initial: "- @prime - @combatMastery - @death.bonus"}),
+        bonus: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        applicable: new f.BooleanField({required: true, initial: true}),
+      }),
       trades: new SkillFields("trade"),
       details: new f.SchemaField({
         ancestry: new f.SchemaField({id: new f.StringField({required: true})}, {required: true}),
@@ -280,11 +288,13 @@ export class DC20NpcData extends DC20BaseActorData {
         creatureRole: new f.StringField({required: true}),
       }),
       scaling: new f.SchemaField({
+        isScalingMonster: new f.BooleanField({required: true, initial: false}),
         tier: new f.StringField({required: true, initial: "medium"}),
         rank: new f.StringField({required: true, initial: "normal"}),
         maxTraitValue: new f.NumberField({ required: true, nullable: false, integer: true, initial: 4 }),
         maxHp: new f.NumberField({ required: true, nullable: false, integer: true, initial: 7 }),
         damage: new f.NumberField({ required: true, nullable: true, integer: true, initial: 0 }),
+        healing: new f.NumberField({ required: true, nullable: true, integer: true, initial: 0 }),
         impact: new f.BooleanField({required: true, initial: false}),
         reactionPoints: new f.NumberField({ required: true, nullable: true, integer: true, initial: 0 }),
         baseTraits: new f.SchemaField({

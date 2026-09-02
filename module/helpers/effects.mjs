@@ -344,6 +344,7 @@ export function getEffectModifiableKeys() {
     // Death
     "system.death.bonus": "Death's Door: Threshold Bonus",
     "system.death.formula": "Death's Door: Calculation Formula",
+    "system.death.applicable": "Death's Door: Monster uses it",
 
     // Movement
     "system.moveCost": "Cost of moving 1 Space",

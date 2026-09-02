@@ -16,7 +16,7 @@ export class MonsterCreatorDialog extends DC20Dialog {
     super(options);
     if (options.actor) this.actor = options.actor;
     this.#prepareData();
-    this.#collectMonsterTraits();
+    this.#collectMonsterTraits().then(r => this.render());
   }
 
   static PARTS = {
@@ -58,6 +58,7 @@ export class MonsterCreatorDialog extends DC20Dialog {
     }
     else {
       this.data = {
+        name: "Monster",
         attributes: {mig: 0, agi: 0, int: 0, cha: 0},
         level: 1,
         creatureType: "",
@@ -96,6 +97,7 @@ export class MonsterCreatorDialog extends DC20Dialog {
       return;
     }
 
+    context.traitsReady = !!this.monsterTraits;
     context.config = CONFIG.DC20RPG;
     context.data = this.data;
     context.maxAttr = this.data.level === 0 ? 2 : 3 + Math.floor(this.data.level/5);
@@ -148,63 +150,71 @@ export class MonsterCreatorDialog extends DC20Dialog {
     event.preventDefault();
     createItemBrowser("feature", true, this, '{"featureType": "monster"}')
   }
-  
+
   _onRandomTraits(event, target) {
     event.preventDefault();
-    const traits = this.monsterTraits.filter(item => {
-      const config = item.system.monsterTrait;
-      const hasRole = config.creatureRoles[this.data.creatureRole];
-      const hasType = config.creatureTypes[this.data.creatureType];
-      return hasRole || hasType;
-    })
-    shuffleArray(traits)
+    
+    const traits = this.monsterTraits.filter(item => this.#isMatchingTrait(item));
+    shuffleArray(traits);
 
-    const items = {};
-    const maxTraits = 5 + Math.ceil(this.data.level/5);
-    let noOfTraits = Math.floor(Math.random() * maxTraits + 5); // Minimum of 5
-    let pointsLeft = this.summary.currentTrait;
+    const maxTraits = 5 + Math.ceil(this.data.level / 5);
+    const minTraits = Math.min(4, maxTraits);
+    const noOfTraits = minTraits + Math.floor(Math.random() * (maxTraits - minTraits + 1));
 
-    // Collect PD and AD attack
-    const pdAttackIndex = this.#getTraitIndex(traits, (item) => item.system.monsterTrait.traitType === "pdAttack");
-    const adAttackIndex = this.#getTraitIndex(traits, (item) => item.system.monsterTrait.traitType === "adAttack");
-    if (pdAttackIndex !== -1) {
-      const pdAttack = this.#popFromIndex(traits, pdAttackIndex);
-      this.#addToItems(items, pdAttack, noOfTraits, pointsLeft);
+    this.#calculateSummary();
+    const currentItemTraitPoints = Object.values(this.data.itemTraits).reduce((total, item) => {
+      if (item === "DELETE_ACTION") return total;
+      return total + (Number(item.system.monsterTrait?.traitValue) || 0);
+    }, 0);
+    const baseTraitPoints = this.summary.currentTrait - currentItemTraitPoints;
+    const selection = {
+      items: {},
+      noOfTraits,
+      pointsLeft: Math.max(0, this.summary.finalTrait - baseTraitPoints)
+    };
+
+    const pdAttack = traits.find(item => this.#getTraitConfig(item).traitType === "pdAttack");
+    this.#addRandomTrait(selection, pdAttack);
+    const adAttack = traits.find(item => this.#getTraitConfig(item).traitType === "adAttack");
+    this.#addRandomTrait(selection, adAttack);
+
+    while (selection.noOfTraits > 0 && traits.length > 0) {
+      const affordableTraits = traits.filter(item => this.#getTraitCost(item) <= selection.pointsLeft);
+      if (affordableTraits.length === 0) break;
+
+      // Prefer an exact fit when one exists; otherwise preserve the shuffled order.
+      const item = affordableTraits.find(item => this.#getTraitCost(item) === selection.pointsLeft) ?? affordableTraits[0];
+      traits.splice(traits.indexOf(item), 1);
+      this.#addRandomTrait(selection, item);
     }
-    if (adAttackIndex !== -1) {
-      const adAttack = this.#popFromIndex(traits, adAttackIndex);
-      this.#addToItems(items, adAttack, noOfTraits, pointsLeft);
-    }
 
-    let index = 0;
-    while (pointsLeft > 0 && noOfTraits > 0 && traits.length > 0) {
-      const item = this.#popFromIndex(traits, index);
-      this.#addToItems(items, item, noOfTraits, pointsLeft);
-      index ++;
-    }
-
-    // Mark items with delete action
     Object.keys(this.data.itemTraits).forEach(itemId => this.data.itemTraits[itemId] = "DELETE_ACTION");
-    // Add new items
-    Object.entries(items).forEach(([itemId, item]) => this.data.itemTraits[itemId] = item.toObject());
+    Object.entries(selection.items).forEach(([itemId, item]) => this.data.itemTraits[itemId] = item.toObject());
     this.render();
   }
 
-  #getTraitIndex(traits, filter) {
-    return traits.findIndex(item => filter(item));
+  #getTraitConfig(item) {
+    return item.system.monsterTrait;
   }
 
-  #popFromIndex(traits, index) {
-    const item = traits[index];
-    traits.splice(index, 1);
-    return item;
+  #getTraitCost(item) {
+    return parseInt(this.#getTraitConfig(item).traitValue) || 0;
   }
 
-  #addToItems(array, item, noOfTraits, pointsLeft) {
-    if (array[item._id]) return; // We don't want to add it twice
-    array[item._id] = item;
-    noOfTraits--;
-    pointsLeft -= item.system.monsterTrait.traitValue;
+  #isMatchingTrait(item) {
+    const config = this.#getTraitConfig(item);
+    const hasRole = config.creatureRoles[this.data.creatureRole];
+    const hasType = config.creatureTypes[this.data.creatureType];
+    return hasRole || hasType;
+  }
+
+  #addRandomTrait(selection, item) {
+    if (!item || selection.noOfTraits <= 0 || selection.items[item._id]) return false;
+
+    selection.items[item._id] = item;
+    selection.noOfTraits--;
+    selection.pointsLeft -= this.#getTraitCost(item);
+    return true;
   }
 
   async _onRemoveItem(event, target) {
@@ -244,25 +254,25 @@ export class MonsterCreatorDialog extends DC20Dialog {
     // Damage Taken
     for (const key of Object.keys(updateData.system.damageReduction.damageTypes)) {
       if (baseTraits.damageVulnerability[key]) updateData.system.damageReduction.damageTypes[key].vulnerability = true;
-      else baseTraits.damageVulnerability[key] = new foundry.data.operators.ForcedDeletion();
+      else if (this.actor) baseTraits.damageVulnerability[key] = new foundry.data.operators.ForcedDeletion();
 
       if (baseTraits.damageResistance[key]) updateData.system.damageReduction.damageTypes[key].resistance = true;
-      else baseTraits.damageResistance[key] = new foundry.data.operators.ForcedDeletion();
+      else if (this.actor) baseTraits.damageResistance[key] = new foundry.data.operators.ForcedDeletion();
 
       if (baseTraits.damageImmunity[key]) updateData.system.damageReduction.damageTypes[key].immune = true;
-      else baseTraits.damageImmunity[key] = new foundry.data.operators.ForcedDeletion();
+      else if (this.actor) baseTraits.damageImmunity[key] = new foundry.data.operators.ForcedDeletion();
     }
 
     // Conditions
     for (const key of Object.keys(updateData.system.statusResistances)) {
       if (baseTraits.conditionVulnerability[key]) updateData.system.statusResistances[key].vulnerability = true;
-      else baseTraits.conditionVulnerability[key] = new foundry.data.operators.ForcedDeletion();
+      else if (this.actor) baseTraits.conditionVulnerability[key] = new foundry.data.operators.ForcedDeletion();
 
       if (baseTraits.conditionResistance[key]) updateData.system.statusResistances[key].resistance = true;
-      else baseTraits.conditionResistance[key] = new foundry.data.operators.ForcedDeletion();
+      else if (this.actor) baseTraits.conditionResistance[key] = new foundry.data.operators.ForcedDeletion();
 
       if (baseTraits.conditionImmunity[key]) updateData.system.statusResistances[key].immunity = true;
-      else baseTraits.conditionImmunity[key] = new foundry.data.operators.ForcedDeletion();
+      else if (this.actor) baseTraits.conditionImmunity[key] = new foundry.data.operators.ForcedDeletion();
     }
 
     // Attributes
@@ -299,7 +309,7 @@ export class MonsterCreatorDialog extends DC20Dialog {
     }
     else {
       const result = await DC20RpgActor.create(updateData);
-      actor = result?.[0];
+      actor = result;
     }
 
     if (actor) {
@@ -555,6 +565,7 @@ const CLEAN_UPDATE_DATA = {
       flying: {fullSpeed: false},
     },
     scaling: {
+      isScalingMonster: true,
       reactionPoints: 0
     }
   }

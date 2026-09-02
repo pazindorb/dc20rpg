@@ -51,7 +51,7 @@
       {{/if}}
       <a class="fa-lg fa-square-f {{#if formula.fail}}fa-solid checked{{else}}fa-regular{{/if}}" style="max-width: 15px;" data-cType="activable" data-path="{{path}}.fail" data-tooltip="{{localize "dc20rpg.item.sheet.formulas.addFail"}}"></a>
       {{#if formula.fail}}
-      <input type="text" name="{{path}}.failFormula" value="{{formula.each5Formula}}" data-tooltip="{{localize "dc20rpg.item.sheet.formulas.each5"}}" placeholder="{{localize "dc20rpg.item.sheet.formulas.each5"}}">
+      <input type="text" name="{{path}}.failFormula" value="{{formula.failFormula}}" data-tooltip="{{localize "dc20rpg.item.sheet.formulas.each5"}}" placeholder="{{localize "dc20rpg.item.sheet.formulas.each5"}}">
       <input type="checkbox" name="{{path}}.dontModifyFailFormula" {{checked formula.dontModifyFailFormula}} data-tooltip="{{localize "dc20rpg.item.sheet.formulas.dontModifyFailFormula"}}"/>
       {{/if}}
     </div>

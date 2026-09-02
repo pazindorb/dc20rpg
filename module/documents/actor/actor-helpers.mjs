@@ -783,6 +783,9 @@ async function _monsterLevelScaling(actor) {
   const maxAp = dmg % 1 === 0.25 ? 2 : 4;
   const finalDmg = Math.floor(dmg);
 
+  // Calculate Healing - there is flat value for now (1.5 * avgDmg) - maybe it will get some more changes in the future
+  const finalHealing = Math.ceil(avgDmg * 1.5);
+
   await actor.update({
     system: {
       resources: {
@@ -792,6 +795,7 @@ async function _monsterLevelScaling(actor) {
       scaling: {
         maxHp: maxHp, 
         damage: finalDmg, 
+        healing: finalHealing,
         impact: impact
       }
     }

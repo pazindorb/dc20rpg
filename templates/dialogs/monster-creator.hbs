@@ -92,7 +92,7 @@
 
         <div class="form-group">
           <button data-action="browser"><i class="fa-solid fa-boxes-stacked"></i>{{localize "dc20rpg.dialog.monsterCreator.browser"}}</button>
-          <button data-action="random" data-tooltip="{{localize "dc20rpg.dialog.monsterCreator.randomTraitsTitle"}}"><i class="fa-solid fa-shuffle"></i>{{localize "dc20rpg.dialog.monsterCreator.randomTraits"}}</button>
+          <button {{#if traitsReady}}data-action="random" data-tooltip="{{localize "dc20rpg.dialog.monsterCreator.randomTraitsTitle"}}"{{else}}disabled data-tooltip="{{localize "dc20rpg.dialog.monsterCreator.randomTraitsTitleCollecting"}}"{{/if}} ><i class="fa-solid fa-shuffle"></i>{{localize "dc20rpg.dialog.monsterCreator.randomTraits"}}</button>
         </div>
 
         <div class="traits">

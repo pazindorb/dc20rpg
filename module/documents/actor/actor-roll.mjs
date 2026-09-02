@@ -132,5 +132,6 @@ function _defences(data, actor) {
 
 function _monsterData(data, actor) {
 	data.sdmg = actor.system?.scaling?.values?.damage || 0;
+	data.sheal = actor.system?.scaling?.values?.healing || 0;
 	data.reactionPoints = actor.system?.scaling?.values?.reactionPoints || 0;
 }

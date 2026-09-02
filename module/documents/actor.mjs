@@ -335,6 +335,10 @@ export class DC20RpgActor extends Actor {
     return false;
   }
 
+  hasAnyCondition() {
+    return this.statuses.values().some(s => s.condition);
+  }
+
   _prepareCustomResources() {
     // remove empty custom resources and calculate its max charges
     for (const [key, resource] of Object.entries(this.system.resources.custom)) {
@@ -557,9 +561,9 @@ export class DC20RpgActor extends Actor {
     }
 
     // Scale monster level
-    if (this.type === "npc") {
+    if (this.system?.scaling?.isScalingMonster) {
       const levelChanged = changed?.system?.details?.level;
-      if (levelChanged) {
+      if (levelChanged != null) {
         SimplePopup.confirm("Run Monster Level Scaling?").then(result => {
           if (result) this.monsterConfig.scaleToLevel();
         })
