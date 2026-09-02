@@ -29,6 +29,7 @@ import { ActionSelect } from "../dialogs/action-select.mjs";
 import { SustainManager } from "../dialogs/sustain-manager.mjs";
 import { itemDetailsToHtml } from "../sheets/item-sheet/item-sheet-details.mjs";
 import { costPrinter } from "./handlebars/creators.mjs";
+import { enhanceTooltipDescription } from "./tooltip.mjs";
 
 export function prepareDC20Tools() {
   window.DC20 = {
@@ -38,6 +39,7 @@ export function prepareDC20Tools() {
     },
     tooltip: {
       itemDetailsToHtml,
+      enhanceTooltipDescription,
       costPrinter
     },
     dialog: {

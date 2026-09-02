@@ -211,7 +211,7 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
     context.enriched.description = await TextEditor.enrichHTML(context.system.description, {
       secrets: this.item.isOwner,
       autoLink: true,
-      relativeTo: this.item
+      lookupObject: this.item
     });
     return context;
   }

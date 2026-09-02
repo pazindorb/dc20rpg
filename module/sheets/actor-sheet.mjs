@@ -91,7 +91,7 @@ export class DC20RpgActorSheet extends foundry.appv1.sheets.ActorSheet {
     // Enrich text editors
     const TextEditor = foundry.applications.ux.TextEditor.implementation;
     context.enriched = {};
-    context.enriched.journal = await TextEditor.enrichHTML(context.system.journal, {secrets:true, autoLink:true});
+    context.enriched.journal = await TextEditor.enrichHTML(context.system.journal, {secrets:true, autoLink:true, lookupObject: this.actor});
     return context;
   }
 

@@ -1,4 +1,4 @@
-import { recognizeAndAddLinks } from "./textEnrichments.mjs";
+import { recognizeAndAddLinks, runObjectLookup } from "./textEnrichments.mjs";
 import { itemDetailsToHtml } from "../sheets/item-sheet/item-sheet-details.mjs";
 import { datasetOf } from "./listenerEvents.mjs";
 import { clearStyles, getLabelFromKey } from "./utils.mjs";
@@ -8,7 +8,7 @@ export function effectTooltip(effect, event, html, options={}) {
   if (!effect) return _showTooltip(html, event, "-", "Effect not found", "");
   
   const header = _effectHeader(effect);
-  const description = `<div class='description'> ${_enhanceDescription(effect.description)} </div>`;
+  const description = `<div class='description'> ${enhanceTooltipDescription(effect.description, effect)} </div>`;
   _showTooltip(html, event, header, description, null, options);
 }
 
@@ -37,7 +37,7 @@ export function enhTooltip(item, enhKey, event, html, options={}) {
   if(!enhancement) return _showTooltip(html, event, "-", "Enhancement not found", "");
 
   const header = `<input disabled value="${enhancement.name}" data-tooltip="${enhancement.img}"/>`;
-  const description = `<div class='description'> ${_enhanceDescription(enhancement.description)} </div>`;
+  const description = `<div class='description'> ${enhanceTooltipDescription(enhancement.description, item)} </div>`;
   _showTooltip(html, event, header, description, null, options);
 }
 
@@ -226,13 +226,14 @@ function _itemDescription(item) {
   if (!item.system) return `<div class='description'> <b>Item not found</b> </div>`
   const identified = item.system.statuses ? item.system.statuses.identified : true;
   const description = item.system.description;
-  const enhDescription = _enhanceDescription(description);
+  const enhDescription = enhanceTooltipDescription(description, item);
   if (identified) return `<div class='description'> ${enhDescription} </div>`;
   else return `<div class='description'> <b>UNIDENTIFIED</b> </div>`;
 }
 
-function _enhanceDescription(description) {
+export function enhanceTooltipDescription(description, lookupObject) {
   description = recognizeAndAddLinks(description);
+  description = runObjectLookup(description, lookupObject);
 
   const uuidRegex = /@UUID\[[^\]]*]\{[^}]*}/g;
   const itemLinks = [...description.matchAll(uuidRegex)];

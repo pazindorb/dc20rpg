@@ -82,6 +82,14 @@ export class DC20RpgItem extends Item {
     else return this.system.statuses.identified;
   }
 
+  get sdmg() {
+    return this.actor?.system?.scaling?.damage || 0;
+  }
+
+  get sheal() {
+    return this.actor?.system?.scaling?.healing || 0;
+  }
+
   /**
    * Augment the basic Item data model with additional dynamic data.
    */

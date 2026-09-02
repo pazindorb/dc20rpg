@@ -2,11 +2,13 @@ import { DC20Roll } from "../roll/rollApi.mjs";
 import { RollDialog } from "../roll/rollDialog.mjs";
 import { DC20Target } from "../subsystems/target/target.mjs";
 import { getSelectedTokens } from "./actors/tokens.mjs";
+import { getValueFromPath } from "./utils.mjs";
 
 export function expandEnrichHTML(oldFunction) {
   return (content, options={}) => {
     if (options.autoLink) content = recognizeAndAddLinks(content);
     content = _parseInlineRolls(content);
+    if(options.lookupObject) content = runObjectLookup(content, options.lookupObject);
     const TextEditor = foundry.applications.ux.TextEditor.implementation;
     return oldFunction.call(TextEditor, content, options);
   }
@@ -38,6 +40,18 @@ export function registerGlobalInlineRollListener() {
       }
     });
   })
+}
+
+export function runObjectLookup(content, lookupObject) {
+  if (!content) return content;
+  const lookupRegex = /@lookup\(([^)]+)\)/g;
+
+  const parsedHTML = content.replace(lookupRegex, (match, path) => {
+    const value = getValueFromPath(lookupObject, path);
+    if (value != null) return value;
+    return match;
+  })
+  return parsedHTML;
 }
 
 function _parseInlineRolls(content) {
