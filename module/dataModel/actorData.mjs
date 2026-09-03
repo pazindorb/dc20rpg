@@ -289,7 +289,7 @@ export class DC20NpcData extends DC20BaseActorData {
       }),
       scaling: new f.SchemaField({
         isScalingMonster: new f.BooleanField({required: true, initial: false}),
-        tier: new f.StringField({required: true, initial: "medium"}),
+        tier: new f.StringField({required: true, initial: "hard"}),
         rank: new f.StringField({required: true, initial: "normal"}),
         maxTraitValue: new f.NumberField({ required: true, nullable: false, integer: true, initial: 4 }),
         maxHp: new f.NumberField({ required: true, nullable: false, integer: true, initial: 7 }),
@@ -307,6 +307,7 @@ export class DC20NpcData extends DC20BaseActorData {
           mdr: new f.BooleanField({required: true, initial: false}),
           maxHpModifier: new f.NumberField({ required: true, nullable: true, integer: false, initial: 1 }),
           damageModifier: new f.StringField({required: true, initial: ""}),
+          flatHpModifier: new f.NumberField({ required: true, nullable: true, integer: false, initial: 0 }),
           pdModifier: new f.NumberField({ required: true, nullable: true, integer: true, initial: 0 }),
           adModifier: new f.NumberField({ required: true, nullable: true, integer: true, initial: 0 }),
           damageVulnerability: new f.ObjectField({}),

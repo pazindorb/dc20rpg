@@ -271,7 +271,7 @@ function _monsterTraitData(item) {
 
 function _impactMonsterTrait(item) {
   const impact = item.system?.monsterTrait?.impact;
-  if (!impact) return [];
+  if (impact !== 1) return [];
 
   const impactData = CONFIG.DC20RPG.PROPERTIES.impact;
   const label = game.i18n.localize(impactData.label);

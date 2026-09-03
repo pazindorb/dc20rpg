@@ -956,7 +956,7 @@ export class DC20ChatMessage extends ChatMessage {
             for (let i = 0; i < target.effects.length; i++) {
               this.#onApplyEffect({targetHash: target.targetHash, index: i});
             }
-            for (let i = 0; i < target.effects.length; i++) {
+            for (let i = 0; i < target.statuses.length; i++) {
               this.#onApplyStatus({targetHash: target.targetHash, index: i});
             }
           })

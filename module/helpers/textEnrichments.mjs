@@ -8,7 +8,7 @@ export function expandEnrichHTML(oldFunction) {
   return (content, options={}) => {
     if (options.autoLink) content = recognizeAndAddLinks(content);
     content = _parseInlineRolls(content);
-    if(options.lookupObject) content = runObjectLookup(content, options.lookupObject);
+    if(options.lookupObject) content = runObjectLookupAndCalc(content, options.lookupObject);
     const TextEditor = foundry.applications.ux.TextEditor.implementation;
     return oldFunction.call(TextEditor, content, options);
   }
@@ -42,14 +42,19 @@ export function registerGlobalInlineRollListener() {
   })
 }
 
-export function runObjectLookup(content, lookupObject) {
+export function runObjectLookupAndCalc(content, lookupObject) {
   if (!content) return content;
   const lookupRegex = /@lookup\(([^)]+)\)/g;
+  const calcRegex = /@calc\(((?:[^()]|\([^()]*\))*)\)/g;
 
-  const parsedHTML = content.replace(lookupRegex, (match, path) => {
+  let parsedHTML = content.replace(lookupRegex, (match, path) => {
     const value = getValueFromPath(lookupObject, path);
     if (value != null) return value;
     return match;
+  })
+  parsedHTML = parsedHTML.replace(calcRegex, (match, formula) => {
+    try { return Roll.safeEval(formula);} 
+    catch { return match; }
   })
   return parsedHTML;
 }

@@ -165,7 +165,10 @@ function _monsterTraitModifications(item) {
   const actor = item.actor;
   if (!actor) return;
 
-  const hasFormula = item.system.formulas && Object.keys(item.system.formulas).length > 0;
+  const isAttack = item.isAttack && item.system.formulas && Object.keys(item.system.formulas).length > 0;
   const monsterImpact = !!actor?.system?.scaling?.impact;
-  if (monsterImpact && hasFormula) item.system.monsterTrait.impact = true;
+  const itemImpact = item?.system?.monsterTrait?.impact;
+
+  // If the item's impact is set to -1 we want to ignore impact from monster dmg scaling
+  if (itemImpact !== -1 && monsterImpact && isAttack) item.system.monsterTrait.impact = 1;
 }

@@ -757,6 +757,7 @@ function _enrichLeveling(actor) {
 async function _monsterLevelScaling(actor) {
   const config = CONFIG.DC20RPG.MONSTERS;
   const hpMod = actor.system.scaling.baseTraits.maxHpModifier;
+  const flatHpModifier = actor.system.scaling.baseTraits.flatHpModifier;
   const dmgMod = actor.system.scaling.baseTraits.damageModifier;
   const tier = actor.system.scaling.tier;
   const rank = actor.system.scaling.rank;
@@ -768,7 +769,7 @@ async function _monsterLevelScaling(actor) {
   if      (rank === "legendary") multiplier *= 4;
   else if (rank === "epic")      multiplier *= 2;
   else if (rank === "minion")    multiplier *= 0.5;
-  const maxHp = Math.ceil(avgHP * multiplier);
+  const maxHp = Math.ceil(avgHP * multiplier) + flatHpModifier;
 
   // Calculate Damage
   const avgDmg = config.AVERAGE_DAMAGE[tier][level+1];

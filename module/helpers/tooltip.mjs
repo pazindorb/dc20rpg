@@ -1,4 +1,4 @@
-import { recognizeAndAddLinks, runObjectLookup } from "./textEnrichments.mjs";
+import { recognizeAndAddLinks, runObjectLookupAndCalc } from "./textEnrichments.mjs";
 import { itemDetailsToHtml } from "../sheets/item-sheet/item-sheet-details.mjs";
 import { datasetOf } from "./listenerEvents.mjs";
 import { clearStyles, getLabelFromKey } from "./utils.mjs";
@@ -233,7 +233,7 @@ function _itemDescription(item) {
 
 export function enhanceTooltipDescription(description, lookupObject) {
   description = recognizeAndAddLinks(description);
-  description = runObjectLookup(description, lookupObject);
+  description = runObjectLookupAndCalc(description, lookupObject);
 
   const uuidRegex = /@UUID\[[^\]]*]\{[^}]*}/g;
   const itemLinks = [...description.matchAll(uuidRegex)];

@@ -196,8 +196,9 @@
     </div>
     <div class="form-group margin-top-5">
       <label>{{localize "dc20rpg.item.sheet.config.monsterImpact"}}</label>
-      <input type="checkbox" name="system.monsterTrait.impact" {{checked system.monsterTrait.impact}}/>
-      <p class="hint">{{localize "dc20rpg.item.sheet.config.monsterImpactHint"}}</p>
+      <select name="system.monsterTrait.impact">
+        {{selectOptions monsterImpactOptions selected=system.monsterTrait.impact}}
+      </select>
     </div>
     {{/ifCond}}
     {{#if featureSourceItems}}

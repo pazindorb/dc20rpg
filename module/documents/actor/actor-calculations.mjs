@@ -406,7 +406,7 @@ function _basicTargetModifiers(actor) {
 	actor.system.targetModifiers.push({
 		condition: `return hit != null && hit >= 5;`, 
 		bonus: '1', 
-		useFor: `system.properties.impact.active=[true]||system.monsterTrait.impact=[true]`, 
+		useFor: `system.properties.impact.active=[true]||system.monsterTrait.impact=[1]`, 
 		name: "Impact",
 		linkWithToggle: false,
 		flags: {

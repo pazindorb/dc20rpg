@@ -45,7 +45,9 @@
       
         <div class="form-group symetric">
           <label>{{localize 'dc20rpg.dialog.monsterCreator.level'}}</label>
-          <input data-path="data.level" type="number" data-cType="numeric" value="{{data.level}}"/>
+          <select data-path="data.level" data-cType="numeric">
+            {{selectOptions config.DROPDOWN_DATA.levels selected=data.level}}
+          </select>
         </div>
         <div class="form-group symetric">
           <label>{{localize 'dc20rpg.dialog.monsterCreator.creatureType'}}</label>
@@ -147,6 +149,10 @@
           <select data-cType="string" data-path="data.baseTraits.maxHpModifier">
             {{selectOptions hpMods selected=data.baseTraits.maxHpModifier}}
           </select>
+        </div>
+        <div class="form-group margin-top-5 symetric">
+          <label>{{localize 'dc20rpg.dialog.monsterCreator.flatHpModifier'}}</label>
+          <input data-path="data.baseTraits.flatHpModifier" type="number" data-cType="numeric" value="{{data.baseTraits.flatHpModifier}}"/>
         </div>
         <div class="form-group margin-top-5 symetric">
           <label>{{localize 'dc20rpg.dialog.monsterCreator.pdMod'}}</label>

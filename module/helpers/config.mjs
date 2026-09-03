@@ -1636,6 +1636,7 @@ DC20RPG.MONSTERS.BASE_TRAITS_COST = {
   edr: 1,
   mdr: 1,
   maxHpModifier: 4,
+  flatHpModifier: 1,
   damageModifier: 4,
   pdModifier: 1,
   adModifier: 1,

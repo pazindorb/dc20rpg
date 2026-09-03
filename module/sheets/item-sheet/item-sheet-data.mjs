@@ -25,6 +25,11 @@ export function prepareItemData(context, item) {
   _prepareItemUsageCosts(context, item);
   _prepareQuickDetail(context, item);
   _prepareDropdownData(context, item);
+  context.monsterImpactOptions = {
+    [0]:  "Monster Scaling",
+    [1]:  "Always",
+    [-1]: "Never"
+  }
 }
 
 export function preprareSheetData(context, item) {

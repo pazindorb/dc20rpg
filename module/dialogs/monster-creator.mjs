@@ -40,10 +40,10 @@ export class MonsterCreatorDialog extends DC20Dialog {
       this.data = {
         name: this.actor.name,
         attributes: {
-          mig: attributes.mig.value, 
-          agi: attributes.agi.value, 
-          int: attributes.int.value, 
-          cha: attributes.cha.value
+          mig: attributes.mig.current, 
+          agi: attributes.agi.current, 
+          int: attributes.int.current, 
+          cha: attributes.cha.current
         },
         level: details.level,
         creatureType: details.creatureType,
@@ -63,7 +63,7 @@ export class MonsterCreatorDialog extends DC20Dialog {
         level: 1,
         creatureType: "",
         creatureRole: "",
-        tier: "medium",
+        tier: "hard",
         rank: "normal",
         size: "medium",
         reactionPoints: 0,
@@ -277,10 +277,10 @@ export class MonsterCreatorDialog extends DC20Dialog {
 
     // Attributes
     updateData.system.attributes = {
-      mig: {value: this.data.attributes.mig},
-      agi: {value: this.data.attributes.agi},
-      int: {value: this.data.attributes.int},
-      cha: {value: this.data.attributes.cha},
+      mig: {current: this.data.attributes.mig},
+      agi: {current: this.data.attributes.agi},
+      int: {current: this.data.attributes.int},
+      cha: {current: this.data.attributes.cha},
     };
 
     // Base Traits
@@ -386,12 +386,13 @@ export class MonsterCreatorDialog extends DC20Dialog {
     const level = this.data.level;
 
     // Calculate Max HP
+    const flatHpModifier = base.flatHpModifier;
     const avgHP = config.AVERAGE_HP[level+1];
     let multiplier = base.maxHpModifier || 1;
     if      (this.data.rank === "legendary") multiplier *= 4;
     else if (this.data.rank === "epic")      multiplier *= 2;
     else if (this.data.rank === "minion")    multiplier *= 0.5;
-    const finalHp = Math.ceil(avgHP * multiplier);
+    const finalHp = Math.ceil(avgHP * multiplier) + flatHpModifier;
 
     // Calculate PD and AD
     const avgDef = config.AVERAGE_DEFENCE[level+1];
@@ -581,6 +582,7 @@ const DEFAULT_BASIC_TRAITS = {
   mdr: false,
   maxHpModifier: 1,
   damageModifier: "",
+  flatHpModifier: 0,
   pdModifier: 0,
   adModifier: 0,
   damageVulnerability: {},

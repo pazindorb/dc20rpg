@@ -13,7 +13,7 @@
         <div class="over-image-wrapper">
           <div class="level-wrapper">
             {{#if system.scaling.isScalingMonster}}
-            <select {{#unless editMode}}disabled style="appearance: none;"{{/unless}} name="system.details.level" data-path="system.size.size" data-dtype="Number" title="{{localize 'dc20rpg.sheet.level'}}">
+            <select {{#unless editMode}}disabled style="appearance: none;"{{/unless}} name="system.details.level" data-dtype="Number" title="{{localize 'dc20rpg.sheet.level'}}">
               {{selectOptions @root.config.DROPDOWN_DATA.levels selected=system.details.level}}
             </select>
             {{else}}
@@ -25,7 +25,9 @@
           </div>
 
           <div class="char-level-wrapper">
+            {{#if system.scaling.isScalingMonster}}
             {{{small-button "monster-creator" "fa fa-lg fa-gear" (localize 'dc20rpg.sheet.monsterConfig')}}}
+            {{/if}}
           </div>
         </div>
         

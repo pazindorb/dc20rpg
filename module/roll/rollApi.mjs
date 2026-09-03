@@ -175,7 +175,7 @@ export class DC20Roll {
       const help = item.system.help || {};
       let ignoreMHP = help.ignoreMHP;
       if (!ignoreMHP) ignoreMHP = rollMenu.ignoreMCP;
-      actor.help.prepare({ignoreMHP: ignoreMHP, subtract: help.subtract, duration: help.duration})
+      actor.help.prepare({ignoreMHP: ignoreMHP, subtract: help.subtract, duration: help.duration, diceValue: help.diceValue})
     }
     if (actionType === "move") {
       const move = item.system.move || {};
