@@ -25,7 +25,7 @@
           <input disabled type="text" value="{{summary.finalAd}}"/>
         </div>
         <div class="form-group">
-          <label>{{localize 'dc20rpg.dialog.monsterCreator.finalDmg'}}{{#if summary.impact}} {{localize "dc20rpg.dialog.monsterCreator.impact"}}{{/if}} {{#if summary.minionDmg}} {{localize "dc20rpg.dialog.monsterCreator.minionDmg"}}{{/if}}</label>
+          <label>{{localize 'dc20rpg.dialog.monsterCreator.finalDmg'}}{{#if summary.impact}} {{localize "dc20rpg.dialog.monsterCreator.impact"}}{{/if}} {{#if summary.reduceAP}} {{localize "dc20rpg.dialog.monsterCreator.reduceAP"}}{{/if}}</label>
           <input disabled type="text" value="{{summary.finalDmg}}"/>
         </div>
         <div class="form-group">
@@ -141,6 +141,10 @@
           <select data-cType="string" data-path="data.baseTraits.damageModifier">
             {{selectOptions dmgMods selected=data.baseTraits.damageModifier}}
           </select>
+        </div>
+        <div class="form-group margin-top-5 symetric">
+          <label>{{localize 'dc20rpg.dialog.monsterCreator.maxApModifier'}}</label>
+          <input data-path="data.baseTraits.maxApModifier" type="number" data-cType="numeric" value="{{data.baseTraits.maxApModifier}}"/>
         </div>
 
         <hr>

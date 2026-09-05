@@ -1,4 +1,5 @@
 import { enrichRollMenuObject } from "../../dataModel/fields/rollMenu.mjs";
+import { calculateMonsterDamage } from "../../dialogs/monster-creator.mjs";
 import { SimplePopup } from "../../dialogs/simple-popup.mjs";
 import { companionShare } from "../../helpers/actors/companion.mjs";
 import { resetEnhancements } from "../../helpers/actors/rollsFromActor.mjs";
@@ -772,20 +773,11 @@ async function _monsterLevelScaling(actor) {
   const maxHp = Math.ceil(avgHP * multiplier) + flatHpModifier;
 
   // Calculate Damage
-  const avgDmg = config.AVERAGE_DAMAGE[tier][level+1];
-
-  let dmgChange = 0;
-  if (dmgMod === "25#+") dmgChange += config.DAMAGE_CHANGE_25[tier][level+1];
-  if (dmgMod === "50#+") dmgChange += config.DAMAGE_CHANGE_50[tier][level+1];
-  if (dmgMod === "25#-") dmgChange -= config.DAMAGE_CHANGE_25[tier][level+1];
-  if (dmgMod === "50#-") dmgChange -= config.DAMAGE_CHANGE_50[tier][level+1];
-  const dmg = avgDmg + dmgChange;
-  const impact = dmg % 1 === 0.5;
-  const minionDmg = dmg % 1 === 0.25;
-  const maxAp = minionDmg ? 2 : 4;
-  const finalDmg = minionDmg ? 1 : Math.floor(dmg); // For minion dmg value (0.25) we have increase damage to 1 and reduce number of AP
+  const [finalDmg, impact, reduceAP] = calculateMonsterDamage(tier, level, dmgMod);
+  const maxAp = reduceAP ? 2 : 4;
 
   // Calculate Healing - there is flat value for now (1.5 * avgDmg) - maybe it will get some more changes in the future
+  const avgDmg = config.AVERAGE_DAMAGE[tier][level+1];
   const finalHealing = Math.ceil(avgDmg * 1.5);
 
   await actor.update({

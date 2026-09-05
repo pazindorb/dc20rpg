@@ -404,17 +404,7 @@ export class MonsterCreatorDialog extends DC20Dialog {
     const finalTrait = 4 + (2*level) + traitModifier;
 
     // Calculate Damage
-    const tier = this.data.tier;
-    const avgDmg = config.AVERAGE_DAMAGE[tier][level+1];
-    let dmgChange = 0;
-    if (base.damageModifier === "25#+") dmgChange += config.DAMAGE_CHANGE_25[tier][level+1];
-    if (base.damageModifier === "50#+") dmgChange += config.DAMAGE_CHANGE_50[tier][level+1];
-    if (base.damageModifier === "25#-") dmgChange -= config.DAMAGE_CHANGE_25[tier][level+1];
-    if (base.damageModifier === "50#-") dmgChange -= config.DAMAGE_CHANGE_50[tier][level+1];
-    const dmg = avgDmg + dmgChange;
-    const impact = dmg % 1 === 0.5;
-    const minionDmg = dmg % 1 === 0.25;
-    const finalDmg = minionDmg ? 1 : Math.floor(dmg); // For minion dmg value (0.25) we have increase damage to 1 and reduce number of AP
+    const [finalDmg, impact, reduceAP] = calculateMonsterDamage(this.data.tier, level, base.damageModifier);
 
     // Calculate Speed and movement types
     const finalSpeed = 5 + (base.speedIncrease * 3) - base.speedDecrease; 
@@ -424,7 +414,7 @@ export class MonsterCreatorDialog extends DC20Dialog {
       finalPd: avgDef + pdModifier,
       finalAd: avgDef + adModifier,
       impact: impact,
-      minionDmg: minionDmg,
+      reduceAP: reduceAP,
       finalDmg: finalDmg,
       finalTrait: finalTrait,
       currentTrait: this.#calculateTraitCost(),
@@ -585,6 +575,7 @@ const DEFAULT_BASIC_TRAITS = {
   maxHpModifier: 1,
   damageModifier: "",
   flatHpModifier: 0,
+  maxApModifier: 0,
   pdModifier: 0,
   adModifier: 0,
   damageVulnerability: {},
@@ -600,4 +591,28 @@ const DEFAULT_BASIC_TRAITS = {
   swim: false,
   burrow: false,
   maxTraitModifier: 0,
+}
+
+export function calculateMonsterDamage(tier, level, damageModifier) {
+  const config = CONFIG.DC20RPG.MONSTERS;
+  const avgDmg = config.AVERAGE_DAMAGE[tier][level+1];
+  let dmgChange = 0;
+  if (damageModifier === "25#+") dmgChange += config.DAMAGE_CHANGE_25[tier][level+1];
+  if (damageModifier === "50#+") dmgChange += config.DAMAGE_CHANGE_50[tier][level+1];
+  if (damageModifier === "25#-") dmgChange -= config.DAMAGE_CHANGE_25[tier][level+1];
+  if (damageModifier === "50#-") dmgChange -= config.DAMAGE_CHANGE_50[tier][level+1];
+  const dmg = avgDmg + dmgChange;
+  const reduceAP = dmg === 0.25 || dmg === 0.5;
+  let finalDmg = 0;
+  let impact = false;
+  if (reduceAP) {
+    impact = dmg === 0.25;
+    finalDmg = dmg === 0.25 ? 0 : 1;
+  }
+  else {
+    impact = dmg % 1 === 0.5;
+    finalDmg = Math.floor(dmg);
+  }
+  
+  return [finalDmg, impact, reduceAP];
 }
