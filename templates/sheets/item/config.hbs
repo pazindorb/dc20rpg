@@ -150,57 +150,6 @@
       <label>{{localize "dc20rpg.item.sheet.feature.featureOrigin"}}</label>
       <input {{#if @root.featureSourceItems}}disabled{{/if}} type="text" name="system.featureOrigin" value="{{system.featureOrigin}}" placeholder="-">
     </div>
-    {{!-- Monster Trait Config --}}
-    {{#ifCond system.featureType '===' "monster"}}
-    <div class="multi-select-wrapper">
-      <div class="form-group margin-top-5 ">
-        <label>{{localize "dc20rpg.item.sheet.feature.creatureTypes"}}</label>
-        <select class="multi-select" data-cType="multi-select" data-path="system.monsterTrait.creatureTypes">
-          {{selectOptions @root.config.DROPDOWN_DATA.creatureTypes blank=""}}
-        </select>
-      </div>
-      <div class="selected-options">
-        {{#each system.monsterTrait.creatureTypes as |option key|}}
-          <div class="option">
-            <span>{{option}}</span>
-            <a class="margin-left-3 fa-solid fa-xmark" data-action="multiSelectRemove" data-path="system.monsterTrait.creatureTypes" data-key="{{key}}"></a>
-          </div>
-        {{/each}}
-      </div>
-    </div>
-    <div class="multi-select-wrapper">
-      <div class="form-group margin-top-5 ">
-        <label>{{localize "dc20rpg.item.sheet.feature.creatureRoles"}}</label>
-        <select class="multi-select" data-cType="multi-select" data-path="system.monsterTrait.creatureRoles">
-          {{selectOptions @root.config.DROPDOWN_DATA.creatureRoles blank=""}}
-        </select>
-      </div>
-      <div class="selected-options">
-        {{#each system.monsterTrait.creatureRoles as |option key|}}
-          <div class="option">
-            <span>{{option}}</span>
-            <a class="margin-left-3 fa-solid fa-xmark" data-action="multiSelectRemove" data-path="system.monsterTrait.creatureRoles" data-key="{{key}}"></a>
-          </div>
-        {{/each}}
-      </div>
-    </div>
-    <div class="form-group margin-top-5">
-      <label>{{localize "dc20rpg.item.sheet.feature.traitType"}}</label>
-      <select name="system.monsterTrait.traitType">
-        {{selectOptions @root.config.DROPDOWN_DATA.monsterTraitTypes selected=system.monsterTrait.traitType blank=""}}
-      </select>
-    </div>
-    <div class="form-group margin-top-5">
-      <label>{{localize "dc20rpg.item.sheet.feature.traitValue"}}</label>
-      <input type="text" name="system.monsterTrait.traitValue" value="{{system.monsterTrait.traitValue}}" data-dtype="Number" placeholder="-">
-    </div>
-    <div class="form-group margin-top-5">
-      <label>{{localize "dc20rpg.item.sheet.config.monsterImpact"}}</label>
-      <select name="system.monsterTrait.impact">
-        {{selectOptions monsterImpactOptions selected=system.monsterTrait.impact}}
-      </select>
-    </div>
-    {{/ifCond}}
     {{#if featureSourceItems}}
     <div class="form-group margin-top-5" data-tooltip="{{localize "dc20rpg.item.sheet.feature.featureSourceItemTooltip"}}">
       <label>{{localize "dc20rpg.item.sheet.feature.featureSourceItem"}}</label>
@@ -333,6 +282,70 @@
       </div>
       {{/if}}
     </div>
+  {{/ifCond}}
+
+  {{!-- Monster Trait Config --}}
+  {{#ifCond system.featureType '===' "monster"}}
+  <div class="monster-trait-config margin-top-10">
+    <div class="sub-header">
+      <label>{{localize "dc20rpg.item.sheet.monsterConfig.title"}}</label>
+      <a class="fa-solid {{#if sheetFlags.monsterConfigClosed}}fa-square-caret-down{{else}}fa-square-caret-up{{/if}} fa-lg" data-action="sheetEdit" data-key="monsterConfigClosed"></a>
+    </div>
+    {{#unless sheetFlags.monsterConfigClosed}}
+    <div class="content-wrapper">
+
+    <div class="multi-select-wrapper">
+      <div class="form-group margin-top-5 ">
+        <label>{{localize "dc20rpg.item.sheet.feature.creatureTypes"}}</label>
+        <select class="multi-select" data-cType="multi-select" data-path="system.monsterTrait.creatureTypes">
+          {{selectOptions @root.config.DROPDOWN_DATA.creatureTypes blank=""}}
+        </select>
+      </div>
+      <div class="selected-options">
+        {{#each system.monsterTrait.creatureTypes as |option key|}}
+          <div class="option">
+            <span>{{option}}</span>
+            <a class="margin-left-3 fa-solid fa-xmark" data-action="multiSelectRemove" data-path="system.monsterTrait.creatureTypes" data-key="{{key}}"></a>
+          </div>
+        {{/each}}
+      </div>
+    </div>
+    <div class="multi-select-wrapper">
+      <div class="form-group margin-top-5 ">
+        <label>{{localize "dc20rpg.item.sheet.feature.creatureRoles"}}</label>
+        <select class="multi-select" data-cType="multi-select" data-path="system.monsterTrait.creatureRoles">
+          {{selectOptions @root.config.DROPDOWN_DATA.creatureRoles blank=""}}
+        </select>
+      </div>
+      <div class="selected-options">
+        {{#each system.monsterTrait.creatureRoles as |option key|}}
+          <div class="option">
+            <span>{{option}}</span>
+            <a class="margin-left-3 fa-solid fa-xmark" data-action="multiSelectRemove" data-path="system.monsterTrait.creatureRoles" data-key="{{key}}"></a>
+          </div>
+        {{/each}}
+      </div>
+    </div>
+    <div class="form-group margin-top-5">
+      <label>{{localize "dc20rpg.item.sheet.feature.traitType"}}</label>
+      <select name="system.monsterTrait.traitType">
+        {{selectOptions @root.config.DROPDOWN_DATA.monsterTraitTypes selected=system.monsterTrait.traitType blank=""}}
+      </select>
+    </div>
+    <div class="form-group margin-top-5">
+      <label>{{localize "dc20rpg.item.sheet.feature.traitValue"}}</label>
+      <input type="text" name="system.monsterTrait.traitValue" value="{{system.monsterTrait.traitValue}}" data-dtype="Number" placeholder="-">
+    </div>
+    <div class="form-group margin-top-5">
+      <label>{{localize "dc20rpg.item.sheet.config.monsterImpact"}}</label>
+      <select name="system.monsterTrait.impact">
+        {{selectOptions monsterImpactOptions selected=system.monsterTrait.impact}}
+      </select>
+    </div>
+    
+    </div>
+    {{/unless}}
+  </div>
   {{/ifCond}}
 
   {{!-- Base Item Config --}}
