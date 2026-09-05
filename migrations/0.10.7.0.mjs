@@ -1,5 +1,4 @@
 export async function runMigration(migrateModules) {
-  await _migrateItems(migrateModules);
   await _migrateActors(migrateModules);
   await _migrateTokenHotbarConfig();
 }
@@ -24,7 +23,7 @@ async function _migrateTokenHotbarConfig() {
 async function _migrateActors(migrateModules) {  
   // Iterate over actors
   for (const actor of game.actors) {
-
+    await actor.prepareBasicActions();
   }
 
   // Iterate over tokens
@@ -36,7 +35,7 @@ async function _migrateActors(migrateModules) {
     const actor = allTokens[i].actor;
     if (!actor) continue; // Some modules create tokens without actors
 
-
+    await actor.prepareBasicActions();
   }
 
   // Iterate over compendium actors
@@ -47,31 +46,9 @@ async function _migrateActors(migrateModules) {
     ) {
       const content = await compendium.getDocuments();
       for (const actor of content) {
-
+        await actor.prepareBasicActions();
       }
     }
   }
 }
-
-// ======================= ITEM =======================
-async function _migrateItems(migrateModules) {
-  // Iterate over world items
-  for (const item of game.items) {
-    
-  }
-
-  // Iterate over compendium items
-  for (const compendium of game.packs) {
-    if ((compendium.metadata.packageType === "world" || migrateModules.has(compendium.metadata.packageName))
-      && !compendium.locked
-      && compendium.documentName === "Item"
-    ) {
-      const content = await compendium.getDocuments();
-      for (const item of content) {
-        
-      }
-    }
-  }
-}
-
 

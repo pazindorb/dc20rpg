@@ -3,7 +3,7 @@
   "type": "feature",
   "img": "icons/magic/unholy/orb-glowing-yellow-purple.webp",
   "system": {
-    "itemKey": "",
+    "itemKey": "reactionPoints",
     "description": "<p>Reaction Points allow a monster to act more frequently outside of its own Turn, keeping the fight dynamic and unpredictable.</p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Using Reaction Points</span></strong></span></p><p>A monster can spend Reaction Points to take Actions, Reactions, or perform AP Enhancements in the following ways:</p><ul><li><p><strong>Reactions:</strong> The monster can spend Reaction Points to take Reactions available to them.</p><p class=\"block-color-blue_background\"><em><strong>Example:</strong> If the monster has the ability to perform a Spell Duel, they could spend 2 AP to challenge a Spell cast by another creature. Alternatively, they could spend 2 Reaction Points instead of 2 Action Points to perform the Spell Duel.</em></p></li><li><p><strong>Actions (End of PC Turn):</strong> At the end of a PC Turn, the monster can spend Reaction Points instead of Action Points to take an Action. If an effect prevents you from taking Reactions, you can still spend Reaction Points to take Actions at the end of a PC Turn. If multiple PCs share the same PC Turn, the monster can take a number of Actions up to the number of PCs that occupy that PC Turn.</p><p class=\"block-color-blue_background\"><em><strong>Example:</strong> If 2 PCs are sharing a Turn (see Shared Initiative in the Core Rules), when their Turn ends, a monster with Reaction Points can take 2 Actions (1 Action per PC). They could take the Attack Action twice, take the Move Action then the Attack Action, or another other 2 Actions of their choice.</em></p></li><li><p><strong>AP Enhancements:</strong> When the monster spends Reaction Points to take an Action or Reaction, they can spend additional Reaction Points to perform AP Enhancements with that Action or Reaction. The total amount of Action Points and Reactions Points spent on an Action or Reaction can’t exceed 4.</p><p class=\"block-color-blue_background\"><em><strong>Example:</strong> A PC just ended their Turn. The monster can spend 1 Reaction Point to take the Attack Action and make an Attack against a target within range. The monster can add any AP Enhancements to the Attack, spending an amount of Reaction Points equal to the AP cost required. The AP cost of the Attack plus the Enhancements can’t exceed 4 AP, because the monster can’t spend more than 4 Reaction Points per Action.</em></p></li></ul><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Regaining Reaction Points</span></strong></span></p><p>The monster regains all spent Reaction Points at the end of its Turn.</p>",
     "shortInfo": "",
     "tableName": "",
@@ -38,7 +38,7 @@
     "quickRoll": false,
     "macros": {
       "NQwaYKoZ0yfTx3TD": {
-        "command": "const points = await DC20.dialog.SimplePopup.input(\"How many Reaction Points should the monster have?\")\nif (!points) return;\n\nitem.system.resource.customMaxFormula = points;",
+        "command": "if (item.system.resource.customMaxFormula) return;\nconst points = await DC20.dialog.SimplePopup.input(\"How many Reaction Points should the monster have?\")\nif (!points) return;\n\nitem.system.resource.customMaxFormula = points;",
         "trigger": "onCreate",
         "disabled": false,
         "name": "Select Reaction Points",
@@ -148,18 +148,18 @@
         "description": "<p>A monster can spend Reaction Points to take Actions, Reactions, or perform AP Enhancements in the following ways:</p><ul><li><p><strong>Reactions:</strong> The monster can spend Reaction Points to take Reactions available to them.</p></li><li><p><strong>Actions (End of PC Turn):</strong> At the end of a PC Turn, the monster can spend Reaction Points instead of Action Points to take an Action. If an effect prevents you from taking Reactions, you can still spend Reaction Points to take Actions at the end of a PC Turn. If multiple PCs share the same PC Turn, the monster can take a number of Actions up to the number of PCs that occupy that PC Turn.</p></li><li><p><strong>AP Enhancements:</strong> When the monster spends Reaction Points to take an Action or Reaction, they can spend additional Reaction Points to perform AP Enhancements with that Action or Reaction. The total amount of Action Points and Reactions Points spent on an Action or Reaction can’t exceed 4.</p></li></ul>",
         "hide": false,
         "resources": {
-          "ap": -1,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "-1",
+          "health": "",
+          "mana": "",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {
             "reaction-points": {
               "label": "Reaction Points",
               "img": "icons/magic/unholy/orb-smoking-green.webp",
               "key": "reaction-points",
-              "value": 1
+              "value": "1"
             }
           }
         },
@@ -240,7 +240,10 @@
             "timeUnit": ""
           },
           "actionChange": false,
-          "actionType": ""
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": "",
+          "overrideAreaType": ""
         },
         "key": "k89Nu7qrdZjaiEHV",
         "sourceItemId": "VbK7YOCwB3FNK4bm",
@@ -382,7 +385,7 @@
       "resourceKey": "reaction-points",
       "reset": "roundEnd",
       "useStandardTable": false,
-      "customMaxFormula": "3",
+      "customMaxFormula": "@reactionPoints",
       "values": [
         0,
         0,
@@ -419,6 +422,9 @@
       "active": false,
       "addToChat": false,
       "addToTemplates": ""
+    },
+    "monsterTrait": {
+      "traitValue": 0
     }
   },
   "effects": [],
@@ -428,11 +434,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "14.364",
+    "coreVersion": "14.367",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.6.0",
+    "systemVersion": "0.10.7.0",
     "createdTime": 1778503209698,
-    "modifiedTime": 1781983714439,
+    "modifiedTime": 1787335827080,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

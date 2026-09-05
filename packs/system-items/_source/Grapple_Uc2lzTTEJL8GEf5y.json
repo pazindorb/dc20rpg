@@ -1,9 +1,9 @@
 {
   "name": "Grapple",
   "type": "basicAction",
-  "img": "icons/svg/trap.svg",
+  "img": "systems/dc20rpg/images/statuses/grappled.svg",
   "system": {
-    "description": "<p><span>Using a free hand, you can spend <strong>1 AP</strong> to attempt to Grapple another creature within 1 Space.</span></p><p><span>Make an <strong>Athletics</strong> <strong>Check</strong> contested by the opposing creature’s <strong>Martial</strong> <strong>Check</strong>.</span></p><p><span>You or the target may have ADV or DisADV on your Check based on each other’s size (see @UUID[Compendium.dc20rpg.rules.JournalEntry.HNPA8Fd7ynirYUBq.JournalEntryPage.ae17b973b3872de1]{Moving & Grappling Creatures}).</span></p><ul><li><p><span><strong>Success:</strong> The creature is <strong>Grappled </strong>by you.</span></p></li></ul><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Moving the Target</span></strong></span></p><p>You can move the target to any Space adjacent to you by spending your own Movement to do so. Alternatively, when you move, you can move the target with you, but you’re considered <strong>Slowed</strong> (Every 1 Space you move costs an extra 1 Space of movement).</p><p><strong>Multiple Grapplers:</strong> If you attempt to move or throw a target (see Throw Creature Maneuver) that’s also Grappled by 1 or more other creatures, you must make a Contested Athletics Check against all the other Grapplers. </p><ul><li><p><strong>Success:</strong> You move or throw the target as normal and break the Grapple of all other creatures who were also Grappling that target.</p></li></ul><p></p><p><strong><span style=\"text-decoration: underline;\">Ending a Grapple</span></strong></p><p><strong>Escape Grapple:</strong> The target can spend <strong>1 AP</strong> to attempt to free itself from the Grapple. When it does, it makes an Acrobatics or Athletics Check contested by your Athletics Check. Success: The Grapple immediately ends.</p><p><strong>Incapacitated Grappler:</strong> If you become Incapacitated, the Grapple immediately ends.</p><p><strong>Forced Movement:</strong> If an effect attempts to forcibly move the target beyond your reach, you make the Check or Save instead of the target. If the effect targets both you and the target, you make 1 Check or Save for both of you. </p><ul><li><p><strong>Success:</strong> The targets of the effect are not moved. </p></li><li><p><strong>Failure:</strong> The Grapple immediately ends, and the targets of the effect are moved.</p></li></ul><p><strong>Falling:</strong> If the target begins falling (and you don’t), the Grapple ends if you can’t carry the target’s weight. If you can carry its weight, you hold it suspended in the air.</p>",
+    "description": "<p><span>Using a free hand, you can spend <strong>1 AP</strong> to attempt to Grapple another creature within 1 Space.</span></p><p><span>Make an <strong>Athletics</strong> <strong>Check</strong> contested by the opposing creature’s </span><strong>Acrobatics</strong> or <strong>Athletics Check</strong><span>.</span></p><p>You or the target may have ADV or DisADV on your Check based on each other’s size.</p><p><span><strong>Success:</strong> The creature is <strong>Grappled </strong>by you.</span></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Moving the Target</span></strong></span></p><p>You can move the target to any Space adjacent to you by spending your own Movement to do so. Alternatively, when you move, you can move the target with you, but you’re considered <strong>Slowed</strong> (Every 1 Space you move costs an extra 1 Space of movement).</p><p><strong>Multiple Grapplers:</strong> If you attempt to move or throw a target (see Throw Creature Maneuver) that’s also Grappled by 1 or more other creatures, you must make a Contested Athletics Check against all the other Grapplers.</p><ul><li><p><strong>Success:</strong> You move or throw the target as normal and break the Grapple of all other creatures who were also Grappling that target.</p></li></ul><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Ending a Grapple</span></strong></span></p><p><strong>Escape Grapple:</strong> The target can spend <strong>1 AP</strong> to attempt to free itself from the Grapple. When it does, it makes an Acrobatics or Athletics Check contested by your Athletics Check. Success: The Grapple immediately ends.</p><p><strong>Incapacitated Grappler:</strong> If you become Incapacitated, the Grapple immediately ends.</p><p><strong>Forced Movement:</strong> If an effect attempts to forcibly move the target beyond your reach, you make the Check or Save instead of the target. If the effect targets both you and the target, you make 1 Check or Save for both of you.</p><ul><li><p><strong>Success:</strong> The targets of the effect are not moved.</p></li><li><p><strong>Failure:</strong> The Grapple immediately ends, and the targets of the effect are moved.</p></li></ul><p><strong>Falling:</strong> If the target begins falling (and you don’t), the Grapple ends if you can’t carry the target’s weight. If you can carry its weight, you hold it suspended in the air.</p>",
     "tableName": "",
     "source": "",
     "choicePointCost": 1,
@@ -160,11 +160,19 @@
       "rollRequestFromTemplate": {
         "category": "contest",
         "saveKey": "",
-        "contestedKey": "mar",
+        "contestedKey": "acr",
         "dcCalculation": "spell",
         "dc": 0,
         "addMasteryToDC": true,
         "respectSizeRules": true
+      },
+      "UIUtWZwMEcG6I13z": {
+        "category": "contest",
+        "saveKey": "",
+        "contestedKey": "ath",
+        "dcCalculation": "spell",
+        "dc": 0,
+        "addMasteryToDC": true
       }
     },
     "againstStatuses": {
@@ -175,7 +183,11 @@
         "untilYourNextTurnEnd": false,
         "untilTargetNextTurnStart": false,
         "untilTargetNextTurnEnd": false,
-        "untilFirstTimeTriggered": false
+        "untilFirstTimeTriggered": false,
+        "stacks": null,
+        "forXRounds": null,
+        "forOneMinute": false,
+        "repeatedSave": false
       }
     },
     "itemKey": "grapple",
@@ -195,11 +207,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": "Item.IolKDTVBEKdYMiGQ",
-    "coreVersion": "14.364",
+    "coreVersion": "14.367",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.6.0",
+    "systemVersion": "0.10.7.0",
     "createdTime": 1732728815896,
-    "modifiedTime": 1781983709187,
+    "modifiedTime": 1788617626333,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

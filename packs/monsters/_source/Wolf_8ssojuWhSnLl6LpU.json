@@ -2739,7 +2739,7 @@
     {
       "name": "Attack",
       "type": "basicAction",
-      "_id": "1ilYV7Wm220dFe0d",
+      "_id": "dQfAB5EaNwqrS94F",
       "img": "icons/svg/sword.svg",
       "system": {
         "description": "<p><span >You can spend <strong >1 AP</strong> to make 1 Attack Check.</span></p>",
@@ -2757,7 +2757,7 @@
         },
         "actionType": "attack",
         "attackFormula": {
-          "rangeType": "melee",
+          "rangeType": "",
           "checkType": "attack",
           "targetDefence": "precision",
           "rollBonus": 0,
@@ -2881,8 +2881,6 @@
         },
         "effectsConfig": {
           "linkWithToggle": false,
-          "active": false,
-          "addToChat": false,
           "toggleItem": true,
           "addToTemplates": ""
         },
@@ -2920,7 +2918,8 @@
         "help": {
           "ignoreMHP": false,
           "subtract": false,
-          "duration": "round"
+          "duration": "round",
+          "diceValue": null
         },
         "move": {
           "movePoints": null,
@@ -2934,6 +2933,7 @@
           "closeQuarters": false
         },
         "rollConfig": {
+          "flatModifier": "",
           "rollBonus": 0,
           "canCrit": true,
           "canCritFail": true,
@@ -2977,15 +2977,15 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "14.364",
+        "coreVersion": "14.367",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
-        "createdTime": 1781983791531,
-        "modifiedTime": 1781983791531,
+        "systemVersion": "0.10.7.0",
+        "createdTime": 1788626492022,
+        "modifiedTime": 1788626492022,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
-      "_key": "!actors.items!8ssojuWhSnLl6LpU.1ilYV7Wm220dFe0d"
+      "_key": "!actors.items!8ssojuWhSnLl6LpU.dQfAB5EaNwqrS94F"
     },
     {
       "name": "Disarm",
@@ -3015,7 +3015,7 @@
         },
         "actionType": "check",
         "attackFormula": {
-          "rangeType": "melee",
+          "rangeType": "",
           "checkType": "attack",
           "targetDefence": "precision",
           "rollBonus": 0,
@@ -3032,7 +3032,7 @@
         },
         "check": {
           "canCrit": false,
-          "checkKey": "",
+          "checkKey": "att",
           "checkDC": 10,
           "respectSizeRules": false,
           "againstDC": false,
@@ -3139,8 +3139,6 @@
         },
         "effectsConfig": {
           "linkWithToggle": false,
-          "active": false,
-          "addToChat": false,
           "toggleItem": true,
           "addToTemplates": ""
         },
@@ -3150,7 +3148,7 @@
           "rollRequestFromTemplate": {
             "category": "contest",
             "saveKey": "",
-            "contestedKey": "mar",
+            "contestedKey": "ath",
             "dcCalculation": "spell",
             "dc": 0,
             "addMasteryToDC": true,
@@ -3159,14 +3157,33 @@
           "CHzIstFkqvvFCCt2": {
             "category": "contest",
             "saveKey": "",
-            "contestedKey": "tri",
+            "contestedKey": "acr",
             "dcCalculation": "spell",
             "dc": 0,
             "addMasteryToDC": true,
             "respectSizeRules": false
+          },
+          "YJIf0VBopi2r8IiL": {
+            "category": "contest",
+            "contestedKey": "tri"
           }
         },
         "itemKey": "disarm",
+        "rollConfig": {
+          "canCrit": false,
+          "flatModifier": "",
+          "rollBonus": 0,
+          "canCritFail": true,
+          "critThreshold": 20,
+          "critFailThreshold": 1,
+          "skipBonusDamage": {
+            "heavy": false,
+            "brutal": false,
+            "crit": false,
+            "targetModifiers": false
+          },
+          "respectSizeRules": false
+        },
         "shortInfo": "",
         "requirements": {
           "level": 0,
@@ -3198,7 +3215,8 @@
         "help": {
           "ignoreMHP": false,
           "subtract": false,
-          "duration": "round"
+          "duration": "round",
+          "diceValue": null
         },
         "move": {
           "movePoints": null,
@@ -3210,20 +3228,6 @@
           "checkType": "martial",
           "targetDefence": "precision",
           "closeQuarters": false
-        },
-        "rollConfig": {
-          "rollBonus": 0,
-          "canCrit": true,
-          "canCritFail": true,
-          "critThreshold": 20,
-          "critFailThreshold": 1,
-          "skipBonusDamage": {
-            "heavy": false,
-            "brutal": false,
-            "crit": false,
-            "targetModifiers": false
-          },
-          "respectSizeRules": false
         },
         "againstStatuses": {},
         "castTime": {
@@ -3254,23 +3258,23 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": "Item.hN1j1N0Bh8gTy0pG",
-        "coreVersion": "14.364",
+        "coreVersion": "14.367",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
-        "createdTime": 1781983791531,
-        "modifiedTime": 1781983791531,
+        "systemVersion": "0.10.7.0",
+        "createdTime": 1788626492023,
+        "modifiedTime": 1788626492023,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
-      "_id": "Rz3xLTaGgO1HKDVf",
-      "_key": "!actors.items!8ssojuWhSnLl6LpU.Rz3xLTaGgO1HKDVf"
+      "_id": "sQdn7StkDCa0wtsX",
+      "_key": "!actors.items!8ssojuWhSnLl6LpU.sQdn7StkDCa0wtsX"
     },
     {
       "name": "Grapple",
       "type": "basicAction",
-      "img": "icons/svg/trap.svg",
+      "img": "systems/dc20rpg/images/statuses/grappled.svg",
       "system": {
-        "description": "<p><span>Using a free hand, you can spend <strong>1 AP</strong> to attempt to Grapple another creature within 1 Space.</span></p><p><span>Make an <strong>Athletics</strong> <strong>Check</strong> contested by the opposing creature’s <strong>Martial</strong> <strong>Check</strong>.</span></p><p><span>You or the target may have ADV or DisADV on your Check based on each other’s size (see @UUID[Compendium.dc20rpg.rules.JournalEntry.HNPA8Fd7ynirYUBq.JournalEntryPage.ae17b973b3872de1]{Moving & Grappling Creatures}).</span></p><ul><li><p><span><strong>Success:</strong> The creature is <strong>Grappled </strong>by you.</span></p></li></ul><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Moving the Target</span></strong></span></p><p>You can move the target to any Space adjacent to you by spending your own Movement to do so. Alternatively, when you move, you can move the target with you, but you’re considered <strong>Slowed</strong> (Every 1 Space you move costs an extra 1 Space of movement).</p><p><strong>Multiple Grapplers:</strong> If you attempt to move or throw a target (see Throw Creature Maneuver) that’s also Grappled by 1 or more other creatures, you must make a Contested Athletics Check against all the other Grapplers. </p><ul><li><p><strong>Success:</strong> You move or throw the target as normal and break the Grapple of all other creatures who were also Grappling that target.</p></li></ul><p></p><p><strong><span style=\"text-decoration: underline;\">Ending a Grapple</span></strong></p><p><strong>Escape Grapple:</strong> The target can spend <strong>1 AP</strong> to attempt to free itself from the Grapple. When it does, it makes an Acrobatics or Athletics Check contested by your Athletics Check. Success: The Grapple immediately ends.</p><p><strong>Incapacitated Grappler:</strong> If you become Incapacitated, the Grapple immediately ends.</p><p><strong>Forced Movement:</strong> If an effect attempts to forcibly move the target beyond your reach, you make the Check or Save instead of the target. If the effect targets both you and the target, you make 1 Check or Save for both of you. </p><ul><li><p><strong>Success:</strong> The targets of the effect are not moved. </p></li><li><p><strong>Failure:</strong> The Grapple immediately ends, and the targets of the effect are moved.</p></li></ul><p><strong>Falling:</strong> If the target begins falling (and you don’t), the Grapple ends if you can’t carry the target’s weight. If you can carry its weight, you hold it suspended in the air.</p>",
+        "description": "<p><span>Using a free hand, you can spend <strong>1 AP</strong> to attempt to Grapple another creature within 1 Space.</span></p><p><span>Make an <strong>Athletics</strong> <strong>Check</strong> contested by the opposing creature’s </span><strong>Acrobatics</strong> or <strong>Athletics Check</strong><span>.</span></p><p>You or the target may have ADV or DisADV on your Check based on each other’s size.</p><p><span><strong>Success:</strong> The creature is <strong>Grappled </strong>by you.</span></p><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Moving the Target</span></strong></span></p><p>You can move the target to any Space adjacent to you by spending your own Movement to do so. Alternatively, when you move, you can move the target with you, but you’re considered <strong>Slowed</strong> (Every 1 Space you move costs an extra 1 Space of movement).</p><p><strong>Multiple Grapplers:</strong> If you attempt to move or throw a target (see Throw Creature Maneuver) that’s also Grappled by 1 or more other creatures, you must make a Contested Athletics Check against all the other Grapplers.</p><ul><li><p><strong>Success:</strong> You move or throw the target as normal and break the Grapple of all other creatures who were also Grappling that target.</p></li></ul><p></p><p><span style=\"text-decoration: underline;\"><strong><span style=\"text-decoration: underline;\">Ending a Grapple</span></strong></span></p><p><strong>Escape Grapple:</strong> The target can spend <strong>1 AP</strong> to attempt to free itself from the Grapple. When it does, it makes an Acrobatics or Athletics Check contested by your Athletics Check. Success: The Grapple immediately ends.</p><p><strong>Incapacitated Grappler:</strong> If you become Incapacitated, the Grapple immediately ends.</p><p><strong>Forced Movement:</strong> If an effect attempts to forcibly move the target beyond your reach, you make the Check or Save instead of the target. If the effect targets both you and the target, you make 1 Check or Save for both of you.</p><ul><li><p><strong>Success:</strong> The targets of the effect are not moved.</p></li><li><p><strong>Failure:</strong> The Grapple immediately ends, and the targets of the effect are moved.</p></li></ul><p><strong>Falling:</strong> If the target begins falling (and you don’t), the Grapple ends if you can’t carry the target’s weight. If you can carry its weight, you hold it suspended in the air.</p>",
         "tableName": "",
         "source": "",
         "choicePointCost": 1,
@@ -3285,7 +3289,7 @@
         },
         "actionType": "check",
         "attackFormula": {
-          "rangeType": "melee",
+          "rangeType": "",
           "checkType": "attack",
           "targetDefence": "precision",
           "rollBonus": 0,
@@ -3409,8 +3413,6 @@
         },
         "effectsConfig": {
           "linkWithToggle": false,
-          "active": false,
-          "addToChat": false,
           "toggleItem": true,
           "addToTemplates": ""
         },
@@ -3420,11 +3422,19 @@
           "rollRequestFromTemplate": {
             "category": "contest",
             "saveKey": "",
-            "contestedKey": "mar",
+            "contestedKey": "acr",
             "dcCalculation": "spell",
             "dc": 0,
             "addMasteryToDC": true,
             "respectSizeRules": true
+          },
+          "UIUtWZwMEcG6I13z": {
+            "category": "contest",
+            "saveKey": "",
+            "contestedKey": "ath",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
           }
         },
         "againstStatuses": {
@@ -3435,10 +3445,29 @@
             "untilYourNextTurnEnd": false,
             "untilTargetNextTurnStart": false,
             "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false
+            "untilFirstTimeTriggered": false,
+            "stacks": null,
+            "forXRounds": null,
+            "forOneMinute": false,
+            "repeatedSave": false
           }
         },
         "itemKey": "grapple",
+        "rollConfig": {
+          "canCrit": false,
+          "respectSizeRules": true,
+          "flatModifier": "",
+          "rollBonus": 0,
+          "canCritFail": true,
+          "critThreshold": 20,
+          "critFailThreshold": 1,
+          "skipBonusDamage": {
+            "heavy": false,
+            "brutal": false,
+            "crit": false,
+            "targetModifiers": false
+          }
+        },
         "shortInfo": "",
         "requirements": {
           "level": 0,
@@ -3470,7 +3499,8 @@
         "help": {
           "ignoreMHP": false,
           "subtract": false,
-          "duration": "round"
+          "duration": "round",
+          "diceValue": null
         },
         "move": {
           "movePoints": null,
@@ -3482,20 +3512,6 @@
           "checkType": "martial",
           "targetDefence": "precision",
           "closeQuarters": false
-        },
-        "rollConfig": {
-          "rollBonus": 0,
-          "canCrit": true,
-          "canCritFail": true,
-          "critThreshold": 20,
-          "critFailThreshold": 1,
-          "skipBonusDamage": {
-            "heavy": false,
-            "brutal": false,
-            "crit": false,
-            "targetModifiers": false
-          },
-          "respectSizeRules": false
         },
         "castTime": {
           "value": null,
@@ -3525,23 +3541,23 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": "Item.IolKDTVBEKdYMiGQ",
-        "coreVersion": "14.364",
+        "coreVersion": "14.367",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
-        "createdTime": 1781983791532,
-        "modifiedTime": 1781983791532,
+        "systemVersion": "0.10.7.0",
+        "createdTime": 1788626492023,
+        "modifiedTime": 1788626492023,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
-      "_id": "TundArqo3FHGWorG",
-      "_key": "!actors.items!8ssojuWhSnLl6LpU.TundArqo3FHGWorG"
+      "_id": "ztNqSW419QGKzkB4",
+      "_key": "!actors.items!8ssojuWhSnLl6LpU.ztNqSW419QGKzkB4"
     },
     {
       "name": "Shove",
       "type": "basicAction",
       "img": "icons/svg/thrust.svg",
       "system": {
-        "description": "<p><span>You can spend <strong>1 AP</strong> to attempt to push a creature within 1 Space of you. Make an <strong>Athletics Check</strong> contested by the target’s <strong>Martial Check</strong>.</span></p><p><span><strong>Success:</strong> You push the creature 1 Space away from you or to its left or right.</span></p><p><span><strong>Success (each 5):</strong> Push up to 1 additional Space.</span></p><p><span><em><strong>Knock Prone:</strong></em> After the result, you can choose to reduce the total distance the target is pushed by 1 Space to knock them <strong>Prone</strong> instead.</span></p><p><em><strong>DC Tip:</strong> If you shove a creature into a target, follow the rules for hitting the target in the Collision section.</em></p>",
+        "description": "<p><span>You can spend <strong>1 AP</strong> to attempt to push a creature within 1 Space of you. Make an <strong>Athletics Check</strong> contested by the target’s </span><strong>Acrobatics</strong> or <strong>Athletics</strong> <strong>Check</strong><span>.</span></p><p><span><strong>Success:</strong> You push the creature 1 Space away from you or to its left or right.</span></p><p><span><strong>Success (each 5):</strong> Push up to 1 additional Space.</span></p><p><span><em><strong>Knock Prone:</strong></em> After the result, you can choose to reduce the total distance the target is pushed by 1 Space to knock them <strong>Prone</strong> instead.</span></p><p><em><strong>DC Tip:</strong> If you shove a creature into a target, follow the rules for hitting the target in the Collision section.</em></p>",
         "tableName": "",
         "source": "",
         "choicePointCost": 1,
@@ -3556,7 +3572,7 @@
         },
         "actionType": "check",
         "attackFormula": {
-          "rangeType": "melee",
+          "rangeType": "",
           "checkType": "attack",
           "targetDefence": "precision",
           "rollBonus": 0,
@@ -3619,7 +3635,8 @@
             "dontMerge": false,
             "overrideDefence": "",
             "perTarget": true,
-            "label": "Push Distance"
+            "label": "Push Distance",
+            "dontModifyFailFormula": false
           }
         },
         "enhancements": {},
@@ -3694,8 +3711,6 @@
         },
         "effectsConfig": {
           "linkWithToggle": false,
-          "active": false,
-          "addToChat": false,
           "toggleItem": true,
           "addToTemplates": ""
         },
@@ -3705,11 +3720,19 @@
           "rollRequestFromTemplate": {
             "category": "contest",
             "saveKey": "",
-            "contestedKey": "mar",
+            "contestedKey": "acr",
             "dcCalculation": "spell",
             "dc": 0,
             "addMasteryToDC": true,
             "respectSizeRules": false
+          },
+          "3aBycWiG5Wcc0izQ": {
+            "category": "contest",
+            "saveKey": "",
+            "contestedKey": "ath",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
           }
         },
         "againstStatuses": {
@@ -3720,7 +3743,11 @@
             "untilYourNextTurnEnd": false,
             "untilTargetNextTurnStart": false,
             "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false
+            "untilFirstTimeTriggered": false,
+            "stacks": null,
+            "forXRounds": null,
+            "forOneMinute": false,
+            "repeatedSave": false
           },
           "f4mpPYuvPPyPEaZ2": {
             "id": "movement",
@@ -3729,10 +3756,29 @@
             "untilYourNextTurnEnd": false,
             "untilTargetNextTurnStart": false,
             "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false
+            "untilFirstTimeTriggered": false,
+            "stacks": null,
+            "forXRounds": null,
+            "forOneMinute": false,
+            "repeatedSave": false
           }
         },
         "itemKey": "shove",
+        "rollConfig": {
+          "canCrit": false,
+          "flatModifier": "",
+          "rollBonus": 0,
+          "canCritFail": true,
+          "critThreshold": 20,
+          "critFailThreshold": 1,
+          "skipBonusDamage": {
+            "heavy": false,
+            "brutal": false,
+            "crit": false,
+            "targetModifiers": false
+          },
+          "respectSizeRules": false
+        },
         "shortInfo": "",
         "requirements": {
           "level": 0,
@@ -3764,7 +3810,8 @@
         "help": {
           "ignoreMHP": false,
           "subtract": false,
-          "duration": "round"
+          "duration": "round",
+          "diceValue": null
         },
         "move": {
           "movePoints": null,
@@ -3776,20 +3823,6 @@
           "checkType": "martial",
           "targetDefence": "precision",
           "closeQuarters": false
-        },
-        "rollConfig": {
-          "rollBonus": 0,
-          "canCrit": true,
-          "canCritFail": true,
-          "critThreshold": 20,
-          "critFailThreshold": 1,
-          "skipBonusDamage": {
-            "heavy": false,
-            "brutal": false,
-            "crit": false,
-            "targetModifiers": false
-          },
-          "respectSizeRules": false
         },
         "castTime": {
           "value": null,
@@ -3819,23 +3852,23 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": "Item.Ks9SnrRBfRhVWgWo",
-        "coreVersion": "14.364",
+        "coreVersion": "14.367",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
-        "createdTime": 1781983791532,
-        "modifiedTime": 1781983791532,
+        "systemVersion": "0.10.7.0",
+        "createdTime": 1788626492023,
+        "modifiedTime": 1788626492023,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
-      "_id": "U0HU1Jgt6u9Fp7kh",
-      "_key": "!actors.items!8ssojuWhSnLl6LpU.U0HU1Jgt6u9Fp7kh"
+      "_id": "wim4j3cgjYgGP3se",
+      "_key": "!actors.items!8ssojuWhSnLl6LpU.wim4j3cgjYgGP3se"
     },
     {
       "name": "Tackle",
       "type": "basicAction",
       "img": "icons/svg/falling.svg",
       "system": {
-        "description": "<p><span >If you move at least 2 Spaces in a straight line, you can spend <strong>1 AP</strong> to attempt to Tackle a creature that’s your size or smaller.</span></p><p><span >Make an <strong >Athletics </strong><strong>Check</strong> contested by the target's <strong >Martial </strong><strong>Check</strong>.</span></p><p><span ><strong >Success:</strong> You <strong>Grapple</strong> the target and you both move 1 Space in the same direction you were moving then immediately fall <strong >Prone</strong>.</span></p><p><span ><strong >Success (each 5):</strong> +1 Space moved.</span></p>",
+        "description": "<p><span>If you move at least 2 Spaces in a straight line, you can spend <strong>1 AP</strong> to attempt to Tackle a creature that’s your size or smaller.</span></p><p><span>Make an <strong>Athletics Check</strong> contested by the target's </span><strong>Acrobatics</strong> or <strong>Athletics</strong> <strong>Check</strong><span>.</span></p><p><span><strong>Success:</strong> You <strong>Grapple</strong> the target and you both move 1 Space in the same direction you were moving then immediately fall <strong>Prone</strong>.</span></p><p><span><strong>Success (each 5):</strong> +1 Space moved.</span></p>",
         "tableName": "",
         "source": "",
         "choicePointCost": 1,
@@ -3850,7 +3883,7 @@
         },
         "actionType": "check",
         "attackFormula": {
-          "rangeType": "melee",
+          "rangeType": "",
           "checkType": "attack",
           "targetDefence": "precision",
           "rollBonus": 0,
@@ -3913,7 +3946,8 @@
             "dontMerge": false,
             "overrideDefence": "",
             "perTarget": true,
-            "label": "Move Distance"
+            "label": "Move Distance",
+            "dontModifyFailFormula": false
           }
         },
         "enhancements": {},
@@ -3988,8 +4022,6 @@
         },
         "effectsConfig": {
           "linkWithToggle": false,
-          "active": false,
-          "addToChat": false,
           "toggleItem": true,
           "addToTemplates": ""
         },
@@ -3999,11 +4031,19 @@
           "rollRequestFromTemplate": {
             "category": "contest",
             "saveKey": "",
-            "contestedKey": "mar",
+            "contestedKey": "acr",
             "dcCalculation": "spell",
             "dc": 0,
             "addMasteryToDC": true,
             "respectSizeRules": false
+          },
+          "U0edlCqDo6nAkDao": {
+            "category": "contest",
+            "saveKey": "",
+            "contestedKey": "ath",
+            "dcCalculation": "spell",
+            "dc": 0,
+            "addMasteryToDC": true
           }
         },
         "againstStatuses": {
@@ -4014,7 +4054,11 @@
             "untilYourNextTurnEnd": false,
             "untilTargetNextTurnStart": false,
             "untilTargetNextTurnEnd": false,
-            "untilFirstTimeTriggered": false
+            "untilFirstTimeTriggered": false,
+            "stacks": null,
+            "forXRounds": null,
+            "forOneMinute": false,
+            "repeatedSave": false
           },
           "i6sIxcnb3PY8QWbz": {
             "id": "prone",
@@ -4026,10 +4070,27 @@
             "untilFirstTimeTriggered": false,
             "forOneMinute": false,
             "repeatedSave": false,
-            "repeatedSaveKey": "phy"
+            "repeatedSaveKey": "phy",
+            "stacks": null,
+            "forXRounds": null
           }
         },
         "itemKey": "tackle",
+        "rollConfig": {
+          "canCrit": false,
+          "flatModifier": "",
+          "rollBonus": 0,
+          "canCritFail": true,
+          "critThreshold": 20,
+          "critFailThreshold": 1,
+          "skipBonusDamage": {
+            "heavy": false,
+            "brutal": false,
+            "crit": false,
+            "targetModifiers": false
+          },
+          "respectSizeRules": false
+        },
         "shortInfo": "",
         "requirements": {
           "level": 0,
@@ -4061,7 +4122,8 @@
         "help": {
           "ignoreMHP": false,
           "subtract": false,
-          "duration": "round"
+          "duration": "round",
+          "diceValue": null
         },
         "move": {
           "movePoints": null,
@@ -4073,20 +4135,6 @@
           "checkType": "martial",
           "targetDefence": "precision",
           "closeQuarters": false
-        },
-        "rollConfig": {
-          "rollBonus": 0,
-          "canCrit": true,
-          "canCritFail": true,
-          "critThreshold": 20,
-          "critFailThreshold": 1,
-          "skipBonusDamage": {
-            "heavy": false,
-            "brutal": false,
-            "crit": false,
-            "targetModifiers": false
-          },
-          "respectSizeRules": false
         },
         "castTime": {
           "value": null,
@@ -4116,16 +4164,16 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": "Item.QDPNjfb8u5Jn3XPL",
-        "coreVersion": "14.364",
+        "coreVersion": "14.367",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
-        "createdTime": 1781983791532,
-        "modifiedTime": 1781983791532,
+        "systemVersion": "0.10.7.0",
+        "createdTime": 1788626492023,
+        "modifiedTime": 1788626492023,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
-      "_id": "dE4rrZ7vpnYh7iFe",
-      "_key": "!actors.items!8ssojuWhSnLl6LpU.dE4rrZ7vpnYh7iFe"
+      "_id": "b3Z1JHpHI8H3DndL",
+      "_key": "!actors.items!8ssojuWhSnLl6LpU.b3Z1JHpHI8H3DndL"
     },
     {
       "type": "basicAction",
@@ -4171,7 +4219,8 @@
         "help": {
           "ignoreMHP": false,
           "subtract": false,
-          "duration": "round"
+          "duration": "round",
+          "diceValue": null
         },
         "toggle": {
           "toggleable": false,
@@ -4181,7 +4230,7 @@
         },
         "actionType": "check",
         "attackFormula": {
-          "rangeType": "melee",
+          "rangeType": "",
           "checkType": "attack",
           "targetDefence": "precision",
           "rollBonus": 0,
@@ -4374,9 +4423,22 @@
         "effectsConfig": {
           "linkWithToggle": false,
           "toggleItem": true,
-          "active": false,
-          "addToChat": false,
           "addToTemplates": ""
+        },
+        "rollConfig": {
+          "canCrit": false,
+          "respectSizeRules": true,
+          "flatModifier": "",
+          "rollBonus": 0,
+          "canCritFail": true,
+          "critThreshold": 20,
+          "critFailThreshold": 1,
+          "skipBonusDamage": {
+            "heavy": false,
+            "brutal": false,
+            "crit": false,
+            "targetModifiers": false
+          }
         },
         "skipChatMessage": false,
         "move": {
@@ -4389,20 +4451,6 @@
           "checkType": "martial",
           "targetDefence": "precision",
           "closeQuarters": false
-        },
-        "rollConfig": {
-          "rollBonus": 0,
-          "canCrit": true,
-          "canCritFail": true,
-          "critThreshold": 20,
-          "critFailThreshold": 1,
-          "skipBonusDamage": {
-            "heavy": false,
-            "brutal": false,
-            "crit": false,
-            "targetModifiers": false
-          },
-          "respectSizeRules": false
         },
         "castTime": {
           "value": null,
@@ -4426,20 +4474,20 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "14.364",
+        "coreVersion": "14.367",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
-        "createdTime": 1781983791532,
-        "modifiedTime": 1781983791532,
+        "systemVersion": "0.10.7.0",
+        "createdTime": 1788626492023,
+        "modifiedTime": 1788626492023,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "ownership": {
         "default": 0,
         "dOcXwrUs2VunZl0y": 3
       },
-      "_id": "wr19sLkrIsdNxldU",
+      "_id": "9E2JmTUFZXYxsUbT",
       "sort": 0,
-      "_key": "!actors.items!8ssojuWhSnLl6LpU.wr19sLkrIsdNxldU"
+      "_key": "!actors.items!8ssojuWhSnLl6LpU.9E2JmTUFZXYxsUbT"
     },
     {
       "name": "Disengage",
@@ -4461,7 +4509,7 @@
         },
         "actionType": "other",
         "attackFormula": {
-          "rangeType": "melee",
+          "rangeType": "",
           "checkType": "attack",
           "targetDefence": "precision",
           "rollBonus": 0,
@@ -4585,8 +4633,6 @@
         },
         "effectsConfig": {
           "linkWithToggle": false,
-          "active": false,
-          "addToChat": true,
           "toggleItem": true,
           "addToTemplates": ""
         },
@@ -4624,7 +4670,8 @@
         "help": {
           "ignoreMHP": false,
           "subtract": false,
-          "duration": "round"
+          "duration": "round",
+          "diceValue": null
         },
         "move": {
           "movePoints": null,
@@ -4638,6 +4685,7 @@
           "closeQuarters": false
         },
         "rollConfig": {
+          "flatModifier": "",
           "rollBonus": 0,
           "canCrit": true,
           "canCritFail": true,
@@ -4691,62 +4739,16 @@
             "addToChat": true,
             "changes": [
               {
-                "key": "system.dynamicRollModifier.againstYou.martial.melee",
+                "useCustom": false,
+                "key": "system.dynamicRollModifier.againstYou.attack",
+                "type": "add",
                 "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Disengage\", \"confirmation\": true",
-                "priority": null,
-                "type": "add",
                 "phase": "initial",
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.martial.ranged",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Disengage\", \"confirmation\": true",
-                "priority": null,
-                "type": "add",
-                "phase": "initial",
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.spell.melee",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Disengage\", \"confirmation\": true",
-                "priority": null,
-                "type": "add",
-                "phase": "initial",
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.spell.ranged",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Disengage\", \"confirmation\": true",
-                "priority": null,
-                "type": "add",
-                "phase": "initial",
-                "useCustom": false
-              },
-              {
-                "key": "system.events",
-                "value": "\"eventType\": \"basic\", \"trigger\": \"turnStart\", \"postTrigger\":\"delete\", \"effectName\": \"Disengage\"",
-                "priority": null,
-                "type": "add",
-                "phase": "initial",
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.martial.area",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Disengage\", \"confirmation\": true",
-                "priority": null,
-                "type": "add",
-                "phase": "initial",
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.spell.area",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Disengage\", \"confirmation\": true",
-                "priority": null,
-                "type": "add",
-                "phase": "initial",
-                "useCustom": false
+                "priority": 0
               }
             ],
+            "applyToSelf": true,
+            "applyToTemplate": false,
             "sustained": {
               "isSustained": false,
               "actorUuid": "",
@@ -4761,7 +4763,6 @@
             },
             "effectKey": "",
             "macro": "",
-            "applyToTemplate": true,
             "requireEquip": false,
             "nonessential": false,
             "refreshTarget": false,
@@ -4785,18 +4786,18 @@
           "_stats": {
             "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "14.364",
+            "coreVersion": "14.367",
             "systemId": "dc20rpg",
-            "systemVersion": "0.10.6.0",
-            "createdTime": 1781983791533,
-            "modifiedTime": 1781983791533,
+            "systemVersion": "0.10.7.0",
+            "createdTime": 1788626492023,
+            "modifiedTime": 1788626492023,
             "lastModifiedBy": "dOcXwrUs2VunZl0y",
             "exportSource": null
           },
           "start": null,
           "showIcon": 1,
           "folder": null,
-          "_key": "!actors.items.effects!8ssojuWhSnLl6LpU.lwINY9R0KaZeTCkn.q11dyOEQpnZF878I"
+          "_key": "!actors.items.effects!8ssojuWhSnLl6LpU.RwUQzyoT7aHdGOiU.q11dyOEQpnZF878I"
         }
       ],
       "folder": "4ml1fVIgGSBTocOQ",
@@ -4812,16 +4813,16 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.hN1j1N0Bh8gTy0pG",
-        "coreVersion": "14.364",
+        "coreVersion": "14.367",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
-        "createdTime": 1781983791533,
-        "modifiedTime": 1781983791533,
+        "systemVersion": "0.10.7.0",
+        "createdTime": 1788626492023,
+        "modifiedTime": 1788626492023,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
-      "_id": "lwINY9R0KaZeTCkn",
-      "_key": "!actors.items!8ssojuWhSnLl6LpU.lwINY9R0KaZeTCkn"
+      "_id": "RwUQzyoT7aHdGOiU",
+      "_key": "!actors.items!8ssojuWhSnLl6LpU.RwUQzyoT7aHdGOiU"
     },
     {
       "name": "Full Disengage",
@@ -4843,7 +4844,7 @@
         },
         "actionType": "other",
         "attackFormula": {
-          "rangeType": "melee",
+          "rangeType": "",
           "checkType": "attack",
           "targetDefence": "precision",
           "rollBonus": 0,
@@ -4967,8 +4968,6 @@
         },
         "effectsConfig": {
           "linkWithToggle": false,
-          "active": false,
-          "addToChat": true,
           "toggleItem": true,
           "addToTemplates": ""
         },
@@ -5006,7 +5005,8 @@
         "help": {
           "ignoreMHP": false,
           "subtract": false,
-          "duration": "round"
+          "duration": "round",
+          "diceValue": null
         },
         "move": {
           "movePoints": null,
@@ -5020,6 +5020,7 @@
           "closeQuarters": false
         },
         "rollConfig": {
+          "flatModifier": "",
           "rollBonus": 0,
           "canCrit": true,
           "canCritFail": true,
@@ -5073,62 +5074,16 @@
             "addToChat": true,
             "changes": [
               {
-                "key": "system.dynamicRollModifier.againstYou.martial.melee",
-                "value": "\"label\": \"Full Disengage\", \"confirmation\": true, \"autoFail\": true",
-                "priority": null,
+                "key": "system.dynamicRollModifier.againstYou.attack",
                 "type": "add",
+                "value": "\"value\": 0, \"label\": \"Full Disengage\", \"confirmation\": true, \"autoFail\": true",
                 "phase": "initial",
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.martial.ranged",
-                "value": "\"autoFail\": true, \"label\": \"Full Disengage\", \"confirmation\": true",
-                "priority": null,
-                "type": "add",
-                "phase": "initial",
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.spell.melee",
-                "value": "\"autoFail\": true, \"label\": \"Full Disengage\", \"confirmation\": true",
-                "priority": null,
-                "type": "add",
-                "phase": "initial",
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.spell.ranged",
-                "value": "\"autoFail\": true, \"label\": \"Full Disengage\", \"confirmation\": true",
-                "priority": null,
-                "type": "add",
-                "phase": "initial",
-                "useCustom": false
-              },
-              {
-                "key": "system.events",
-                "value": "\"eventType\": \"basic\", \"trigger\": \"turnStart\", \"postTrigger\":\"delete\", \"effectName\": \"Full Disengage\"",
-                "priority": null,
-                "type": "add",
-                "phase": "initial",
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.martial.area",
-                "value": "\"label\": \"Full Disengage\", \"confirmation\": true, \"autoFail\": true",
-                "priority": null,
-                "type": "add",
-                "phase": "initial",
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.spell.area",
-                "value": "\"label\": \"Full Disengage\", \"confirmation\": true, \"autoFail\": true",
-                "priority": null,
-                "type": "add",
-                "phase": "initial",
+                "priority": 0,
                 "useCustom": false
               }
             ],
+            "applyToSelf": true,
+            "applyToTemplate": false,
             "sustained": {
               "isSustained": false,
               "actorUuid": "",
@@ -5143,7 +5098,6 @@
             },
             "effectKey": "",
             "macro": "",
-            "applyToTemplate": true,
             "requireEquip": false,
             "nonessential": false,
             "refreshTarget": false,
@@ -5167,18 +5121,18 @@
           "_stats": {
             "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "14.364",
+            "coreVersion": "14.367",
             "systemId": "dc20rpg",
-            "systemVersion": "0.10.6.0",
-            "createdTime": 1781983791534,
-            "modifiedTime": 1781983791534,
+            "systemVersion": "0.10.7.0",
+            "createdTime": 1788626492024,
+            "modifiedTime": 1788626492024,
             "lastModifiedBy": "dOcXwrUs2VunZl0y",
             "exportSource": null
           },
           "start": null,
           "showIcon": 1,
           "folder": null,
-          "_key": "!actors.items.effects!8ssojuWhSnLl6LpU.5oND1QvzJaK73NXq.q11dyOEQpnZF878I"
+          "_key": "!actors.items.effects!8ssojuWhSnLl6LpU.DtCxxQ0UHykNwd6r.q11dyOEQpnZF878I"
         }
       ],
       "folder": "4ml1fVIgGSBTocOQ",
@@ -5194,16 +5148,16 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.ZK9sD2F2Sq7Jt3Kz",
-        "coreVersion": "14.364",
+        "coreVersion": "14.367",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
-        "createdTime": 1781983791534,
-        "modifiedTime": 1781983791534,
+        "systemVersion": "0.10.7.0",
+        "createdTime": 1788626492024,
+        "modifiedTime": 1788626492024,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
-      "_id": "5oND1QvzJaK73NXq",
-      "_key": "!actors.items!8ssojuWhSnLl6LpU.5oND1QvzJaK73NXq"
+      "_id": "DtCxxQ0UHykNwd6r",
+      "_key": "!actors.items!8ssojuWhSnLl6LpU.DtCxxQ0UHykNwd6r"
     },
     {
       "name": "Dodge",
@@ -5225,7 +5179,7 @@
         },
         "actionType": "other",
         "attackFormula": {
-          "rangeType": "melee",
+          "rangeType": "",
           "checkType": "attack",
           "targetDefence": "precision",
           "rollBonus": 0,
@@ -5349,8 +5303,6 @@
         },
         "effectsConfig": {
           "linkWithToggle": false,
-          "active": false,
-          "addToChat": true,
           "toggleItem": true,
           "addToTemplates": ""
         },
@@ -5388,7 +5340,8 @@
         "help": {
           "ignoreMHP": false,
           "subtract": false,
-          "duration": "round"
+          "duration": "round",
+          "diceValue": null
         },
         "move": {
           "movePoints": null,
@@ -5402,6 +5355,7 @@
           "closeQuarters": false
         },
         "rollConfig": {
+          "flatModifier": "",
           "rollBonus": 0,
           "canCrit": true,
           "canCritFail": true,
@@ -5455,70 +5409,24 @@
             "addToChat": true,
             "changes": [
               {
-                "key": "system.dynamicRollModifier.againstYou.martial.melee",
+                "key": "system.dynamicRollModifier.againstYou.attack",
+                "type": "add",
                 "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dodge\", \"afterRoll\": \"delete\"",
-                "priority": null,
-                "type": "add",
                 "phase": "initial",
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.martial.ranged",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dodge\", \"afterRoll\": \"delete\"",
-                "priority": null,
-                "type": "add",
-                "phase": "initial",
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.spell.melee",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dodge\", \"afterRoll\": \"delete\"",
-                "priority": null,
-                "type": "add",
-                "phase": "initial",
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.spell.ranged",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dodge\", \"afterRoll\": \"delete\"",
-                "priority": null,
-                "type": "add",
-                "phase": "initial",
-                "useCustom": false
-              },
-              {
-                "key": "system.events",
-                "value": "\"eventType\": \"basic\", \"trigger\": \"turnStart\", \"postTrigger\":\"delete\", \"effectName\": \"Dodge\"",
-                "priority": null,
-                "type": "add",
-                "phase": "initial",
+                "priority": 0,
                 "useCustom": false
               },
               {
                 "key": "system.dynamicRollModifier.againstYou.skills",
+                "type": "add",
                 "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Grapple vs Dodge\", \"skill\": \"ath\", \"afterRoll\": \"delete\", \"confirmation\": true",
-                "priority": null,
-                "type": "add",
                 "phase": "initial",
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.martial.area",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dodge\", \"afterRoll\": \"delete\"",
-                "priority": null,
-                "type": "add",
-                "phase": "initial",
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.spell.area",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Dodge\", \"afterRoll\": \"delete\"",
-                "priority": null,
-                "type": "add",
-                "phase": "initial",
+                "priority": 0,
                 "useCustom": false
               }
             ],
+            "applyToSelf": true,
+            "applyToTemplate": false,
             "sustained": {
               "isSustained": false,
               "actorUuid": "",
@@ -5533,7 +5441,6 @@
             },
             "effectKey": "",
             "macro": "",
-            "applyToTemplate": true,
             "requireEquip": false,
             "nonessential": false,
             "refreshTarget": false,
@@ -5562,18 +5469,18 @@
           "_stats": {
             "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "14.364",
+            "coreVersion": "14.367",
             "systemId": "dc20rpg",
-            "systemVersion": "0.10.6.0",
-            "createdTime": 1781983791534,
-            "modifiedTime": 1781983791534,
+            "systemVersion": "0.10.7.0",
+            "createdTime": 1788626492024,
+            "modifiedTime": 1788626492024,
             "lastModifiedBy": "dOcXwrUs2VunZl0y",
             "exportSource": null
           },
           "start": null,
           "showIcon": 1,
           "folder": null,
-          "_key": "!actors.items.effects!8ssojuWhSnLl6LpU.MBVw1maopNcmutqc.q11dyOEQpnZF878I"
+          "_key": "!actors.items.effects!8ssojuWhSnLl6LpU.LdbXAjUpNNHSmhnW.q11dyOEQpnZF878I"
         }
       ],
       "folder": "4ml1fVIgGSBTocOQ",
@@ -5589,16 +5496,16 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.ZK9sD2F2Sq7Jt3Kz",
-        "coreVersion": "14.364",
+        "coreVersion": "14.367",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
-        "createdTime": 1781983791534,
-        "modifiedTime": 1781983791534,
+        "systemVersion": "0.10.7.0",
+        "createdTime": 1788626492024,
+        "modifiedTime": 1788626492024,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
-      "_id": "MBVw1maopNcmutqc",
-      "_key": "!actors.items!8ssojuWhSnLl6LpU.MBVw1maopNcmutqc"
+      "_id": "LdbXAjUpNNHSmhnW",
+      "_key": "!actors.items!8ssojuWhSnLl6LpU.LdbXAjUpNNHSmhnW"
     },
     {
       "name": "Full Dodge",
@@ -5620,7 +5527,7 @@
         },
         "actionType": "other",
         "attackFormula": {
-          "rangeType": "melee",
+          "rangeType": "",
           "checkType": "attack",
           "targetDefence": "precision",
           "rollBonus": 0,
@@ -5744,8 +5651,6 @@
         },
         "effectsConfig": {
           "linkWithToggle": false,
-          "active": false,
-          "addToChat": true,
           "toggleItem": true,
           "addToTemplates": ""
         },
@@ -5783,7 +5688,8 @@
         "help": {
           "ignoreMHP": false,
           "subtract": false,
-          "duration": "round"
+          "duration": "round",
+          "diceValue": null
         },
         "move": {
           "movePoints": null,
@@ -5797,6 +5703,7 @@
           "closeQuarters": false
         },
         "rollConfig": {
+          "flatModifier": "",
           "rollBonus": 0,
           "canCrit": true,
           "canCritFail": true,
@@ -5850,70 +5757,24 @@
             "addToChat": true,
             "changes": [
               {
-                "key": "system.dynamicRollModifier.againstYou.martial.melee",
+                "key": "system.dynamicRollModifier.againstYou.attack",
+                "type": "add",
                 "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Full Dodge\"",
-                "priority": null,
-                "type": "add",
                 "phase": "initial",
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.martial.ranged",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Full Dodge\"",
-                "priority": null,
-                "type": "add",
-                "phase": "initial",
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.spell.melee",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Full Dodge\"",
-                "priority": null,
-                "type": "add",
-                "phase": "initial",
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.spell.ranged",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Full Dodge\"",
-                "priority": null,
-                "type": "add",
-                "phase": "initial",
-                "useCustom": false
-              },
-              {
-                "key": "system.events",
-                "value": "\"eventType\": \"basic\", \"trigger\": \"turnStart\", \"postTrigger\":\"delete\", \"effectName\": \"Full Dodge\"",
-                "priority": null,
-                "type": "add",
-                "phase": "initial",
+                "priority": 0,
                 "useCustom": false
               },
               {
                 "key": "system.dynamicRollModifier.againstYou.skills",
+                "type": "add",
                 "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Grapple vs Dodge\", \"skill\": \"ath\", \"confirmation\": true",
-                "priority": null,
-                "type": "add",
                 "phase": "initial",
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.martial.area",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Full Dodge\"",
-                "priority": null,
-                "type": "add",
-                "phase": "initial",
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.spell.area",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Full Dodge\"",
-                "priority": null,
-                "type": "add",
-                "phase": "initial",
+                "priority": 0,
                 "useCustom": false
               }
             ],
+            "applyToTemplate": false,
+            "applyToSelf": true,
             "sustained": {
               "isSustained": false,
               "actorUuid": "",
@@ -5928,7 +5789,6 @@
             },
             "effectKey": "",
             "macro": "",
-            "applyToTemplate": true,
             "requireEquip": false,
             "nonessential": false,
             "refreshTarget": false,
@@ -5957,18 +5817,18 @@
           "_stats": {
             "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "14.364",
+            "coreVersion": "14.367",
             "systemId": "dc20rpg",
-            "systemVersion": "0.10.6.0",
-            "createdTime": 1781983791535,
-            "modifiedTime": 1781983791535,
+            "systemVersion": "0.10.7.0",
+            "createdTime": 1788626492024,
+            "modifiedTime": 1788626492024,
             "lastModifiedBy": "dOcXwrUs2VunZl0y",
             "exportSource": null
           },
           "start": null,
           "showIcon": 1,
           "folder": null,
-          "_key": "!actors.items.effects!8ssojuWhSnLl6LpU.DdXU55X9c11JRI3W.q11dyOEQpnZF878I"
+          "_key": "!actors.items.effects!8ssojuWhSnLl6LpU.lqHumr8pzoIe5wSS.q11dyOEQpnZF878I"
         }
       ],
       "folder": "4ml1fVIgGSBTocOQ",
@@ -5984,16 +5844,16 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.Y6oevdLqA31GPcbt",
-        "coreVersion": "14.364",
+        "coreVersion": "14.367",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
-        "createdTime": 1781983791535,
-        "modifiedTime": 1781983791535,
+        "systemVersion": "0.10.7.0",
+        "createdTime": 1788626492024,
+        "modifiedTime": 1788626492024,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
-      "_id": "DdXU55X9c11JRI3W",
-      "_key": "!actors.items!8ssojuWhSnLl6LpU.DdXU55X9c11JRI3W"
+      "_id": "lqHumr8pzoIe5wSS",
+      "_key": "!actors.items!8ssojuWhSnLl6LpU.lqHumr8pzoIe5wSS"
     },
     {
       "name": "Hide",
@@ -6015,7 +5875,7 @@
         },
         "actionType": "check",
         "attackFormula": {
-          "rangeType": "melee",
+          "rangeType": "",
           "checkType": "attack",
           "targetDefence": "precision",
           "rollBonus": 0,
@@ -6139,14 +5999,27 @@
         },
         "effectsConfig": {
           "linkWithToggle": false,
-          "active": false,
-          "addToChat": false,
           "toggleItem": true,
           "addToTemplates": ""
         },
         "category": "defensive",
         "quickRoll": false,
         "itemKey": "hide",
+        "rollConfig": {
+          "canCrit": false,
+          "flatModifier": "",
+          "rollBonus": 0,
+          "canCritFail": true,
+          "critThreshold": 20,
+          "critFailThreshold": 1,
+          "skipBonusDamage": {
+            "heavy": false,
+            "brutal": false,
+            "crit": false,
+            "targetModifiers": false
+          },
+          "respectSizeRules": false
+        },
         "shortInfo": "",
         "requirements": {
           "level": 0,
@@ -6178,7 +6051,8 @@
         "help": {
           "ignoreMHP": false,
           "subtract": false,
-          "duration": "round"
+          "duration": "round",
+          "diceValue": null
         },
         "move": {
           "movePoints": null,
@@ -6190,20 +6064,6 @@
           "checkType": "martial",
           "targetDefence": "precision",
           "closeQuarters": false
-        },
-        "rollConfig": {
-          "rollBonus": 0,
-          "canCrit": true,
-          "canCritFail": true,
-          "critThreshold": 20,
-          "critFailThreshold": 1,
-          "skipBonusDamage": {
-            "heavy": false,
-            "brutal": false,
-            "crit": false,
-            "targetModifiers": false
-          },
-          "respectSizeRules": false
         },
         "againstStatuses": {},
         "rollRequests": {},
@@ -6263,98 +6123,86 @@
             "addToChat": true,
             "changes": [
               {
-                "key": "system.dynamicRollModifier.againstYou.martial.melee",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hidden\", \"confirmation\": true",
-                "priority": null,
+                "key": "system.dynamicRollModifier.againstYou.attack",
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hidden\", \"confirmation\": true, \"attackType\": \"martial\", \"rangeType\": \"melee\"",
                 "phase": "initial",
                 "useCustom": false
               },
               {
-                "key": "system.dynamicRollModifier.againstYou.martial.ranged",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hidden\", \"confirmation\": true",
-                "priority": null,
+                "key": "system.dynamicRollModifier.againstYou.attack",
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hidden\", \"confirmation\": true, \"attackType\": \"martial\", \"rangeType\": \"ranged\"",
                 "phase": "initial",
                 "useCustom": false
               },
               {
-                "key": "system.dynamicRollModifier.againstYou.spell.melee",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hidden\", \"confirmation\": true",
-                "priority": null,
+                "key": "system.dynamicRollModifier.againstYou.attack",
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hidden\", \"confirmation\": true, \"attackType\": \"spell\", \"rangeType\": \"melee\"",
                 "phase": "initial",
                 "useCustom": false
               },
               {
-                "key": "system.dynamicRollModifier.againstYou.spell.ranged",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hidden\", \"confirmation\": true",
-                "priority": null,
+                "key": "system.dynamicRollModifier.againstYou.attack",
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hidden\", \"confirmation\": true, \"attackType\": \"spell\", \"rangeType\": \"ranged\"",
                 "phase": "initial",
                 "useCustom": false
               },
               {
-                "key": "system.dynamicRollModifier.onYou.martial.melee",
-                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Hidden\", \"confirmation\": true",
-                "priority": null,
+                "key": "system.dynamicRollModifier.onYou.attack",
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Hidden\", \"confirmation\": true, \"attackType\": \"martial\", \"rangeType\": \"melee\"",
                 "phase": "initial",
                 "useCustom": false
               },
               {
-                "key": "system.dynamicRollModifier.onYou.martial.ranged",
-                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Hidden\", \"confirmation\": true",
-                "priority": null,
+                "key": "system.dynamicRollModifier.onYou.attack",
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Hidden\", \"confirmation\": true, \"attackType\": \"martial\", \"rangeType\": \"ranged\"",
                 "phase": "initial",
                 "useCustom": false
               },
               {
-                "key": "system.dynamicRollModifier.onYou.spell.melee",
-                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Hidden\", \"confirmation\": true",
-                "priority": null,
+                "key": "system.dynamicRollModifier.onYou.attack",
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Hidden\", \"confirmation\": true, \"attackType\": \"spell\", \"rangeType\": \"melee\"",
                 "phase": "initial",
                 "useCustom": false
               },
               {
-                "key": "system.dynamicRollModifier.onYou.spell.ranged",
-                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Hidden\", \"confirmation\": true",
-                "priority": null,
+                "key": "system.dynamicRollModifier.onYou.attack",
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Hidden\", \"confirmation\": true, \"attackType\": \"spell\", \"rangeType\": \"ranged\"",
                 "phase": "initial",
                 "useCustom": false
               },
               {
-                "key": "system.dynamicRollModifier.againstYou.martial.area",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hidden\", \"confirmation\": true",
-                "priority": null,
+                "key": "system.dynamicRollModifier.againstYou.attack",
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hidden\", \"confirmation\": true, \"attackType\": \"martial\", \"rangeType\": \"area\"",
                 "phase": "initial",
                 "useCustom": false
               },
               {
-                "key": "system.dynamicRollModifier.againstYou.spell.area",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hidden\", \"confirmation\": true",
-                "priority": null,
+                "key": "system.dynamicRollModifier.againstYou.attack",
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Hidden\", \"confirmation\": true, \"attackType\": \"spell\", \"rangeType\": \"area\"",
                 "phase": "initial",
                 "useCustom": false
               },
               {
-                "key": "system.dynamicRollModifier.onYou.martial.area",
-                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Hidden\", \"confirmation\": true",
-                "priority": null,
+                "key": "system.dynamicRollModifier.onYou.attack",
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Hidden\", \"confirmation\": true, \"attackType\": \"martial\", \"rangeType\": \"area\"",
                 "phase": "initial",
                 "useCustom": false
               },
               {
-                "key": "system.dynamicRollModifier.onYou.spell.area",
-                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Hidden\", \"confirmation\": true",
-                "priority": null,
+                "key": "system.dynamicRollModifier.onYou.attack",
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Hidden\", \"confirmation\": true, \"attackType\": \"spell\", \"rangeType\": \"area\"",
                 "phase": "initial",
                 "useCustom": false
               }
@@ -6373,6 +6221,7 @@
             },
             "effectKey": "",
             "macro": "",
+            "applyToSelf": false,
             "applyToTemplate": true,
             "requireEquip": false,
             "nonessential": false,
@@ -6387,18 +6236,18 @@
           "_stats": {
             "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "14.364",
+            "coreVersion": "14.367",
             "systemId": "dc20rpg",
-            "systemVersion": "0.10.6.0",
-            "createdTime": 1781983791535,
-            "modifiedTime": 1781983791535,
+            "systemVersion": "0.10.7.0",
+            "createdTime": 1788626492025,
+            "modifiedTime": 1788626492025,
             "lastModifiedBy": "dOcXwrUs2VunZl0y",
             "exportSource": null
           },
           "start": null,
           "showIcon": 1,
           "folder": null,
-          "_key": "!actors.items.effects!8ssojuWhSnLl6LpU.Wo9PMOBgJf4YcPQb.0wmnvRGDfTTfcff3"
+          "_key": "!actors.items.effects!8ssojuWhSnLl6LpU.ESdaH8xYAk0m9oAU.0wmnvRGDfTTfcff3"
         }
       ],
       "folder": "4ml1fVIgGSBTocOQ",
@@ -6414,36 +6263,28 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.ZK9sD2F2Sq7Jt3Kz",
-        "coreVersion": "14.364",
+        "coreVersion": "14.367",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
-        "createdTime": 1781983791535,
-        "modifiedTime": 1781983791535,
+        "systemVersion": "0.10.7.0",
+        "createdTime": 1788626492025,
+        "modifiedTime": 1788626492025,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
-      "_id": "Wo9PMOBgJf4YcPQb",
-      "_key": "!actors.items!8ssojuWhSnLl6LpU.Wo9PMOBgJf4YcPQb"
+      "_id": "ESdaH8xYAk0m9oAU",
+      "_key": "!actors.items!8ssojuWhSnLl6LpU.ESdaH8xYAk0m9oAU"
     },
     {
       "name": "Move",
       "type": "basicAction",
       "img": "icons/svg/wingfoot.svg",
       "system": {
-        "description": "<p>You can spend <strong>1 AP</strong> to move up to your Speed in Spaces (default of 5).</p><p>You choose where to move, and can break up your movement by moving before and after taking a different Action.</p><p>You can’t end your turn in a Space occupied by another creature.</p><p></p><p><span ><em>A creature with 4 AP can take the Move Action to move 1 Space, take the Attack Action, move 1 Space again (2 total Spaces), take the Attack Action again, and then move 2 Spaces again (4 total Spaces).</em></span></p>",
+        "description": "<p>You can spend <strong>1 AP</strong> to move up to your Speed in Spaces (default of 5).</p><p>You choose where to move, and can break up your movement by moving before and after taking a different Action.</p><p>You can’t end your turn in a Space occupied by another creature.</p><p></p><p><span><em>A creature with 4 AP can take the Move Action to move 1 Space, take the Attack Action, move 1 Space again (2 total Spaces), take the Attack Action again, and then move 2 Spaces again (4 total Spaces).</em></span></p>",
         "tableName": "",
         "source": "",
         "choicePointCost": 1,
         "hideFromCompendiumBrowser": false,
-        "macros": {
-          "TXdeNOrH8C8yuOHh": {
-            "name": "preItemRoll",
-            "trigger": "preItemRoll",
-            "command": "if (actor.hasOtherMoveOptions) {\n    const key = await DC20.dialog.SimplePopup.open(\"input\", {\n    header: game.i18n.localize(\"dc20rpg.dialog.movementType.title\"),\n    inputs: [{\n      type: \"select\",\n      options: CONFIG.DC20RPG.DROPDOWN_DATA.moveTypes,\n      preselected: \"ground\"\n    }]\n  });\n  if (key) game.dc20rpg.tools.makeMoveAction(actor, {moveType: key});\n}\nelse {\n  game.dc20rpg.tools.makeMoveAction(actor);\n}",
-            "disabled": false,
-            "title": ""
-          }
-        },
+        "macros": {},
         "isReaction": false,
         "toggle": {
           "toggleable": false,
@@ -6451,9 +6292,9 @@
           "toggleOnRoll": false,
           "offOnSustainDrop": false
         },
-        "actionType": "",
+        "actionType": "move",
         "attackFormula": {
-          "rangeType": "melee",
+          "rangeType": "",
           "checkType": "attack",
           "targetDefence": "precision",
           "rollBonus": 0,
@@ -6577,8 +6418,6 @@
         },
         "effectsConfig": {
           "linkWithToggle": false,
-          "active": false,
-          "addToChat": false,
           "toggleItem": true,
           "addToTemplates": ""
         },
@@ -6616,7 +6455,8 @@
         "help": {
           "ignoreMHP": false,
           "subtract": false,
-          "duration": "round"
+          "duration": "round",
+          "diceValue": null
         },
         "move": {
           "movePoints": null,
@@ -6630,6 +6470,7 @@
           "closeQuarters": false
         },
         "rollConfig": {
+          "flatModifier": "",
           "rollBonus": 0,
           "canCrit": true,
           "canCritFail": true,
@@ -6673,16 +6514,16 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.N5w8JDg9ddpC8nkm",
-        "coreVersion": "14.364",
+        "coreVersion": "14.367",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
-        "createdTime": 1781983791536,
-        "modifiedTime": 1781983791536,
+        "systemVersion": "0.10.7.0",
+        "createdTime": 1788626492025,
+        "modifiedTime": 1788626492025,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
-      "_id": "vXLRcxxOUCOPtEYz",
-      "_key": "!actors.items!8ssojuWhSnLl6LpU.vXLRcxxOUCOPtEYz"
+      "_id": "a5ZealD0S9JTo8u1",
+      "_key": "!actors.items!8ssojuWhSnLl6LpU.a5ZealD0S9JTo8u1"
     },
     {
       "name": "Help",
@@ -6704,7 +6545,7 @@
         },
         "actionType": "help",
         "attackFormula": {
-          "rangeType": "melee",
+          "rangeType": "",
           "checkType": "attack",
           "targetDefence": "precision",
           "rollBonus": 0,
@@ -6828,8 +6669,6 @@
         },
         "effectsConfig": {
           "linkWithToggle": false,
-          "active": false,
-          "addToChat": false,
           "toggleItem": true,
           "addToTemplates": ""
         },
@@ -6867,7 +6706,8 @@
         "help": {
           "ignoreMHP": false,
           "subtract": false,
-          "duration": "round"
+          "duration": "round",
+          "diceValue": null
         },
         "move": {
           "movePoints": null,
@@ -6881,6 +6721,7 @@
           "closeQuarters": false
         },
         "rollConfig": {
+          "flatModifier": "",
           "rollBonus": 0,
           "canCrit": true,
           "canCritFail": true,
@@ -6924,16 +6765,16 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.GjZ8kGIOKxTzs7ZE",
-        "coreVersion": "14.364",
+        "coreVersion": "14.367",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
-        "createdTime": 1781983791536,
-        "modifiedTime": 1781983791536,
+        "systemVersion": "0.10.7.0",
+        "createdTime": 1788626492025,
+        "modifiedTime": 1788626492025,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
-      "_id": "nfoO0Ox8nuChOodi",
-      "_key": "!actors.items!8ssojuWhSnLl6LpU.nfoO0Ox8nuChOodi"
+      "_id": "3uCPm4v6kW8tyKF5",
+      "_key": "!actors.items!8ssojuWhSnLl6LpU.3uCPm4v6kW8tyKF5"
     },
     {
       "name": "Object",
@@ -6955,7 +6796,7 @@
         },
         "actionType": "",
         "attackFormula": {
-          "rangeType": "melee",
+          "rangeType": "",
           "checkType": "attack",
           "targetDefence": "precision",
           "rollBonus": 0,
@@ -7079,8 +6920,6 @@
         },
         "effectsConfig": {
           "linkWithToggle": false,
-          "active": false,
-          "addToChat": false,
           "toggleItem": true,
           "addToTemplates": ""
         },
@@ -7118,7 +6957,8 @@
         "help": {
           "ignoreMHP": false,
           "subtract": false,
-          "duration": "round"
+          "duration": "round",
+          "diceValue": null
         },
         "move": {
           "movePoints": null,
@@ -7132,6 +6972,7 @@
           "closeQuarters": false
         },
         "rollConfig": {
+          "flatModifier": "",
           "rollBonus": 0,
           "canCrit": true,
           "canCritFail": true,
@@ -7175,16 +7016,16 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.GjZ8kGIOKxTzs7ZE",
-        "coreVersion": "14.364",
+        "coreVersion": "14.367",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
-        "createdTime": 1781983791536,
-        "modifiedTime": 1781983791536,
+        "systemVersion": "0.10.7.0",
+        "createdTime": 1788626492025,
+        "modifiedTime": 1788626492025,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
-      "_id": "hRW7MCSGhC6hUmna",
-      "_key": "!actors.items!8ssojuWhSnLl6LpU.hRW7MCSGhC6hUmna"
+      "_id": "h1VZjVFXHnSlCtMs",
+      "_key": "!actors.items!8ssojuWhSnLl6LpU.h1VZjVFXHnSlCtMs"
     },
     {
       "name": "Spell",
@@ -7206,7 +7047,7 @@
         },
         "actionType": "",
         "attackFormula": {
-          "rangeType": "melee",
+          "rangeType": "",
           "checkType": "attack",
           "targetDefence": "precision",
           "rollBonus": 0,
@@ -7330,8 +7171,6 @@
         },
         "effectsConfig": {
           "linkWithToggle": false,
-          "active": false,
-          "addToChat": false,
           "toggleItem": true,
           "addToTemplates": ""
         },
@@ -7369,7 +7208,8 @@
         "help": {
           "ignoreMHP": false,
           "subtract": false,
-          "duration": "round"
+          "duration": "round",
+          "diceValue": null
         },
         "move": {
           "movePoints": null,
@@ -7383,6 +7223,7 @@
           "closeQuarters": false
         },
         "rollConfig": {
+          "flatModifier": "",
           "rollBonus": 0,
           "canCrit": true,
           "canCritFail": true,
@@ -7426,16 +7267,16 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.aIaSBL0WEAQbINL7",
-        "coreVersion": "14.364",
+        "coreVersion": "14.367",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
-        "createdTime": 1781983791536,
-        "modifiedTime": 1781983791536,
+        "systemVersion": "0.10.7.0",
+        "createdTime": 1788626492025,
+        "modifiedTime": 1788626492025,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
-      "_id": "PNYfaE4W5F8IoS3R",
-      "_key": "!actors.items!8ssojuWhSnLl6LpU.PNYfaE4W5F8IoS3R"
+      "_id": "CYAK6xuIpl5AudOt",
+      "_key": "!actors.items!8ssojuWhSnLl6LpU.CYAK6xuIpl5AudOt"
     },
     {
       "name": "Analyze Creature",
@@ -7457,7 +7298,7 @@
         },
         "actionType": "check",
         "attackFormula": {
-          "rangeType": "melee",
+          "rangeType": "",
           "checkType": "attack",
           "targetDefence": "precision",
           "rollBonus": 0,
@@ -7587,14 +7428,27 @@
         },
         "effectsConfig": {
           "linkWithToggle": false,
-          "active": false,
-          "addToChat": false,
           "toggleItem": true,
           "addToTemplates": ""
         },
         "category": "skillBased",
         "quickRoll": false,
         "itemKey": "analyzeCreature",
+        "rollConfig": {
+          "canCrit": false,
+          "flatModifier": "",
+          "rollBonus": 0,
+          "canCritFail": true,
+          "critThreshold": 20,
+          "critFailThreshold": 1,
+          "skipBonusDamage": {
+            "heavy": false,
+            "brutal": false,
+            "crit": false,
+            "targetModifiers": false
+          },
+          "respectSizeRules": false
+        },
         "shortInfo": "",
         "requirements": {
           "level": 0,
@@ -7626,7 +7480,8 @@
         "help": {
           "ignoreMHP": false,
           "subtract": false,
-          "duration": "round"
+          "duration": "round",
+          "diceValue": null
         },
         "move": {
           "movePoints": null,
@@ -7638,20 +7493,6 @@
           "checkType": "martial",
           "targetDefence": "precision",
           "closeQuarters": false
-        },
-        "rollConfig": {
-          "rollBonus": 0,
-          "canCrit": true,
-          "canCritFail": true,
-          "critThreshold": 20,
-          "critFailThreshold": 1,
-          "skipBonusDamage": {
-            "heavy": false,
-            "brutal": false,
-            "crit": false,
-            "targetModifiers": false
-          },
-          "respectSizeRules": false
         },
         "againstStatuses": {},
         "rollRequests": {},
@@ -7683,16 +7524,16 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.b4GqFH5BSPAssSPq",
-        "coreVersion": "14.364",
+        "coreVersion": "14.367",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
-        "createdTime": 1781983791537,
-        "modifiedTime": 1781983791537,
+        "systemVersion": "0.10.7.0",
+        "createdTime": 1788626492025,
+        "modifiedTime": 1788626492025,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
-      "_id": "itmfkLd4mDG9vzBJ",
-      "_key": "!actors.items!8ssojuWhSnLl6LpU.itmfkLd4mDG9vzBJ"
+      "_id": "GLH33wTj8dAZ1tLC",
+      "_key": "!actors.items!8ssojuWhSnLl6LpU.GLH33wTj8dAZ1tLC"
     },
     {
       "name": "Calm Animal",
@@ -7714,7 +7555,7 @@
         },
         "actionType": "check",
         "attackFormula": {
-          "rangeType": "melee",
+          "rangeType": "",
           "checkType": "attack",
           "targetDefence": "precision",
           "rollBonus": 0,
@@ -7838,8 +7679,6 @@
         },
         "effectsConfig": {
           "linkWithToggle": false,
-          "active": false,
-          "addToChat": true,
           "toggleItem": true,
           "addToTemplates": ""
         },
@@ -7868,6 +7707,21 @@
           }
         },
         "itemKey": "calmAnimal",
+        "rollConfig": {
+          "canCrit": false,
+          "flatModifier": "",
+          "rollBonus": 0,
+          "canCritFail": true,
+          "critThreshold": 20,
+          "critFailThreshold": 1,
+          "skipBonusDamage": {
+            "heavy": false,
+            "brutal": false,
+            "crit": false,
+            "targetModifiers": false
+          },
+          "respectSizeRules": false
+        },
         "shortInfo": "",
         "requirements": {
           "level": 0,
@@ -7899,7 +7753,8 @@
         "help": {
           "ignoreMHP": false,
           "subtract": false,
-          "duration": "round"
+          "duration": "round",
+          "diceValue": null
         },
         "move": {
           "movePoints": null,
@@ -7911,20 +7766,6 @@
           "checkType": "martial",
           "targetDefence": "precision",
           "closeQuarters": false
-        },
-        "rollConfig": {
-          "rollBonus": 0,
-          "canCrit": true,
-          "canCritFail": true,
-          "critThreshold": 20,
-          "critFailThreshold": 1,
-          "skipBonusDamage": {
-            "heavy": false,
-            "brutal": false,
-            "crit": false,
-            "targetModifiers": false
-          },
-          "respectSizeRules": false
         },
         "castTime": {
           "value": null,
@@ -7955,7 +7796,7 @@
           "_id": "pM1B2Fug0n5OTNeg",
           "type": "base",
           "system": {
-            "statusId": "taunted",
+            "statusId": "",
             "disableWhen": {
               "mode": "==",
               "path": "",
@@ -7964,58 +7805,44 @@
             "addToChat": true,
             "changes": [
               {
-                "key": "system.events",
-                "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Calm Animal - Repeated Save\", \"checkKey\": \"cha\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"taunted\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-                "priority": null,
+                "key": "system.dynamicRollModifier.onYou.attack",
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true, \"attackType\": \"martial\", \"rangeType\": \"melee\"",
                 "phase": "initial",
                 "useCustom": false
               },
               {
-                "key": "system.dynamicRollModifier.onYou.martial.melee",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
-                "priority": null,
+                "key": "system.dynamicRollModifier.onYou.attack",
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true, \"attackType\": \"martial\", \"rangeType\": \"ranged\"",
                 "phase": "initial",
                 "useCustom": false
               },
               {
-                "key": "system.dynamicRollModifier.onYou.martial.ranged",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
-                "priority": null,
+                "key": "system.dynamicRollModifier.onYou.attack",
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true, \"attackType\": \"martial\", \"rangeType\": \"area\"",
                 "phase": "initial",
                 "useCustom": false
               },
               {
-                "key": "system.dynamicRollModifier.onYou.martial.area",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
-                "priority": null,
+                "key": "system.dynamicRollModifier.onYou.attack",
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true, \"attackType\": \"spell\", \"rangeType\": \"melee\"",
                 "phase": "initial",
                 "useCustom": false
               },
               {
-                "key": "system.dynamicRollModifier.onYou.spell.melee",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
-                "priority": null,
+                "key": "system.dynamicRollModifier.onYou.attack",
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true, \"attackType\": \"spell\", \"rangeType\": \"ranged\"",
                 "phase": "initial",
                 "useCustom": false
               },
               {
-                "key": "system.dynamicRollModifier.onYou.spell.ranged",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
-                "priority": null,
+                "key": "system.dynamicRollModifier.onYou.attack",
                 "type": "add",
-                "phase": "initial",
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.spell.area",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
-                "priority": null,
-                "type": "add",
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true, \"attackType\": \"spell\", \"rangeType\": \"area\"",
                 "phase": "initial",
                 "useCustom": false
               }
@@ -8034,6 +7861,7 @@
             },
             "effectKey": "",
             "macro": "",
+            "applyToSelf": false,
             "applyToTemplate": true,
             "requireEquip": false,
             "nonessential": false,
@@ -8060,18 +7888,18 @@
           "_stats": {
             "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "14.364",
+            "coreVersion": "14.367",
             "systemId": "dc20rpg",
-            "systemVersion": "0.10.6.0",
-            "createdTime": 1781983791538,
-            "modifiedTime": 1781983791538,
+            "systemVersion": "0.10.7.0",
+            "createdTime": 1788626492026,
+            "modifiedTime": 1788626492026,
             "lastModifiedBy": "dOcXwrUs2VunZl0y",
             "exportSource": null
           },
           "showIcon": 2,
           "start": null,
           "folder": null,
-          "_key": "!actors.items.effects!8ssojuWhSnLl6LpU.Zus4WvfuY9bczqyj.pM1B2Fug0n5OTNeg"
+          "_key": "!actors.items.effects!8ssojuWhSnLl6LpU.mfHkwxxX1UlxQ0vT.pM1B2Fug0n5OTNeg"
         },
         {
           "img": "systems/dc20rpg/images/statuses/taunted.svg",
@@ -8087,7 +7915,7 @@
           "_id": "jKRxZSxqvt4N20ey",
           "type": "base",
           "system": {
-            "statusId": "taunted",
+            "statusId": "",
             "disableWhen": {
               "mode": "==",
               "path": "",
@@ -8096,115 +7924,98 @@
             "addToChat": true,
             "changes": [
               {
-                "key": "system.events",
-                "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Calm Animal - Repeated Save\", \"checkKey\": \"cha\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"taunted\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-                "priority": null,
+                "key": "system.dynamicRollModifier.onYou.attack",
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true, \"attackType\": \"martial\", \"rangeType\": \"melee\"",
                 "phase": "initial",
                 "useCustom": false
               },
               {
-                "key": "system.dynamicRollModifier.onYou.martial.melee",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
-                "priority": null,
+                "key": "system.dynamicRollModifier.onYou.attack",
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true, \"attackType\": \"martial\", \"rangeType\": \"ranged\"",
                 "phase": "initial",
                 "useCustom": false
               },
               {
-                "key": "system.dynamicRollModifier.onYou.martial.ranged",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
-                "priority": null,
+                "key": "system.dynamicRollModifier.onYou.attack",
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true, \"attackType\": \"martial\", \"rangeType\": \"area\"",
                 "phase": "initial",
                 "useCustom": false
               },
               {
-                "key": "system.dynamicRollModifier.onYou.martial.area",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
-                "priority": null,
+                "key": "system.dynamicRollModifier.onYou.attack",
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true, \"attackType\": \"spell\", \"rangeType\": \"melee\"",
                 "phase": "initial",
                 "useCustom": false
               },
               {
-                "key": "system.dynamicRollModifier.onYou.spell.melee",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
-                "priority": null,
+                "key": "system.dynamicRollModifier.onYou.attack",
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true, \"attackType\": \"spell\", \"rangeType\": \"ranged\"",
                 "phase": "initial",
                 "useCustom": false
               },
               {
-                "key": "system.dynamicRollModifier.onYou.spell.ranged",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
-                "priority": null,
+                "key": "system.dynamicRollModifier.onYou.attack",
                 "type": "add",
-                "phase": "initial",
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.spell.area",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
-                "priority": null,
-                "type": "add",
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true, \"attackType\": \"spell\", \"rangeType\": \"area\"",
                 "phase": "initial",
                 "useCustom": false
               },
               {
                 "key": "system.dynamicRollModifier.onYou.checks.mig",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
-                "priority": null,
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
                 "phase": "initial",
+                "priority": 0,
                 "useCustom": false
               },
               {
                 "key": "system.dynamicRollModifier.onYou.checks.agi",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
-                "priority": null,
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
                 "phase": "initial",
+                "priority": 0,
                 "useCustom": false
               },
               {
                 "key": "system.dynamicRollModifier.onYou.checks.att",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
-                "priority": null,
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+                "phase": "initial",
+                "priority": 0,
+                "useCustom": false
+              },
+              {
+                "key": "system.dynamicRollModifier.onYou.attack",
+                "type": "add",
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\", \"attackType\": \"martial\", \"rangeType\": \"melee\"",
                 "phase": "initial",
                 "useCustom": false
               },
               {
-                "key": "system.dynamicRollModifier.onYou.martial.melee",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
-                "priority": null,
+                "key": "system.dynamicRollModifier.onYou.attack",
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\", \"attackType\": \"martial\", \"rangeType\": \"ranged\"",
                 "phase": "initial",
                 "useCustom": false
               },
               {
-                "key": "system.dynamicRollModifier.onYou.martial.ranged",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
-                "priority": null,
+                "key": "system.dynamicRollModifier.onYou.attack",
                 "type": "add",
-                "phase": "initial",
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.martial.area",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
-                "priority": null,
-                "type": "add",
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\", \"attackType\": \"martial\", \"rangeType\": \"area\"",
                 "phase": "initial",
                 "useCustom": false
               },
               {
                 "key": "system.dynamicRollModifier.onYou.checks.mar",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
-                "priority": null,
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
                 "phase": "initial",
+                "priority": 0,
                 "useCustom": false
               }
             ],
@@ -8222,6 +8033,7 @@
             },
             "effectKey": "",
             "macro": "",
+            "applyToSelf": false,
             "applyToTemplate": true,
             "requireEquip": false,
             "nonessential": false,
@@ -8249,18 +8061,18 @@
           "_stats": {
             "compendiumSource": "Compendium.dc20rpg.system-items.Item.d3qUXdLMHegA8yID.ActiveEffect.pM1B2Fug0n5OTNeg",
             "duplicateSource": null,
-            "coreVersion": "14.364",
+            "coreVersion": "14.367",
             "systemId": "dc20rpg",
-            "systemVersion": "0.10.6.0",
-            "createdTime": 1781983791538,
-            "modifiedTime": 1781983791538,
+            "systemVersion": "0.10.7.0",
+            "createdTime": 1788626492026,
+            "modifiedTime": 1788626492026,
             "lastModifiedBy": "dOcXwrUs2VunZl0y",
             "exportSource": null
           },
           "showIcon": 2,
           "start": null,
           "folder": null,
-          "_key": "!actors.items.effects!8ssojuWhSnLl6LpU.Zus4WvfuY9bczqyj.jKRxZSxqvt4N20ey"
+          "_key": "!actors.items.effects!8ssojuWhSnLl6LpU.mfHkwxxX1UlxQ0vT.jKRxZSxqvt4N20ey"
         },
         {
           "img": "systems/dc20rpg/images/statuses/taunted.svg",
@@ -8276,7 +8088,7 @@
           "_id": "jTQvA8gVqZXEBnSx",
           "type": "base",
           "system": {
-            "statusId": "taunted",
+            "statusId": "",
             "disableWhen": {
               "mode": "==",
               "path": "",
@@ -8285,123 +8097,106 @@
             "addToChat": true,
             "changes": [
               {
-                "key": "system.events",
-                "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Calm Animal - Repeated Save\", \"checkKey\": \"cha\", \"against\": \"<#@saveDC.value.spell#>\", \"statuses\": [\"taunted\"], \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-                "priority": null,
+                "key": "system.dynamicRollModifier.onYou.attack",
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true, \"attackType\": \"martial\", \"rangeType\": \"melee\"",
                 "phase": "initial",
                 "useCustom": false
               },
               {
-                "key": "system.dynamicRollModifier.onYou.martial.melee",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
-                "priority": null,
+                "key": "system.dynamicRollModifier.onYou.attack",
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true, \"attackType\": \"martial\", \"rangeType\": \"ranged\"",
                 "phase": "initial",
                 "useCustom": false
               },
               {
-                "key": "system.dynamicRollModifier.onYou.martial.ranged",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
-                "priority": null,
+                "key": "system.dynamicRollModifier.onYou.attack",
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true, \"attackType\": \"martial\", \"rangeType\": \"area\"",
                 "phase": "initial",
                 "useCustom": false
               },
               {
-                "key": "system.dynamicRollModifier.onYou.martial.area",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
-                "priority": null,
+                "key": "system.dynamicRollModifier.onYou.attack",
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true, \"attackType\": \"spell\", \"rangeType\": \"melee\"",
                 "phase": "initial",
                 "useCustom": false
               },
               {
-                "key": "system.dynamicRollModifier.onYou.spell.melee",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
-                "priority": null,
+                "key": "system.dynamicRollModifier.onYou.attack",
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true, \"attackType\": \"spell\", \"rangeType\": \"ranged\"",
                 "phase": "initial",
                 "useCustom": false
               },
               {
-                "key": "system.dynamicRollModifier.onYou.spell.ranged",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
-                "priority": null,
+                "key": "system.dynamicRollModifier.onYou.attack",
                 "type": "add",
-                "phase": "initial",
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.spell.area",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true",
-                "priority": null,
-                "type": "add",
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Your Target is not your Taunt source\", \"confirmation\": true, \"attackType\": \"spell\", \"rangeType\": \"area\"",
                 "phase": "initial",
                 "useCustom": false
               },
               {
                 "key": "system.dynamicRollModifier.onYou.checks.mig",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
-                "priority": null,
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
                 "phase": "initial",
+                "priority": 0,
                 "useCustom": false
               },
               {
                 "key": "system.dynamicRollModifier.onYou.checks.agi",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
-                "priority": null,
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
                 "phase": "initial",
+                "priority": 0,
                 "useCustom": false
               },
               {
                 "key": "system.dynamicRollModifier.onYou.checks.att",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
-                "priority": null,
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
+                "phase": "initial",
+                "priority": 0,
+                "useCustom": false
+              },
+              {
+                "key": "system.dynamicRollModifier.onYou.attack",
+                "type": "add",
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\", \"attackType\": \"martial\", \"rangeType\": \"melee\"",
                 "phase": "initial",
                 "useCustom": false
               },
               {
-                "key": "system.dynamicRollModifier.onYou.martial.melee",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
-                "priority": null,
+                "key": "system.dynamicRollModifier.onYou.attack",
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\", \"attackType\": \"martial\", \"rangeType\": \"ranged\"",
                 "phase": "initial",
                 "useCustom": false
               },
               {
-                "key": "system.dynamicRollModifier.onYou.martial.ranged",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
-                "priority": null,
+                "key": "system.dynamicRollModifier.onYou.attack",
                 "type": "add",
-                "phase": "initial",
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.onYou.martial.area",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
-                "priority": null,
-                "type": "add",
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\", \"attackType\": \"martial\", \"rangeType\": \"area\"",
                 "phase": "initial",
                 "useCustom": false
               },
               {
                 "key": "system.dynamicRollModifier.againstYou.checks.cha",
-                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"You are the Charmer\", \"confirmation\": true",
-                "priority": null,
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"You are the Charmer\", \"confirmation\": true",
                 "phase": "initial",
+                "priority": 0,
                 "useCustom": false
               },
               {
                 "key": "system.dynamicRollModifier.onYou.checks.mar",
-                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
-                "priority": null,
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Impaired\"",
                 "phase": "initial",
+                "priority": 0,
                 "useCustom": false
               }
             ],
@@ -8419,6 +8214,7 @@
             },
             "effectKey": "",
             "macro": "",
+            "applyToSelf": false,
             "applyToTemplate": true,
             "requireEquip": false,
             "nonessential": false,
@@ -8447,18 +8243,18 @@
           "_stats": {
             "compendiumSource": "Compendium.dc20rpg.system-items.Item.d3qUXdLMHegA8yID.ActiveEffect.pM1B2Fug0n5OTNeg",
             "duplicateSource": null,
-            "coreVersion": "14.364",
+            "coreVersion": "14.367",
             "systemId": "dc20rpg",
-            "systemVersion": "0.10.6.0",
-            "createdTime": 1781983791538,
-            "modifiedTime": 1781983791538,
+            "systemVersion": "0.10.7.0",
+            "createdTime": 1788626492026,
+            "modifiedTime": 1788626492026,
             "lastModifiedBy": "dOcXwrUs2VunZl0y",
             "exportSource": null
           },
           "showIcon": 2,
           "start": null,
           "folder": null,
-          "_key": "!actors.items.effects!8ssojuWhSnLl6LpU.Zus4WvfuY9bczqyj.jTQvA8gVqZXEBnSx"
+          "_key": "!actors.items.effects!8ssojuWhSnLl6LpU.mfHkwxxX1UlxQ0vT.jTQvA8gVqZXEBnSx"
         }
       ],
       "folder": "czCH58aedZfapcMH",
@@ -8474,16 +8270,16 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
-        "coreVersion": "14.364",
+        "coreVersion": "14.367",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
-        "createdTime": 1781983791538,
-        "modifiedTime": 1781983791538,
+        "systemVersion": "0.10.7.0",
+        "createdTime": 1788626492026,
+        "modifiedTime": 1788626492026,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
-      "_id": "Zus4WvfuY9bczqyj",
-      "_key": "!actors.items!8ssojuWhSnLl6LpU.Zus4WvfuY9bczqyj"
+      "_id": "mfHkwxxX1UlxQ0vT",
+      "_key": "!actors.items!8ssojuWhSnLl6LpU.mfHkwxxX1UlxQ0vT"
     },
     {
       "name": "Combat Insight",
@@ -8505,7 +8301,7 @@
         },
         "actionType": "check",
         "attackFormula": {
-          "rangeType": "melee",
+          "rangeType": "",
           "checkType": "attack",
           "targetDefence": "precision",
           "rollBonus": 0,
@@ -8628,8 +8424,6 @@
         },
         "effectsConfig": {
           "linkWithToggle": false,
-          "active": false,
-          "addToChat": false,
           "toggleItem": true,
           "addToTemplates": ""
         },
@@ -8656,6 +8450,21 @@
           }
         },
         "itemKey": "combatInsight",
+        "rollConfig": {
+          "canCrit": false,
+          "flatModifier": "",
+          "rollBonus": 0,
+          "canCritFail": true,
+          "critThreshold": 20,
+          "critFailThreshold": 1,
+          "skipBonusDamage": {
+            "heavy": false,
+            "brutal": false,
+            "crit": false,
+            "targetModifiers": false
+          },
+          "respectSizeRules": false
+        },
         "shortInfo": "",
         "requirements": {
           "level": 0,
@@ -8687,7 +8496,8 @@
         "help": {
           "ignoreMHP": false,
           "subtract": false,
-          "duration": "round"
+          "duration": "round",
+          "diceValue": null
         },
         "move": {
           "movePoints": null,
@@ -8699,20 +8509,6 @@
           "checkType": "martial",
           "targetDefence": "precision",
           "closeQuarters": false
-        },
-        "rollConfig": {
-          "rollBonus": 0,
-          "canCrit": true,
-          "canCritFail": true,
-          "critThreshold": 20,
-          "critFailThreshold": 1,
-          "skipBonusDamage": {
-            "heavy": false,
-            "brutal": false,
-            "crit": false,
-            "targetModifiers": false
-          },
-          "respectSizeRules": false
         },
         "againstStatuses": {},
         "castTime": {
@@ -8743,16 +8539,16 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
-        "coreVersion": "14.364",
+        "coreVersion": "14.367",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
-        "createdTime": 1781983791539,
-        "modifiedTime": 1781983791539,
+        "systemVersion": "0.10.7.0",
+        "createdTime": 1788626492026,
+        "modifiedTime": 1788626492026,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
-      "_id": "plF3U1HMByONaKNB",
-      "_key": "!actors.items!8ssojuWhSnLl6LpU.plF3U1HMByONaKNB"
+      "_id": "i2a8I26NpecK8wuc",
+      "_key": "!actors.items!8ssojuWhSnLl6LpU.i2a8I26NpecK8wuc"
     },
     {
       "name": "Conceal",
@@ -8774,7 +8570,7 @@
         },
         "actionType": "check",
         "attackFormula": {
-          "rangeType": "melee",
+          "rangeType": "",
           "checkType": "attack",
           "targetDefence": "precision",
           "rollBonus": 0,
@@ -8897,14 +8693,27 @@
         },
         "effectsConfig": {
           "linkWithToggle": false,
-          "active": false,
-          "addToChat": false,
           "toggleItem": true,
           "addToTemplates": ""
         },
         "category": "skillBased",
         "quickRoll": false,
         "itemKey": "conceal",
+        "rollConfig": {
+          "canCrit": false,
+          "flatModifier": "",
+          "rollBonus": 0,
+          "canCritFail": true,
+          "critThreshold": 20,
+          "critFailThreshold": 1,
+          "skipBonusDamage": {
+            "heavy": false,
+            "brutal": false,
+            "crit": false,
+            "targetModifiers": false
+          },
+          "respectSizeRules": false
+        },
         "shortInfo": "",
         "requirements": {
           "level": 0,
@@ -8936,7 +8745,8 @@
         "help": {
           "ignoreMHP": false,
           "subtract": false,
-          "duration": "round"
+          "duration": "round",
+          "diceValue": null
         },
         "move": {
           "movePoints": null,
@@ -8948,20 +8758,6 @@
           "checkType": "martial",
           "targetDefence": "precision",
           "closeQuarters": false
-        },
-        "rollConfig": {
-          "rollBonus": 0,
-          "canCrit": true,
-          "canCritFail": true,
-          "critThreshold": 20,
-          "critFailThreshold": 1,
-          "skipBonusDamage": {
-            "heavy": false,
-            "brutal": false,
-            "crit": false,
-            "targetModifiers": false
-          },
-          "respectSizeRules": false
         },
         "againstStatuses": {},
         "rollRequests": {},
@@ -8993,23 +8789,23 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
-        "coreVersion": "14.364",
+        "coreVersion": "14.367",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
-        "createdTime": 1781983791539,
-        "modifiedTime": 1781983791539,
+        "systemVersion": "0.10.7.0",
+        "createdTime": 1788626492026,
+        "modifiedTime": 1788626492026,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
-      "_id": "mkFM5Q9BVoulsb5X",
-      "_key": "!actors.items!8ssojuWhSnLl6LpU.mkFM5Q9BVoulsb5X"
+      "_id": "OzFqtrZ9NxCDzTFJ",
+      "_key": "!actors.items!8ssojuWhSnLl6LpU.OzFqtrZ9NxCDzTFJ"
     },
     {
       "name": "Feint",
       "type": "basicAction",
       "img": "icons/svg/ice-aura.svg",
       "system": {
-        "description": "<p ><span >You can spend <strong >1 AP</strong> to make a <strong >Trickery </strong><strong>Check</strong> Contested by the target’s <strong >Insight </strong><strong>Check</strong>.</span></p><p ><span ><strong >Success:</strong> The next Attack against the target before the start of your next turn has ADV and deals <strong >+1</strong> damage.</span></p>",
+        "description": "<p><span>You can spend <strong>1 AP</strong> to make a <strong>Trickery Check</strong> Contested by the target’s <strong>Insight Check</strong>.</span></p><p><span><strong>Success:</strong> The next Attack against the target before the start of your next turn has ADV and deals <strong>+1</strong> damage.</span></p>",
         "tableName": "",
         "source": "",
         "choicePointCost": 1,
@@ -9024,7 +8820,7 @@
         },
         "actionType": "check",
         "attackFormula": {
-          "rangeType": "melee",
+          "rangeType": "",
           "checkType": "attack",
           "targetDefence": "precision",
           "rollBonus": 0,
@@ -9148,8 +8944,6 @@
         },
         "effectsConfig": {
           "linkWithToggle": false,
-          "active": false,
-          "addToChat": true,
           "toggleItem": true,
           "addToTemplates": ""
         },
@@ -9167,11 +8961,12 @@
           }
         },
         "itemKey": "feint",
-        "conditionals": {
+        "conditionals": {},
+        "targetModifiers": {
           "2Hq94DL4VDnt2UpM": {
             "name": "Feint",
-            "condition": "target.hasEffectWithKey(\"feint\")",
-            "useFor": "system.actionType=[\"dynamic\", \"attack\"]",
+            "condition": "if (!target.actor) return;\nreturn !!target.actor.getEffectByKey(\"feint\");",
+            "useFor": "isAttack=[true]",
             "linkWithToggle": false,
             "bonus": "1",
             "flags": {
@@ -9201,6 +8996,21 @@
               "dontMerge": false
             }
           }
+        },
+        "rollConfig": {
+          "canCrit": false,
+          "flatModifier": "",
+          "rollBonus": 0,
+          "canCritFail": true,
+          "critThreshold": 20,
+          "critFailThreshold": 1,
+          "skipBonusDamage": {
+            "heavy": false,
+            "brutal": false,
+            "crit": false,
+            "targetModifiers": false
+          },
+          "respectSizeRules": false
         },
         "shortInfo": "",
         "requirements": {
@@ -9233,7 +9043,8 @@
         "help": {
           "ignoreMHP": false,
           "subtract": false,
-          "duration": "round"
+          "duration": "round",
+          "diceValue": null
         },
         "move": {
           "movePoints": null,
@@ -9246,27 +9057,12 @@
           "targetDefence": "precision",
           "closeQuarters": false
         },
-        "rollConfig": {
-          "rollBonus": 0,
-          "canCrit": true,
-          "canCritFail": true,
-          "critThreshold": 20,
-          "critFailThreshold": 1,
-          "skipBonusDamage": {
-            "heavy": false,
-            "brutal": false,
-            "crit": false,
-            "targetModifiers": false
-          },
-          "respectSizeRules": false
-        },
         "againstStatuses": {},
         "castTime": {
           "value": null,
           "timeUnit": ""
         },
         "areas": {},
-        "targetModifiers": {},
         "tip": "",
         "keyword": {
           "key": "",
@@ -9299,62 +9095,31 @@
             "addToChat": true,
             "changes": [
               {
-                "key": "system.dynamicRollModifier.againstYou.martial.melee",
-                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Feint\", \"afterRoll\": \"delete\"",
-                "priority": null,
+                "key": "system.events",
                 "type": "add",
+                "value": "\"eventType\": \"basic\", \"trigger\": \"actorWithIdStartsTurn\", \"label\": \"Feint\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
                 "phase": "initial",
+                "priority": 0,
                 "useCustom": false
               },
               {
-                "key": "system.dynamicRollModifier.againstYou.martial.ranged",
-                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Feint\", \"afterRoll\": \"delete\"",
-                "priority": null,
+                "key": "system.dynamicRollModifier.againstYou.attack",
                 "type": "add",
+                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Feint\"",
                 "phase": "initial",
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.spell.melee",
-                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Feint\", \"afterRoll\": \"delete\"",
-                "priority": null,
-                "type": "add",
-                "phase": "initial",
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.spell.ranged",
-                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Feint\", \"afterRoll\": \"delete\"",
-                "priority": null,
-                "type": "add",
-                "phase": "initial",
+                "priority": 0,
                 "useCustom": false
               },
               {
                 "key": "system.events",
-                "value": "\"eventType\": \"basic\", \"trigger\": \"actorWithIdStartsTurn\", \"label\": \"Feint\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
-                "priority": null,
                 "type": "add",
+                "value": "\"eventType\": \"basic\", \"trigger\": \"targetConfirm\", \"label\": \"Feint\", \"postTrigger\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
                 "phase": "initial",
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.martial.area",
-                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Feint\", \"afterRoll\": \"delete\"",
-                "priority": null,
-                "type": "add",
-                "phase": "initial",
-                "useCustom": false
-              },
-              {
-                "key": "system.dynamicRollModifier.againstYou.spell.area",
-                "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Feint\", \"afterRoll\": \"delete\"",
-                "priority": null,
-                "type": "add",
-                "phase": "initial",
+                "priority": 0,
                 "useCustom": false
               }
             ],
+            "applyToTemplate": false,
             "sustained": {
               "isSustained": false,
               "actorUuid": "",
@@ -9368,7 +9133,7 @@
               "expiryAction": ""
             },
             "macro": "",
-            "applyToTemplate": true,
+            "applyToSelf": false,
             "requireEquip": false,
             "nonessential": false,
             "refreshTarget": false,
@@ -9399,18 +9164,18 @@
           "_stats": {
             "compendiumSource": null,
             "duplicateSource": null,
-            "coreVersion": "14.364",
+            "coreVersion": "14.367",
             "systemId": "dc20rpg",
-            "systemVersion": "0.10.6.0",
-            "createdTime": 1781983791539,
-            "modifiedTime": 1781983791539,
+            "systemVersion": "0.10.7.0",
+            "createdTime": 1788626492027,
+            "modifiedTime": 1788626492027,
             "lastModifiedBy": "dOcXwrUs2VunZl0y",
             "exportSource": null
           },
           "start": null,
           "showIcon": 1,
           "folder": null,
-          "_key": "!actors.items.effects!8ssojuWhSnLl6LpU.6GvliyXONbK654Or.i6sBwjgFhuSEimtp"
+          "_key": "!actors.items.effects!8ssojuWhSnLl6LpU.gHQLFBZt0reAahlK.i6sBwjgFhuSEimtp"
         }
       ],
       "folder": "czCH58aedZfapcMH",
@@ -9426,16 +9191,16 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
-        "coreVersion": "14.364",
+        "coreVersion": "14.367",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
-        "createdTime": 1781983791539,
-        "modifiedTime": 1781983791539,
+        "systemVersion": "0.10.7.0",
+        "createdTime": 1788626492027,
+        "modifiedTime": 1788626492027,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
-      "_id": "6GvliyXONbK654Or",
-      "_key": "!actors.items!8ssojuWhSnLl6LpU.6GvliyXONbK654Or"
+      "_id": "gHQLFBZt0reAahlK",
+      "_key": "!actors.items!8ssojuWhSnLl6LpU.gHQLFBZt0reAahlK"
     },
     {
       "name": "Intimidate",
@@ -9457,7 +9222,7 @@
         },
         "actionType": "check",
         "attackFormula": {
-          "rangeType": "melee",
+          "rangeType": "",
           "checkType": "attack",
           "targetDefence": "precision",
           "rollBonus": 0,
@@ -9581,8 +9346,6 @@
         },
         "effectsConfig": {
           "linkWithToggle": false,
-          "active": false,
-          "addToChat": false,
           "toggleItem": true,
           "addToTemplates": ""
         },
@@ -9611,6 +9374,21 @@
           }
         },
         "itemKey": "intimidate",
+        "rollConfig": {
+          "canCrit": false,
+          "flatModifier": "",
+          "rollBonus": 0,
+          "canCritFail": true,
+          "critThreshold": 20,
+          "critFailThreshold": 1,
+          "skipBonusDamage": {
+            "heavy": false,
+            "brutal": false,
+            "crit": false,
+            "targetModifiers": false
+          },
+          "respectSizeRules": false
+        },
         "shortInfo": "",
         "requirements": {
           "level": 0,
@@ -9642,7 +9420,8 @@
         "help": {
           "ignoreMHP": false,
           "subtract": false,
-          "duration": "round"
+          "duration": "round",
+          "diceValue": null
         },
         "move": {
           "movePoints": null,
@@ -9654,20 +9433,6 @@
           "checkType": "martial",
           "targetDefence": "precision",
           "closeQuarters": false
-        },
-        "rollConfig": {
-          "rollBonus": 0,
-          "canCrit": true,
-          "canCritFail": true,
-          "critThreshold": 20,
-          "critFailThreshold": 1,
-          "skipBonusDamage": {
-            "heavy": false,
-            "brutal": false,
-            "crit": false,
-            "targetModifiers": false
-          },
-          "respectSizeRules": false
         },
         "castTime": {
           "value": null,
@@ -9697,16 +9462,16 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.g41WHLdM8uNaSCWG",
-        "coreVersion": "14.364",
+        "coreVersion": "14.367",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
-        "createdTime": 1781983791540,
-        "modifiedTime": 1781983791540,
+        "systemVersion": "0.10.7.0",
+        "createdTime": 1788626492027,
+        "modifiedTime": 1788626492027,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
-      "_id": "iMQL0CYNHpC6CL8H",
-      "_key": "!actors.items!8ssojuWhSnLl6LpU.iMQL0CYNHpC6CL8H"
+      "_id": "FrTMu4dCMlMtlYV4",
+      "_key": "!actors.items!8ssojuWhSnLl6LpU.FrTMu4dCMlMtlYV4"
     },
     {
       "name": "Investigate",
@@ -9728,7 +9493,7 @@
         },
         "actionType": "check",
         "attackFormula": {
-          "rangeType": "melee",
+          "rangeType": "",
           "checkType": "attack",
           "targetDefence": "precision",
           "rollBonus": 0,
@@ -9852,8 +9617,6 @@
         },
         "effectsConfig": {
           "linkWithToggle": false,
-          "active": false,
-          "addToChat": false,
           "toggleItem": true,
           "addToTemplates": ""
         },
@@ -9871,6 +9634,21 @@
           }
         },
         "itemKey": "investigate",
+        "rollConfig": {
+          "canCrit": false,
+          "flatModifier": "",
+          "rollBonus": 0,
+          "canCritFail": true,
+          "critThreshold": 20,
+          "critFailThreshold": 1,
+          "skipBonusDamage": {
+            "heavy": false,
+            "brutal": false,
+            "crit": false,
+            "targetModifiers": false
+          },
+          "respectSizeRules": false
+        },
         "shortInfo": "",
         "requirements": {
           "level": 0,
@@ -9902,7 +9680,8 @@
         "help": {
           "ignoreMHP": false,
           "subtract": false,
-          "duration": "round"
+          "duration": "round",
+          "diceValue": null
         },
         "move": {
           "movePoints": null,
@@ -9914,20 +9693,6 @@
           "checkType": "martial",
           "targetDefence": "precision",
           "closeQuarters": false
-        },
-        "rollConfig": {
-          "rollBonus": 0,
-          "canCrit": true,
-          "canCritFail": true,
-          "critThreshold": 20,
-          "critFailThreshold": 1,
-          "skipBonusDamage": {
-            "heavy": false,
-            "brutal": false,
-            "crit": false,
-            "targetModifiers": false
-          },
-          "respectSizeRules": false
         },
         "againstStatuses": {},
         "castTime": {
@@ -9958,16 +9723,16 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
-        "coreVersion": "14.364",
+        "coreVersion": "14.367",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
-        "createdTime": 1781983791540,
-        "modifiedTime": 1781983791540,
+        "systemVersion": "0.10.7.0",
+        "createdTime": 1788626492027,
+        "modifiedTime": 1788626492027,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
-      "_id": "ipsqYsOIyxpOIKN4",
-      "_key": "!actors.items!8ssojuWhSnLl6LpU.ipsqYsOIyxpOIKN4"
+      "_id": "J5QhqzsKOFWBkScE",
+      "_key": "!actors.items!8ssojuWhSnLl6LpU.J5QhqzsKOFWBkScE"
     },
     {
       "name": "Extend Jump",
@@ -9989,7 +9754,7 @@
         },
         "actionType": "check",
         "attackFormula": {
-          "rangeType": "melee",
+          "rangeType": "",
           "checkType": "attack",
           "targetDefence": "precision",
           "rollBonus": 0,
@@ -10127,14 +9892,27 @@
         },
         "effectsConfig": {
           "linkWithToggle": false,
-          "active": false,
-          "addToChat": false,
           "toggleItem": true,
           "addToTemplates": ""
         },
         "category": "skillBased",
         "quickRoll": false,
         "itemKey": "extendJump",
+        "rollConfig": {
+          "canCrit": false,
+          "flatModifier": "",
+          "rollBonus": 0,
+          "canCritFail": true,
+          "critThreshold": 20,
+          "critFailThreshold": 1,
+          "skipBonusDamage": {
+            "heavy": false,
+            "brutal": false,
+            "crit": false,
+            "targetModifiers": false
+          },
+          "respectSizeRules": false
+        },
         "shortInfo": "",
         "requirements": {
           "level": 0,
@@ -10166,7 +9944,8 @@
         "help": {
           "ignoreMHP": false,
           "subtract": false,
-          "duration": "round"
+          "duration": "round",
+          "diceValue": null
         },
         "move": {
           "movePoints": null,
@@ -10178,20 +9957,6 @@
           "checkType": "martial",
           "targetDefence": "precision",
           "closeQuarters": false
-        },
-        "rollConfig": {
-          "rollBonus": 0,
-          "canCrit": true,
-          "canCritFail": true,
-          "critThreshold": 20,
-          "critFailThreshold": 1,
-          "skipBonusDamage": {
-            "heavy": false,
-            "brutal": false,
-            "crit": false,
-            "targetModifiers": false
-          },
-          "respectSizeRules": false
         },
         "againstStatuses": {},
         "rollRequests": {},
@@ -10223,16 +9988,16 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
-        "coreVersion": "14.364",
+        "coreVersion": "14.367",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
-        "createdTime": 1781983791540,
-        "modifiedTime": 1781983791540,
+        "systemVersion": "0.10.7.0",
+        "createdTime": 1788626492027,
+        "modifiedTime": 1788626492027,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
-      "_id": "b0TEIfPxO4l9iqqt",
-      "_key": "!actors.items!8ssojuWhSnLl6LpU.b0TEIfPxO4l9iqqt"
+      "_id": "FIzn10l2ki9IAnnN",
+      "_key": "!actors.items!8ssojuWhSnLl6LpU.FIzn10l2ki9IAnnN"
     },
     {
       "name": "Medicine",
@@ -10254,7 +10019,7 @@
         },
         "actionType": "check",
         "attackFormula": {
-          "rangeType": "melee",
+          "rangeType": "",
           "checkType": "attack",
           "targetDefence": "precision",
           "rollBonus": 0,
@@ -10387,14 +10152,27 @@
         },
         "effectsConfig": {
           "linkWithToggle": false,
-          "active": false,
-          "addToChat": false,
           "toggleItem": true,
           "addToTemplates": ""
         },
         "category": "skillBased",
         "quickRoll": false,
         "itemKey": "medicine",
+        "rollConfig": {
+          "canCrit": false,
+          "flatModifier": "",
+          "rollBonus": 0,
+          "canCritFail": true,
+          "critThreshold": 20,
+          "critFailThreshold": 1,
+          "skipBonusDamage": {
+            "heavy": false,
+            "brutal": false,
+            "crit": false,
+            "targetModifiers": false
+          },
+          "respectSizeRules": false
+        },
         "shortInfo": "",
         "requirements": {
           "level": 0,
@@ -10426,7 +10204,8 @@
         "help": {
           "ignoreMHP": false,
           "subtract": false,
-          "duration": "round"
+          "duration": "round",
+          "diceValue": null
         },
         "move": {
           "movePoints": null,
@@ -10438,20 +10217,6 @@
           "checkType": "martial",
           "targetDefence": "precision",
           "closeQuarters": false
-        },
-        "rollConfig": {
-          "rollBonus": 0,
-          "canCrit": true,
-          "canCritFail": true,
-          "critThreshold": 20,
-          "critFailThreshold": 1,
-          "skipBonusDamage": {
-            "heavy": false,
-            "brutal": false,
-            "crit": false,
-            "targetModifiers": false
-          },
-          "respectSizeRules": false
         },
         "againstStatuses": {},
         "rollRequests": {},
@@ -10483,16 +10248,16 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
-        "coreVersion": "14.364",
+        "coreVersion": "14.367",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
-        "createdTime": 1781983791540,
-        "modifiedTime": 1781983791540,
+        "systemVersion": "0.10.7.0",
+        "createdTime": 1788626492027,
+        "modifiedTime": 1788626492027,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
-      "_id": "89Y1VeYka50NDmEZ",
-      "_key": "!actors.items!8ssojuWhSnLl6LpU.89Y1VeYka50NDmEZ"
+      "_id": "PArbIF0W6JaK794S",
+      "_key": "!actors.items!8ssojuWhSnLl6LpU.PArbIF0W6JaK794S"
     },
     {
       "name": "Mounted Defense",
@@ -10514,7 +10279,7 @@
         },
         "actionType": "check",
         "attackFormula": {
-          "rangeType": "melee",
+          "rangeType": "",
           "checkType": "attack",
           "targetDefence": "precision",
           "rollBonus": 0,
@@ -10637,14 +10402,27 @@
         },
         "effectsConfig": {
           "linkWithToggle": false,
-          "active": false,
-          "addToChat": true,
           "toggleItem": true,
           "addToTemplates": ""
         },
         "category": "skillBased",
         "quickRoll": false,
         "itemKey": "mountedDefense",
+        "rollConfig": {
+          "canCrit": false,
+          "flatModifier": "",
+          "rollBonus": 0,
+          "canCritFail": true,
+          "critThreshold": 20,
+          "critFailThreshold": 1,
+          "skipBonusDamage": {
+            "heavy": false,
+            "brutal": false,
+            "crit": false,
+            "targetModifiers": false
+          },
+          "respectSizeRules": false
+        },
         "shortInfo": "",
         "requirements": {
           "level": 0,
@@ -10676,7 +10454,8 @@
         "help": {
           "ignoreMHP": false,
           "subtract": false,
-          "duration": "round"
+          "duration": "round",
+          "diceValue": null
         },
         "move": {
           "movePoints": null,
@@ -10688,20 +10467,6 @@
           "checkType": "martial",
           "targetDefence": "precision",
           "closeQuarters": false
-        },
-        "rollConfig": {
-          "rollBonus": 0,
-          "canCrit": true,
-          "canCritFail": true,
-          "critThreshold": 20,
-          "critFailThreshold": 1,
-          "skipBonusDamage": {
-            "heavy": false,
-            "brutal": false,
-            "crit": false,
-            "targetModifiers": false
-          },
-          "respectSizeRules": false
         },
         "againstStatuses": {},
         "rollRequests": {},
@@ -10773,6 +10538,7 @@
             },
             "effectKey": "",
             "macro": "",
+            "applyToSelf": false,
             "applyToTemplate": true,
             "requireEquip": false,
             "nonessential": false,
@@ -10805,18 +10571,18 @@
           "_stats": {
             "compendiumSource": "Item.1KXLpI788cdgbe4O.ActiveEffect.KR70WPqkYDtPZ1eD",
             "duplicateSource": null,
-            "coreVersion": "14.364",
+            "coreVersion": "14.367",
             "systemId": "dc20rpg",
-            "systemVersion": "0.10.6.0",
-            "createdTime": 1781983791541,
-            "modifiedTime": 1781983791541,
+            "systemVersion": "0.10.7.0",
+            "createdTime": 1788626492028,
+            "modifiedTime": 1788626492028,
             "lastModifiedBy": "dOcXwrUs2VunZl0y",
             "exportSource": null
           },
           "start": null,
           "showIcon": 1,
           "folder": null,
-          "_key": "!actors.items.effects!8ssojuWhSnLl6LpU.4JN8RkWNMv09gyF0.KR70WPqkYDtPZ1eD"
+          "_key": "!actors.items.effects!8ssojuWhSnLl6LpU.vYNeHyJjbQIwZ0Sy.KR70WPqkYDtPZ1eD"
         },
         {
           "img": "icons/svg/shield.svg",
@@ -10871,6 +10637,7 @@
             },
             "effectKey": "",
             "macro": "",
+            "applyToSelf": false,
             "applyToTemplate": true,
             "requireEquip": false,
             "nonessential": false,
@@ -10903,18 +10670,18 @@
           "_stats": {
             "compendiumSource": "Item.1KXLpI788cdgbe4O.ActiveEffect.KR70WPqkYDtPZ1eD",
             "duplicateSource": null,
-            "coreVersion": "14.364",
+            "coreVersion": "14.367",
             "systemId": "dc20rpg",
-            "systemVersion": "0.10.6.0",
-            "createdTime": 1781983791541,
-            "modifiedTime": 1781983791541,
+            "systemVersion": "0.10.7.0",
+            "createdTime": 1788626492028,
+            "modifiedTime": 1788626492028,
             "lastModifiedBy": "dOcXwrUs2VunZl0y",
             "exportSource": null
           },
           "start": null,
           "showIcon": 1,
           "folder": null,
-          "_key": "!actors.items.effects!8ssojuWhSnLl6LpU.4JN8RkWNMv09gyF0.ikVeaebEUee9EZmU"
+          "_key": "!actors.items.effects!8ssojuWhSnLl6LpU.vYNeHyJjbQIwZ0Sy.ikVeaebEUee9EZmU"
         },
         {
           "img": "icons/svg/shield.svg",
@@ -10969,6 +10736,7 @@
             },
             "effectKey": "",
             "macro": "",
+            "applyToSelf": false,
             "applyToTemplate": true,
             "requireEquip": false,
             "nonessential": false,
@@ -11001,18 +10769,18 @@
           "_stats": {
             "compendiumSource": "Item.1KXLpI788cdgbe4O.ActiveEffect.KR70WPqkYDtPZ1eD",
             "duplicateSource": null,
-            "coreVersion": "14.364",
+            "coreVersion": "14.367",
             "systemId": "dc20rpg",
-            "systemVersion": "0.10.6.0",
-            "createdTime": 1781983791541,
-            "modifiedTime": 1781983791541,
+            "systemVersion": "0.10.7.0",
+            "createdTime": 1788626492028,
+            "modifiedTime": 1788626492028,
             "lastModifiedBy": "dOcXwrUs2VunZl0y",
             "exportSource": null
           },
           "start": null,
           "showIcon": 1,
           "folder": null,
-          "_key": "!actors.items.effects!8ssojuWhSnLl6LpU.4JN8RkWNMv09gyF0.ZM9cZtUFd9MyzZ0X"
+          "_key": "!actors.items.effects!8ssojuWhSnLl6LpU.vYNeHyJjbQIwZ0Sy.ZM9cZtUFd9MyzZ0X"
         }
       ],
       "folder": "czCH58aedZfapcMH",
@@ -11028,16 +10796,16 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.Z9UxQK1yb6Ht05Xr",
-        "coreVersion": "14.364",
+        "coreVersion": "14.367",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
-        "createdTime": 1781983791541,
-        "modifiedTime": 1781983791541,
+        "systemVersion": "0.10.7.0",
+        "createdTime": 1788626492028,
+        "modifiedTime": 1788626492028,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
-      "_id": "4JN8RkWNMv09gyF0",
-      "_key": "!actors.items!8ssojuWhSnLl6LpU.4JN8RkWNMv09gyF0"
+      "_id": "vYNeHyJjbQIwZ0Sy",
+      "_key": "!actors.items!8ssojuWhSnLl6LpU.vYNeHyJjbQIwZ0Sy"
     },
     {
       "name": "Pass Through",
@@ -11059,7 +10827,7 @@
         },
         "actionType": "check",
         "attackFormula": {
-          "rangeType": "melee",
+          "rangeType": "",
           "checkType": "attack",
           "targetDefence": "precision",
           "rollBonus": 0,
@@ -11183,8 +10951,6 @@
         },
         "effectsConfig": {
           "linkWithToggle": false,
-          "active": false,
-          "addToChat": false,
           "toggleItem": true,
           "addToTemplates": ""
         },
@@ -11202,6 +10968,21 @@
           }
         },
         "itemKey": "passThrough",
+        "rollConfig": {
+          "canCrit": false,
+          "flatModifier": "",
+          "rollBonus": 0,
+          "canCritFail": true,
+          "critThreshold": 20,
+          "critFailThreshold": 1,
+          "skipBonusDamage": {
+            "heavy": false,
+            "brutal": false,
+            "crit": false,
+            "targetModifiers": false
+          },
+          "respectSizeRules": false
+        },
         "shortInfo": "",
         "requirements": {
           "level": 0,
@@ -11233,7 +11014,8 @@
         "help": {
           "ignoreMHP": false,
           "subtract": false,
-          "duration": "round"
+          "duration": "round",
+          "diceValue": null
         },
         "move": {
           "movePoints": null,
@@ -11245,20 +11027,6 @@
           "checkType": "martial",
           "targetDefence": "precision",
           "closeQuarters": false
-        },
-        "rollConfig": {
-          "rollBonus": 0,
-          "canCrit": true,
-          "canCritFail": true,
-          "critThreshold": 20,
-          "critFailThreshold": 1,
-          "skipBonusDamage": {
-            "heavy": false,
-            "brutal": false,
-            "crit": false,
-            "targetModifiers": false
-          },
-          "respectSizeRules": false
         },
         "againstStatuses": {},
         "castTime": {
@@ -11289,16 +11057,16 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
-        "coreVersion": "14.364",
+        "coreVersion": "14.367",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
-        "createdTime": 1781983791542,
-        "modifiedTime": 1781983791542,
+        "systemVersion": "0.10.7.0",
+        "createdTime": 1788626492028,
+        "modifiedTime": 1788626492028,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
-      "_id": "Nn070idFyuQEqc1J",
-      "_key": "!actors.items!8ssojuWhSnLl6LpU.Nn070idFyuQEqc1J"
+      "_id": "VbDqfCpnfAJOP67R",
+      "_key": "!actors.items!8ssojuWhSnLl6LpU.VbDqfCpnfAJOP67R"
     },
     {
       "name": "Search",
@@ -11320,7 +11088,7 @@
         },
         "actionType": "check",
         "attackFormula": {
-          "rangeType": "melee",
+          "rangeType": "",
           "checkType": "attack",
           "targetDefence": "precision",
           "rollBonus": 0,
@@ -11444,8 +11212,6 @@
         },
         "effectsConfig": {
           "linkWithToggle": false,
-          "active": false,
-          "addToChat": false,
           "toggleItem": true,
           "addToTemplates": ""
         },
@@ -11463,6 +11229,21 @@
           }
         },
         "itemKey": "search",
+        "rollConfig": {
+          "canCrit": false,
+          "flatModifier": "",
+          "rollBonus": 0,
+          "canCritFail": true,
+          "critThreshold": 20,
+          "critFailThreshold": 1,
+          "skipBonusDamage": {
+            "heavy": false,
+            "brutal": false,
+            "crit": false,
+            "targetModifiers": false
+          },
+          "respectSizeRules": false
+        },
         "shortInfo": "",
         "requirements": {
           "level": 0,
@@ -11494,7 +11275,8 @@
         "help": {
           "ignoreMHP": false,
           "subtract": false,
-          "duration": "round"
+          "duration": "round",
+          "diceValue": null
         },
         "move": {
           "movePoints": null,
@@ -11506,20 +11288,6 @@
           "checkType": "martial",
           "targetDefence": "precision",
           "closeQuarters": false
-        },
-        "rollConfig": {
-          "rollBonus": 0,
-          "canCrit": true,
-          "canCritFail": true,
-          "critThreshold": 20,
-          "critFailThreshold": 1,
-          "skipBonusDamage": {
-            "heavy": false,
-            "brutal": false,
-            "crit": false,
-            "targetModifiers": false
-          },
-          "respectSizeRules": false
         },
         "againstStatuses": {},
         "castTime": {
@@ -11550,16 +11318,16 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.5aV1c024MqxOEJFp",
-        "coreVersion": "14.364",
+        "coreVersion": "14.367",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
-        "createdTime": 1781983791542,
-        "modifiedTime": 1781983791542,
+        "systemVersion": "0.10.7.0",
+        "createdTime": 1788626492028,
+        "modifiedTime": 1788626492028,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
-      "_id": "hkW9gysNX823ig45",
-      "_key": "!actors.items!8ssojuWhSnLl6LpU.hkW9gysNX823ig45"
+      "_id": "tO9oGX4NejO4xRDX",
+      "_key": "!actors.items!8ssojuWhSnLl6LpU.tO9oGX4NejO4xRDX"
     },
     {
       "name": "Taunt",
@@ -11581,7 +11349,7 @@
         },
         "actionType": "check",
         "attackFormula": {
-          "rangeType": "melee",
+          "rangeType": "",
           "checkType": "attack",
           "targetDefence": "precision",
           "rollBonus": 0,
@@ -11705,8 +11473,6 @@
         },
         "effectsConfig": {
           "linkWithToggle": false,
-          "active": false,
-          "addToChat": false,
           "toggleItem": true,
           "addToTemplates": ""
         },
@@ -11765,10 +11531,26 @@
         "help": {
           "ignoreMHP": false,
           "subtract": false,
-          "duration": "round"
+          "duration": "round",
+          "diceValue": null
         },
         "conditionals": {},
         "tip": "",
+        "rollConfig": {
+          "canCrit": false,
+          "flatModifier": "",
+          "rollBonus": 0,
+          "canCritFail": true,
+          "critThreshold": 20,
+          "critFailThreshold": 1,
+          "skipBonusDamage": {
+            "heavy": false,
+            "brutal": false,
+            "crit": false,
+            "targetModifiers": false
+          },
+          "respectSizeRules": false
+        },
         "skipChatMessage": false,
         "move": {
           "movePoints": null,
@@ -11780,20 +11562,6 @@
           "checkType": "martial",
           "targetDefence": "precision",
           "closeQuarters": false
-        },
-        "rollConfig": {
-          "rollBonus": 0,
-          "canCrit": true,
-          "canCritFail": true,
-          "critThreshold": 20,
-          "critFailThreshold": 1,
-          "skipBonusDamage": {
-            "heavy": false,
-            "brutal": false,
-            "crit": false,
-            "targetModifiers": false
-          },
-          "respectSizeRules": false
         },
         "castTime": {
           "value": null,
@@ -11817,20 +11585,20 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "14.364",
+        "coreVersion": "14.367",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
-        "createdTime": 1781983791542,
-        "modifiedTime": 1781983791542,
+        "systemVersion": "0.10.7.0",
+        "createdTime": 1788626492028,
+        "modifiedTime": 1788626492028,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "ownership": {
         "default": 0,
         "dOcXwrUs2VunZl0y": 3
       },
-      "_id": "intifxDeczURJhpq",
+      "_id": "gcYe7fTyNasWJjmK",
       "sort": 600000,
-      "_key": "!actors.items!8ssojuWhSnLl6LpU.intifxDeczURJhpq"
+      "_key": "!actors.items!8ssojuWhSnLl6LpU.gcYe7fTyNasWJjmK"
     },
     {
       "name": "Opportunity Attack",
@@ -11852,7 +11620,7 @@
         },
         "actionType": "",
         "attackFormula": {
-          "rangeType": "melee",
+          "rangeType": "",
           "checkType": "attack",
           "targetDefence": "precision",
           "rollBonus": 0,
@@ -11976,8 +11744,6 @@
         },
         "effectsConfig": {
           "linkWithToggle": false,
-          "active": false,
-          "addToChat": false,
           "toggleItem": true,
           "addToTemplates": ""
         },
@@ -12015,7 +11781,8 @@
         "help": {
           "ignoreMHP": false,
           "subtract": false,
-          "duration": "round"
+          "duration": "round",
+          "diceValue": null
         },
         "move": {
           "movePoints": null,
@@ -12029,6 +11796,7 @@
           "closeQuarters": false
         },
         "rollConfig": {
+          "flatModifier": "",
           "rollBonus": 0,
           "canCrit": true,
           "canCritFail": true,
@@ -12072,16 +11840,16 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.aIaSBL0WEAQbINL7",
-        "coreVersion": "14.364",
+        "coreVersion": "14.367",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
-        "createdTime": 1781983791542,
-        "modifiedTime": 1781983791542,
+        "systemVersion": "0.10.7.0",
+        "createdTime": 1788626492028,
+        "modifiedTime": 1788626492028,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
-      "_id": "C80UiiPCrLgNil3o",
-      "_key": "!actors.items!8ssojuWhSnLl6LpU.C80UiiPCrLgNil3o"
+      "_id": "v7KvwDMyL0sklA6l",
+      "_key": "!actors.items!8ssojuWhSnLl6LpU.v7KvwDMyL0sklA6l"
     },
     {
       "name": "Spell Duel",
@@ -12097,7 +11865,7 @@
           "Yalv653kxQPs5FZf": {
             "name": "Trigger Spell Duel",
             "trigger": "preItemRoll",
-            "command": "item.doNotSendToChat = true;\nconst contestantSpellCheck = game.i18n.localize(\"dc20rpg.dialog.spellDuel.contCheck\");\nconst contestantManaSpent = game.i18n.localize(\"dc20rpg.dialog.spellDuel.contMana\");\nconst yourManaSpent = game.i18n.localize(\"dc20rpg.dialog.spellDuel.yourMana\");\nconst yourAPSpent = game.i18n.localize(\"dc20rpg.dialog.spellDuel.yourAP\");\nconst header = game.i18n.localize(\"dc20rpg.dialog.spellDuel.header\");\nconst tieInfo = game.i18n.localize(\"dc20rpg.dialog.spellDuel.tie\");\n\nconst questions = [\n  {type: \"input\", label: contestantSpellCheck},\n  {type: \"input\", label: contestantManaSpent},\n  {type: \"input\", label: yourManaSpent},\n  {type: \"input\", label: yourAPSpent},\n]\nconst answers = await DC20.dialog.SimplePopup.open(\"input\", {header: header, inputs: questions});\nif (!answers) return;\n\nconst intValues = [];\nfor (let i = 0; i < answers.length; i++) {\n    const value = parseInt(answers[i]);\n    if (isNaN(value)) {\n        ui.notifications.error(`You must provide correct value for: '${questions[i]}' field`);\n        return;\n    }\n    else {\n        intValues.push(value);\n    }\n}\n\n// Prepare Spell Duel Roll\nconst contestDC = intValues[0] + (2*intValues[1]);\nconst manaBonus = intValues[2];\nconst apSpent = intValues[3] || 2;\n\nconst rollFormula = `d20 + @check.spell + ${(manaBonus * 2)}`;\n\nconst rollDetails = {\n  \"against\": contestDC,\n  \"checkKey\": \"spe\",\n  \"label\": `${header} vs ${contestDC}`,\n  \"customFormula\": rollFormula,\n  \"type\": \"spellCheck\",\n  \"description\": item.system.description,\n  \"costs\": {ap: apSpent, mana: manaBonus}\n}\n\n// Check for Reactive Spell Focus property\nconst initialRollMenuValue = {adv: 0, dis: 0};\nlet reactive = false;\nfor (const item of actor.getAllItemsWithType([\"spellFocus\"])) {\n  if (item.system.statuses.equipped && item.system.properties.reactive.active) reactive = true;\n}\nif (reactive) initialRollMenuValue.adv = 1;\n\nconst duelRoll = await DC20.dialog.RollDialog.open(actor, rollDetails, options={initialRollMenuValue: initialRollMenuValue});\n\nif (duelRoll?.total === contestDC) {\n  DC20.dialog.SimplePopup.info(header, [tieInfo])\n}",
+            "command": "item.doNotSendToChat = true;\nconst contestantSpellCheck = game.i18n.localize(\"dc20rpg.dialog.spellDuel.contCheck\");\nconst contestantManaSpent = game.i18n.localize(\"dc20rpg.dialog.spellDuel.contMana\");\nconst yourManaSpent = game.i18n.localize(\"dc20rpg.dialog.spellDuel.yourMana\");\nconst yourAPSpent = game.i18n.localize(\"dc20rpg.dialog.spellDuel.yourAP\");\nconst header = game.i18n.localize(\"dc20rpg.dialog.spellDuel.header\");\nconst tieInfo = game.i18n.localize(\"dc20rpg.dialog.spellDuel.tie\");\n\nconst questions = [\n  {type: \"input\", label: contestantSpellCheck},\n  {type: \"input\", label: contestantManaSpent},\n  {type: \"input\", label: yourManaSpent},\n  {type: \"input\", label: yourAPSpent},\n]\nconst answers = await DC20.dialog.SimplePopup.open(\"input\", {header: header, inputs: questions});\nif (!answers) return;\n\nconst intValues = [];\nfor (let i = 0; i < answers.length; i++) {\n    const value = parseInt(answers[i]);\n    if (isNaN(value)) {\n        ui.notifications.error(`You must provide correct value for: '${questions[i]}' field`);\n        return;\n    }\n    else {\n        intValues.push(value);\n    }\n}\n\n// Prepare Spell Duel Roll\nconst contestDC = intValues[0] + (2*intValues[1]);\nconst manaBonus = intValues[2];\nconst apSpent = intValues[3] || 2;\n\nconst rollFormula = `d20 + @check.spell + ${(manaBonus * 2)}`;\n\nconst rollDetails = {\n  \"against\": contestDC,\n  \"checkKey\": \"spe\",\n  \"label\": `${header} vs ${contestDC}`,\n  \"customFormula\": rollFormula,\n  \"type\": \"spellCheck\",\n  \"description\": item.system.description,\n  \"costs\": {resources: {ap: apSpent, mana: manaBonus}}\n}\n\n// Check for Reactive Spell Focus property\nconst initialRollMenuValue = {adv: 0, dis: 0};\nlet reactive = false;\nfor (const item of actor.getAllItemsWithType([\"spellFocus\"])) {\n  if (item.system.statuses.equipped && item.system.properties.reactive.active) reactive = true;\n}\nif (reactive) initialRollMenuValue.adv = 1;\n\nconst duelRoll = await DC20.dialog.RollDialog.open(actor, rollDetails, {initialRollMenuValue: initialRollMenuValue});\n\nif (duelRoll?.total === contestDC) {\n  DC20.dialog.SimplePopup.info(header, [tieInfo])\n}",
             "disabled": false,
             "title": ""
           }
@@ -12111,7 +11879,7 @@
         },
         "actionType": "",
         "attackFormula": {
-          "rangeType": "melee",
+          "rangeType": "",
           "checkType": "attack",
           "targetDefence": "precision",
           "rollBonus": 0,
@@ -12235,8 +12003,6 @@
         },
         "effectsConfig": {
           "linkWithToggle": false,
-          "active": false,
-          "addToChat": false,
           "toggleItem": true,
           "addToTemplates": ""
         },
@@ -12274,7 +12040,8 @@
         "help": {
           "ignoreMHP": false,
           "subtract": false,
-          "duration": "round"
+          "duration": "round",
+          "diceValue": null
         },
         "move": {
           "movePoints": null,
@@ -12288,6 +12055,7 @@
           "closeQuarters": false
         },
         "rollConfig": {
+          "flatModifier": "",
           "rollBonus": 0,
           "canCrit": true,
           "canCritFail": true,
@@ -12351,16 +12119,16 @@
       "_stats": {
         "compendiumSource": "Item.hN1j1N0Bh8gTy0pG",
         "duplicateSource": "Item.1OVlkg9k0CcbBXYj",
-        "coreVersion": "14.364",
+        "coreVersion": "14.367",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
-        "createdTime": 1781983791542,
-        "modifiedTime": 1781983791542,
+        "systemVersion": "0.10.7.0",
+        "createdTime": 1788626492028,
+        "modifiedTime": 1788626492028,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
-      "_id": "Xak72toBJ2f92fUw",
-      "_key": "!actors.items!8ssojuWhSnLl6LpU.Xak72toBJ2f92fUw"
+      "_id": "qD8YF38YUWlZFlU6",
+      "_key": "!actors.items!8ssojuWhSnLl6LpU.qD8YF38YUWlZFlU6"
     },
     {
       "name": "Sustained Action",
@@ -12382,7 +12150,7 @@
         },
         "actionType": "",
         "attackFormula": {
-          "rangeType": "melee",
+          "rangeType": "",
           "checkType": "attack",
           "targetDefence": "precision",
           "rollBonus": 0,
@@ -12506,8 +12274,6 @@
         },
         "effectsConfig": {
           "linkWithToggle": false,
-          "active": false,
-          "addToChat": false,
           "toggleItem": true,
           "addToTemplates": ""
         },
@@ -12544,7 +12310,8 @@
         "help": {
           "ignoreMHP": false,
           "subtract": false,
-          "duration": "round"
+          "duration": "round",
+          "diceValue": null
         },
         "againstStatuses": {},
         "rollRequests": {},
@@ -12563,6 +12330,7 @@
           "closeQuarters": false
         },
         "rollConfig": {
+          "flatModifier": "",
           "rollBonus": 0,
           "canCrit": true,
           "canCritFail": true,
@@ -12598,20 +12366,20 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "14.364",
+        "coreVersion": "14.367",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
-        "createdTime": 1781983791543,
-        "modifiedTime": 1781983791543,
+        "systemVersion": "0.10.7.0",
+        "createdTime": 1788626492028,
+        "modifiedTime": 1788626492028,
         "lastModifiedBy": "dOcXwrUs2VunZl0y"
       },
       "ownership": {
         "default": 0,
         "dOcXwrUs2VunZl0y": 3
       },
-      "_id": "pL6KBwm1ImutgEDy",
+      "_id": "dZwZcIzTxf3nbyHx",
       "sort": 400000,
-      "_key": "!actors.items!8ssojuWhSnLl6LpU.pL6KBwm1ImutgEDy"
+      "_key": "!actors.items!8ssojuWhSnLl6LpU.dZwZcIzTxf3nbyHx"
     }
   ],
   "effects": [],
