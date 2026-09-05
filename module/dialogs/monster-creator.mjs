@@ -1,5 +1,6 @@
 import { DC20RpgActor } from "../documents/actor.mjs";
 import { DC20RpgItem } from "../documents/item.mjs";
+import { Formula } from "../documents/item/item-creators.mjs";
 import { shuffleArray } from "../helpers/utils.mjs";
 import { collectItemsForType } from "./compendium-browser/browser-utils.mjs";
 import { createItemBrowser } from "./compendium-browser/item-browser.mjs";
@@ -83,6 +84,7 @@ export class MonsterCreatorDialog extends DC20Dialog {
 
     initialized.actions.save = this._onSave;
     initialized.actions.default = this._onDefault;
+    initialized.actions.attack = this._onActionTrait;
     initialized.actions.random = this._onRandomTraits;
     initialized.actions.remove = this._onRemoveItem;
     initialized.actions.browser = this._onOpenTraitBrowser;
@@ -220,6 +222,47 @@ export class MonsterCreatorDialog extends DC20Dialog {
   async _onRemoveItem(event, target) {
     event.preventDefault();
     this.data.itemTraits[target.dataset.itemId] = "DELETE_ACTION";
+    this.render();
+  }
+
+  async _onActionTrait(event, target) {
+    event.preventDefault();
+
+    const questions = [
+      {type: "select", label: "Range", options: {melee: "Melee", ranged: "Ranged", area: "Area"}},
+      {type: "select", label: "Type", options: {martial: "Martial", spell: "Spell"}},
+      {type: "select", label: "Defense", options: {precision: "Precision", area: "Area"}},
+      {type: "select", label: "Damage", options: CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes}
+    ];
+    const answers = await SimplePopup.open("input", {header: "Configure Attack", inputs: questions});
+    if (!answers) return;
+
+    const [range, type, defense, damageType] = answers;
+
+    const formula = new Formula();
+    formula.formula = "@sdmg";
+    formula.type = damageType;
+
+    const traitType = defense === "area" ? "adAttack" : "pdAttack";
+    const itemData = {
+      name: "Attack",
+      type: "feature",
+      system: {
+        featureType: "monster",
+        monsterTrait: {traitType: traitType},
+        costs: {resources:{ap: 1}},
+        actionType: "attack",
+        attack: {
+          rangeType: range,
+          closeQuarters: range === "ranged",
+          checkType: type,
+          targetDefence: defense
+        },
+        formulas: {[foundry.utils.randomID()]: {...formula}}
+      }
+    }
+    const item = new Item(itemData);
+    this.data.itemTraits[foundry.utils.randomID()] = item.toObject();
     this.render();
   }
 
@@ -575,7 +618,6 @@ const DEFAULT_BASIC_TRAITS = {
   maxHpModifier: 1,
   damageModifier: "",
   flatHpModifier: 0,
-  maxApModifier: 0,
   pdModifier: 0,
   adModifier: 0,
   damageVulnerability: {},

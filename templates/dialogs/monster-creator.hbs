@@ -93,6 +93,7 @@
         <legend>{{localize "dc20rpg.dialog.monsterCreator.itemTraits"}}</legend>
 
         <div class="form-group">
+          <button data-action="attack" style="max-width: 40px;" data-tooltip="{{localize "dc20rpg.dialog.monsterCreator.attackTrait"}}"><i class="fa-solid fa-sword"></i></button>
           <button data-action="browser"><i class="fa-solid fa-boxes-stacked"></i>{{localize "dc20rpg.dialog.monsterCreator.browser"}}</button>
           <button {{#if traitsReady}}data-action="random" data-tooltip="{{localize "dc20rpg.dialog.monsterCreator.randomTraitsTitle"}}"{{else}}disabled data-tooltip="{{localize "dc20rpg.dialog.monsterCreator.randomTraitsTitleCollecting"}}"{{/if}} ><i class="fa-solid fa-shuffle"></i>{{localize "dc20rpg.dialog.monsterCreator.randomTraits"}}</button>
         </div>
@@ -141,10 +142,6 @@
           <select data-cType="string" data-path="data.baseTraits.damageModifier">
             {{selectOptions dmgMods selected=data.baseTraits.damageModifier}}
           </select>
-        </div>
-        <div class="form-group margin-top-5 symetric">
-          <label>{{localize 'dc20rpg.dialog.monsterCreator.maxApModifier'}}</label>
-          <input data-path="data.baseTraits.maxApModifier" type="number" data-cType="numeric" value="{{data.baseTraits.maxApModifier}}"/>
         </div>
 
         <hr>
