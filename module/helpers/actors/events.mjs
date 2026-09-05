@@ -25,6 +25,7 @@ export async function runEventsFor(trigger, actor, filters=[], extraMacroData={}
   // Pre Trigger - Collect triggered events by eventType
   for (const event of eventsToRun) {
     const trigger = await _runPreTrigger(event, actor);
+    event.triggered = trigger;
     if (!trigger) continue;
 
     if (triggered[event.eventType]) triggered[event.eventType].push(event);
@@ -41,7 +42,9 @@ export async function runEventsFor(trigger, actor, filters=[], extraMacroData={}
   await _runCustomEvents(triggered.custom, actor);
 
   // Run Post Trigger methods
-  for (const event of eventsToRun) _runPostTrigger(event, actor);
+  for (const event of eventsToRun) {
+    if (event.triggered) _runPostTrigger(event, actor);
+  } 
 }
 
 async function _runDamageEvents(events, actor) {

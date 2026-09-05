@@ -4,7 +4,7 @@ export class Enhancement {
   name = "New Enhancement";
   number = 0;
   defaultState = 0;
-  repeatable = true;
+  repeatable = false;
   preventModification = false;
   description = "";
   hide = false;

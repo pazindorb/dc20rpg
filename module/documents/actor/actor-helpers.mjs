@@ -781,8 +781,9 @@ async function _monsterLevelScaling(actor) {
   if (dmgMod === "50#-") dmgChange -= config.DAMAGE_CHANGE_50[tier][level+1];
   const dmg = avgDmg + dmgChange;
   const impact = dmg % 1 === 0.5;
-  const maxAp = dmg % 1 === 0.25 ? 2 : 4;
-  const finalDmg = Math.floor(dmg);
+  const minionDmg = dmg % 1 === 0.25;
+  const maxAp = minionDmg ? 2 : 4;
+  const finalDmg = minionDmg ? 1 : Math.floor(dmg); // For minion dmg value (0.25) we have increase damage to 1 and reduce number of AP
 
   // Calculate Healing - there is flat value for now (1.5 * avgDmg) - maybe it will get some more changes in the future
   const finalHealing = Math.ceil(avgDmg * 1.5);

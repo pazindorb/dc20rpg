@@ -1621,11 +1621,11 @@ DC20RPG.MONSTERS.DAMAGE_CHANGE_25 = {
   deadly:                           [0,      0,      0,      0.5,    1,      1,      1.5,    2,      2,      2.5,    3,      3,      3.5,    4,      4,      4.5,    5,      5,      5.5,    6,      6,      6.5 ],
 }
 DC20RPG.MONSTERS.DAMAGE_CHANGE_50 = {
-  easy:                             [0,      0,      0,      0,      0,      0,      1,      1,      1,      1,      1,      2,      2,      2,      2,      2,      3,      3,      3,      3,      3,      4   ],
-  medium:                           [0,      0,      0,      0,      0,      1,      1,      1,      1,      2,      2,      2,      2,      3,      3,      3,      3,      4,      4,      4,      4,      5   ],
-  hard:                             [0,      0,      0,      0,      1,      1,      1,      2,      2,      2,      3,      3,      3,      4,      4,      4,      5,      5,      5,      6,      6,      6   ],
-  veryHard:                         [0,      0,      0,      1,      1,      2,      2,      3,      3,      4,      4,      5,      5,      6,      6,      7,      7,      8,      8,      9,      9,      10  ],
-  deadly:                           [0,      0,      0,      1,      2,      2,      3,      4,      4,      5,      6,      6,      7,      8,      8,      9,      10,     10,     11,     12,     12,     13  ],
+  easy:                             [0,      0,      0,      0,      0,      0.5,    1,      1,      1,      1,      1,      2,      2,      2,      2,      2,      3,      3,      3,      3,      3,      4   ],
+  medium:                           [0,      0,      0,      0,      0.5,    1,      1,      1,      1,      2,      2,      2,      2,      3,      3,      3,      3,      4,      4,      4,      4,      5   ],
+  hard:                             [0,      0,      0,      0.5,    1,      1,      1,      2,      2,      2,      3,      3,      3,      4,      4,      4,      5,      5,      5,      6,      6,      6   ],
+  veryHard:                         [0,      0,      0.5,    1,      1,      2,      2,      3,      3,      4,      4,      5,      5,      6,      6,      7,      7,      8,      8,      9,      9,      10  ],
+  deadly:                           [0,      0.5,    0.5,    1,      2,      2,      3,      4,      4,      5,      6,      6,      7,      8,      8,      9,      10,     10,     11,     12,     12,     13  ],
 }
 DC20RPG.MONSTERS.BASE_TRAITS_COST = {
   darkvision: 1,
@@ -1665,7 +1665,7 @@ DC20RPG.MONSTERS.TYPE_CHANGES = {
   aberration: {conditionResistance: {frightened: "Frightened"}, damageResistance: {psychic: "Psychic"}},
   beast: {},
   celestial: {damageVulnerability: {umbral: "Umbral"}, damageResistance: {radiant: "Radiant"}},
-  construct: {conditionImmunity: {bleeding: "Bleeding", poison: "Poisoned"}},
+  construct: {conditionImmunity: {bleeding: "Bleeding", poisoned: "Poisoned"}},
   dragon: {darkvision: true, fly: true},
   elemental: {},
   fey: {conditionResistance: {charmed: "Charmed"}},

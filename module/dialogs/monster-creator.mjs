@@ -232,8 +232,8 @@ export class MonsterCreatorDialog extends DC20Dialog {
     // Senses
     updateData.system.senses.darkvision.range = baseTraits.darkvision ? 10 : 0;
     updateData.system.senses.tremorsense.rang = baseTraits.tremorsense ? 3 : 0;
-    updateData.system.senses.blindsight.rang = baseTraits.blindsight ? 3 : 0;
-    updateData.system.senses.truesight.rang = baseTraits.truesight ? 10 : 0;
+    updateData.system.senses.blindsight.range = baseTraits.blindsight ? 3 : 0;
+    updateData.system.senses.truesight.range = baseTraits.truesight ? 10 : 0;
 
     // Movement
     updateData.system.movement.ground.value = this.summary.finalSpeed;
@@ -413,7 +413,8 @@ export class MonsterCreatorDialog extends DC20Dialog {
     if (base.damageModifier === "50#-") dmgChange -= config.DAMAGE_CHANGE_50[tier][level+1];
     const dmg = avgDmg + dmgChange;
     const impact = dmg % 1 === 0.5;
-    const finalDmg = Math.floor(dmg);
+    const minionDmg = dmg % 1 === 0.25;
+    const finalDmg = minionDmg ? 1 : Math.floor(dmg); // For minion dmg value (0.25) we have increase damage to 1 and reduce number of AP
 
     // Calculate Speed and movement types
     const finalSpeed = 5 + (base.speedIncrease * 3) - base.speedDecrease; 
@@ -423,6 +424,7 @@ export class MonsterCreatorDialog extends DC20Dialog {
       finalPd: avgDef + pdModifier,
       finalAd: avgDef + adModifier,
       impact: impact,
+      minionDmg: minionDmg,
       finalDmg: finalDmg,
       finalTrait: finalTrait,
       currentTrait: this.#calculateTraitCost(),

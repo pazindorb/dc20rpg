@@ -193,7 +193,7 @@ async function _shouldApply(modification, target, validationData) {
       return await SimplePopup.confirm(message);
     }
     if (modification.runMacro) {
-      const effect = target.effects.get(modification.effectId);
+      const effect = target.getEffectById(modification.effectId);
       if (!effect) return false;
       const result = await effect.runMacro({drm: true, target: target, actorAskingForCheck: validationData.actorAskingForCheck, modification: modification, validationData: validationData});
       return !!result;

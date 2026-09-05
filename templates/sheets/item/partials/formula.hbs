@@ -3,7 +3,7 @@
   <div class="left-part-row">
     <label>{{localize "dc20rpg.item.sheet.formulas.category"}}</label>
     {{#if removeKey}} {{#ifCond removeKey '!==' "weaponDamage"}}
-    <a class="margin-right-5 fa-solid fa-square-minus fa-lg" data-tooltip="{{localize "dc20rpg.item.sheet.formula.remove"}}" data-action="removeSubdoc" data-type="formula" data-key="{{removeKey}}"></a>
+    <a class="margin-right-5 fa-solid fa-square-minus fa-lg" data-tooltip="{{localize "dc20rpg.item.sheet.formulas.remove"}}" data-action="removeSubdoc" data-type="formula" data-key="{{removeKey}}"></a>
     {{/ifCond}} {{/if}}
   </div>
   <select name="{{path}}.category" {{#ifCond removeKey '===' "weaponDamage"}}disabled{{/ifCond}}>

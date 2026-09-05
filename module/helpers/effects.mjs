@@ -500,6 +500,11 @@ export function getEffectModifiableKeys() {
 
     // Events
     "system.events": "Events",
+
+    "token.light.bright": "Token: Emit Bright Light",
+    "token.light.dim": "Token: Emit Dim Light",
+    "token.light.color": "Token: Light Color",
+    "token.light.animation.type": "Token: Animation Type"
   }
 }
 
