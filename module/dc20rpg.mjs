@@ -37,6 +37,7 @@ import { DC20BaseActiveEffectData } from "./dataModel/effectData.mjs";
 import { refreshActiveEffectRegistry } from "./helpers/effects.mjs";
 import { DC20TerrainData } from "./placeable-objects/terrrain-data.mjs";
 import { registerAreaDeleteControls } from "./subsystems/area/areaDeleteControls.mjs";
+import { createTokenEffectsTracker } from "./sidebar/token-effects-tracker.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -147,6 +148,8 @@ Hooks.once("ready", async function() {
   registerSystemSockets();
   registerAreaDeleteControls();
   registerUniqueSystemItems();
+
+  createTokenEffectsTracker();
 
   ui.notifications.error = (message, options) => {
     if (ui.notifications.skipErrors) return;

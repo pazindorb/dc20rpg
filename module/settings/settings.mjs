@@ -40,6 +40,17 @@ export function registerGameSettings(settings) {
     type: Boolean,
     default: false
   });
+
+  // ======================================
+  // ==               UI                 ==
+  // ======================================
+  settings.register("dc20rpg", "enableTokenEffectsTracker", {
+    name: "Enable Token Effects Tracker",
+    scope: "user",
+    config: true,
+    default: true,
+    type: Boolean
+	});
   
   // ======================================
   // ==            MOVEMENT              ==

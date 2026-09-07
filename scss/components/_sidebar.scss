@@ -78,3 +78,135 @@
     }
   }
 }
+
+#token-effects-tracker {
+  max-width: 40px;
+  min-width: 40px;
+  background-color: transparent;
+  box-shadow: none;
+  border: 0;
+  margin-right: 5px;
+  margin-left: 8px;
+
+  position: fixed;
+  top: 10px;
+  left: auto !important;
+
+  .window-header {
+    display: none;
+  }
+
+  .window-content {
+    backdrop-filter: none;
+    padding: 5px 0 0 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: transparent;
+
+    #token-effects-tracker {
+      gap: 6px;
+    }
+  }
+
+  .effect-wrapper {
+    color: #dbdbdb !important;
+
+    strong {
+      color: #dbdbdb !important;
+    }
+
+    ul {
+      color: #dbdbdb !important;
+    }
+
+    .status-stack {
+      position: absolute;
+      width: 0px;
+      height: 0px;
+      z-index: 5;
+  
+      .letter-circle-icon {
+        position: relative;
+        width: 0px;
+        height: 0px;
+  
+        span, i {
+          font-family: var(--font-default);
+          width: 17px;
+          height: 17px;          
+          text-shadow: none;
+          background-color: #dfdfdf;
+          color: #183aa8;
+          border: 1px solid #183aa8;
+          position: relative;
+          top: -6px;
+          left: -2px;
+          padding: 0px;
+          border-radius: 10px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+  
+        i {
+          font-size: 12px;
+        }
+
+        span {
+          font-weight: bold;
+          font-size: 14px;
+        }
+      }
+    }
+
+    img {
+      width: 35px;
+      height: 35px;
+      border-radius: 5px;
+      border: 1px solid #0c1f5e;
+      background-color: #232324;
+
+      &.off {
+        filter: opacity(0.6);
+      }
+
+      &:hover {
+        cursor: pointer;
+        box-shadow:  0 0 5px 3px #0c1f5e;
+      }
+    }
+  }
+
+  .help-tracker {
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 3px;
+
+    .help-dice {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      height: 30px;
+      width: 30px;
+      background-color: #dfdfdf;
+      color: #3f0344;
+      border: 2px solid #3f0344;
+      border-radius: 5px;
+
+      &.subtraction {
+        color: #b20000;
+      }
+
+      &:hover {
+        cursor: pointer;
+        box-shadow:  0 0 6px 0 inset #3f0344;
+      }
+    }
+  }
+}

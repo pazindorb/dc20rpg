@@ -1,0 +1,31 @@
+<form id="token-effects-tracker" class="dialog-v13 dialog-content standard-form {{cssClass}}">
+  {{!-- Effects --}}
+  {{#each active}}
+  <div class="effect-wrapper">
+    {{#if imgStack}}<div class="status-stack"><div class="letter-circle-icon"><span>{{imgStack}}</span></div></div>{{/if}}
+    <div class="effect">
+      <img class="effect-img {{#if disabled}}off{{/if}}" src="{{img}}" data-hover="tooltip" data-effect-id="{{_id}}" data-turn-on="{{disabled}}" 
+        title="{{localize 'dc20rpg.tokenEffectsTracker.effect'}}{{#if hasManualEvent}}{{localize 'dc20rpg.tokenEffectsTracker.manualTrigger'}}{{/if}}"/>
+    </div>
+  </div>
+  {{/each}}
+  <div class="effect-wrapper"></div>
+  {{#each disabled}}
+  <div class="effect-wrapper">
+    {{#if imgStack}}<div class="status-stack"><div class="letter-circle-icon"><span>{{imgStack}}</span></div></div>{{/if}}
+    <div class="effect">
+      <img class="effect-img {{#if disabled}}off{{/if}}" src="{{img}}" data-hover="tooltip" data-effect-id="{{_id}}" data-turn-on="{{disabled}}" 
+        title="{{localize 'dc20rpg.tokenEffectsTracker.effect'}}"/>
+    </div>
+  </div>
+  {{/each}}
+
+  {{!-- Help Dice --}}
+  <div class="help-tracker">
+  {{#each help as |dice key|}}
+    <div class="help-dice {{#if dice.subtraction}}subtraction{{/if}} draggable"  data-key="{{key}}" data-type="help" data-tooltip="{{dice.tooltip}}">
+      <i class="fa-solid {{dice.icon}} fa-lg"></i>
+    </div>
+  {{/each}}
+  </div>
+</div>
