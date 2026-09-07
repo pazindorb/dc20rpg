@@ -6,15 +6,15 @@
     {{#unless system.statuses.identified}}style="background-color: #971f1f;"{{/unless}} ></a>
     {{/if}} {{/if}}
 
-    {{!-- Item creator --}}
+    {{!-- Item Creator --}}
     {{#if (arrayIncludes type arrayString="weapon equipment spellFocus")}}
     <a class="fa-solid fa-screwdriver-wrench" data-action="openItemCreator" data-tooltip="{{localize "dc20rpg.item.sheet.openItemCreator"}}"></a>
     {{/if}}
 
-    {{!-- TODO: Add this button after you add an option to add spells to store --}}
-    {{!-- {{#if (arrayIncludes type arrayString="weapon equipment spellFocus consumable")}}
+    {{!-- Spell Store --}}
+    {{#if (arrayIncludes type arrayString="weapon equipment spellFocus consumable")}}
     <a class="fa-solid fa-book-sparkles" data-action="openSpellStore" data-tooltip="{{localize "dc20rpg.item.sheet.openSpellStore"}}"></a>
-    {{/if}} --}}
+    {{/if}}
   </div>
 
   <div class="item-img">

@@ -41,7 +41,7 @@ export class SpellStore extends DC20Dialog {
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
     context.spellstore = this.item.system.spellstore;
-    context.allowAddingSpells = false; // TODO: Add it in the future
+    context.allowAddingSpells = this.allowAddingSpells;
     return context;
   }
 
@@ -60,13 +60,16 @@ export class SpellStore extends DC20Dialog {
     this.render();
   }
 
-  // TODO: Add it in the future
-  // _onDrop(event) {
-  //   if (!this.allowAddingSpells) return;
-  //   const dropped = super._onDrop(event);
-    
-  //   dropped
-  // }
+  async _onDrop(event) {
+    if (!this.allowAddingSpells) return;
+    const dropped = await super._onDrop(event);
+    if (dropped.type !== "Item") return;
+    const spell = await fromUuid(dropped.uuid);
+    if (spell?.type !== "spell") return;
+
+    await this.item.spellstore.storeSpell(spell);
+    this.render();
+  }
 
   async _getTooltipObject(dataset, event) {
     const itemData = this.item.system.spellstore[dataset.spellKey];

@@ -1,7 +1,9 @@
 <form id="spell-store-dialog" class="dialog-v13 dialog-content standard-form {{cssClass}}">
-  <h4 class="divider">{{localize "dc20rpg.dialog.spellStore.header"}}</h4>
   {{#if allowAddingSpells}}
-  <div class="message"><label>{{localize "dc20rpg.dialog.spellStore.drop"}}</label></div>
+  <h4 class="divider">{{localize "dc20rpg.dialog.spellStore.addHeader"}}</h4>
+  <div><label>{{localize "dc20rpg.dialog.spellStore.drop"}}</label></div>
+  {{else}}
+  <h4 class="divider">{{localize "dc20rpg.dialog.spellStore.header"}}</h4>
   {{/if}}
 
   <div class="select-wrapper">
