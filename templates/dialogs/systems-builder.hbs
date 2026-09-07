@@ -1,6 +1,9 @@
 <form id="systems-builder" class="dialog-v13 dialog-content standard-form scrollable {{cssClass}}">
   <h4 class="divider">{{localize (concat "dc20rpg.dialog.systemsBuilder." type ".title")}}</h4>
 
+  {{#ifCond type '===' "events"}}
+  <button data-action="quick">{{localize "dc20rpg.dialog.systemsBuilder.quickConfig"}}</button>
+  {{/ifCond}}
   <fieldset>
     {{#each fields}}
     {{> "systems/dc20rpg/templates/dialogs/shared/extra-field.hbs" this}}

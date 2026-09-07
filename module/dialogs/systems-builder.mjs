@@ -1,5 +1,6 @@
 import { parseFromString } from "../helpers/utils.mjs";
 import { DC20Dialog } from "./dc20Dialog.mjs";
+import { SimplePopup } from "./simple-popup.mjs";
 
 const SYSTEM_BUILDER_FIELDS = [
   {
@@ -428,6 +429,7 @@ export class SystemsBuilder extends DC20Dialog {
     initialized.window.resizable = true;
 
     initialized.actions.save = this._onSave;
+    initialized.actions.quick = this._onQuickConfig;
     return initialized;
   }
 
@@ -473,6 +475,28 @@ export class SystemsBuilder extends DC20Dialog {
 
     this.promiseResolve(finalString.join(", "));
     this.close();
+  }
+
+  async _onQuickConfig(event) {
+    event.preventDefault();
+
+    const selected = await SimplePopup.select("Select Quick Config", {repeated: "Repeated Save", deleteEffect: "Delete Effect after Trigger"});
+    switch (selected) {
+      case "repeated":
+        this.fields.label.value = "Repeated Save";
+        this.fields.eventType.value = "saveRequest";
+        this.fields.trigger.value = "turnEnd";
+        this.fields.against.value = "#SAVE_DC#";
+        this.fields.onSuccess.value = "delete";
+        break;
+
+      case "deleteEffect":
+        if (!this.fields.trigger.value) this.fields.trigger.value = "turnEnd";
+        this.fields.eventType.value = "basic";
+        this.fields.postTrigger.value = "delete";
+        break;
+    }
+    this.render();
   }
 
   #shouldSkip(field) {

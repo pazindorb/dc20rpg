@@ -217,7 +217,7 @@ export class AgainstStatus {
   forOneMinute = false;
   forXRounds = null;
   repeatedSave = false;
-  repeatedSaveKey = "phy";
+  repeatedSaveKey = "";
 
   static async create(data={}, options={}) {
     const item = options.parent;
