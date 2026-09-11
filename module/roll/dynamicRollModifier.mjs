@@ -193,7 +193,7 @@ async function _shouldApply(modification, target, validationData) {
       return await SimplePopup.confirm(message);
     }
     if (modification.runMacro) {
-      const effect = target.effects.get(modification.effectId);
+      const effect = target.getEffectById(modification.effectId);
       if (!effect) return false;
       const result = await effect.runMacro({drm: true, target: target, actorAskingForCheck: validationData.actorAskingForCheck, modification: modification, validationData: validationData});
       return !!result;
@@ -351,10 +351,6 @@ function _multipleCheckPenalty(actor, checkKey) {
 
   // Companion might share MCP with owner
   if (companionShare(actor, "mcp")) mcp = actor.companionOwner.system.mcp; 
-
-  // If action was held we want to use MCP from last round
-  const actionHeld = actor.flags.dc20rpg.actionHeld;
-  if (actionHeld?.rollsHeldAction && actionHeld.mcp !== null) mcp = actionHeld.mcp;
 
   let dis = 0;
   mcp.forEach(check => {if (check === checkKey) dis++;});

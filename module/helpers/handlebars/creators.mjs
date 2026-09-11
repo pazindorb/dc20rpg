@@ -557,7 +557,8 @@ function _formulas(formulas, icon, types) {
     const formula = formulas[i];
     if (!types) label = formula.label;
     else label = getLabelFromKey(formula.type, types);
-    description += `${formula.formula} ${label}`;
+    const displayedValue = formula.precalculated != null ? formula.precalculated : formula.formula;
+    description += `${displayedValue} ${label}`;
   }
   return _descriptionIcon(`<p>${description}</p>`, icon);
 }

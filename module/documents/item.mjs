@@ -36,6 +36,10 @@ export class DC20RpgItem extends Item {
     return this.system.actionType === "check";
   }
 
+  get isMonsterTrait() {
+    return this.system?.monsterTrait?.traitValue != null && this.system?.featureType === "monster";
+  }
+
   get checkKey() {
     const actionType = this.system.actionType;
     if (actionType === "attack") return "att";
@@ -76,6 +80,14 @@ export class DC20RpgItem extends Item {
   get identified() {
     if (!!!this.system.statuses) return true;
     else return this.system.statuses.identified;
+  }
+
+  get sdmg() {
+    return this.actor?.system?.scaling?.damage || 0;
+  }
+
+  get sheal() {
+    return this.actor?.system?.scaling?.healing || 0;
   }
 
   /**

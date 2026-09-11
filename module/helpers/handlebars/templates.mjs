@@ -25,7 +25,8 @@ function actorPartials() {
     "Item Table": "systems/dc20rpg/templates/actor_v2/parts/shared/item-table.hbs",
     "Effects Table": "systems/dc20rpg/templates/actor_v2/parts/shared/effects-table.hbs",
     "Traits Table": "systems/dc20rpg/templates/actor_v2/parts/shared/traits-table.hbs",
-    "Statuses": "systems/dc20rpg/templates/actor_v2/parts/shared/statuses.hbs"
+    "Statuses": "systems/dc20rpg/templates/actor_v2/parts/shared/statuses.hbs",
+    "Help Tracker": "systems/dc20rpg/templates/actor_v2/parts/shared/help-tracker.hbs"
   }
 }
 
@@ -49,7 +50,6 @@ export function sharedPartials() {
   return {
     "Tooltip": "systems/dc20rpg/templates/shared/tooltip.hbs",
     "Context Menu": "systems/dc20rpg/templates/shared/context-menu.hbs",
-    "Effects Tracker": "systems/dc20rpg/templates/sidebar/token-hotbar/effects-tracker.hbs",
-    "Help Tracker": "systems/dc20rpg/templates/sidebar/token-hotbar/help-tracker.hbs",
+    "Extra Fields": "systems/dc20rpg/templates/dialogs/shared/extra-field.hbs"
   }
 }

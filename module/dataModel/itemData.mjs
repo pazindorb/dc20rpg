@@ -50,6 +50,7 @@ class DC20UsableItemData extends DC20BaseItemData {
         ignoreMHP: new f.BooleanField({required: true, initial: false}),
         subtract: new f.BooleanField({required: true, initial: false}),
         duration: new f.StringField({required: true, initial: "round"}),
+        diceValue: new f.NumberField({ required: true, nullable: true, integer: true, initial: null }),
       }),
       move: new f.SchemaField({
         movePoints: new f.NumberField({ required: true, nullable: true, integer: true, initial: null }),
@@ -300,6 +301,13 @@ export class DC20FeatureData extends DC20UsableItemData {
             required: true,
             initial: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
           }),
+      }),
+      monsterTrait: new f.SchemaField({
+        creatureTypes: new f.ObjectField({required: true}),
+        creatureRoles: new f.ObjectField({required: true}),
+        traitValue: new f.NumberField({required: true, nullable: false, integer: true, initial: 1}),
+        traitType: new f.StringField({required: true, initial: ""}),
+        impact: new f.NumberField({required: true, nullable: false, integer: true, initial: 0}),
       }),
       usesWeapon: new UsesWeaponFields(),
       effectsConfig: new EffectsConfigFields()

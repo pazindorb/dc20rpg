@@ -174,6 +174,9 @@ async function _gainQuantity(amount, item) {
 //      COLLECT ITEM USE COST      =
 //==================================
 function _collectUseCost(item, clean=false) {
+  // Held Action might override cost - in that case we return that override
+  if (item.flags?.dc20rpg?.heldActionCost) return item.flags?.dc20rpg?.heldActionCost;
+
   const cost = {
     resources: {},
     charges: {},
@@ -210,11 +213,6 @@ function _collectUseCost(item, clean=false) {
         _collectCharges(cost, item.id, enhancement.charges.subtract * enhancement.number);
       }
     }
-  }
-
-  // If this is held action we skip ap cost
-  if (actor && actor.flags.dc20rpg.actionHeld.rollsHeldAction) {
-    delete cost.resources.ap;
   }
 
   return cost;
@@ -723,7 +721,8 @@ async function _enhancementToggle(enhancement, up, item) {
 function _allEnhancements(item, collected=new Set(), iteration=0) {
   let enhancements = foundry.utils.deepClone(item.enhancements.maintained);
   const parent = item.actor;
-  if (!parent) return enhancements;
+  const isHeldAction = item.flags?.dc20rpg?.isHeldAction;
+  if (!parent || isHeldAction) return enhancements;
 
   // We need to deal with case where items call each other in a infinite loop. 
   // If enhancements from the item were collected already then we don't want to collect from it again as it might lead to infinite loop

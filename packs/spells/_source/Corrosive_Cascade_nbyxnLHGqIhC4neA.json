@@ -536,15 +536,17 @@
               "turns": null,
               "value": 5,
               "units": "rounds",
-              "expiry": "turnStart"
+              "expiry": "turnStart",
+              "expired": false
             },
             "disabled": false,
             "flags": {
               "dc20rpg": {
-                "enhKey": "YNdKLlIw99QV1gQf"
+                "enhKey": "YNdKLlIw99QV1gQf",
+                "itemSavePath": "system.enhancements.YNdKLlIw99QV1gQf.modifications.addsEffect"
               }
             },
-            "_id": "wQFW1CVjPcpCTJNY",
+            "_id": "ZyylbUPGOJC4iAoh",
             "type": "base",
             "system": {
               "sustained": {
@@ -578,40 +580,48 @@
               "changes": [
                 {
                   "key": "system.damageReduction.pdr.active",
-                  "mode": 5,
                   "value": "false",
                   "priority": null,
-                  "useCustom": false
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
                 },
                 {
                   "key": "system.damageReduction.edr.active",
-                  "mode": 5,
                   "value": "false",
                   "priority": null,
-                  "useCustom": false
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
                 },
                 {
                   "key": "system.damageReduction.pdr.skipEqCheck",
-                  "mode": 5,
                   "value": "true",
                   "priority": null,
-                  "useCustom": false
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
                 },
                 {
                   "key": "system.damageReduction.edr.skipEqCheck",
-                  "mode": 5,
                   "value": "true",
                   "priority": null,
-                  "useCustom": false
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
                 },
                 {
                   "key": "system.events",
-                  "mode": 2,
                   "value": "\"eventType\": \"saveRequest\", \"trigger\": \"turnEnd\", \"label\": \"Dissolve - Repeated Save\", \"checkKey\": \"agi\", \"against\": \"<#@saveDC.value.spell#>\", \"onSuccess\": \"delete\", \"actorId\": \"#SPEAKER_ID#\"",
                   "priority": null,
-                  "useCustom": false
+                  "useCustom": false,
+                  "type": "add",
+                  "phase": "initial"
                 }
-              ]
+              ],
+              "applyToSelf": false,
+              "requireEquip": false,
+              "refreshTarget": false
             },
             "description": "<p>You no longer benefit from PDR or EDR for the 1 minute.</p>",
             "tint": "#ffffff",
@@ -622,13 +632,23 @@
               "compendiumSource": null,
               "duplicateSource": null,
               "exportSource": null,
-              "coreVersion": "13.350",
+              "coreVersion": "14.367",
               "systemId": "dc20rpg",
-              "systemVersion": "0.10.0.0",
-              "createdTime": 1767712485200,
-              "modifiedTime": 1767712485200,
+              "systemVersion": "0.10.7.0",
+              "createdTime": 1788618829836,
+              "modifiedTime": 1788618829836,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
-            }
+            },
+            "start": {
+              "combat": null,
+              "round": 17,
+              "time": 0,
+              "turn": 0,
+              "combatant": null,
+              "initiative": null
+            },
+            "showIcon": 1,
+            "folder": null
           },
           "macros": {
             "preItemRoll": "",
@@ -869,7 +889,7 @@
                 "itemSavePath": "system.enhancements.IvLesxzzq81U0Gh8.modifications.addsEffect"
               }
             },
-            "_id": "J2Y9D62I11R8znFb",
+            "_id": "OYuT7VXUmo8KML0m",
             "type": "base",
             "system": {
               "sustained": {
@@ -887,7 +907,7 @@
                 "expiryAction": ""
               },
               "effectKey": "",
-              "macro": "const damage = effect.flags?.dc20rpg?.acidRain;\nif (!damage) return;\n\nlet dmg = {\n  value: damage,\n  source: \"Acid Rain\",\n  type: \"corrosion\"\n};\nDC20.DC20Target.quickApplyDamageFor(actor, dmg);",
+              "macro": "const damage = effect.flags?.dc20rpg?.acidRain;\nif (!damage) return;\n\nlet dmg = {\n  value: damage,\n  source: \"Acid Rain\",\n  type: \"corrosion\"\n};\nawait DC20.DC20Target.quickApplyDamageFor(actor, dmg);",
               "addToChat": false,
               "applyToTemplate": true,
               "nonessential": false,
@@ -923,11 +943,11 @@
               "compendiumSource": null,
               "duplicateSource": null,
               "exportSource": null,
-              "coreVersion": "14.363",
+              "coreVersion": "14.367",
               "systemId": "dc20rpg",
-              "systemVersion": "0.10.6.0",
-              "createdTime": 1782598519744,
-              "modifiedTime": 1782598551643,
+              "systemVersion": "0.10.7.0",
+              "createdTime": 1788618837015,
+              "modifiedTime": 1788618846174,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
             },
             "start": {
@@ -1182,11 +1202,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "14.363",
+    "coreVersion": "14.367",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.6.0",
+    "systemVersion": "0.10.7.0",
     "createdTime": 1767712754397,
-    "modifiedTime": 1782931314560,
+    "modifiedTime": 1788618847140,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

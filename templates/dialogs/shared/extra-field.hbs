@@ -1,0 +1,21 @@
+<div class="form-group">
+  <label>{{localize label}}</label>
+  
+  {{#ifCond fieldType '===' "select"}} 
+    <select data-cType="{{format}}" data-path="{{path}}">
+      {{selectOptions options selected=value localize=true blank=""}}
+    </select>
+  {{/ifCond}}
+
+  {{#ifCond fieldType '===' "input"}}
+    <input data-cType="{{format}}" data-path="{{path}}" value="{{value}}" type="text"/>
+  {{/ifCond}}
+
+  {{#ifCond fieldType '===' "checkbox"}}
+    <input data-cType="{{format}}" data-path="{{path}}" {{checked value}} type="checkbox"/>
+  {{/ifCond}}
+
+  {{#if hint}}
+    <p class="hint">{{localize hint}}</p>
+  {{/if}}
+</div>

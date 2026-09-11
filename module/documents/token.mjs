@@ -101,7 +101,7 @@ export class DC20RpgTokenDocument extends TokenDocument {
         _id: this._id,
         width: size,
         height: size
-      })
+      }, {sizeChange: true})
     }
   }
 
@@ -136,8 +136,9 @@ export class DC20RpgTokenDocument extends TokenDocument {
     super._preUpdateMovement(movement, operation);
     const freeMove = game.keyboard.downKeys.has("KeyF");
     const teleport = operation.teleport;
+    const sizeChange = operation.sizeChange;
     const shouldSubtract = this.shouldSubtractMovePoints();
-    if (freeMove || teleport || !shouldSubtract) {
+    if (freeMove || teleport || !shouldSubtract || sizeChange) {
       if (!operation.isUndo) this.movementCostHistory.push(0);
       return true;
     }
@@ -288,7 +289,6 @@ export class DC20RpgTokenDocument extends TokenDocument {
       ["effects"]: transferableEffects,
 
     });
-    ui.hotbar.render();
   }
 
   async revertTransformation() {
@@ -316,7 +316,6 @@ export class DC20RpgTokenDocument extends TokenDocument {
 
     await this.gmUpdate(transformationHistory);
     await this.actor.gmUpdate({["flags.dc20rpg.transformationHash"]: foundry.utils.randomID()});
-    ui.hotbar.render();
   }
 
   async clearDelta() {

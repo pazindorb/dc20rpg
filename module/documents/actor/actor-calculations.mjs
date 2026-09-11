@@ -20,6 +20,9 @@ export function makeCalculations(actor) {
 	if (actor.type === "companion") {
 		_actionPoints(actor);
 	}
+	if (actor.type === "npc") {
+		_currentTraitValue(actor);
+	}
 	_currentHp(actor);
 
 	_senses(actor);
@@ -69,6 +72,11 @@ function _skillModifier(skill, key, actor) {
 	if (expertise.has(key)) skill.expertise = true;
 	skill.masteryLimit = _masteryLimit(actor, skill.expertise);
 	skill.masteryLabel = CONFIG.DC20RPG.SYSTEM_CONSTANTS.skillMasteryLabel[skill.mastery];
+
+	if (!skill.baseAttribute) {
+		console.warn(`[DC20] Missing property baseAttribute for skill with key '${key}'. Fallback to default attribute.`);
+		skill.baseAttribute = skill.attributes?.[0] || "mig";
+	}
 
 	if (skill.baseAttribute === "max") {
 		skill.baseAttribute = _highestAttribute(skill.attributes, actor);
@@ -142,18 +150,15 @@ function _actionPoints(actor) {
 	}
 }
 
+function _currentTraitValue(actor) {
+	let currentTraitValue = 0;
+	actor.items.forEach(item => currentTraitValue += (item?.system?.monsterTrait?.traitValue || 0))
+}
+
 function _maxHp(actor) {
-	const details = actor.system.details;
 	const health = actor.system.resources.health;
-	const might = actor.system.attributes.mig.value;
-	const hpFromClass = details.class?.maxHpBonus || 6;
-	
-	if (health.useFlat) {
-		health.max += health.bonus;
-	}
-	else {
-		health.max = hpFromClass + might + health.bonus;
-	}
+	if (health.useFlat) health.max += health.bonus;
+	else health.max = evaluateDicelessFormula(health.maxFormula, actor.getRollData()).total
 }
 
 function _maxMana(actor) {
@@ -401,7 +406,7 @@ function _basicTargetModifiers(actor) {
 	actor.system.targetModifiers.push({
 		condition: `return hit != null && hit >= 5;`, 
 		bonus: '1', 
-		useFor: `system.properties.impact.active=[true]`, 
+		useFor: `system.properties.impact.active=[true]||system.monsterTrait.impact=[1]`, 
 		name: "Impact",
 		linkWithToggle: false,
 		flags: {
@@ -425,13 +430,13 @@ function _basicTargetModifiers(actor) {
     },
 	});
 
-	// Impactful Unarmed Strikes
+	// Impactful Unarmed Strike
 	if (actor.system.details.armor.impactfulUnarmedStries) {
 		actor.system.targetModifiers.push({
 		condition: `return hit != null && hit >= 5;`,  
 			bonus: '1', 
-			useFor: `system.itemKey=["unarmedStrike"]`, 
-			name: "Impactful Unarmed Strikes",
+			useFor: `system.unarmedStrike=[true]`, 
+			name: "Impactful Unarmed Strike",
 			linkWithToggle: false,
 			flags: {
 				ignorePdr: false,

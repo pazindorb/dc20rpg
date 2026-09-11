@@ -48,6 +48,10 @@ export class DC20RpgActor extends Actor {
     return this.statuses.has("dead");
   }
 
+  get sustains() {
+    return Object.keys(this.system.sustain).length > 0;
+  }
+
   get allEffects() {
     const effects = [];
     for ( const effect of this.allApplicableEffects()) {
@@ -208,11 +212,6 @@ export class DC20RpgActor extends Actor {
     prepareRollDataForItems(this);
     for (const document of this.getEmbeddedCollection("items")) document._safePrepareData();
     prepareDataFromItems(this);
-
-    // Refresh hotbar 
-    if (ui.hotbar) {
-      if (ui.hotbar.actorId === this.id) ui.hotbar.render();
-    }
   }
 
   /** @override */
@@ -313,7 +312,6 @@ export class DC20RpgActor extends Actor {
     options.save = CONFIG.DC20RPG.ROLL_KEYS.saveTypes;
 
     const skills = {};
-    if (this.system.skills.acr && this.system.skills.ath) skills.mar = "Martial Check";
     Object.entries(this.system.skills).forEach(([key, skill]) => skills[key] = `${skill.label} Check`);
     options.skill = skills; 
 
@@ -335,6 +333,10 @@ export class DC20RpgActor extends Actor {
       if (this.hasStatus(statusId)) return true;
     }
     return false;
+  }
+
+  hasAnyCondition() {
+    return this.statuses.values().some(s => s.condition);
   }
 
   _prepareCustomResources() {
@@ -557,6 +559,16 @@ export class DC20RpgActor extends Actor {
         }
       }
     }
+
+    // Scale monster level
+    if (this.system?.scaling?.isScalingMonster) {
+      const levelChanged = changed?.system?.details?.level;
+      if (levelChanged != null) {
+        SimplePopup.confirm("Run Monster Level Scaling?").then(result => {
+          if (result) this.monsterConfig.scaleToLevel();
+        })
+      }
+    }
   }
 
   /** @inheritDoc */
@@ -573,7 +585,7 @@ export class DC20RpgActor extends Actor {
           options.hpChange = hpChange;
           if (hpChange === 0) preventChangeFor.push({custom: false, key: "health"});
           if (options.hpChangeSource) {
-            DC20ChatMessage.hpChangeMessage(hpChange, options.hpChangeSource, this);
+            DC20ChatMessage.hpChangeMessage(hpChange, options.hpChangeSource, this, {overheal: options.overheal});
           }
         }
         if (key === "custom") {

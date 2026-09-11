@@ -27,18 +27,17 @@ import { DC20PrototypeTokenConfig, DC20RpgTokenConfig } from "./sheets/token-con
 import { expandEnrichHTML, registerGlobalInlineRollListener } from "./helpers/textEnrichments.mjs";
 import { registerUniqueSystemItems } from "./subsystems/character-progress/advancement/advancements.mjs";
 import { SimplePopup } from "./dialogs/simple-popup.mjs";
-import { createGmToolsMenu } from "./sidebar/gm-tools/gm-tools-menu.mjs";
 import { runMigrationCheck, testMigration } from "./settings/migrationRunner.mjs";
-import { characterWizardButton } from "./sidebar/actor-directory.mjs";
+import { actorCreatorButton } from "./sidebar/actor-directory.mjs";
 import { canvasDrop } from "./helpers/actors/tokens.mjs";
-import DC20Hotbar from "./sidebar/hotbar.mjs";
-import { overrideCoreKeybindActions, registerSystemKeybindings } from "./settings/keybindings.mjs";
+import { registerSystemKeybindings } from "./settings/keybindings.mjs";
 import './npc-pdf-builder-exporter/npc-pdf-foundry.mjs';
 import { DC20ChatMessage } from "./sidebar/chat/chat-message.mjs";
 import { DC20BaseActiveEffectData } from "./dataModel/effectData.mjs";
 import { refreshActiveEffectRegistry } from "./helpers/effects.mjs";
 import { DC20TerrainData } from "./placeable-objects/terrrain-data.mjs";
 import { registerAreaDeleteControls } from "./subsystems/area/areaDeleteControls.mjs";
+import { createTokenEffectsTracker } from "./sidebar/token-effects-tracker.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -77,7 +76,6 @@ Hooks.once('init', async function() {
   CONFIG.Token.movement.TerrainData = DC20TerrainData;
   CONFIG.Token.movement.defaultAction = "ground";
   CONFIG.Token.movement.defaultSpeed = 5;
-  CONFIG.ui.hotbar = DC20Hotbar;
 
   // Register data models
   CONFIG.Actor.dataModels.character = DC20CharacterData;
@@ -128,8 +126,8 @@ Hooks.once('init', async function() {
 /* -------------------------------------------- */
 Hooks.once("ready", async function() {
   // await runMigrationCheck();
-  // await testMigration("0.10.6.0", "0.10.6.1", new Set(["dc20-core-rulebook", "dc20-magic-pack", "dc20-player-options-pack"]));
-  // await testMigration("0.10.6.0", "0.10.6.1");   
+  // await testMigration("0.10.6.1", "0.10.7.0", new Set(["dc20-core-rulebook", "dc20-magic-pack", "dc20-player-options-pack", "dc20-monster-collection"]));
+  // await testMigration("0.10.6.1", "0.10.7.0");   
 
   /* -------------------------------------------- */
   /*  Hotbar Macros                               */
@@ -150,28 +148,16 @@ Hooks.once("ready", async function() {
   registerSystemSockets();
   registerAreaDeleteControls();
   registerUniqueSystemItems();
-  overrideCoreKeybindActions();
 
-  if(game.user.isGM) await createGmToolsMenu();
+  createTokenEffectsTracker();
 
   ui.notifications.error = (message, options) => {
     if (ui.notifications.skipErrors) return;
     return ui.notifications.notify(message, "error", options);
   }
-
-  // Hide tooltip when releasing button
-  window.addEventListener('keyup', (event) => {
-    if (event.key === 'Alt') {
-      const tooltip = document.getElementById("tooltip-container")
-      if (tooltip && tooltip.style.visibility === "visible") {
-        tooltip.style.opacity = 0;
-        tooltip.style.visibility = "hidden";
-      }
-    }
-  });
 });
 Hooks.on("renderCompendiumDirectory", (application, element, context, option) => compendiumBrowserButton(element));
-Hooks.on("renderActorDirectory", (application, element, context, option) => characterWizardButton(element));
+Hooks.on("renderActorDirectory", (application, element, context, option) => actorCreatorButton(element));
 Hooks.on("renderDialogV2", (app, element, context, option) => {
   // We want to remove "basicAction" from "Create Item Dialog"
   const selector = element.querySelector('[name="type"]');

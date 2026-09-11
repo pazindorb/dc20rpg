@@ -3,7 +3,7 @@
   "type": "basicAction",
   "img": "icons/svg/falling.svg",
   "system": {
-    "description": "<p><span >If you move at least 2 Spaces in a straight line, you can spend <strong>1 AP</strong> to attempt to Tackle a creature that’s your size or smaller.</span></p><p><span >Make an <strong >Athletics </strong><strong>Check</strong> contested by the target's <strong >Martial </strong><strong>Check</strong>.</span></p><p><span ><strong >Success:</strong> You <strong>Grapple</strong> the target and you both move 1 Space in the same direction you were moving then immediately fall <strong >Prone</strong>.</span></p><p><span ><strong >Success (each 5):</strong> +1 Space moved.</span></p>",
+    "description": "<p><span>If you move at least 2 Spaces in a straight line, you can spend <strong>1 AP</strong> to attempt to Tackle a creature that’s your size or smaller.</span></p><p><span>Make an <strong>Athletics Check</strong> contested by the target's </span><strong>Acrobatics</strong> or <strong>Athletics</strong> <strong>Check</strong><span>.</span></p><p><span><strong>Success:</strong> You <strong>Grapple</strong> the target and you both move 1 Space in the same direction you were moving then immediately fall <strong>Prone</strong>.</span></p><p><span><strong>Success (each 5):</strong> +1 Space moved.</span></p>",
     "tableName": "",
     "source": "",
     "choicePointCost": 1,
@@ -79,7 +79,8 @@
         "dontMerge": false,
         "overrideDefence": "",
         "perTarget": true,
-        "label": "Move Distance"
+        "label": "Move Distance",
+        "dontModifyFailFormula": false
       }
     },
     "enhancements": {},
@@ -173,11 +174,19 @@
       "rollRequestFromTemplate": {
         "category": "contest",
         "saveKey": "",
-        "contestedKey": "mar",
+        "contestedKey": "acr",
         "dcCalculation": "spell",
         "dc": 0,
         "addMasteryToDC": true,
         "respectSizeRules": false
+      },
+      "U0edlCqDo6nAkDao": {
+        "category": "contest",
+        "saveKey": "",
+        "contestedKey": "ath",
+        "dcCalculation": "spell",
+        "dc": 0,
+        "addMasteryToDC": true
       }
     },
     "againstStatuses": {
@@ -188,7 +197,11 @@
         "untilYourNextTurnEnd": false,
         "untilTargetNextTurnStart": false,
         "untilTargetNextTurnEnd": false,
-        "untilFirstTimeTriggered": false
+        "untilFirstTimeTriggered": false,
+        "stacks": null,
+        "forXRounds": null,
+        "forOneMinute": false,
+        "repeatedSave": false
       },
       "i6sIxcnb3PY8QWbz": {
         "id": "prone",
@@ -200,7 +213,9 @@
         "untilFirstTimeTriggered": false,
         "forOneMinute": false,
         "repeatedSave": false,
-        "repeatedSaveKey": "phy"
+        "repeatedSaveKey": "phy",
+        "stacks": null,
+        "forXRounds": null
       }
     },
     "itemKey": "tackle",
@@ -219,11 +234,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": "Item.QDPNjfb8u5Jn3XPL",
-    "coreVersion": "14.364",
+    "coreVersion": "14.367",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.6.0",
+    "systemVersion": "0.10.7.0",
     "createdTime": 1732728815896,
-    "modifiedTime": 1781983708986,
+    "modifiedTime": 1788617731748,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

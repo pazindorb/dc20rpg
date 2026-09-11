@@ -1,12 +1,15 @@
+import DC20RpgActiveEffect from "../documents/activeEffect.mjs";
 import { DC20Roll } from "../roll/rollApi.mjs";
 import { RollDialog } from "../roll/rollDialog.mjs";
 import { DC20Target } from "../subsystems/target/target.mjs";
 import { getSelectedTokens } from "./actors/tokens.mjs";
+import { getValueFromPath } from "./utils.mjs";
 
 export function expandEnrichHTML(oldFunction) {
   return (content, options={}) => {
     if (options.autoLink) content = recognizeAndAddLinks(content);
     content = _parseInlineRolls(content);
+    if(options.lookupObject) content = runObjectLookupAndCalc(content, options.lookupObject);
     const TextEditor = foundry.applications.ux.TextEditor.implementation;
     return oldFunction.call(TextEditor, content, options);
   }
@@ -35,15 +38,34 @@ export function registerGlobalInlineRollListener() {
         case "damage": _handleDamage(data, token); break;
         case "heal": _handleHealing(data, token); break;
         case "roll":  _handleRoll(data, token); break;
+        case "effect": _handleEffect(data, token); break;
+        case "status": _handleStatus(data, token); break;
       }
     });
   })
 }
 
+export function runObjectLookupAndCalc(content, lookupObject) {
+  if (!content) return content;
+  const lookupRegex = /@lookup\(([^)]+)\)/g;
+  const calcRegex = /@calc\(((?:[^()]|\([^()]*\))*)\)/g;
+
+  let parsedHTML = content.replace(lookupRegex, (match, path) => {
+    const value = getValueFromPath(lookupObject, path);
+    if (value != null) return value;
+    return match;
+  })
+  parsedHTML = parsedHTML.replace(calcRegex, (match, formula) => {
+    try { return Roll.safeEval(formula);} 
+    catch { return match; }
+  })
+  return parsedHTML;
+}
+
 function _parseInlineRolls(content) {
   if (!content) return content;
 
-  const inlineRollRegex = /@(\w+)\[(\w+)\](?:{([^}]+)})?/g;
+  const inlineRollRegex = /@(?!UUID\[)(\w+)\[([\w.]+)\](?:{([^}]+)})?/g;
   const parsedHTML = content.replace(inlineRollRegex, (match, rollType, subtype, label) => {
     let icon = "fa-dice-d20";
     switch(rollType) {
@@ -51,6 +73,8 @@ function _parseInlineRolls(content) {
       case "check": icon = "fa-user-check"; break;
       case "damage": icon = "fa-droplet"; break;
       case "heal": icon = "fa-heart"; break;
+      case "effect": icon = "fa-bolt"; break;
+      case "status": icon = "fa-bolt"; break;
     }
 
     let value = "";
@@ -98,6 +122,18 @@ function _handleHealing(data, token) {
   DC20Target.quickApplyHealingFor(token.actor, heal);
 }
 
+async function _handleEffect(data, token) {
+  const effect = await fromUuid(data.subtype);
+  if (effect) {
+    const effectData = effect.toObject();
+    DC20RpgActiveEffect.gmCreate(effectData, {parent: token.actor});
+  }
+}
+
+function _handleStatus(data, token) {
+  token.actor.toggleStatusEffect(data.subtype, {active: true});
+}
+
 //==========================================
 //=               AUTO LINK                =
 //==========================================
@@ -132,7 +168,7 @@ export function initJournalLinker() {
     .join("|");
 
   // Match a whole word that *contains* any key, case-insensitive
-  WORD_WITH_KEY_RE = new RegExp(`\\b\\w*(?:${alternation})\\w*\\b`, "gi");
+  WORD_WITH_KEY_RE = new RegExp(`(?<!\\[)\\b\\w*(?:${alternation})\\w*\\b(?!\\])`, "gi");
 }
 
 // ---------- main ----------

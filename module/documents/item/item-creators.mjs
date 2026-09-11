@@ -4,7 +4,7 @@ export class Enhancement {
   name = "New Enhancement";
   number = 0;
   defaultState = 0;
-  repeatable = true;
+  repeatable = false;
   preventModification = false;
   description = "";
   hide = false;
@@ -217,7 +217,7 @@ export class AgainstStatus {
   forOneMinute = false;
   forXRounds = null;
   repeatedSave = false;
-  repeatedSaveKey = "phy";
+  repeatedSaveKey = "";
 
   static async create(data={}, options={}) {
     const item = options.parent;

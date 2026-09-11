@@ -236,7 +236,7 @@ export class ActorAdvancement extends Dialog {
       record.img = item.img;
       record.name = item.name;
       const TextEditor = foundry.applications.ux.TextEditor.implementation;
-      record.description = await TextEditor.enrichHTML(item.system.description, {secrets:true, autoLink:true});
+      record.description = await TextEditor.enrichHTML(item.system.description, {secrets:true, autoLink:true, lookupObject: item});
       if (record.removable) removableItemsAdded++;
     }
 

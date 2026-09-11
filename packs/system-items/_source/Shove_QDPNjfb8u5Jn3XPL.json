@@ -3,7 +3,7 @@
   "type": "basicAction",
   "img": "icons/svg/thrust.svg",
   "system": {
-    "description": "<p><span>You can spend <strong>1 AP</strong> to attempt to push a creature within 1 Space of you. Make an <strong>Athletics Check</strong> contested by the target’s <strong>Martial Check</strong>.</span></p><p><span><strong>Success:</strong> You push the creature 1 Space away from you or to its left or right.</span></p><p><span><strong>Success (each 5):</strong> Push up to 1 additional Space.</span></p><p><span><em><strong>Knock Prone:</strong></em> After the result, you can choose to reduce the total distance the target is pushed by 1 Space to knock them <strong>Prone</strong> instead.</span></p><p><em><strong>DC Tip:</strong> If you shove a creature into a target, follow the rules for hitting the target in the Collision section.</em></p>",
+    "description": "<p><span>You can spend <strong>1 AP</strong> to attempt to push a creature within 1 Space of you. Make an <strong>Athletics Check</strong> contested by the target’s </span><strong>Acrobatics</strong> or <strong>Athletics</strong> <strong>Check</strong><span>.</span></p><p><span><strong>Success:</strong> You push the creature 1 Space away from you or to its left or right.</span></p><p><span><strong>Success (each 5):</strong> Push up to 1 additional Space.</span></p><p><span><em><strong>Knock Prone:</strong></em> After the result, you can choose to reduce the total distance the target is pushed by 1 Space to knock them <strong>Prone</strong> instead.</span></p><p><em><strong>DC Tip:</strong> If you shove a creature into a target, follow the rules for hitting the target in the Collision section.</em></p>",
     "tableName": "",
     "source": "",
     "choicePointCost": 1,
@@ -79,7 +79,8 @@
         "dontMerge": false,
         "overrideDefence": "",
         "perTarget": true,
-        "label": "Push Distance"
+        "label": "Push Distance",
+        "dontModifyFailFormula": false
       }
     },
     "enhancements": {},
@@ -173,11 +174,19 @@
       "rollRequestFromTemplate": {
         "category": "contest",
         "saveKey": "",
-        "contestedKey": "mar",
+        "contestedKey": "acr",
         "dcCalculation": "spell",
         "dc": 0,
         "addMasteryToDC": true,
         "respectSizeRules": false
+      },
+      "3aBycWiG5Wcc0izQ": {
+        "category": "contest",
+        "saveKey": "",
+        "contestedKey": "ath",
+        "dcCalculation": "spell",
+        "dc": 0,
+        "addMasteryToDC": true
       }
     },
     "againstStatuses": {
@@ -188,7 +197,11 @@
         "untilYourNextTurnEnd": false,
         "untilTargetNextTurnStart": false,
         "untilTargetNextTurnEnd": false,
-        "untilFirstTimeTriggered": false
+        "untilFirstTimeTriggered": false,
+        "stacks": null,
+        "forXRounds": null,
+        "forOneMinute": false,
+        "repeatedSave": false
       },
       "f4mpPYuvPPyPEaZ2": {
         "id": "movement",
@@ -197,7 +210,11 @@
         "untilYourNextTurnEnd": false,
         "untilTargetNextTurnStart": false,
         "untilTargetNextTurnEnd": false,
-        "untilFirstTimeTriggered": false
+        "untilFirstTimeTriggered": false,
+        "stacks": null,
+        "forXRounds": null,
+        "forOneMinute": false,
+        "repeatedSave": false
       }
     },
     "itemKey": "shove",
@@ -216,11 +233,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": "Item.Ks9SnrRBfRhVWgWo",
-    "coreVersion": "14.364",
+    "coreVersion": "14.367",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.6.0",
+    "systemVersion": "0.10.7.0",
     "createdTime": 1732728815896,
-    "modifiedTime": 1781983709114,
+    "modifiedTime": 1788617693828,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

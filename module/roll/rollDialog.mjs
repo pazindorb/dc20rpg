@@ -1,4 +1,3 @@
-import { holdAction } from "../helpers/actors/actions.mjs";
 import { runTemporaryItemMacro } from "../helpers/macros.mjs";
 import { emitSystemEvent, responseListener } from "../helpers/sockets.mjs";
 import { getIdsOfActiveActorOwners } from "../helpers/users.mjs";
@@ -119,7 +118,6 @@ export class RollDialog extends DC20Dialog {
       this.updateObject = this.item;
 
       this._prepareAttackRange();
-      this._prepareHeldAction();
       const areas = this.item.system.areas || {};
       this.hasAreas = Object.keys(areas).length > 0;
     }
@@ -135,6 +133,7 @@ export class RollDialog extends DC20Dialog {
     this.autoDRMCheck = game.settings.get("dc20rpg", "autoDRMCheck");
     this.forceTargets = game.settings.get("dc20rpg", "forceTargets");
     this.modifyFormula = options.customFormula || false;
+    this.heldAction = options.heldAction;
     this._autoDRMCheck();
   }
 
@@ -154,34 +153,6 @@ export class RollDialog extends DC20Dialog {
     if (system.actionType === "attack") rangeType = system.attack.rangeType;
     this.item.system.rollMenu.rangeType = rangeType;
     await this.item.update({["system.rollMenu.rangeType"]: rangeType});
-  }
-
-  async _prepareHeldAction() {
-    const actionHeld = this.actor.flags.dc20rpg.actionHeld;
-    const rollsHeldAction = actionHeld?.rollsHeldAction;
-    if (!rollsHeldAction) return;
-
-    // Update enhancements
-    const allEnhancements = this.item.enhancements.all;
-    for (const [enhKey, enhNumber] of Object.entries(actionHeld.enhancements)) {
-      // Update item or actor enhancements
-      const enhancement = allEnhancements.get(enhKey);
-      if (enhancement.sourceActorId) {
-        await this.actor.update({[`system.enhancements.${enhKey}.number`]: enhNumber});
-      }
-      else if (enhancement.sourceItemId) {
-        const itemId = allEnhancements.get(enhKey).sourceItemId;
-        const itemToUpdate = this.actor.items.get(itemId);
-        if (itemToUpdate) await itemToUpdate.update({[`system.enhancements.${enhKey}.number`]: enhNumber});
-      }
-    }
-
-    // Update roll menu
-    await this.item.update({["system.rollMenu"]: {
-      apCost: actionHeld.apForAdv,
-      adv: actionHeld.apForAdv
-    }});
-    this.render();
   }
 
   _initializeApplicationOptions(options) {
@@ -222,7 +193,7 @@ export class RollDialog extends DC20Dialog {
       name: this.sheetRollData?.rollTitle || this.updateObject.name,
       description: this.sheetRollData?.description
     }
-    context.rollsHeldAction = this.actor.flags.dc20rpg.actionHeld?.rollsHeldAction;
+    context.heldAction = this.heldAction;
     context.rollMenu = this.updateObject.system.rollMenu;
     context.helpOptions = {
       "+ d8": "d8",
@@ -434,7 +405,7 @@ export class RollDialog extends DC20Dialog {
   _onHoldAction(event) {
     event.preventDefault();
     if (!this.itemRoll) return;
-    holdAction(this.item, this.actor);
+    this.actor.heldAction.hold(this.item)
     this.promiseResolve(null);
     this.close();
   }
@@ -512,6 +483,9 @@ export class RollDialog extends DC20Dialog {
       drmRunningPopup = new SimplePopup("info", {hideButtons: true, header: "DRM Check", information: [`Waiting for Dynamic Roll Modifier Check to finish...`]});
       await drmRunningPopup.render(true);
     }
+
+    // If this is a held action we want to replace mcp with saved one
+    if (this.heldAction) this.actor.system.mcp = this.actor.heldAction.mcp;
 
     this.DRMChecked = true;
     let [finalValue, result] = [{}, {}];

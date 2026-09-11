@@ -1,4 +1,3 @@
-import { tooltipElement, tooltipListeners } from "../helpers/tooltip.mjs";
 import { getValueFromPath, setValueForPath } from "../helpers/utils.mjs";
 
 export class DC20Dialog extends foundry.applications.api.HandlebarsApplicationMixin(foundry.applications.api.ApplicationV2) {
@@ -46,7 +45,7 @@ export class DC20Dialog extends foundry.applications.api.HandlebarsApplicationMi
 
   async _renderFrame(options) {
     const frame = await  super._renderFrame(options);
-    frame.appendChild(tooltipElement())
+    frame.appendChild(PDE.TooltipCreator.getTooltipHtml());
     return frame;
   }
 
@@ -98,20 +97,9 @@ export class DC20Dialog extends foundry.applications.api.HandlebarsApplicationMi
     const target = this._getHoverTarget(event.target);
     const dataset = target.dataset;
     const hover = dataset.hover;
-    const isEntering = event.type === "mouseover";
-
-    const data = {dataset: dataset};
-    if (dataset.itemId) {
-      if (this.item?.id === dataset.itemId) {
-        data.item = this.item;
-      }
-      else {
-        data.item = this.actor.items.get(dataset.itemId);
-      }
-    }
 
     switch (hover) {
-      case "tooltip": tooltipListeners(event, dataset.tooltipType, isEntering, data, $(this.element)); break;
+      case "tooltip": this._onTooltip(event, target, dataset); break;
     }
   }
 
@@ -230,4 +218,49 @@ export class DC20Dialog extends foundry.applications.api.HandlebarsApplicationMi
     const object = this.updateObject || this;
     return getValueFromPath(object, path);
   }
+
+  // ================== TOOLTIP ===================
+  async _onTooltip(event, target, dataset) {
+    const html = $(this.element);
+
+    if (event.type !== "mouseover") {
+      PDE.TooltipCreator.hideTooltip(event, html);
+      return;
+    }
+
+    let object = await this._getTooltipObject(dataset, event);
+    if (!object) return;
+
+    const position = this._getTooltipPosition(event);
+    const options = {position: position};
+
+    // Prepare custom enhancement for tooltip
+    if (dataset.enhKey) {
+      const enhancement = object.allEnhancements.get(dataset.enhKey);
+      options.header = enhancement.name;
+      options.img = enhancement.sourceImg;
+      options.description = enhancement.description;
+      object = null;
+    }
+
+    if (dataset.header) options.header = dataset.header;
+    if (dataset.img) options.img = dataset.img;
+    PDE.TooltipCreator.showTooltipFor(object, event, html, options);
+  }
+
+  async _getTooltipObject(dataset, event) {
+    if (dataset.itemId) {
+      if (this.item?.id === dataset.itemId) return this.item;
+      else return this.actor.items.get(dataset.itemId);
+    }
+    if (dataset.uuid) return await fromUuid(dataset.uuid);
+  }
+  
+  /** 
+   * If not provided it will be calcuated automatically.
+   */
+  _getTooltipPosition(event) {
+    return null;
+  }
+   // ================== TOOLTIP ===================
 }

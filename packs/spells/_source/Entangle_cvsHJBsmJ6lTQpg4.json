@@ -1007,7 +1007,7 @@
           "expiryAction": "delete"
         },
         "effectKey": "entangle",
-        "macro": "const spikeyTerrain = effect.flags.dc20rpg?.spikeyTerrain || 0;\n\nif (spikeyTerrain) {\n  let dmg = {\n    value: spikeyTerrain,\n    source: \"Spikey Terrain\",\n    type: \"piercing\"\n  }\n  DC20.DC20Target.quickApplyDamageFor(actor, dmg, {}, {fromEvent: true})\n}",
+        "macro": "const spikeyTerrain = effect.flags.dc20rpg?.spikeyTerrain || 0;\n\nif (spikeyTerrain) {\n  let dmg = {\n    value: spikeyTerrain,\n    source: \"Spikey Terrain\",\n    type: \"piercing\"\n  }\n  await DC20.DC20Target.quickApplyDamageFor(actor, dmg, {}, {fromEvent: true})\n}",
         "addToChat": true,
         "nonessential": false,
         "disableWhen": {
@@ -1058,12 +1058,12 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null,
-        "coreVersion": "14.363",
+        "coreVersion": "14.367",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.1",
+        "systemVersion": "0.10.7.0",
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "createdTime": 1781983690273,
-        "modifiedTime": 1784791945262
+        "modifiedTime": 1788618799271
       },
       "showIcon": 2,
       "start": {

@@ -1,15 +1,19 @@
 import { enrichRollMenuObject } from "../../dataModel/fields/rollMenu.mjs";
+import { calculateMonsterDamage } from "../../dialogs/monster-creator.mjs";
 import { SimplePopup } from "../../dialogs/simple-popup.mjs";
 import { companionShare } from "../../helpers/actors/companion.mjs";
+import { resetEnhancements } from "../../helpers/actors/rollsFromActor.mjs";
 import { runTemporaryItemMacro } from "../../helpers/macros.mjs";
 import { evaluateFormula } from "../../helpers/rolls.mjs";
 import { generateKey, getValueFromPath, isParsableJson, isPath } from "../../helpers/utils.mjs";
 import { SkillConfiguration } from "../../settings/skillConfig.mjs";
+import { DC20RpgItem } from "../item.mjs";
 import { Enhancement } from "../item/item-creators.mjs";
 
 export function enrichWithHelpers(actor) {
   enrichRollMenuObject(actor);
   _enrichMultipleCheckPenaltyObject(actor);
+  _enrichHeldActionObject(actor);
   _enrichResourcesObject(actor);
   _enrichAttributesObject(actor);
   _enrichSkillsObject(actor);
@@ -20,6 +24,7 @@ export function enrichWithHelpers(actor) {
   _enrichEnhancementsObject(actor);
   _enrichSpecialActions(actor);
   _enrichRefreshResourcesAndItems(actor);
+  _enrichLeveling(actor);
 }
 
 //==================================//==================================
@@ -590,11 +595,6 @@ async function _applyMCP(checkKey, actor) {
 }
 
 async function _clearMCP(actor) {
-  if (actor.flags.dc20rpg.actionHeld?.isHeld) {
-    let mcp = actor.system.mcp;
-    if (companionShare(actor, "mcp")) mcp = actor.companionOwner.system.mcp;
-    await actor.update({["flags.dc20rpg.actionHeld.mcp"]: mcp});
-  }
   await actor.update({["system.mcp"]: []});
 }
 
@@ -607,6 +607,67 @@ function _mcpValue(checkKey, actor) {
 
   const mcp = actor.system.mcp;
   return mcp.filter(penalty => penalty === checkKey).length;
+}
+
+//==================================//==================================
+//                             HELD ACTION                             =
+//==================================//==================================
+function _enrichHeldActionObject(actor) {
+  const itemData = actor.system.heldAction;
+  actor.heldAction = {
+    isHeld: !!itemData?._id,
+    itemData: itemData,
+    mcp: itemData?.flags?.dc20rpg?.heldActionMcp || [],
+    hold: async (item) => await _holdAction(item, actor),
+    trigger: async () => await _triggerHeldAction(actor),
+    clear: async () => await _clearHeldAction(actor),
+    saveMcpState: async () => await _saveMcpState(actor)
+  }
+}
+
+async function _holdAction(item, actor) {
+  await _clearHeldAction(actor);
+  const cost = item.use.collectUseCost();
+  if (!actor.resources.ap.checkAndSpend(cost.resources.ap)) return;
+
+  // Prepare held action data
+  const itemData = item.toObject(false);
+  delete cost.resources.ap;
+  itemData.flags.dc20rpg.isHeldAction = true;
+  itemData.flags.dc20rpg.heldActionCost = cost;
+  itemData.flags.dc20rpg.heldActionMcp = actor.system.mcp;
+  const enhancements = {};
+  item.allEnhancements.entries()
+        .filter(([key, enh]) => enh.active)
+        .forEach(([key, enh]) => {
+          enhancements[key] = foundry.utils.deepClone(enh);
+          enhancements[key].preventModification = true;
+        });
+  itemData.system.enhancements = enhancements;
+
+  await actor.update({["system.heldAction"]: itemData});
+  await resetEnhancements(item, actor);
+  await item.system.rollMenu.clear();
+}
+
+async function _triggerHeldAction(actor) {
+  if (!actor.heldAction.isHeld) return;
+  const item = await DC20RpgItem.create(actor.heldAction.itemData, {parent: actor});
+  if (!item) return;
+
+  const result = await item.roll({heldAction: true});
+  await item.delete();
+  if (!result) return;
+  await _clearHeldAction(actor);
+  return result;
+}
+
+async function _clearHeldAction(actor) {
+  if (actor.heldAction.isHeld) await actor.update({["system.heldAction"]: new foundry.data.operators.ForcedReplacement({})});
+}
+
+async function _saveMcpState(actor) {
+  if (actor.heldAction.isHeld) await actor.update({["system.heldAction.flags.dc20rpg.heldActionMcp"]: actor.system.mcp});
 }
 
 //==================================//==================================
@@ -682,9 +743,80 @@ async function _removeItemFromKeyword(itemId, keyword, actor) {
 }
 
 //==================================//==================================
+//                       LEVELS AND ADVANCEMENT                        =
+//==================================//==================================
+function _enrichLeveling(actor) {
+  if (actor.type === "npc") {
+    actor.monsterConfig = {
+      scaleToLevel: async () => await _monsterLevelScaling(actor),
+      addReactionPoints: async () => await _addReactionPoints(actor),
+      removeReactionPoints: async () => await _removeReactionPoints(actor),
+    };
+  }
+}
+
+async function _monsterLevelScaling(actor) {
+  const config = CONFIG.DC20RPG.MONSTERS;
+  const hpMod = actor.system.scaling.baseTraits.maxHpModifier;
+  const flatHpModifier = actor.system.scaling.baseTraits.flatHpModifier;
+  const dmgMod = actor.system.scaling.baseTraits.damageModifier;
+  const tier = actor.system.scaling.tier;
+  const rank = actor.system.scaling.rank;
+  const level = actor.system.details.level;
+
+  // Calculate Max HP
+  const avgHP = config.AVERAGE_HP[level+1];
+  let multiplier = hpMod || 1;
+  if      (rank === "legendary") multiplier *= 4;
+  else if (rank === "epic")      multiplier *= 2;
+  else if (rank === "minion")    multiplier *= 0.5;
+  const maxHp = Math.ceil(avgHP * multiplier) + flatHpModifier;
+
+  // Calculate Damage
+  const [finalDmg, impact, reduceAP] = calculateMonsterDamage(tier, level, dmgMod);
+  const maxAp = reduceAP ? 2 : 4;
+
+  // Calculate Healing - there is flat value for now (1.5 * avgDmg) - maybe it will get some more changes in the future
+  const avgDmg = config.AVERAGE_DAMAGE[tier][level+1];
+  const finalHealing = Math.ceil(avgDmg * 1.5);
+
+  await actor.update({
+    system: {
+      resources: {
+        health: {max: maxHp},
+        ap: {max: maxAp}
+      },
+      scaling: {
+        maxHp: maxHp, 
+        damage: finalDmg, 
+        healing: finalHealing,
+        impact: impact
+      }
+    }
+  })
+}
+
+async function _removeReactionPoints(actor) {
+  const reactionPoints = actor.getItemByKey("reactionPoints");
+  if (reactionPoints) await reactionPoints.gmDelete();
+}
+
+async function _addReactionPoints(actor) {
+  if (actor.getItemByKey("reactionPoints")) return; // Skip if has RP already
+
+  const REACTION_POINTS_UUID = CONFIG.DC20RPG.SYSTEM_CONSTANTS.reactionPoints;
+  const reactionPoints = await fromUuid(REACTION_POINTS_UUID);
+  if (!reactionPoints) {
+    ui.notifications.error(`'Reaction Points' item is missing from the system compendium, cannot find it under the UUID: "${REACTION_POINTS_UUID}"`)
+    return;
+  }
+  await DC20RpgItem.gmCreate(reactionPoints.toObject(), {parent: actor});
+}
+
+//==================================//==================================
 //                           SPECIAL ACTIONS                           =
 //==================================//==================================
-export function _enrichSpecialActions(actor) {
+function _enrichSpecialActions(actor) {
   actor.help = {
     active: _activeHelp(actor),
     prepare: async (options) => await _prepareHelp(actor, options),

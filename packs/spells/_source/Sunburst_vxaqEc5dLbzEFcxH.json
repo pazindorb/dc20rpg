@@ -753,7 +753,7 @@
                 "itemSavePath": "system.enhancements.A27rnREHapooRNTf.modifications.addsEffect"
               }
             },
-            "_id": "r7pNUSRyOHBoCGsg",
+            "_id": "D0hDT6M2qfO1vYds",
             "type": "base",
             "system": {
               "sustained": {
@@ -771,7 +771,7 @@
                 "expiryAction": ""
               },
               "effectKey": "",
-              "macro": "const value = effect.flags?.dc20rpg?.damage || 1;\n\nlet dmg = {\n  value: value,\n  source: \"Radiant Beam\",\n  type: \"radiant\"\n};\nDC20.DC20Target.quickApplyDamageFor(actor, dmg);",
+              "macro": "const value = effect.flags?.dc20rpg?.damage || 1;\n\nlet dmg = {\n  value: value,\n  source: \"Radiant Beam\",\n  type: \"radiant\"\n};\nawait DC20.DC20Target.quickApplyDamageFor(actor, dmg);",
               "addToChat": true,
               "applyToTemplate": true,
               "nonessential": false,
@@ -815,11 +815,11 @@
               "compendiumSource": null,
               "duplicateSource": null,
               "exportSource": null,
-              "coreVersion": "14.363",
+              "coreVersion": "14.367",
               "systemId": "dc20rpg",
-              "systemVersion": "0.10.6.0",
-              "createdTime": 1782598576009,
-              "modifiedTime": 1782598594102,
+              "systemVersion": "0.10.7.0",
+              "createdTime": 1788618884420,
+              "modifiedTime": 1788618890957,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
             },
             "start": {
@@ -1178,11 +1178,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "14.363",
+    "coreVersion": "14.367",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.6.0",
+    "systemVersion": "0.10.7.0",
     "createdTime": 1768063845941,
-    "modifiedTime": 1782598595709,
+    "modifiedTime": 1788618891979,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

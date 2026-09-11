@@ -25,6 +25,7 @@ export async function runEventsFor(trigger, actor, filters=[], extraMacroData={}
   // Pre Trigger - Collect triggered events by eventType
   for (const event of eventsToRun) {
     const trigger = await _runPreTrigger(event, actor);
+    event.triggered = trigger;
     if (!trigger) continue;
 
     if (triggered[event.eventType]) triggered[event.eventType].push(event);
@@ -41,7 +42,9 @@ export async function runEventsFor(trigger, actor, filters=[], extraMacroData={}
   await _runCustomEvents(triggered.custom, actor);
 
   // Run Post Trigger methods
-  for (const event of eventsToRun) _runPostTrigger(event, actor);
+  for (const event of eventsToRun) {
+    if (event.triggered) _runPostTrigger(event, actor);
+  } 
 }
 
 async function _runDamageEvents(events, actor) {
@@ -211,6 +214,16 @@ async function _respectRollOutcome(roll, event, actor) {
         await effect.runMacro({event: event, extras: {success: true}});
         break;
 
+      case "applyDamage":
+        const dmg = {value: parseInt(event.value), source: event.label, type: event.type};
+        await DC20Target.quickApplyDamageFor(actor, dmg, {}, {});
+        break;
+
+      case "applyHealing": 
+        const heal = {value: parseInt(event.value), source: event.label, type: event.type};
+        await DC20Target.quickApplyHealingFor(actor, heal, {}, {});
+        break;
+
       default:
         console.warn(`Unknown on success type: ${event.onSuccess}`);
     }
@@ -229,6 +242,16 @@ async function _respectRollOutcome(roll, event, actor) {
         const effect = actor.getEffectById(event.effectId);
         if (!effect) break;
         await effect.runMacro({event: event, extras: {success: false}});
+        break;
+
+      case "applyDamage":
+        const dmg = {value: parseInt(event.value), source: event.label, type: event.type};
+        await DC20Target.quickApplyDamageFor(actor, dmg, {}, {});
+        break;
+
+      case "applyHealing": 
+        const heal = {value: parseInt(event.value), source: event.label, type: event.type};
+        await DC20Target.quickApplyHealingFor(actor, heal, {}, {});
         break;
   
       default:

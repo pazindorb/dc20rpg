@@ -41,6 +41,7 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
         active: new f.ObjectField({required: true}),
         maxDice: new f.NumberField({required: true, initial: 8})
       }),
+      heldAction: new f.ObjectField({required: true}),
       defences: new DefenceFields(),
       damageReduction: new DamageReductionFields(), 
       healingReduction: new f.SchemaField({ // TODO: Przenieść do "globalModifier" - dodać opcję flatValue, reduce i amplify
@@ -68,6 +69,7 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
         treshold: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         formula: new f.StringField({required: true, initial: "- @prime - @combatMastery - @death.bonus"}),
         bonus: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        applicable: new f.BooleanField({required: true, initial: false}),
       }),
       saveDC: new f.SchemaField({
         value: new f.SchemaField({
@@ -168,7 +170,7 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
       sustain: new f.ObjectField({required: true, initial: {}}),
       freeSustain: new f.BooleanField({required: true, initial: false}),
       journal: new f.StringField({required: true, initial: ""}),
-      tokenHotbar: new f.SchemaField({
+      tokenHotbar: new f.SchemaField({ // TODO backward compatibilty remove as part of 0.11.0 update
         sectionA: new f.ObjectField({required: true}),
         sectionB: new f.ObjectField({required: true}),
         resource1: new f.ObjectField({required: true}),
@@ -212,6 +214,13 @@ export class DC20CharacterData extends DC20BaseActorData {
           max: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         })
       }),
+      death: new f.SchemaField({
+        active: new f.BooleanField({required: true, initial: false}),
+        treshold: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        formula: new f.StringField({required: true, initial: "- @prime - @combatMastery - @death.bonus"}),
+        bonus: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        applicable: new f.BooleanField({required: true, initial: true}),
+      }),
       trades: new SkillFields("trade"),
       details: new f.SchemaField({
         ancestry: new f.SchemaField({id: new f.StringField({required: true})}, {required: true}),
@@ -242,7 +251,7 @@ export class DC20CharacterData extends DC20BaseActorData {
       movement: new MovementFields(false),
       rest: new RestFields(),
       equipmentSlots: new EquipmentSlotFields(),
-      tokenHotbar: new f.SchemaField({        
+      tokenHotbar: new f.SchemaField({ // TODO backward compatibilty remove as part of 0.11.0 update    
         sectionA: new f.ObjectField({required: true}),
         sectionB: new f.ObjectField({required: true}),
         resource1: new f.ObjectField({required: true, initial: {
@@ -276,8 +285,45 @@ export class DC20NpcData extends DC20BaseActorData {
         level: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         combatMastery: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         creatureType: new f.StringField({required: true}),
-        role: new f.StringField({required: true}),
-        aligment: new f.StringField({required: true}),
+        creatureRole: new f.StringField({required: true}),
+      }),
+      scaling: new f.SchemaField({
+        isScalingMonster: new f.BooleanField({required: true, initial: false}),
+        tier: new f.StringField({required: true, initial: "hard"}),
+        rank: new f.StringField({required: true, initial: "normal"}),
+        maxTraitValue: new f.NumberField({ required: true, nullable: false, integer: true, initial: 4 }),
+        maxHp: new f.NumberField({ required: true, nullable: false, integer: true, initial: 7 }),
+        damage: new f.NumberField({ required: true, nullable: true, integer: true, initial: 0 }),
+        healing: new f.NumberField({ required: true, nullable: true, integer: true, initial: 0 }),
+        impact: new f.BooleanField({required: true, initial: false}),
+        reactionPoints: new f.NumberField({ required: true, nullable: true, integer: true, initial: 0 }),
+        baseTraits: new f.SchemaField({
+          darkvision: new f.BooleanField({required: true, initial: false}),
+          tremorsense: new f.BooleanField({required: true, initial: false}),
+          blindsight: new f.BooleanField({required: true, initial: false}),
+          truesight: new f.BooleanField({required: true, initial: false}),
+          pdr: new f.BooleanField({required: true, initial: false}),
+          edr: new f.BooleanField({required: true, initial: false}),
+          mdr: new f.BooleanField({required: true, initial: false}),
+          maxHpModifier: new f.NumberField({ required: true, nullable: true, integer: false, initial: 1 }),
+          damageModifier: new f.StringField({required: true, initial: ""}),
+          flatHpModifier: new f.NumberField({ required: true, nullable: true, integer: false, initial: 0 }),
+          pdModifier: new f.NumberField({ required: true, nullable: true, integer: true, initial: 0 }),
+          adModifier: new f.NumberField({ required: true, nullable: true, integer: true, initial: 0 }),
+          damageVulnerability: new f.ObjectField({}),
+          damageResistance: new f.ObjectField({}),
+          damageImmunity: new f.ObjectField({}),
+          conditionResistance: new f.ObjectField({}),
+          conditionVulnerability: new f.ObjectField({}),
+          conditionImmunity: new f.ObjectField({}),
+          speedIncrease: new f.NumberField({ required: true, nullable: true, integer: true, initial: 0 }),
+          speedDecrease: new f.NumberField({ required: true, nullable: true, integer: true, initial: 0 }),
+          fly: new f.BooleanField({required: true, initial: false}),
+          climb: new f.BooleanField({required: true, initial: false}),
+          swim: new f.BooleanField({required: true, initial: false}),
+          burrow: new f.BooleanField({required: true, initial: false}),
+          maxTraitModifier: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        })
       }),
       saveDC: new f.SchemaField({
         flat: new f.BooleanField({required: true, initial: false}),

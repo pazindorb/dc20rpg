@@ -344,6 +344,7 @@ export function getEffectModifiableKeys() {
     // Death
     "system.death.bonus": "Death's Door: Threshold Bonus",
     "system.death.formula": "Death's Door: Calculation Formula",
+    "system.death.applicable": "Death's Door: Monster uses it",
 
     // Movement
     "system.moveCost": "Cost of moving 1 Space",
@@ -404,8 +405,8 @@ export function getEffectModifiableKeys() {
     ..._skillBonuses(),
 
     // Skill expertise
-    "system.expertise.automated": "Expertise (Skill Mastery Limit Increase)",
-    "system.expertise.levelIncrease": "Expertise (Skill Mastery Level Increase)",
+    "system.expertise.automated": "Expertise (Mastery Cap)",
+    "system.expertise.levelIncrease": "Expertise (Mastery Level)",
 
     // Skill Points bonus
     "system.attributePoints.bonus": "Attribute Points",
@@ -499,6 +500,11 @@ export function getEffectModifiableKeys() {
 
     // Events
     "system.events": "Events",
+
+    "token.light.bright": "Token: Emit Bright Light",
+    "token.light.dim": "Token: Emit Dim Light",
+    "token.light.color": "Token: Light Color",
+    "token.light.animation.type": "Token: Animation Type"
   }
 }
 

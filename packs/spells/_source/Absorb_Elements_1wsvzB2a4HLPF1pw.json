@@ -330,7 +330,7 @@
                 "itemSavePath": "system.enhancements.Sp0UaNLQCNrlyU1J.modifications.addsEffect"
               }
             },
-            "_id": "rylI15Tkow28YIYp",
+            "_id": "vb0fvfLplbASCFWN",
             "type": "base",
             "system": {
               "sustained": {
@@ -384,11 +384,11 @@
               "compendiumSource": null,
               "duplicateSource": null,
               "exportSource": null,
-              "coreVersion": "14.363",
+              "coreVersion": "14.367",
               "systemId": "dc20rpg",
-              "systemVersion": "0.10.6.1",
-              "createdTime": 1784799123316,
-              "modifiedTime": 1784799123316,
+              "systemVersion": "0.10.7.0",
+              "createdTime": 1788618402872,
+              "modifiedTime": 1788618402872,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
             },
             "start": {
@@ -637,7 +637,7 @@
                 "itemSavePath": "system.enhancements.SMTGrmex7PO9Q4P4.modifications.addsEffect"
               }
             },
-            "_id": "HxGCQxIlp8Nmtzs8",
+            "_id": "zoQDHcuQylC4b0LZ",
             "type": "base",
             "system": {
               "sustained": {
@@ -655,7 +655,7 @@
                 "expiryAction": "delete"
               },
               "effectKey": "lingeringRetaliation",
-              "macro": "const damage = 0;\nconst type = \"fire\";\n\nconst message = game.messages.get(extras.messageId);\nif (!message) return;\n\nlet target = game.actors.tokens[message.speaker.token];\nif (!target) target = game.actors.get(message.speaker.actor);\nif (!target) return;\n\nconst isMelee = await DC20.dialog.SimplePopup.confirm(\"Is that a Melee Attack?\");\nif (!isMelee) return;\n\nlet dmg = {\n  value: damage,\n  source: \"Lingering Retaliation\",\n  type: type\n}\nDC20.DC20Target.quickApplyDamageFor(target, dmg, {}, {fromEvent: true})",
+              "macro": "const damage = 0;\nconst type = \"fire\";\n\nconst message = game.messages.get(extras.messageId);\nif (!message) return;\n\nlet target = game.actors.tokens[message.speaker.token];\nif (!target) target = game.actors.get(message.speaker.actor);\nif (!target) return;\n\nconst isMelee = await DC20.dialog.SimplePopup.confirm(\"Is that a Melee Attack?\");\nif (!isMelee) return;\n\nlet dmg = {\n  value: damage,\n  source: \"Lingering Retaliation\",\n  type: type\n}\nawait DC20.DC20Target.quickApplyDamageFor(target, dmg, {}, {fromEvent: true})",
               "addToChat": true,
               "applyToTemplate": false,
               "nonessential": false,
@@ -691,11 +691,11 @@
               "compendiumSource": null,
               "duplicateSource": null,
               "exportSource": null,
-              "coreVersion": "14.363",
+              "coreVersion": "14.367",
               "systemId": "dc20rpg",
-              "systemVersion": "0.10.6.1",
-              "createdTime": 1784799160343,
-              "modifiedTime": 1784799221929,
+              "systemVersion": "0.10.7.0",
+              "createdTime": 1788618410230,
+              "modifiedTime": 1788618434979,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
             },
             "start": {
@@ -1015,11 +1015,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "14.363",
+    "coreVersion": "14.367",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.6.1",
+    "systemVersion": "0.10.7.0",
     "createdTime": 1767649133243,
-    "modifiedTime": 1784799223287,
+    "modifiedTime": 1788618437554,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

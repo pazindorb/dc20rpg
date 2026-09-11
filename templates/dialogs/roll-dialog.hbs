@@ -80,7 +80,7 @@
         </ul>
       </div>
       <div class="column enh-number">
-        {{#if rollsHeldAction}}
+        {{#if heldAction}}
           <i>{{rollMenu.apCost}}</i>
         {{else}}
           <a class="toggle" data-cType="toggle" data-path="apForAdv" data-tooltip="{{localize 'dc20rpg.dialog.rollDialog.apForAdv'}}">{{rollMenu.apCost}}</a>
@@ -102,7 +102,7 @@
         </ul>
       </div>
       <div class="column enh-number">
-        {{#if rollsHeldAction}}
+        {{#if heldAction}}
           <i>{{rollMenu.gritCost}}</i>
         {{else}}
           <a class="toggle" data-cType="toggle" data-path="gritForAdv" data-tooltip="{{localize 'dc20rpg.dialog.rollDialog.gritForAdv'}}">{{rollMenu.gritCost}}</a>
@@ -135,7 +135,7 @@
         </div>
         {{/ifCond}}
         <div class="column enh-number">
-          {{#ifCond @root.rollsHeldAction '||' enhancement.preventModification}}
+          {{#ifCond @root.heldAction '||' enhancement.preventModification}}
             {{#if enhancement.repeatable}}
             <i>{{enhancement.number}}</i>
             {{else}}
@@ -334,7 +334,7 @@
   {{!-- Roll --}}
   <footer class="form-footer margin-top-5">
     <button data-action="roll"><i class="fa-light fa-dice-d20 fa-lg margin-right-5"></i>{{rollLabel}}</button>
-    {{#if item}} {{#unless rollsHeldAction}}
+    {{#if item}} {{#unless heldAction}}
     <button data-action="holdAction" style="max-width: 100px;" data-tooltip="{{localize "dc20rpg.dialog.rollDialog.holdActionTooltip"}}"><i class="fa-light fa-arrow-up-right-from-square fa-lg margin-right-5"></i>{{localize "dc20rpg.dialog.rollDialog.holdAction"}}</button>
     {{/unless}} {{/if}}
   </footer>

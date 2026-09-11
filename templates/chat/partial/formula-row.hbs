@@ -17,7 +17,7 @@
     </div>
     {{/if}}
 
-    {{#if @root.userIsGM}}
+    {{#ifCond @root.userIsGM '||' ../actor.isOwner}}
     <div class="button-container">
       <div class="small-button-wrapper">
         <a class="modify-formula chat-button margin-bottom-1" data-up="true" data-target-hash="{{../targetHash}}" data-index="{{index}}" data-category="{{../category}}" data-tooltip="{{localize "dc20rpg.chat.addOne"}}"> + </a>
@@ -27,7 +27,7 @@
         <i class="fa-lg fa-solid fa-gavel"></i>
       </a>
     </div>
-    {{/if}}
+    {{/ifCond}}
   </div>
 </div>
 {{/each}}

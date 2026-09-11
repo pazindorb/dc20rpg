@@ -76,7 +76,7 @@ export function buildMyStatblockHTML(actor, elId) {
   const agi = Number(get(actor, 'system.attributes.agi.current', 1)) || 1;
   const cha = Number(get(actor, 'system.attributes.cha.current', 1)) || 1;
   const intt = Number(get(actor, 'system.attributes.int.current', 0)) || 0;
-  const roleRaw = get(actor, 'system.details.role', get(actor, 'system.details.category', ''));
+  const roleRaw = get(actor, 'system.details.creatureRole', get(actor, 'system.details.category', ''));
   const role = roleRaw ? cap(String(roleRaw)) : '';
   const attackCheck = computeDaAttackCheck(actor);
   const saveDC = 10 + attackCheck;

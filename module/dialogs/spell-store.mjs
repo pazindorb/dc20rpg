@@ -1,4 +1,3 @@
-import { tooltipListeners } from "../helpers/tooltip.mjs";
 import { DC20Dialog } from "./dc20Dialog.mjs";
 
 export class SpellStore extends DC20Dialog {
@@ -42,7 +41,7 @@ export class SpellStore extends DC20Dialog {
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
     context.spellstore = this.item.system.spellstore;
-    context.allowAddingSpells = false; // TODO: Add it in the future
+    context.allowAddingSpells = this.allowAddingSpells;
     return context;
   }
 
@@ -61,27 +60,19 @@ export class SpellStore extends DC20Dialog {
     this.render();
   }
 
-  // TODO: Add it in the future
-  // _onDrop(event) {
-  //   if (!this.allowAddingSpells) return;
-  //   const dropped = super._onDrop(event);
-    
-  //   dropped
-  // }
+  async _onDrop(event) {
+    if (!this.allowAddingSpells) return;
+    const dropped = await super._onDrop(event);
+    if (dropped.type !== "Item") return;
+    const spell = await fromUuid(dropped.uuid);
+    if (spell?.type !== "spell") return;
 
-  _onHover(event) {
-    const target = super._getHoverTarget(event.target);
-    const dataset = target.dataset;
-    if (!dataset.spellKey) super._onHover(event);
+    await this.item.spellstore.storeSpell(spell);
+    this.render();
+  }
 
-    const spell = this.item.system.spellstore[dataset.spellKey];
-    if (!spell) return;
-
-    const hover = dataset.hover;
-    const isEntering = event.type === "mouseover";
-    const data = {dataset: dataset};
-    data.item = spell;
-
-    if (hover === "tooltip") tooltipListeners(event, dataset.tooltipType, isEntering, data, $(this.element));
+  async _getTooltipObject(dataset, event) {
+    const itemData = this.item.system.spellstore[dataset.spellKey];
+    return new Item(itemData);
   }
 }

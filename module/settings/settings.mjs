@@ -40,6 +40,17 @@ export function registerGameSettings(settings) {
     type: Boolean,
     default: false
   });
+
+  // ======================================
+  // ==               UI                 ==
+  // ======================================
+  settings.register("dc20rpg", "enableTokenEffectsTracker", {
+    name: "Enable Token Effects Tracker",
+    scope: "user",
+    config: true,
+    default: true,
+    type: Boolean
+	});
   
   // ======================================
   // ==            MOVEMENT              ==
@@ -218,6 +229,7 @@ export function registerGameSettings(settings) {
   // ======================================
   // ==          TOKEN HOTBAR            ==
   // ======================================
+  // TODO backward compatibilty remove as part of 0.11.0 update
   settings.register("dc20rpg", "tokenHotbar", {
     scope: "client",
     config: false,
@@ -225,6 +237,7 @@ export function registerGameSettings(settings) {
     type: Boolean
   });
 
+  // TODO backward compatibilty remove as part of 0.11.0 update
   settings.register("dc20rpg", "tokenHotbarSettings", {
     scope: "client",
     config: false,

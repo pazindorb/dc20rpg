@@ -25,6 +25,11 @@ export function prepareItemData(context, item) {
   _prepareItemUsageCosts(context, item);
   _prepareQuickDetail(context, item);
   _prepareDropdownData(context, item);
+  context.monsterImpactOptions = {
+    [0]:  "Monster Scaling",
+    [1]:  "Always",
+    [-1]: "Never"
+  }
 }
 
 export function preprareSheetData(context, item) {
@@ -131,8 +136,9 @@ function _prepareQuickDetail(context, item) {
   // Feature Source
   if (item.type === "feature" && item.system.featureType) {
     const origin = item.system.featureOrigin;
+    const type = item.system.featureType;
     let label = "";
-    switch (item.system.featureType) {
+    switch (type) {
       case "class": label = "Class Feature/Talent"; break;
       case "subclass": label = "Subclass Feature/Talent"; break;
       case "talent": label = "General Talent"; break;
@@ -142,6 +148,11 @@ function _prepareQuickDetail(context, item) {
       case "monster": label = "Monster Feature/Trait"; break;
       case "other": label = "Other Source"; break;
     }
+    const monsterTraitType = item.system.monsterTrait?.traitType;
+    if (monsterTraitType) {
+      const types = CONFIG.DC20RPG.DROPDOWN_DATA.monsterTraitTypes;
+      label += ` [${types[monsterTraitType]}]`;
+    } 
     if (origin) label += ": " + origin;
     quickDetail.push(label);
   }

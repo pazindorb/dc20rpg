@@ -1,4 +1,3 @@
-import { TokenSelector } from "../dialogs/token-selector.mjs";
 import DC20RpgActiveEffect from "../documents/activeEffect.mjs";
 import { DC20RpgItem } from "../documents/item.mjs";
 import { DC20RpgTokenDocument } from "../documents/token.mjs";
@@ -142,7 +141,7 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
   async _onClickLeft2(event) {
     if (this.document.itemToken) {
       const tokens = getTokensForUser();
-      const selected = await TokenSelector.open(tokens, "Select Actor to pick up");
+      const selected = await PDE.TokenSelector.open(tokens, {customMessage: "Select Actor to pick up this item."});
       if (selected.length === 0) return;
 
       for (const token of selected) {

@@ -753,7 +753,7 @@
                 "itemSavePath": "system.enhancements.2IGznNKg2hI5mhVo.modifications.addsEffect"
               }
             },
-            "_id": "cgHwU1dXyPe3Zpbr",
+            "_id": "kdOprs4JQl7gXBli",
             "type": "base",
             "system": {
               "sustained": {
@@ -771,7 +771,7 @@
                 "expiryAction": ""
               },
               "effectKey": "",
-              "macro": "const damage = effect.flags?.dc20rpg?.stormCloud;\nif (!damage) return;\n\nlet dmg = {\n  value: damage,\n  source: \"Storm Cloud\",\n  type: \"lightning\"\n};\nDC20.DC20Target.quickApplyDamageFor(actor, dmg);",
+              "macro": "const damage = effect.flags?.dc20rpg?.stormCloud;\nif (!damage) return;\n\nlet dmg = {\n  value: damage,\n  source: \"Storm Cloud\",\n  type: \"lightning\"\n};\nawait DC20.DC20Target.quickApplyDamageFor(actor, dmg);",
               "addToChat": true,
               "applyToTemplate": true,
               "nonessential": false,
@@ -807,11 +807,11 @@
               "compendiumSource": null,
               "duplicateSource": null,
               "exportSource": null,
-              "coreVersion": "14.363",
+              "coreVersion": "14.367",
               "systemId": "dc20rpg",
-              "systemVersion": "0.10.6.0",
-              "createdTime": 1782598405397,
-              "modifiedTime": 1782598482443,
+              "systemVersion": "0.10.7.0",
+              "createdTime": 1788618524373,
+              "modifiedTime": 1788618531890,
               "lastModifiedBy": "dOcXwrUs2VunZl0y"
             },
             "start": {
@@ -1063,11 +1063,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "14.363",
+    "coreVersion": "14.367",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.6.0",
+    "systemVersion": "0.10.7.0",
     "createdTime": 1767793761349,
-    "modifiedTime": 1782598487996,
+    "modifiedTime": 1788618532853,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {

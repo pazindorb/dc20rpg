@@ -1,18 +1,7 @@
 export function preInitializeFlags(actor) {
 	if (actor.flags.dc20rpg) return;
 
-	const flags = {
-		advancementCounter: 0,
-		actionHeld: {
-			isHeld: false,
-			itemId: null,
-			itemImg: null,
-			apForAdv: null,
-			enhancements: null,
-			mcp: null,
-			rollsHeldAction: false
-		}
-	}
+	const flags = {advancementCounter: 0}
 
 	actor.update({[`flags.dc20rpg`]: flags});
 }

@@ -157,7 +157,7 @@
     "againstStatuses": {
       "Erukodxrb2pdEs5K": {
         "id": "restrained",
-        "supressFromChatMessage": false,
+        "supressFromChatMessage": true,
         "untilYourNextTurnStart": false,
         "untilYourNextTurnEnd": false,
         "untilTargetNextTurnStart": false,
@@ -175,7 +175,118 @@
       "canCrit": false
     }
   },
-  "effects": [],
+  "effects": [
+    {
+      "name": "Shoot Webs",
+      "img": "icons/creatures/webs/web-spider-casting-caught-purple.webp",
+      "origin": "Compendium.dc20rpg.ancestries.Item.1NUY0dgFR36Ck2SC",
+      "disabled": false,
+      "system": {
+        "addToChat": true,
+        "applyToTemplate": false,
+        "changes": [
+          {
+            "key": "system.movement.ground.bonus",
+            "type": "add",
+            "value": -100,
+            "phase": "initial",
+            "priority": 20,
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.saves.agi",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Restrained (Immobilized)\"",
+            "phase": "initial",
+            "priority": 20,
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.onYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"dis\", \"label\": \"Restrained\"",
+            "phase": "initial",
+            "priority": 20,
+            "useCustom": false
+          },
+          {
+            "key": "system.dynamicRollModifier.againstYou.attack",
+            "type": "add",
+            "value": "\"value\": 1, \"type\": \"adv\", \"label\": \"Restrained\"",
+            "phase": "initial",
+            "priority": 20,
+            "useCustom": false
+          },
+          {
+            "key": "system.events",
+            "type": "add",
+            "value": "\"label\": \"Shoot Webs\", \"trigger\": \"manual\", \"eventType\": \"checkRequest\", \"checkKey\": \"mar\", \"against\": \"#SAVE_DC#\", \"statuses\": [\"restrained\"], \"onSuccess\": \"delete\", \"preTrigger\": \"spendAP\", \"actorId\": \"#SPEAKER_ID#\"",
+            "phase": "initial",
+            "priority": 20,
+            "useCustom": false
+          }
+        ],
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "statusId": "",
+        "condition": true,
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": "",
+          "expiryAction": ""
+        },
+        "effectKey": "",
+        "macro": "",
+        "applyToSelf": false,
+        "requireEquip": false,
+        "nonessential": false,
+        "refreshTarget": false,
+        "disableWhen": {
+          "path": "",
+          "mode": "",
+          "value": ""
+        },
+        "chatMessageId": ""
+      },
+      "transfer": false,
+      "flags": {
+        "dc20rpg": {}
+      },
+      "duration": {
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
+      },
+      "_id": "xCjCJdtVjBSWHx7X",
+      "type": "base",
+      "start": null,
+      "description": "<p>You are @UUID[Compendium.dc20rpg.rules.JournalEntry.fGuX33nVezGZh1iZ.JournalEntryPage.73e24193c57aeb8a]{Restrained} by webbing. You can spend <strong>1 AP</strong> on your turn to attempt to escape.</p>",
+      "tint": "#ffffff",
+      "statuses": [
+        "restrained"
+      ],
+      "showIcon": 1,
+      "folder": null,
+      "sort": 0,
+      "_stats": {
+        "coreVersion": "14.367",
+        "systemId": "dc20rpg",
+        "systemVersion": "0.10.7.0",
+        "createdTime": 1788619324387,
+        "modifiedTime": 1788619488499,
+        "lastModifiedBy": "dOcXwrUs2VunZl0y",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "_key": "!items.effects!1NUY0dgFR36Ck2SC.xCjCJdtVjBSWHx7X"
+    }
+  ],
   "sort": 100000,
   "ownership": {
     "default": 0,
@@ -185,11 +296,11 @@
   "_stats": {
     "compendiumSource": "Item.7nOCHb3llandPzQJ",
     "duplicateSource": "Item.xsHMqu8vGj0oaKP3",
-    "coreVersion": "14.364",
+    "coreVersion": "14.367",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.6.0",
+    "systemVersion": "0.10.7.0",
     "createdTime": 1720110035246,
-    "modifiedTime": 1781983702137,
+    "modifiedTime": 1788619318151,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

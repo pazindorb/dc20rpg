@@ -19,6 +19,7 @@ import { getActorFromIds } from "../../helpers/actors/tokens.mjs";
 import { RollDialog } from "../../roll/rollDialog.mjs";
 import { ActionSelect } from "../../dialogs/action-select.mjs";
 import { DC20RpgItem } from "../../documents/item.mjs";
+import { MonsterCreatorDialog } from "../../dialogs/monster-creator.mjs";
 
 export function activateCommonLinsters(html, actor) {
   // Core funcionalities
@@ -199,6 +200,7 @@ export function activateCharacterLinsters(html, actor) {
 }
 
 export function activateNpcLinsters(html, actor) {
+  html.find(".monster-creator").click(() => MonsterCreatorDialog.open({actor: actor}));
 }
 
 export function activateCompanionListeners(html, actor) {

@@ -21,6 +21,8 @@ export function itemDetailsToHtml(item) {
   _merge(tier2, _area(item));
   _merge(tier3, _weaponStyle(item));
   _merge(tier3, _properties(item));
+  _merge(tier3, _monsterTraitData(item));
+  _merge(tier3, _impactMonsterTrait(item));
   if (item.type === "spell") {
     _merge(tier3, _spellDetails(item));
   }
@@ -39,6 +41,7 @@ export function itemDetailsToHtml(item) {
     firstChild = "";
   }
   if (tier3.length > 0) {
+    if (tier1.length > 0 || tier2.length > 0) content += '<div class="underline"></div>';
     content += `<div class="info-box-wrapper"${firstChild}>${tier3.join("\n")}</div>`;
   }
   return content;
@@ -97,14 +100,15 @@ function _formulas(item) {
   if (item.system.formulas) {
     for (const formula of Object.values(item.system.formulas)) {
       if (!formula.formula) continue;
+      const displayedValue = formula.precalculated != null ? formula.precalculated : formula.formula;
       if (formula.category === "damage") {
-        formulas.push(_infoBox(`${formula.formula} ${getLabelFromKey(formula.type, CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes)}`, "red", "tier1"));
+        formulas.push(_infoBox(`${displayedValue} ${getLabelFromKey(formula.type, CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes)}`, "red", "tier1"));
       }
       if (formula.category === "healing") {
-        formulas.push(_infoBox(`${formula.formula} ${getLabelFromKey(formula.type, CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes)}`, "green", "tier1"));
+        formulas.push(_infoBox(`${displayedValue} ${getLabelFromKey(formula.type, CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes)}`, "green", "tier1"));
       }
       if (formula.category === "other") {
-        let label = isNaN(formula.formula) ? "(formula)" : formula.formula; 
+        let label = isNaN(displayedValue) ? "(formula)" : (displayedValue); 
         label += " " + formula.label;
         formulas.push(_infoBox(label, "gold", "tier1"));
       }
@@ -251,6 +255,34 @@ function _properties(item) {
     }
   });
   return content;
+}
+
+function _monsterTraitData(item) {
+  let label = "";
+  const monsterTraitType = item.system.monsterTrait?.traitType;
+  const monsterTraitValue = item.system.monsterTrait?.traitValue;
+  if (monsterTraitType) {
+    const types = CONFIG.DC20RPG.DROPDOWN_DATA.monsterTraitTypes;
+    label += `Monster Trait: ${types[monsterTraitType]} (${monsterTraitValue})`;
+    return [_infoBox(label, "green", "tier3")];
+  }
+  return [];
+}
+
+function _impactMonsterTrait(item) {
+  const impact = item.system?.monsterTrait?.impact;
+  if (impact !== 1) return [];
+
+  const impactData = CONFIG.DC20RPG.PROPERTIES.impact;
+  const label = game.i18n.localize(impactData.label);
+  return [_infoBox(label, "gray", "tier3", {
+    cssClass: "journal-tooltip", 
+    data: `
+    data-hover="tooltip"
+    data-tooltip-type="journal"
+    data-uuid="${impactData.journalUuid}" 
+    data-header="${label}"`
+  })];
 }
 
 function _spellDetails(item) {

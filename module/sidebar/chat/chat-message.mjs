@@ -26,8 +26,9 @@ export class DC20ChatMessage extends ChatMessage {
   static async hpChangeMessage(amount, source, actor, options={}) {
     const showEventChatMessage = game.settings.get("dc20rpg", "showEventChatMessage");
     if (showEventChatMessage === "none") return;
+    if (amount === 0 && !options.overheal) return;
 
-    const eventType = amount > 0 ? "healing" : "damage";
+    const eventType = amount >= 0 ? "healing" : "damage";
     const systemData = {
       amount: Math.abs(amount),
       source: source,
@@ -955,7 +956,7 @@ export class DC20ChatMessage extends ChatMessage {
             for (let i = 0; i < target.effects.length; i++) {
               this.#onApplyEffect({targetHash: target.targetHash, index: i});
             }
-            for (let i = 0; i < target.effects.length; i++) {
+            for (let i = 0; i < target.statuses.length; i++) {
               this.#onApplyStatus({targetHash: target.targetHash, index: i});
             }
           })
