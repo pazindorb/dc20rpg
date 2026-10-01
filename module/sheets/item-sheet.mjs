@@ -11,10 +11,6 @@ import { openItemCreator } from "../dialogs/item-creator.mjs";
 import { SpellStore } from "../dialogs/spell-store.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
 
-/**
- * Extend the basic ItemSheet with some very simple modifications
- * @extends {ItemSheet}
- */
 export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicationMixin(foundry.applications.sheets.ItemSheetV2) {
   sheetFlags = {};
 
@@ -25,7 +21,7 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
       closeOnSubmit: false
     },
     position: {
-      width: 550,
+      width: 500,
       height: 600
     },
     classes: ["dc20rpg themed item-v13"],
@@ -438,7 +434,6 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
     const target = this.#getTarget(event.target, "ctype");
     const dataset = target.dataset;
     const cType = dataset.ctype;
-    const value = dataset.value;
     const path = dataset.path;
 
     switch (cType) {

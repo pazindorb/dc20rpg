@@ -1,0 +1,106 @@
+<header class="actor-sheet-header">
+  {{!-- Edit Mode Button --}}
+  <a class="edit-button" data-cType="activable" data-tooltip="{{localize 'dc20rpg.sheet.editMode'}}" data-path="system.sheetData.editMode">
+    <i class="fa-lg fa-square-pen {{#if editMode}}fa-solid{{else}}fa-light{{/if}}"></i>
+  </a> 
+
+  <div class="actor-img">
+    <img src="{{img}}" {{#if editMode}}data-edit="img" data-tooltip="{{localize 'dc20rpg.sheet.editImage'}}"{{else}}data-action="showImg" data-tooltip="{{localize 'dc20rpg.sheet.showImage'}}"{{/if}}/>
+
+    {{!-- HP Bar --}}
+    <div class="resource" data-tooltip="{{localize 'dc20rpg.resource.health'}}">
+      <div class="above-bar margin-top-auto">
+        <div class="temporary-hp" data-tooltip="{{localize 'dc20rpg.resource.tempHp'}}">
+          <input class="temporary-input change-actor-numeric-value" type="text" data-path="system.resources.health.temp" value="{{system.resources.health.temp}}" data-dtype="Number" placeholder="+Temp">
+        </div>
+      </div>
+      
+      <div class="resource-bar-wrapper">
+        <button class="health" data-action="spend" data-resource="health" data-amount="1" data-tooltip="{{localize 'dc20rpg.sheet.resource.spendHealth'}}"><i class="fas fa-solid fa-minus"></i></button>
+        <div class="resource-bar">
+          <div class="health-bar-temp" style="width: {{system.resources.health.percentTemp}}%"></div>
+          <div class="health-bar" style="width: {{system.resources.health.percent}}%"></div>
+          <div class="resource-content">
+            <div class="resource-values">
+              <input class="bar-input change-actor-numeric-value" type="text" data-path="system.resources.health.current" value="{{system.resources.health.current}}" data-dtype="Number">
+              <span class="separator"> / </span>
+              <input {{#unless system.resources.health.useFlat}}disabled{{/unless}} class="bar-input change-actor-numeric-value " type="text" data-path="system.resources.health.max" value="{{system.resources.health.max}}" data-dtype="Number">
+            </div>
+          </div>
+        </div>
+        <button class="health" data-action="regain" data-resource="health" data-amount="1" data-tooltip="{{localize 'dc20rpg.sheet.resource.regainHealth'}}"><i class="fas fa-solid fa-plus"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="actor-details">
+    <div class="name-row">
+      <input class="actor-name" {{#unless editMode}}disabled{{/unless}} name="name" type="text" value="{{name}}" placeholder="{{localize 'dc20rpg.sheet.charName'}}"/>
+    </div>
+
+    <div class="detail-row">
+      {{!-- Size --}}
+      <select {{#unless editMode}}disabled{{/unless}} data-cType="string" data-path="system.size.size" data-tooltip="{{localize 'dc20rpg.sheet.size'}}" >
+        {{selectOptions @root.config.DROPDOWN_DATA.sizes selected=system.size.size}}
+      </select>
+
+      {{!-- Creature Type --}}
+      <select {{#unless editMode}}disabled{{/unless}} data-cType="string" data-path="system.details.creatureType" data-tooltip="{{localize 'dc20rpg.sheet.creatureType'}}">
+        {{selectOptions @root.config.DROPDOWN_DATA.creatureTypes selected=system.details.creatureType blank=""}}
+      </select>
+      <span class="margin-right-3">|</span>
+      {{!-- Creature Role --}}
+      <select {{#unless editMode}}disabled{{/unless}} data-cType="string" data-path="system.details.creatureRole" data-tooltip="{{localize 'dc20rpg.sheet.creatureRole'}}">
+        {{selectOptions @root.config.DROPDOWN_DATA.creatureRoles selected=system.details.creatureRole blank=""}}
+      </select>
+
+      {{!-- Level --}}
+      <span data-tooltip="{{localize 'dc20rpg.sheet.level'}}">{{localize 'dc20rpg.sheet.level'}}</span>
+      {{#if system.scaling.isScalingMonster}}
+        <select {{#unless editMode}}disabled{{/unless}} name="system.details.level" data-dtype="Number" style="width: 40px;">
+          {{selectOptions @root.config.DROPDOWN_DATA.levels selected=system.details.level}}
+        </select>
+      {{else}}
+        <input {{#unless editMode}}disabled{{/unless}} name="system.details.level" type="text" value="{{system.details.level}}" data-dtype="Number" style="width: 40px;"/>
+      {{/if}}
+
+      {{!-- Combat Mastery --}}
+      <span class="margin-right-3">|</span>
+      <input disabled type="text" value="CM" style="width: 40px;" data-tooltip="{{localize 'dc20rpg.sheet.combatMastery'}}"/>
+      <input disabled type="text" value="{{system.details.combatMastery}}" style="width: 30px; padding: 0;"/>
+    </div>
+
+    <div class="def-row">
+      {{!-- Precision --}}
+      <div class="defense" data-tooltip="{{localize 'dc20rpg.sheet.precisionDefence'}}">
+        <i class="fa-solid fa-shield"></i><span class="margin-left-3 margin-right-3">PD</span>
+         <input {{#ifCond system.defences.precision.formulaKey '!==' "flat"}} disabled {{/ifCond}} {{#unless editMode}}disabled{{/unless}} type="text" value="{{system.defences.precision.value}}" data-cType="string" data-path="system.defences.precision.normal" data-dtype="Number"/>
+        /<input disabled type="text" value="{{system.defences.precision.heavy}}" data-dtype="Number"/>
+        /<input disabled type="text" value="{{system.defences.precision.brutal}}" data-dtype="Number"/>
+      </div>
+
+      {{!-- Area --}}
+      <div class="defense" data-tooltip="{{localize 'dc20rpg.sheet.areaDefence'}}">
+        <i class="fa-regular fa-circle-dot"></i><span class="margin-left-3 margin-right-3">AD</span>
+         <input {{#ifCond system.defences.area.formulaKey '!==' "flat"}} disabled {{/ifCond}} {{#unless editMode}}disabled{{/unless}} type="text" value="{{system.defences.area.value}}" data-cType="string" data-path="system.defences.area.normal" data-dtype="Number"/>
+        /<input disabled type="text" value="{{system.defences.area.heavy}}" data-dtype="Number"/>
+        /<input disabled type="text" value="{{system.defences.area.brutal}}" data-dtype="Number"/>
+      </div>
+    </div>
+
+    <div class="attr-row">
+      {{#each attributes as |attribute key|}}
+        <div class="attribute">
+          <label>{{localize (concat "dc20rpg.attributes.short." key)}}</label>
+          {{#if @root.editMode}}
+          <input style="width: 25px;" type="text" value="{{attribute.value}}" data-dtype="Number" name="system.attributes.{{key}}.current"/>
+          <a data-cType="activable" data-path="system.attributes.{{key}}.saveMastery" data-tooltip="{{localize "dc20rpg.saveMastery"}}" class="fa-shield-heart {{#if attribute.saveMastery}}fa-solid{{else}}fa-light{{/if}}"></a>
+          {{else}}
+          <a class="roll" data-action="roll" data-type="check" data-key="{{key}}" data-tooltip="{{attribute.label}} {{localize "dc20rpg.rollType.check"}}">{{attribute.check}}</a>
+          <a class="roll" data-action="roll" data-type="save" data-key="{{key}}" data-tooltip="{{attribute.label}} {{localize "dc20rpg.rollType.save"}}">({{attribute.save}})</a>
+          {{/if}}
+        </div>
+      {{/each}}
+    </div>
+  </div>
+</header>

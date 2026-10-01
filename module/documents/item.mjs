@@ -73,6 +73,10 @@ export class DC20RpgItem extends Item {
     return this.toggleable && this.system.toggle?.toggledOn;
   }
 
+  get equippable() {
+    return this.system?.statuses?.equipped !== undefined;
+  }
+
   get equipped() {
     return !!this.system?.statuses?.equipped;
   }

@@ -1,0 +1,271 @@
+<section class="actor-sheet-section tab core standard-form {{tabs.core.cssClass}}" data-group="sheet" data-tab="core">
+<div class="scrollable">
+  <div class="core-left-side">
+
+    {{!-- Action Points --}}
+    <div class="action-points-wrapper">
+      <a class="ap spend-resource" data-action="spend" data-resource="ap" data-tooltip="{{localize 'dc20rpg.sheet.resource.useAp'}}"><i class="fas fa-solid fa-minus"></i></a>
+      <div class="points">
+        {{{icon-printer-empty system.resources.ap.value system.resources.ap.max 4 "fa-solid fa-dice-d6 ap" "fa-regular fa-dice-d6 ap" system.globalModifier.prevent.goUnderAP "#b20000"}}}
+      </div>
+      <a class="ap regain-resource" data-action="regain" data-resource="ap" data-tooltip="{{localize 'dc20rpg.sheet.resource.regainAp'}}"><i class="fas fa-solid fa-plus"></i></a>
+    </div>
+
+    {{!-- Custom Resource --}}
+    <div class="custom-resource-wrapper">
+      {{!-- Custom Resource --}}
+      {{#each system.resources.custom as |resource key|}}
+      <div class="custom-resource margin-bottom-3" title="{{resource.label}}" data-key="{{key}}" data-type="resource">
+        <img class="resource-icon {{#if @root.editMode}}edit-resource-img{{/if}}" src="{{resource.img}}" {{#if @root.editMode}} data-key="{{key}}"{{/if}}/>
+        <div class="resource-charges">
+          <input type="text" name="system.resources.custom.{{key}}.value" value="{{resource.value}}" data-dtype="Number"/>
+          <span class="separator">/</span>
+          <input disabled type="text" name="system.resources.custom.{{key}}.max" value="{{resource.max}}" data-dtype="Number"/>
+        </div>
+        {{#if @root.editMode}}
+        <div class="resource-buttons">
+          <a class="edit-resource fa-solid fa-gear fa-sm" data-key="{{key}}" title="{{localize 'dc20rpg.sheet.editResource'}}"></a>
+          <a class="remove-resource fa-solid fa-trash fa-sm" data-key="{{key}}" title="{{localize 'dc20rpg.sheet.removeResource'}}"></a>
+        </div>
+        {{else}}
+          <div class="resource-buttons">
+            <a class="spend-regain-resource fa-solid fa-plus-minus fa-sm" data-key="{{key}}" title="{{localize 'dc20rpg.sheet.resource.spendRegainCustomResouce'}}"></a>
+          </div>
+        {{/if}}
+      </div>
+      {{/each}}
+
+      {{!-- Item Charges as Resource --}}
+      {{#each itemChargesAsResources as |resource key|}}
+      <div class="custom-resource margin-bottom-3" title="{{resource.name}}">
+        <img class="resource-icon" src="{{resource.img}}"/>
+        <div class="resource-charges">
+          <input class="current-charges update-charges" type="text" value="{{resource.value}}" data-dtype="Number" data-item-id="{{key}}"/>
+          <span class="separator">/</span>
+          <input disabled type="text" value="{{resource.max}}" data-dtype="Number"/>
+        </div>
+        <i class="fa-solid fa-bolt margin-right-3" title="{{localize 'dc20rpg.sheet.itemCharges'}}"></i>
+      </div>
+      {{/each}}
+
+      {{!-- Item Quantity as Resource --}}
+      {{#each itemQuantityAsResources as |resource key|}}
+      <div class="custom-resource margin-bottom-3" title="{{resource.name}}">
+        <img class="resource-icon" src="{{resource.img}}"/>
+        <div class="resource-charges">
+          <input class="change-item-numeric-value" type="text" value="{{resource.quantity}}" data-item-id="{{key}}" data-path="system.quantity">
+        </div>
+        <i class="fa-solid fa-boxes-stacked margin-right-3" title="{{localize 'dc20rpg.sheet.itemQuantity'}}"></i>
+      </div>
+      {{/each}}
+
+      {{#if @root.editMode}}
+      <div class="special-resources-buttons margin-bottom-3">
+        <a class="add-custom-resource fa-solid fa-square-plus fa-lg" title="{{localize 'dc20rpg.sheet.addResource'}}"></a>
+      </div>
+      {{/if}}
+    </div>
+
+    {{!-- Print Oneliners --}}
+    <div class="oneliner-wrapper">
+    {{#each oneliners}}
+      {{#if content}}
+        <h3>{{localize header}}</h3>
+        {{#each content}} 
+        <div class="oneliner-row" {{#if this.data}} {{{this.data}}} style="cursor:pointer"{{/if}}>
+          {{#if img}}<img src="{{img}}" {{#if style}}style="{{style}}"{{/if}}/>{{/if}}
+          {{#if icon}}<i class="{{icon}}"></i>{{/if}}
+          <span>{{oneliner}}</span>
+        </div>
+        {{/each}}
+      {{/if}}
+    {{/each}}
+
+      {{!-- Additional information --}}
+      <h3>{{localize "dc20rpg.sheet.additionalInfo"}}</h3>
+      <div class="oneliner-row">
+        <textarea type="text" class="additional-info" {{#unless editMode}}disabled{{/unless}} name="system.additionalInfo">{{system.additionalInfo}}</textarea>
+      </div> 
+    </div>
+  </div>
+
+  <div class="core-right-side">
+
+    <div class="top-menu-wrapper">
+      {{!-- Top Menu --}}
+      <div class="top-menu">
+        {{#if editMode}}
+        <div class="top-menu-buttons">
+          <a data-tooltip="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-action="createTable" data-tab="main"><i class="fa-lg fa-solid fa-diagram-predecessor"></i></a>
+          <a data-tooltip="{{localize "dc20rpg.sheet.openCompendium"}}" data-action="compendium" data-item-type="weapon" data-unlock="true"><i class="fa-lg fa-solid fa-book-atlas"></i></a>
+          <a data-tooltip="{{localize 'dc20rpg.sheet.items.createItem'}}" data-action="createItem"><i class="fa-lg fa-solid fa-sack"></i></a>
+        </div>
+        {{else}}
+        <a class="menu-button first" data-action="basicRoll"><i class="fa-solid fa-dice margin-right-5"></i><span>{{localize "dc20rpg.sheet.basicRoll"}}</span></a>
+        <a class="menu-value" data-action="roll" data-key="att" data-type="check">
+          <span>{{localize "dc20rpg.sheet.attack"}}: {{numberFormat system.attackMod.value.martial decimals=0 sign=true}}</span>
+          {{#ifCond system.attackMod.value.martial '!==' system.attackMod.value.martial}}
+          <a class="fa-solid fa-circle-question" data-tooltip="{{localize "dc20rpg.sheet.checkSave.martialAttack"}} {{system.attackMod.value.martial}} / {{localize "dc20rpg.sheet.checkSave.spellAttack"}} {{system.attackMod.value.spell}}"></a>
+          {{/ifCond}}
+        </a>
+        <div class="menu-value">
+          <span>{{localize "dc20rpg.sheet.saveDC"}}: {{numberFormat system.saveDC.value.spell decimals=0 sign=false}}</span>
+          {{#ifCond system.saveDC.value.martial '!==' system.saveDC.value.spell}}
+          <a class="fa-solid fa-circle-question" data-tooltip="{{localize "dc20rpg.sheet.checkSave.martialSave"}} {{system.saveDC.value.martial}} / {{localize "dc20rpg.sheet.checkSave.spellSave"}} {{system.saveDC.value.spell}}"></a>
+          {{/ifCond}}
+        </div>
+        <a class="menu-button last" data-action="basicAction"><span>{{localize "dc20rpg.sheet.basicAction"}}</span><i class="fa-solid fa-dice-d6 margin-left-5"></i></a>
+        {{/if}}
+      </div>
+
+      {{!-- Sub Menu --}}
+      <div class="sub-menu">
+        <div class="wrapper" style="opacity: 0;"></div>
+        <div class="wrapper">
+          <a data-tooltip="{{localize "dc20rpg.rollType.marCheck"}}" data-action="roll" data-type="check" data-key="mar"><i class="fa-solid fa-hand-fist"></i></a>
+          <a data-tooltip="{{localize "dc20rpg.rollType.speCheck"}}" data-action="roll" data-type="check" data-key="spe"><i class="fa-solid fa-hand-sparkles"></i></a>
+        </div>
+        <div class="wrapper">
+          <a data-tooltip="{{localize "dc20rpg.rollType.phySave"}}" data-action="roll" data-type="save" data-key="phy"><i class="fa-solid fa-bicep"></i></a>
+          <a data-tooltip="{{localize "dc20rpg.rollType.menSave"}}" data-action="roll" data-type="save" data-key="men"><i class="fa-solid fa-brain"></i></a>
+        </div>
+        <div class="wrapper">
+          <a data-class="help-action" data-tooltip="{{localize "Perform Help Action"}}" data-action="help"><i class="fa-solid fa-handshake-angle"></i></a>
+          {{#each help.dice as |dice key|}}
+            <div class="help-dice draggable {{#if dice.subtraction}}subtraction{{/if}}" data-key="{{key}}" data-rAction="help" data-tooltip="{{dice.tooltip}}">
+              <i class="fa-solid {{dice.icon}} fa-lg"></i>
+            </div>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+
+    {{!-- Held Action --}}
+    {{#if system.heldAction._id}}
+      <div class="held-action-wrapper" data-action="heldAction" data-tooltip="{{localize "dc20rpg.sheet.heldAction.roll"}}">
+        <img src="{{system.heldAction.img}}"/>
+        <input class="disabled" value="{{system.heldAction.name}}" />
+        <i class="fa-solid fa-hand-holding-star"></i>
+      </div>
+    {{/if}}
+
+    {{!-- Item Tables --}}
+    <div class="item-table margin-top-10">
+      {{#each main as |table key|}}
+      <div class="item-list table-name {{key}}">
+        {{!-- Header --}}
+        <div class="item-header" data-table-name='{{key}}' style="grid-template-columns: 35px 1fr 100px">
+          {{!-- Reorder Buttons --}}
+          <div class="column reordering-buttons">
+            {{#ifCond @root.editMode '&&' table.siblings.before}}
+            <a class="fa-solid fa-angle-up" data-action="reorder" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.headerUp'}}" data-tab="main" data-current="{{key}}" data-swapped="{{table.siblings.before}}"></a>
+            {{/ifCond}}
+            {{#ifCond @root.editMode '&&' table.siblings.after}}
+            <a class="fa-solid fa-angle-down" data-action="reorder" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.headerDown'}}" data-tab="main" data-current="{{key}}" data-swapped="{{table.siblings.after}}"></a>
+            {{/ifCond}}
+          </div>
+
+          {{!-- Table Name --}}
+          <div class="column name">
+            <input {{#ifCond @root.editMode '&&' table.custom}}{{else}}disabled{{/ifCond}} type="text" name="system.sheetData.header.order.main.{{key}}.name" value="{{localize table.name}}"/>
+          </div>
+
+          {{!-- Details --}}
+          <div class="column details">
+            <i class="{{#if @root.editMode}}fa-solid fa-gear{{else}}fa-light fa-dice-d20{{/if}}"></i>
+            {{#ifCond @root.editMode '&&' table.custom}}
+              <a class="fa-lg fa-solid fa-xmark margin-left-3" data-action="deleteTable" data-tab="main" data-table="{{key}}" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.removeTable'}}"></a>
+            {{/ifCond}}
+          </div>
+        </div>
+
+        {{!-- Rows --}}
+        {{#each table.items as |item id|}} 
+        <div class="item item-row draggable context-menu {{#if item.equipped}} equipped{{/if}}{{#if item.system.statuses.attuned}} attuned{{/if}}{{#ifCond item.system.toggle.toggleable '&&' item.system.toggle.toggledOn}} activated-effect{{/ifCond}}" 
+            data-middle-click="sheet" data-item-id="{{item._id}}" style="grid-template-columns: 1fr 100px" data-hover="tooltip">
+          
+          {{!-- Item Name --}}
+          <div class="column name">
+            {{!-- Image --}}
+            <div class="item-img-wrapper roll-item" data-action="rollItem" data-item-id="{{id}}">
+              <a class="original"><img src="{{item.img}}"/></a>
+              <a class="hovered"><i class="hover-icon fa-regular fa-dice-d20 fa-2x"></i></a> 
+            </div>
+            {{!-- Name and buttons --}}
+            <div class="item-name-wrapper">
+              <input class="disabled" value="{{item.name}}" />
+              <div class="action-button-wrapper">
+                {{!-- Roll --}}
+                <a class="fa-light fa-dice-d20" data-action="rollItem" data-item-id="{{id}}" data-tooltip="{{localize "dc20rpg.sheet.rollMenu.rollItem"}}"></a>
+
+                {{!-- Macro --}}
+                {{{on-demand-macro-button item}}}
+
+                {{!-- Toggle --}}
+                {{#if item.toggleable}}
+                  {{#if item.toggledOn}}
+                  <a class="fa-lg fa-solid fa-toggle-on" data-action="toggle" data-item-id="{{id}}" data-tooltip="{{localize "dc20rpg.sheet.itemTable.deactivateItem"}}"></a>
+                  {{else}}
+                  <a class="fa-lg fa-solid fa-toggle-off" data-action="toggle" data-item-id="{{id}}" data-tooltip="{{localize "dc20rpg.sheet.itemTable.activateItem"}}"></a>
+                  {{/if}}
+                {{/if}}
+
+                {{#if item.equippable}}
+                  {{!-- Equipped --}}
+                  {{#if item.equipped}}
+                  <a class="fa-solid fa-suitcase-rolling" data-action="equip" data-item-id="{{id}}" data-tooltip="{{localize "dc20rpg.sheet.itemTable.unequipItem"}}"></a>
+                  {{else}}
+                  <a class="fa-regular fa-suitcase-rolling" data-action="equip" data-item-id="{{id}}" data-tooltip="{{localize "dc20rpg.sheet.itemTable.equipItem"}}"></a>
+                  {{/if}}
+                  
+                  {{!-- Attuned --}}
+                  {{#if item.system.properties.attunement.active}}
+                    {{#if item.system.statuses.attuned}}
+                    <a class="fa-solid fa-hat-wizard" data-cType="activable" data-path="system.statuses.attuned" data-item-id="{{id}}" data-tooltip="{{localize "dc20rpg.sheet.itemTable.unattuneItem"}}"></a>
+                    {{else}}
+                    <a class="fa-regular fa-hat-wizard" data-cType="activable" data-path="system.statuses.attuned" data-item-id="{{id}}" data-tooltip="{{localize "dc20rpg.sheet.itemTable.attuneItem"}}"></a>
+                    {{/if}}
+                  {{/if}}
+                {{/if}}
+   
+                {{!-- Short Info --}}
+                {{#if item.system.shortInfo}}
+                <a class="fa-regular fa-circle-question" data-tooltip="{{item.system.shortInfo}}"></a>
+                {{/if}}
+              </div>
+            </div>
+            {{#if item.system.isReaction}}
+            <div class="side-marker" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.reaction'}}">
+              <i class="fa-solid fa-reply fa-lg"></i>
+            </div>
+            {{/if}}
+          </div>
+
+          {{!-- Details --}}
+          <div class="column details">
+          {{#if @root.editMode}}
+            <div class="configuration">
+              <a class="fas fa-edit" data-tooltip="{{localize "dc20rpg.sheet.items.editItem"}}" data-action="edit" data-item-id="{{id}}"></a>
+              <a class="fas fa-copy" data-tooltip="{{localize "dc20rpg.sheet.items.copyItem"}}" data-action="copy" data-item-id="{{id}}"></a>
+              <a class="fas fa-trash" data-tooltip="{{localize "dc20rpg.sheet.items.deleteItem"}}" data-action="delete" data-item-id="{{id}}"></a>
+            </div>
+          {{else}}
+            <div class="actions">
+              {{{action-type item}}}
+              {{{roll-requests item}}}
+              {{{formula-rolls item}}}
+            </div>
+            <div class="costs">
+              {{{cost-printer item.useCost true false false true}}}
+            </div>
+          {{/if}}
+          </div>
+        </div>
+        {{/each}}
+      </div>
+      {{/each}}
+    </div>
+
+  </div>
+</div>  
+</section> 

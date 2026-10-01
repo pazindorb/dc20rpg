@@ -59,49 +59,15 @@ export function activateCommonLinsters(html, actor) {
   });
 
   // Items 
-  html.find('.item-create').click(ev => _onItemCreate(datasetOf(ev).tab, actor));
-  html.find('.item-delete').click(ev => actor.items.get(datasetOf(ev).itemId)?.delete());
-  html.find('.item-edit').click(ev => {
-    const item = actor.items.get(datasetOf(ev).itemId);
-    item.sheet.render(true);
-  });
-  html.find('.item-copy').click(async ev => {
-    const item = actor.items.get(datasetOf(ev).itemId);
-    return await DC20RpgItem.gmCreate(item.toObject(), {parent: actor});
-  });
-  html.find('.editable').mousedown(ev => {
-    if (ev.which === 2) {
-      const item = actor.items.get(datasetOf(ev).itemId);
-      item.sheet.render(true);
-    };
-    if (ev.which === 3) itemContextMenu(actor.items.get(datasetOf(ev).itemId), ev, html, actor.type);
-  });
   html.find('.trigger-keyword-update').click(ev => {
     const keyword = actor.keywords.get(datasetOf(ev).keyword);
     if (keyword) keyword.update(null, true);
   })
-  html.find('.run-on-demand-macro').click(ev => runTemporaryItemMacro(actor.items.get(datasetOf(ev).itemId), "onDemand", actor));
-  html.click(ev => closeContextMenu(html)); // Close context menu
-  html.find(".reorder").click(ev => reorderTableHeaders(datasetOf(ev).tab, datasetOf(ev).current, datasetOf(ev).swapped, actor));
-  html.find('.table-create').click(ev => createNewTable(datasetOf(ev).tab, actor));
-  html.find('.table-remove').click(ev => removeCustomTable(datasetOf(ev).tab, datasetOf(ev).table, actor));
-  html.find('.open-compendium').click(ev => createItemBrowser(datasetOf(ev).itemType, datasetOf(ev).unlock !== "true", actor.sheet));
-  html.find('.base-action').click(() => ActionSelect.open(actor));
-
   // Resources
-  html.find(".use-ap").click(() => actor.resources.ap.checkAndSpend(1));
-  html.find(".regain-ap").click(() => actor.resources.ap.regain(1));
-  html.find(".regain-all-ap").click(() => actor.resources.ap.regain("max"));
   html.find(".edit-max-ap").change(ev => {
     changeNumericValue(valueOf(ev), "system.resources.ap.value", actor);
     changeNumericValue(valueOf(ev), "system.resources.ap.max", actor);
   })
-  html.find(".regain-resource").click(ev => actor.resources[datasetOf(ev).key].regain(1));
-  html.find(".spend-resource").click(ev => actor.resources[datasetOf(ev).key].spend(1, true));
-  html.find(".spend-regain-resource").mousedown(ev => {
-    if (ev.which === 3) actor.resources[datasetOf(ev).key].checkAndSpend(1);
-    if (ev.which === 1) actor.resources[datasetOf(ev).key].regain(1);
-  });
   html.find(".grit-to-damage-reduction").click(async ev => {
     if (actor.resources.grit.checkAndSpend(1)) {
       await addFlatDamageReductionEffect(actor);
@@ -119,29 +85,6 @@ export function activateCommonLinsters(html, actor) {
   html.find('.edit-resource').click(ev => resourceConfigDialog(actor, datasetOf(ev).key));
   html.find(".remove-resource").click(ev => actor.resources.removeCustomResource(datasetOf(ev).key));
   html.find(".edit-resource-img").click(ev => actor.resources[datasetOf(ev).key].changeIcon());
-
-  // Active Effects
-  html.find(".effect-create").click(ev => _onCreateNewEffect(datasetOf(ev).type, actor));
-  html.find(".effect-toggle").click(ev => {
-    const effect = actor.getEffectById(datasetOf(ev).effectId);
-    if (!effect) return;
-    if (datasetOf(ev).turnOn === "true") effect.enable();
-    else effect.disable();
-  });
-  html.find(".effect-edit").click(ev => _openEffectSheet(ev, actor));
-  html.find('.editable-effect').mousedown(ev => ev.which === 2 ? _openEffectSheet(ev, actor) : ()=>{});
-  html.find(".effect-delete").click(ev => {
-    const effect = actor.getEffectById(datasetOf(ev).effectId);
-    if (effect) effect.delete();
-  });
-  html.find(".status-toggle").mousedown(ev => {
-    if (ev.which === 1) actor.toggleStatusEffect(datasetOf(ev).statusId, { active: true, extras: {} });
-    if (ev.which === 3) actor.toggleStatusEffect(datasetOf(ev).statusId, { active: false, extras: {} });
-  });
-  html.find('.manual-event').click(ev => {
-    const effect = actor.getEffectById(datasetOf(ev).effectId);
-    if (effect) effect.runManualEvent();
-  });
   
   // Skills
   html.find(".expertise-toggle").click(ev => actor.skillAndLanguage[datasetOf(ev).type][datasetOf(ev).key].expertiseToggle());
@@ -156,7 +99,7 @@ export function activateCommonLinsters(html, actor) {
 
   // Sidetab
   html.find(".sidetab-button").click(ev => _onSidetab(ev));
-  html.find(".show-img").click(() => new ImagePopout(actor.img, { title: actor.name, uuid: actor.uuid }).render(true));
+  html.find(".show-img").click(() => new ImagePopout({ src: actor.img, window: { title: actor.name }, uuid: actor.uuid }).render(true));
   html.find('.mix-ancestry').click(async ev => {
     const ancestryData = await createMixAncestryDialog({position: {left: ev.clientX + 50, top: ev.clientY - 115}});
     if (ancestryData) await DC20RpgItem.create(ancestryData, {parent: actor});

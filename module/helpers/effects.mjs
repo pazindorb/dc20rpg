@@ -71,22 +71,10 @@ export function prepareActiveEffects(owner, context) {
 
   // Define effect header categories
   const effects = {
-    temporary: {
-      type: "temporary",
-      effects: []
-    },
-    passive: {
-      type: "passive",
-      effects: []
-    },
-    inactive: {
-      type: "inactive",
-      effects: []
-    },
-    disabled: {
-      type: "disabled",
-      effects: []
-    }
+    temporary: [],
+    passive: [],
+    disabled: [],
+    inactive: [],
   };
 
   // Iterate over active effects, classifying them into categories
@@ -97,10 +85,10 @@ export function prepareActiveEffects(owner, context) {
     effect.canChangeState = effect.stateChangeLocked;
     effect.manualTrigger = effect.hasManualEvent;
     if (effect.system.nonessential && hideNonessentialEffects) continue;
-    if (effect.isTemporary && effect.disabled) effects.disabled.effects.push(effect);
-    else if (effect.disabled) effects.inactive.effects.push(effect);
-    else if (effect.isTemporary) effects.temporary.effects.push(effect);
-    else effects.passive.effects.push(effect);
+    if (effect.isTemporary && effect.disabled) effects.disabled.push(effect);
+    else if (effect.disabled) effects.inactive.push(effect);
+    else if (effect.isTemporary) effects.temporary.push(effect);
+    else effects.passive.push(effect);
   }
 
   context.effects = effects;
@@ -108,19 +96,13 @@ export function prepareActiveEffects(owner, context) {
 
 export function prepareActiveEffectsForItem(owner, context) {
   const effects = {
-    temporary: {
-      type: "temporary",
-      effects: []
-    },
-    passive: {
-      type: "passive",
-      effects: []
-    }
+    temporary: [],
+    passive: [],
   };
 
   for ( const effect of owner.allEffects ) {
-    if (effect.isTemporary) effects.temporary.effects.push(effect);
-    else effects.passive.effects.push(effect);
+    if (effect.isTemporary) effects.temporary.push(effect);
+    else effects.passive.push(effect);
   }
   context.effects = effects;
 }

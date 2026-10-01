@@ -280,6 +280,24 @@ export function registerHandlebarsCreators() {
   Handlebars.registerHelper('cost-printer', (cost, resources=false, charges=false, quantity=false, showMinorAction=false) => costPrinter(cost, resources, charges, quantity, showMinorAction));
   Handlebars.registerHelper('scaling-value-printer', (system, paths, labels, secondPage) => _scalingValuePrinter(system, paths, labels, secondPage));
 
+  Handlebars.registerHelper('on-demand-macro-button', (item) => {
+    if (item.type === "infustion") return "";
+    const macros = item.system.macros;
+    if (!macros) return "";
+          
+    let onDemandTitle = "";
+    let hasOnDemandMacro = false;
+    for (const macro of Object.values(macros)) {
+      if (macro.trigger === "onDemand" && !macro.disabled) {
+        hasOnDemandMacro = true;
+        if (onDemandTitle !== "") onDemandTitle += "<br>";
+        onDemandTitle += macro.title;
+      }
+    }
+    if (!hasOnDemandMacro) return "";
+    return `<a class="fas fa-code" data-action="macro" data-tooltip="${onDemandTitle}" data-item-id="${item._id}"></a>`;
+  })
+
   Handlebars.registerHelper('item-config', (item, options) => {
     if (!item) return '';
     let component = '';

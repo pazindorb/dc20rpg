@@ -9,6 +9,8 @@ export function duplicateData(context, actor) {
   context.expandedSidebar = !game.user.getFlag("dc20rpg", "sheet.character.sidebarCollapsed");
   context.help = _help(actor);
   context.items = actor.items.contents;
+  context.name = actor.name;
+  context.img = actor.img;
 }
 
 function _help(actor) {
@@ -22,7 +24,6 @@ export function prepareCommonData(context) {
   _damageReduction(context);
   _statusResistances(context);
   _resourceBarsPercentages(context);
-  _oneliners(context);
   _attributes(context);
   _size(context);
 }
@@ -34,8 +35,7 @@ export function prepareCharacterData(context) {
 }
 
 export function prepareNpcData(context) {
-  _allSkills(context);
-  _languages(context);
+  _oneliners(context);
 }
 
 export function prepareStorageData(context) {
@@ -155,20 +155,22 @@ function _resourceBarsPercentages(context) {
 
 function _oneliners(context) {
   const oneliners = {
-    damageReduction: {},
-    statusResistances: {}
+    skills: {header: "dc20rpg.sheet.oneliner.skills", content: []},
+    movement: {header: "dc20rpg.sheet.oneliner.movement", content: []},
+    senses: {header: "dc20rpg.sheet.oneliner.senses", content: []},
+    reduction: {header: "dc20rpg.sheet.oneliner.reduction", content: []},
+    resistance: {header: "dc20rpg.sheet.oneliner.resistance", content: []},
+    immune: {header: "dc20rpg.sheet.oneliner.immune", content: []},
+    vulnerability: {header: "dc20rpg.sheet.oneliner.vulnerability", content: []},
+    languages: {header: "dc20rpg.sheet.oneliner.languages", content: []},
   }
 
-  const dmgRed = Object.entries(context.system.damageReduction.damageTypes)
-                    .map(([key, reduction]) => [key, _prepReductionOneliner(reduction)])
-                    .filter(([key, oneliner]) => oneliner)
+  _prepareSkillOnelinters(context.system.skills, oneliners);
+  _prepareMovementOneliners(context.system.movement, oneliners);
+  _prepareSensesOneliners(context.system.senses, oneliners);
+  _prepareDROneliners(context.system.damageReduction, oneliners);
+  _prepareStatusOneliners(context.system.statusResistances, oneliners);
 
-  const statusResistances = Object.entries(context.system.statusResistances)
-                      .map(([key, condition]) => [key, _prepConditionsOneliners(condition)])
-                      .filter(([key, oneliner]) => oneliner)
-
-  oneliners.damageReduction = Object.fromEntries(dmgRed);
-  oneliners.statusResistances = Object.fromEntries(statusResistances);
   context.oneliners = oneliners;
 }
 
@@ -185,18 +187,6 @@ function _attributes(context) {
 
 function _size(context) {
   context.system.size.label = getLabelFromKey(context.system.size.size, CONFIG.DC20RPG.DROPDOWN_DATA.sizes)
-}
-
-function _allSkills(context) {
-  const skills = Object.entries(context.system.skills)
-                  .map(([key, skill]) => {
-                    const skl = _prepSkillMastery(skill);
-                    if (key === "awa") skl.shouldShow = true
-                    return [key, skl]
-                  });
-  context.skills = {
-    allSkills: Object.fromEntries(skills)
-  }
 }
 
 function _skills(context) {
@@ -235,51 +225,88 @@ function _prepLangMastery(lang) {
   return lang;
 }
 
-function _prepReductionOneliner(reduction) {
-  if (reduction.immune) return `${reduction.label} ${game.i18n.localize("dc20rpg.sheet.dmgTypes.immune")}`;
+function _prepareSkillOnelinters(skills, oneliners) {
+  for (const [key, skill] of Object.entries(skills)) {
+    let shouldShow = key === "awa" || skill.mastery > 0;
+    if (!shouldShow) continue;
 
-  let oneliner = "";
-
-  // Resist / Vulnerable
-  const reductionX = reduction.resist - reduction.vulnerable;
-  if (reductionX > 0) {
-    let typeLabel = game.i18n.localize("dc20rpg.sheet.dmgTypes.resistanceX");
-    typeLabel = typeLabel.replace("X", reductionX);
-    oneliner += `${reduction.label} ${typeLabel}`;
+    oneliners.skills.content.push({
+      oneliner: `${skill.label} (${skill.modifier})`, 
+      icon: "fa-solid fa-square fa-sm",
+      data: `data-action="roll" data-type="check" data-key="${key}"`  
+    })
   }
-  if (reductionX < 0) {
-    let typeLabel = game.i18n.localize("dc20rpg.sheet.dmgTypes.vulnerabilityX");
-    typeLabel = typeLabel.replace("X", Math.abs(reductionX));
-    oneliner += `${reduction.label} ${typeLabel}`;
-  }
-
-  // Reduction / Vulnerability 
-  if (reduction.vulnerability && !reduction.resistance) {
-    if (oneliner) oneliner += ` & ${game.i18n.localize("dc20rpg.sheet.dmgTypes.vulnerabilityHalf")}`;
-    else oneliner += `${reduction.label} ${game.i18n.localize("dc20rpg.sheet.dmgTypes.vulnerabilityHalf")}`
-  }
-  if (reduction.resistance && !reduction.vulnerability) {
-    if (oneliner) oneliner += ` & ${game.i18n.localize("dc20rpg.sheet.dmgTypes.resistanceHalf")}`;
-    else oneliner += `${reduction.label} ${game.i18n.localize("dc20rpg.sheet.dmgTypes.resistanceHalf")}`
-  }
-  return oneliner;
 }
 
-function _prepConditionsOneliners(condition) {
-  if (condition.immunity) return `${condition.label} ${game.i18n.localize("dc20rpg.sheet.condImm.immunity")}`;
-  const resistance = condition.resistance || 0;
-  const vulnerability = condition.vulnerability || 0;
-  const finalLevel = resistance - vulnerability;
+function _prepareMovementOneliners(movements, oneliners) {
+  for (const [key, movement] of Object.entries(movements)) {
+    if (movement.current > 0 || key === "ground") {
+      const label = `${movement.label} (${movement.current})`;
+      oneliners.movement.content.push({oneliner: label, icon: "fa-solid fa-square fa-sm"})
+    }
+  }
+}
 
-  if (finalLevel > 0) {
-    let typeLabel = game.i18n.localize("dc20rpg.sheet.condImm.resistanceX");
-    typeLabel = typeLabel.replace("X", Math.abs(finalLevel));
-    return `${condition.label} ${typeLabel}`;
+function _prepareSensesOneliners(senses, oneliners) {
+  for (const [key, sense] of Object.entries(senses)) {
+    if (sense.range > 0) {
+      const label = `${sense.label} (${sense.range})`;
+      oneliners.senses.content.push({oneliner: label, icon: "fa-solid fa-square fa-sm"})
+    }
   }
-  if (finalLevel < 0) {
-    let typeLabel = game.i18n.localize("dc20rpg.sheet.condImm.vulnerabilityX");
-    typeLabel = typeLabel.replace("X", Math.abs(finalLevel));
-    return `${condition.label} ${typeLabel}`;
+}
+
+function _prepareDROneliners(damageReduction, oneliners) {
+  // Resistances
+  for (const [key, reduction] of Object.entries(damageReduction.damageTypes)) {
+    const img = `systems/dc20rpg/images/sheet/resistances/${key}.svg`;
+    if (reduction.immune) {
+      oneliners.immune.content.push({oneliner: reduction.label, img: img});
+      continue;
+    }
+
+    const reductionX = reduction.resist - reduction.vulnerable;
+    if (reductionX > 0) {
+      oneliners.resistance.content.push({oneliner: `${reduction.label} (${reductionX})`, img: img});
+    }
+    if (reductionX < 0) {
+      oneliners.vulnerability.content.push({oneliner: `${reduction.label} (${Math.abs(reductionX)})`, img: img});
+    }
+
+    if (reduction.resistance && !reduction.vulnerability) {
+      oneliners.resistance.content.push({oneliner: `${reduction.label} (${game.i18n.localize("dc20rpg.sheet.oneliner.half")})`, img: img});
+    }    
+    if (reduction.vulnerability && !reduction.resistance) {
+      oneliners.resistance.content.push({oneliner: `${reduction.label} (${game.i18n.localize("dc20rpg.sheet.oneliner.double")})`, img: img});
+    }
   }
-  return ""
+
+  // Damage Reduction
+  if (damageReduction.pdr.active) {
+    oneliners.reduction.content.push({oneliner: game.i18n.localize("dc20rpg.properties.pdr"), icon: "fa-solid fa-square fa-sm"});
+  }
+  if (damageReduction.edr.active) {
+    oneliners.reduction.content.push({oneliner: game.i18n.localize("dc20rpg.properties.edr"), icon: "fa-solid fa-square fa-sm"});
+  }
+  if (damageReduction.mdr.active) {
+    oneliners.reduction.content.push({oneliner: game.i18n.localize("dc20rpg.properties.mdr"), icon: "fa-solid fa-square fa-sm"});
+  }
+}
+
+function _prepareStatusOneliners(statusResistances, oneliners) {
+  for (const [key, status] of Object.entries(statusResistances)) {
+    const img = `systems/dc20rpg/images/statuses/${key}.svg`;
+    if (status.immunity) {
+      oneliners.immune.content.push({oneliner: status.label, img: img, style: "background: #636363;"});
+      continue;
+    }
+
+    const resistanceX = status.resistance - status.vulnerability;
+    if (resistanceX > 0) {
+      oneliners.resistance.content.push({oneliner: `${status.label} (${resistanceX})`, img: img, style: "background: #636363;"});
+    }
+    if (resistanceX < 0) {
+      oneliners.vulnerability.content.push({oneliner: `${status.label} (${Math.abs(resistanceX)})`, img: img, style: "background: #636363;"});
+    }
+  }
 }

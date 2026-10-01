@@ -35,7 +35,7 @@
     <a class="fa-solid {{#if sheetFlags.temporaryClosed}}fa-square-caret-down{{else}}fa-square-caret-up{{/if}} fa-lg" data-action="sheetEdit" data-key="temporaryClosed"></a>
   </div>
   {{#unless sheetFlags.temporaryClosed}}
-  {{#each effects.temporary.effects}}
+  {{#each effects.temporary}}
   <div class="effect-wrapper" data-middle-click="editEffect" data-effect-id="{{id}}" data-hover="tooltip" data-tooltip-type="effect">
     <img src="{{img}}" class="draggable" data-effect-id="{{id}}"/>
     <input disabled value="{{name}}" class="draggable" data-effect-id="{{id}}"/>
@@ -63,7 +63,7 @@
     <a class="fa-solid {{#if sheetFlags.passiveClosed}}fa-square-caret-down{{else}}fa-square-caret-up{{/if}} fa-lg" data-action="sheetEdit" data-key="passiveClosed"></a>
   </div>
   {{#unless sheetFlags.passiveClosed}}
-  {{#each effects.passive.effects}}
+  {{#each effects.passive}}
   <div class="effect-wrapper" data-middle-click="editEffect" data-effect-id="{{id}}" data-hover="tooltip" data-tooltip-type="effect">
     <img src="{{img}}" class="draggable" data-effect-id="{{id}}"/>
     <input disabled value="{{name}}" class="draggable" data-effect-id="{{id}}"/>

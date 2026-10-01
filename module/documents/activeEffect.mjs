@@ -114,6 +114,10 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
   //======================================
   //=              METHODS               =
   //======================================
+  async toggle() {
+    this.disabled ? await this.enable() : await this.disable();
+  }
+
   async disable({force=false}={}) {
     if (this.disabled) return;
 

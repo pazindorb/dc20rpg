@@ -1,0 +1,94 @@
+<section class="actor-sheet-section tab effects standard-form {{tabs.effects.cssClass}}" data-group="sheet" data-tab="effects">
+<div class="scrollable">
+
+  {{!-- Top Menu --}}
+  <div class="top-menu-wrapper margin-top-5">
+    <div class="top-menu">
+      <a class="menu-button first" data-action="createEffect" data-effect-type="temporary"><i class="fa-solid fa-hourglass-half margin-right-5"></i><span>{{localize "dc20rpg.item.sheet.effects.temporary"}}</span></a>
+      <a class="menu-button last" data-action="createEffect" data-effect-type="passive"><span>{{localize "dc20rpg.item.sheet.effects.passive"}}</span><i class="fa-solid fa-infinity margin-left-5"></i></a>
+    </div>
+  </div>
+
+  <div class="effect-wrapper margin-top-10">
+    {{#each effects as |array key|}}
+    <div class="effects-table">
+      {{!-- Header --}}
+      <div class="effects-header">
+        <div class="column name">{{localize (concat 'dc20rpg.sheet.effects.' key)}}</div>
+        <div class="column config"><i class="fa-solid fa-gear"></i></div>
+      </div>
+
+      {{#each array}}
+      <div class="effects-row draggable context-menu" data-hover="tooltip" data-middle-click="sheet" data-effect-id="{{_id}}">
+        <div class="column name">
+          <div class="effect-img"><img src="{{img}}"/></div>
+          <div class="effect-name">{{name}}</div>
+        </div>
+
+        <div class="column config">
+          {{#if @root.editMode}}
+            <a class="fas fa-edit" data-action="edit" data-effect-id="{{_id}}"></a>
+            <a class="fas fa-trash" data-action="delete" data-effect-id="{{_id}}"></a>
+          {{else}}
+            {{#if canChangeState}}
+            <a class="fas fa-lock" data-tooltip="{{localize 'dc20rpg.sheet.effects.stateChangeLocked'}}"></a>
+            {{else}}
+            <a class="fas {{#if disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}" data-action="effectToggle" data-effect-id="{{_id}}" data-tooltip="{{localize 'DC20RPG.EffectToggle'}}"></a>
+            {{/if}}
+            {{#if manualTrigger}} {{#unless disabled}}
+            <a class="fa-solid fa-play" data-action="manualEffect" data-effect-id="{{_id}}" data-tooltip="{{localize 'DC20RPG.EffectManualTrigger'}}"></a>
+            {{/unless}} {{/if}}
+            {{#if suspended}} 
+            <a class="fas fa-power-off" data-tooltip="{{suspended}}"></a>
+            {{/if}}
+          {{/if}}
+        </div>
+      </div>
+      {{/each}}
+
+    </div>
+    {{/each}}
+  </div>
+
+  <hr/>
+
+  <div class="status-wrapper">
+    <div class="status-header">
+      {{localize 'dc20rpg.sheet.effects.conditions'}}
+    </div>
+
+    <div class="status-table grid grid-4col">
+      {{#each statuses as |status key|}}
+      {{#unless status.system.hide}}
+        <a class="status {{#if status.active}}active{{/if}}" data-tooltip="{{status.source}}" 
+          {{#if status.effectId}} data-middle-click="sheet" data-effect-id="{{status.effectId}}"{{/if}} 
+          data-action="toggleStatus" data-rAction="toggleStatus" data-hover="tooltip" data-status-id="{{status.id}}" data-header="{{status.name}}" data-img="{{status.img}}"
+          data-uuid="{{labelFromKey status.id @root.config.SYSTEM_CONSTANTS.JOURNAL_UUID.conditionsJournal}}" 
+        >
+          {{!-- Stackable conditions --}}
+          {{#if status.stack}}
+          <div class="status-stack">
+            <div class="letter-circle-icon">
+              <span>{{status.stack}}</span>
+            </div>
+          </div>
+          {{/if}}
+
+          {{!-- Non-stackable conditions --}}
+          {{#if status.locked}}
+          <div class="status-stack">
+            <div class="letter-circle-icon">
+              <i class="fa-sm fa-solid fa-lock"></i>
+            </div>
+          </div>
+          {{/if}}
+
+          <div class="status-img"><img src="{{status.img}}"/></div>
+          <div class="status-name">{{status.name}}</div>
+        </a>
+      {{/unless}}
+      {{/each}}
+    </div>
+  </div>
+</div>  
+</section> 
