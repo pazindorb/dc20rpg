@@ -19,7 +19,7 @@
       </div>
 
       {{#each array}}
-      <div class="effects-row draggable context-menu" data-hover="tooltip" data-middle-click="sheet" data-effect-id="{{_id}}">
+      <div class="effects-row draggable context-menu {{#if disabled}}non-active{{/if}}" data-hover="tooltip" data-middle-click="sheet" data-effect-id="{{_id}}">
         <div class="column name">
           <div class="effect-img"><img src="{{img}}"/></div>
           <div class="effect-name">{{name}}</div>

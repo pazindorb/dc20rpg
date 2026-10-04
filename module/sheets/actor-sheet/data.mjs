@@ -5,7 +5,6 @@ export function duplicateData(context, actor) {
   context.type = actor.type;
   context.system = foundry.utils.deepClone(actor.system);
   context.flags = foundry.utils.deepClone(actor.flags);
-  context.editMode = context.system.sheetData.editMode;
   context.expandedSidebar = !game.user.getFlag("dc20rpg", "sheet.character.sidebarCollapsed");
   context.help = _help(actor);
   context.items = actor.items.contents;
@@ -166,10 +165,11 @@ function _oneliners(context) {
   }
 
   _prepareSkillOnelinters(context.system.skills, oneliners);
-  _prepareMovementOneliners(context.system.movement, oneliners);
+  _prepareMovementOneliners(context.system.movement, context.system.jump, oneliners);
   _prepareSensesOneliners(context.system.senses, oneliners);
   _prepareDROneliners(context.system.damageReduction, oneliners);
   _prepareStatusOneliners(context.system.statusResistances, oneliners);
+  _prepareLangOneliners(context.system.languages, oneliners);
 
   context.oneliners = oneliners;
 }
@@ -238,7 +238,22 @@ function _prepareSkillOnelinters(skills, oneliners) {
   }
 }
 
-function _prepareMovementOneliners(movements, oneliners) {
+function _prepareLangOneliners(languages, oneliners) {
+  for (const [key, lang] of Object.entries(languages)) {
+    if (lang.mastery == 0) continue;
+
+    let oneliner = lang.label;
+    if (lang.mastery == 1) oneliner += " (Limited)"
+    oneliners.languages.content.push({
+      oneliner: oneliner, 
+      icon: "fa-solid fa-square fa-sm",
+    })
+  }
+}
+
+function _prepareMovementOneliners(movements, jump, oneliners) {
+  oneliners.movement.content.push({oneliner: `${game.i18n.localize("dc20rpg.speed.jump")} (${jump.current})`, icon: "fa-solid fa-square fa-sm"})
+
   for (const [key, movement] of Object.entries(movements)) {
     if (movement.current > 0 || key === "ground") {
       const label = `${movement.label} (${movement.current})`;

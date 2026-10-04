@@ -91,7 +91,10 @@ export function prepareActiveEffects(owner, context) {
     else effects.passive.push(effect);
   }
 
-  context.effects = effects;
+  context.effects = {
+    temporary: [...effects.temporary, ...effects.disabled],
+    passive: [...effects.passive, ...effects.inactive]
+  };
 }
 
 export function prepareActiveEffectsForItem(owner, context) {

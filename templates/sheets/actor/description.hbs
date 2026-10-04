@@ -1,5 +1,18 @@
 <section class="actor-sheet-section tab description standard-form {{tabs.description.cssClass}}" data-group="sheet" data-tab="description">
 <div class="scrollable">
-  description
+  <div class="description-box">
+    {{#if sheetFlags.editDescription}}
+    <prose-mirror name="system.journal" value="{{ system.journal }}" document-uuid="{{ item.uuid }}" class="sized" compact>{{{ enriched.journal }}}</prose-mirror>
+    {{else}}
+    {{#if editable}}
+    <button type="button" class="description-edit-button" data-action="sheetEdit" data-key="editDescription" data-tooltip="{{localize 'dc20rpg.item.sheet.enh.editDescription'}}">
+      <i class="fa-solid fa-pen-to-square"></i>
+    </button>
+    {{/if}}
+    <div class="editor editor-content">
+      {{{enriched.journal}}}
+    </div>
+    {{/if}}    
+  </div>
 </div>  
 </section> 

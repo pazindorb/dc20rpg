@@ -49,7 +49,6 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
         flatHalf: new f.BooleanField({required: true, initial: false}),   // TODO backward compatibilty remove as part of 0.11.0 update
       }),
       statusResistances: new ConditionsFields(),
-      customCondition: new f.StringField({initial: ""}),
       additionalInfo: new f.StringField({initial: ""}),
       size: new SizeFields(),
       jump: new JumpFields(),

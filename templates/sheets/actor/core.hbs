@@ -102,12 +102,12 @@
         </div>
         {{else}}
         <a class="menu-button first" data-action="basicRoll"><i class="fa-solid fa-dice margin-right-5"></i><span>{{localize "dc20rpg.sheet.basicRoll"}}</span></a>
-        <a class="menu-value" data-action="roll" data-key="att" data-type="check">
-          <span>{{localize "dc20rpg.sheet.attack"}}: {{numberFormat system.attackMod.value.martial decimals=0 sign=true}}</span>
-          {{#ifCond system.attackMod.value.martial '!==' system.attackMod.value.martial}}
+        <div class="menu-value" data-action="roll" data-key="att" data-type="check">
+          <a>{{localize "dc20rpg.sheet.attack"}}: {{numberFormat system.attackMod.value.martial decimals=0 sign=true}}</a>
+          {{#ifCond system.attackMod.value.martial '!==' system.attackMod.value.spell}}
           <a class="fa-solid fa-circle-question" data-tooltip="{{localize "dc20rpg.sheet.checkSave.martialAttack"}} {{system.attackMod.value.martial}} / {{localize "dc20rpg.sheet.checkSave.spellAttack"}} {{system.attackMod.value.spell}}"></a>
           {{/ifCond}}
-        </a>
+        </div>
         <div class="menu-value">
           <span>{{localize "dc20rpg.sheet.saveDC"}}: {{numberFormat system.saveDC.value.spell decimals=0 sign=false}}</span>
           {{#ifCond system.saveDC.value.martial '!==' system.saveDC.value.spell}}

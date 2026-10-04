@@ -1362,6 +1362,15 @@ DC20RPG.SYSTEM_CONSTANTS.rollLevelChange = {
   dis: "Disadvantage"
 }
 
+DC20RPG.SYSTEM_CONSTANTS.skillMasteryLabelNPC = {
+  0: "Untrained",
+  1: "Novice",
+  2: "Adept",
+  3: "Expert",
+  4: "Master",
+  5: "Grandmaster",
+};
+
 DC20RPG.SYSTEM_CONSTANTS.skillMasteryLabel = {
   0: "Untrained",
   1: "Novice",

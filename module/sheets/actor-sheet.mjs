@@ -1,5 +1,4 @@
 import { prepareActiveEffects, prepareStatusContext } from "../helpers/effects.mjs";
-import { activateCharacterLinsters, activateCommonLinsters, activateCompanionListeners, activateNpcLinsters, activateStorageListeners } from "./actor-sheet/listeners.mjs";
 import { duplicateData, prepareCharacterData, prepareCommonData, prepareCompanionData, prepareNpcData, prepareStorageData } from "./actor-sheet/data.mjs";
 import { onSortItem, prepareCompanionTraits, prepareItemsForCharacter, prepareItemsForNpc, prepareItemsForStorage, sortMapOfItems } from "./actor-sheet/items.mjs";
 import { createTrait, handleStackableItem } from "../helpers/actors/itemsOnActor.mjs";
@@ -15,6 +14,7 @@ import { createItemBrowser } from "../dialogs/compendium-browser/item-browser.mj
 import DC20RpgActiveEffect from "../documents/activeEffect.mjs";
 
 export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplicationMixin(foundry.applications.sheets.ActorSheetV2) {
+  sheetFlags = {};
 
   /** @override */
   static DEFAULT_OPTIONS = {
@@ -78,6 +78,7 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
     initialized.actions.regain = this._onRegainResource;
     initialized.actions.roll = this._onRoll;
     initialized.actions.showImg = this._onShowImg;
+    initialized.actions.sheetEdit = this._onEditSheetFlag;
     initialized.actions.createTable = this._onCreateTable;
     initialized.actions.deleteTable = this._onDeleteTable;
     initialized.actions.reorder = this._onReorderTable;
@@ -216,6 +217,8 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
   /** @override */
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
+    context.editMode = this.sheetFlags.editMode;
+    context.sheetFlags = this.sheetFlags;
     duplicateData(context, this.actor);
     sortMapOfItems(context, this.actor.items);
     prepareCommonData(context);
@@ -267,6 +270,12 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
   async _onRender(context, options) {
     await super._onRender(context, options);
     this.element.querySelector('img[data-edit="img"]')?.addEventListener("click", this._onEditImage.bind(this));
+
+    // Description
+    this.element.querySelector(".description-box prose-mirror")?.addEventListener("save", () => {
+      this.sheetFlags.editDescription = false;
+      this.render();
+    });
 
     // Drag and Drop
     new CONFIG.ux.DragDrop({
@@ -359,7 +368,13 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
     switch (cType) {
       case "multi-select": await this._onMultiSelectChange(path, value, target, modified); break;
       case "string": await object.update({[path]: value}); break;
+      case "numeric":  await this._onChangeNumeric(path, value, modified); break;
     }
+  }
+
+  async _onChangeNumeric(path, value, object) {
+    const numeric = parseInt(value) || 0;
+    await object.update({[path]: numeric})
   }
   
   async _onMultiSelectChange(path, value, target, modified) {
@@ -459,6 +474,13 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
       window: { title: this.actor.name}, 
       uuid: this.actor.uuid
     }).render(true);
+  }
+
+  _onEditSheetFlag(event, target) {
+    const key = target.dataset.key;
+    const value = !!this.sheetFlags[key];
+    this.sheetFlags[key] = !value;
+    this.render();
   }
 
   _onRoll(event, target) {
