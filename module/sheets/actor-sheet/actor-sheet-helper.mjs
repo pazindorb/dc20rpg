@@ -18,7 +18,7 @@ function _getTabsForActor(type) {
   switch(type) {
     case "npc": case "companion":
       allowed = ["header", "core", "effects", "config", "description"];
-      if (type === "npc")       allowed.push("loot");
+      // if (type === "npc")       allowed.push("loot");
       if (type === "companion") allowed.push("traits");
       break;
 

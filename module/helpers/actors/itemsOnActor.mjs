@@ -401,6 +401,7 @@ export function removeCustomTable(tab, table, actor) {
   actor.update({[`system.sheetData.header.order.${tab}.${table}`]: new foundry.data.operators.ForcedDeletion()});
 }
 
+// TODO: MOVE TO HELPER?
 //======================================
 //          Companion Traits           =
 //======================================

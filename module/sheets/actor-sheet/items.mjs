@@ -210,10 +210,8 @@ export function prepareCompanionTraits(context, actor) {
   } 
 
   context.traits = {
-    uniqueActive: uniqueActive,
-    repeatableActive: repeatableActive,
-    uniqueInactive: uniqueInactive,
-    repeatableInactive: repeatableInactive
+    active: [...repeatableActive, ...uniqueActive],
+    inactive: [...repeatableInactive, ...uniqueInactive]
   }
   context.choicePointsSpend = choicePointsSpend;
 }

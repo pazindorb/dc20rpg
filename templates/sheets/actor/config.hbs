@@ -43,10 +43,18 @@
         <input type="checkbox" name="system.saveDC.flat" {{checked system.saveDC.flat}}/>
       </div>
     </div>
+
+    {{!-- Number of AP --}}
+    <div class="form-group symetric">
+      <label>{{localize "dc20rpg.sheet.npcConfig.basic.maxAp"}}</label>
+      <div class="form-fields">
+        <input type="number" data-cType="numeric" value="{{system.resources.ap.max}}" data-path="system.resources.ap.max"/>
+      </div>
+    </div>
     
     {{!-- Melee Threat --}}
-    <div class="form-group">
-      <label style="flex: 6">{{localize "dc20rpg.sheet.npcConfig.basic.meleeThreat"}}</label>
+    <div class="form-group symetric">
+      <label>{{localize "dc20rpg.sheet.npcConfig.basic.meleeThreat"}}</label>
       <div class="form-fields">
         <input type="number" value="{{system.globalModifier.melee.threat}}" name="system.globalModifier.melee.threat"/>
       </div>
@@ -74,6 +82,22 @@
       <label style="flex: 6">{{localize "dc20rpg.sheet.npcConfig.basic.ignoreFlanking"}}</label>
       <div class="form-fields">
         <input type="checkbox" name="system.globalModifier.ignore.flanking" {{checked system.globalModifier.ignore.flanking}}/>
+      </div>
+    </div>
+
+    {{!-- Cannot Flank itself --}}
+    <div class="form-group">
+      <label style="flex: 6">{{localize "dc20rpg.sheet.npcConfig.basic.preventFlanking"}}</label>
+      <div class="form-fields">
+        <input type="checkbox" name="system.globalModifier.prevent.flanking" {{checked system.globalModifier.prevent.flanking}}/>
+      </div>
+    </div>
+
+    {{!-- Cannot hit critically --}}
+    <div class="form-group">
+      <label style="flex: 6">{{localize "dc20rpg.sheet.npcConfig.basic.preventCritical"}}</label>
+      <div class="form-fields">
+        <input type="checkbox" name="system.globalModifier.prevent.criticalHit" {{checked system.globalModifier.prevent.criticalHit}}/>
       </div>
     </div>
 

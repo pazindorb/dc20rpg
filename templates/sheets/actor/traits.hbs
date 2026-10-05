@@ -1,0 +1,82 @@
+<section class="actor-sheet-section tab traits standard-form {{tabs.traits.cssClass}}" data-group="sheet" data-tab="traits">
+<div class="scrollable">
+  {{!-- Selected Traits --}}
+  <div class="trait-table margin-top-10">
+    {{!-- HEADER --}}
+    <div class="trait-header" style="grid-template-columns: 1fr 50px 75px">
+      <div class="column name">
+        <span>{{localize "dc20rpg.sheet.traits.active"}} - {{localize "dc20rpg.sheet.traits.pointsSpend"}}: {{choicePointsSpend}}</span>
+      </div>
+      <div class="column type">
+        <i class="fa-solid fa-layer"></i>
+      </div>
+      <div class="column details">
+        <i class="fa-solid fa-gear"></i>
+      </div>
+    </div>
+    {{!-- ROWS --}}
+    {{#each traits.active}} 
+    <div class="trait-row" data-hover="tooltip" data-trait-key="{{key}}" data-action="trait" data-rAction="trait" style="grid-template-columns: 1fr 50px 75px; background-color: #798b69" data-tooltip="{{localize "dc20rpg.sheet.traits.activate"}}">
+      <div class="column name">
+        <div class="trait-img-wrapper">
+          <img src="{{itemData.img}}"/>
+        </div>
+        <div class="trait-name-wrapper">
+          <input class="disabled" value="{{itemData.name}}" />
+        </div>
+      </div>
+      <div class="column cost">
+        <span>{{itemData.system.choicePointCost}}</span>
+        {{#if repeatable}} 
+        <span class="margin-left-3" data-tooltip="{{localize "dc20rpg.sheet.traits.repeatable"}}"> (x{{active}})</span>
+        {{/if}}
+      </div>
+      <div class="column details">
+        <a class="fas fa-edit" data-tooltip="{{localize "dc20rpg.sheet.edit"}}" data-action="edit" data-trait-key="{{key}}"></a>
+        <a class="fas fa-trash" data-tooltip="{{localize "dc20rpg.sheet.delete"}}" data-action="delete" data-trait-key="{{key}}"></a>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+
+  {{!-- Disabled Traits --}}
+  <div class="trait-table margin-top-10">
+    {{!-- HEADER --}}
+    <div class="trait-header" style="grid-template-columns: 1fr 40px 75px">
+      <div class="column name">
+        <span>{{localize "dc20rpg.sheet.traits.inactive"}}</span>
+      </div>
+      <div class="column type">
+        <i class="fa-solid fa-layer"></i>
+      </div>
+      <div class="column details">
+        <i class="fa-solid fa-gear"></i>
+      </div>
+    </div>
+    {{!-- ROWS --}}
+    {{#each traits.inactive}} 
+    <div class="trait-row" data-hover="tooltip" data-trait-key="{{key}}" data-action="trait" data-rAction="trait" style="grid-template-columns: 1fr 40px 75px" data-tooltip="{{localize "dc20rpg.sheet.traits.activate"}}">
+      <div class="column name">
+        <div class="trait-img-wrapper">
+          <img src="{{itemData.img}}"/>
+        </div>
+        <div class="trait-name-wrapper">
+          <input class="disabled" value="{{itemData.name}}" />
+        </div>
+      </div>
+      <div class="column cost">
+        <span>{{itemData.system.choicePointCost}}</span>
+        {{#if repeatable}} 
+        <span class="margin-left-3" data-tooltip="{{localize "dc20rpg.sheet.traits.repeatable"}}"> (R)</span>
+        {{/if}}
+      </div>
+      <div class="column details">
+        <a class="fa-solid fa-repeat" data-action="swapRepeatable" data-trait-key="{{key}}" data-tooltip="{{localize "dc20rpg.sheet.traits.swapRepeatable"}}"></a>
+        <a class="fas fa-edit" data-tooltip="{{localize "dc20rpg.sheet.edit"}}" data-action="edit" data-trait-key="{{key}}"></a>
+        <a class="fas fa-trash" data-tooltip="{{localize "dc20rpg.sheet.delete"}}" data-action="delete" data-trait-key="{{key}}"></a>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+</div>  
+</section> 

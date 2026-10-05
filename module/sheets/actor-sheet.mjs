@@ -1,7 +1,7 @@
 import { prepareActiveEffects, prepareStatusContext } from "../helpers/effects.mjs";
 import { duplicateData, prepareCharacterData, prepareCommonData, prepareCompanionData, prepareNpcData, prepareStorageData } from "./actor-sheet/data.mjs";
 import { onSortItem, prepareCompanionTraits, prepareItemsForCharacter, prepareItemsForNpc, prepareItemsForStorage, sortMapOfItems } from "./actor-sheet/items.mjs";
-import { createTrait, handleStackableItem } from "../helpers/actors/itemsOnActor.mjs";
+import { activateTrait, createTrait, deactivateTrait, deleteTrait, editTrait, handleStackableItem } from "../helpers/actors/itemsOnActor.mjs";
 import { fillPdfFrom } from "../helpers/actors/pdfConverter.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { itemTransfer } from "../helpers/actors/storage.mjs";
@@ -47,6 +47,7 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
       tabs: [
         {id: "core", icon: "fa-solid fa-list-ul"},
         {id: "effects", icon: "fa-solid fa-person-rays"},
+        {id: "traits", icon: "fa-solid fa-box"},
         {id: "loot", icon: "fa-solid fa-sack"},
         {id: "description", icon: "fa-solid fa-feather"},
         {id: "config", icon: "fa-solid fa-gear"},
@@ -92,6 +93,8 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
     initialized.actions.edit = this._onEdit;
     initialized.actions.delete = this._onDelete;
     initialized.actions.copy = this._onCopy;
+    initialized.actions.trait = this._onTrait;
+    initialized.actions.swapRepeatable = this._onSwapRepeatable;
 
     initialized.actions.effectToggle = this._onEffectToggle;
     initialized.actions.manualEffect = this._onManualTrigger;
@@ -343,6 +346,7 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
     switch (dataset.raction) {
       case "help": await this._onRemoveHelpDice(dataset); break;
       case "toggleStatus": await this._onStatusToggle(event, target, true); break;
+      case "trait": await this._onTrait(event, target, true); break;
     }
   }
 
@@ -367,7 +371,7 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
 
     switch (cType) {
       case "multi-select": await this._onMultiSelectChange(path, value, target, modified); break;
-      case "string": await object.update({[path]: value}); break;
+      case "string": await modified.update({[path]: value}); break;
       case "numeric":  await this._onChangeNumeric(path, value, modified); break;
     }
   }
@@ -423,6 +427,10 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
     else if (dataset.effectId) {
       return this.actor.getEffectById(dataset.effectId);
     }
+    else if (dataset.traitKey) {
+      const trait = this.actor.system.traits?.[dataset.traitKey];
+      if (trait) return trait;
+    }
     else if (embedded) return null; // In that case we dont want to return default (actor)
     return this.actor;
   }
@@ -456,6 +464,11 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
     }
     if (dataset.effectId) {
       return this.actor.getEffectById(dataset.effectId);
+    }
+    if (dataset.traitKey) {
+      const trait = this.actor.system.traits?.[dataset.traitKey];
+      if (!trait) return null;
+      return new Item(trait.itemData);
     }
   }
   
@@ -583,11 +596,13 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
   }
 
   _onEdit(event, target) {
+    if (target.dataset.traitKey) return this._onEditTrait(target.dataset.traitKey);
     const object = this.#getObjectFrom(target.dataset, true);
     if (object) object.sheet.render(true);
   }
 
   _onDelete(event, target) {
+    if (target.dataset.traitKey) return this._onDeleteTrait(target.dataset.traitKey);
     const object = this.#getObjectFrom(target.dataset, true);
     if (object) object.delete();
   }
@@ -595,6 +610,26 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
   _onCopy(event, target) {
     const object = this.#getObjectFrom(target.dataset, true);
     if (object) DC20RpgItem.gmCreate(object.toObject(), {parent: this.actor});
+  }
+
+  _onTrait(event, target, deactivate=false) {
+    if (deactivate) deactivateTrait(target.dataset.traitKey, this.actor);
+    else activateTrait(target.dataset.traitKey, this.actor);
+  }
+
+  _onSwapRepeatable(event, target) {
+    const traitKey = target.dataset.traitKey
+    const trait = this.actor.system?.traits[traitKey];
+    if (!trait) return;
+    this.actor.update({[`system.traits.${traitKey}.repeatable`]: !trait.repeatable})
+  }
+
+  async _onEditTrait(traitKey) {
+    editTrait(traitKey, this.actor);
+  }
+
+  async _onDeleteTrait(traitKey) {
+    deleteTrait(traitKey, this.actor);
   }
 
   _onEffectCreate(event, target) {
