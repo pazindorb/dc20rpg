@@ -232,7 +232,7 @@ function _prepareSkillOnelinters(skills, oneliners) {
 
     oneliners.skills.content.push({
       oneliner: `${skill.label} (${skill.modifier})`, 
-      icon: "fa-solid fa-square fa-sm",
+      icon: "fa-solid fa-square fa-2xs",
       data: `data-action="roll" data-type="check" data-key="${key}"`  
     })
   }
@@ -246,18 +246,18 @@ function _prepareLangOneliners(languages, oneliners) {
     if (lang.mastery == 1) oneliner += " (Limited)"
     oneliners.languages.content.push({
       oneliner: oneliner, 
-      icon: "fa-solid fa-square fa-sm",
+      icon: "fa-solid fa-square fa-2xs",
     })
   }
 }
 
 function _prepareMovementOneliners(movements, jump, oneliners) {
-  oneliners.movement.content.push({oneliner: `${game.i18n.localize("dc20rpg.speed.jump")} (${jump.current})`, icon: "fa-solid fa-square fa-sm"})
+  oneliners.movement.content.push({oneliner: `${game.i18n.localize("dc20rpg.speed.jump")} (${jump.current})`, icon: "fa-solid fa-square fa-2xs"})
 
   for (const [key, movement] of Object.entries(movements)) {
     if (movement.current > 0 || key === "ground") {
       const label = `${movement.label} (${movement.current})`;
-      oneliners.movement.content.push({oneliner: label, icon: "fa-solid fa-square fa-sm"})
+      oneliners.movement.content.push({oneliner: label, icon: "fa-solid fa-square fa-2xs"})
     }
   }
 }
@@ -266,7 +266,7 @@ function _prepareSensesOneliners(senses, oneliners) {
   for (const [key, sense] of Object.entries(senses)) {
     if (sense.range > 0) {
       const label = `${sense.label} (${sense.range})`;
-      oneliners.senses.content.push({oneliner: label, icon: "fa-solid fa-square fa-sm"})
+      oneliners.senses.content.push({oneliner: label, icon: "fa-solid fa-square fa-2xs"})
     }
   }
 }
@@ -298,13 +298,13 @@ function _prepareDROneliners(damageReduction, oneliners) {
 
   // Damage Reduction
   if (damageReduction.pdr.active) {
-    oneliners.reduction.content.push({oneliner: game.i18n.localize("dc20rpg.properties.pdr"), icon: "fa-solid fa-square fa-sm"});
+    oneliners.reduction.content.push({oneliner: game.i18n.localize("dc20rpg.properties.pdr"), icon: "fa-solid fa-square fa-2xs"});
   }
   if (damageReduction.edr.active) {
-    oneliners.reduction.content.push({oneliner: game.i18n.localize("dc20rpg.properties.edr"), icon: "fa-solid fa-square fa-sm"});
+    oneliners.reduction.content.push({oneliner: game.i18n.localize("dc20rpg.properties.edr"), icon: "fa-solid fa-square fa-2xs"});
   }
   if (damageReduction.mdr.active) {
-    oneliners.reduction.content.push({oneliner: game.i18n.localize("dc20rpg.properties.mdr"), icon: "fa-solid fa-square fa-sm"});
+    oneliners.reduction.content.push({oneliner: game.i18n.localize("dc20rpg.properties.mdr"), icon: "fa-solid fa-square fa-2xs"});
   }
 }
 

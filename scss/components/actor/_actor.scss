@@ -5,6 +5,19 @@
     position: absolute;
     top: 2px;
     right: 2px;
+
+    background: #494943;
+    border-radius: 2px;
+    height: 15px;
+    width: 15px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    color: #bbaf02;
+
+    i {
+      margin-top: 2px;
+    }
   }
 
   .actor-img {
@@ -15,7 +28,7 @@
       object-fit: cover;
       height: 140px;
       width: 130px;
-      border: 3px solid var(--primary-color);
+      border: 3px solid var(--primary-light);
       border-radius: 10px 0 0 0;
     }
 
@@ -30,7 +43,7 @@
         grid-template-columns: 20px 1fr 20px;
         background-color: var(--secondary-lighter);
         border: 0;
-        border: 2px solid var(--primary-color);
+        border: 2px solid var(--primary-light);
         border-radius: 5px 5px 0 0;
 
         button {
@@ -104,7 +117,7 @@
       .above-bar {
         gap: 0;
         margin: 0 32px;
-        border: 2px solid var(--primary-color);
+        border: 2px solid var(--primary-light);
         border-bottom: 0;
         border-radius: 15px 15px 0 0;
         background-color: #5a5a5ab9;
@@ -134,51 +147,6 @@
         }
       }
     }
-
-    .action-points-wrapper {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      height: 24px;
-      min-height: 24px;
-      border: 2px solid var(--primary-color);
-      border-top: 0;
-      border-radius: 0 0 5px 5px;
-      background-color: var(--secondary-lighter);
-      width: 130px;
-
-      .ap {
-        color: #610064;
-      }
-
-      .points {
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        flex-grow: 1;
-        width: 100px;
-
-        b {
-          color: #610064;
-          font-size: 16px;
-        }
-        
-        i { 
-          font-size: 1.2em !important;
-          margin-top: 2px;
-        }
-      }
-
-      a {
-        width: 20px;
-        min-width: 20px;
-        height: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-    }
   }
 
   .actor-details {
@@ -193,7 +161,7 @@
 
         color: white;
         text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-        background-color: var(--primary-color);
+        background-color: var(--primary-light);
         border: 0;
         border-radius: 0 30px 30px 0;
       }
@@ -203,7 +171,7 @@
       display: flex;
       align-items: center;
       font-size: 11px;
-      border-bottom: 4px solid var(--primary-color);
+      border-bottom: 4px solid var(--primary-light);
       text-align: center;
       padding: 0 3px;
 
@@ -224,7 +192,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 2px solid var(--primary-color);
+      border-bottom: 2px solid var(--primary-light);
       padding: 2px 4px;
 
       .defense {
@@ -253,7 +221,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 3px solid var(--primary-color);
+      border-bottom: 3px solid var(--primary-light);
       padding: 2px 4px;
 
       .attribute {
@@ -366,7 +334,7 @@
     margin-top: 10px;
     height: 30px;
     width: 100%;
-    border: 2px solid var(--primary-dark);
+    border: 2px solid var(--primary-color);
     border-radius: 3px;
     background-color: var(--secondary-color);
 
@@ -382,7 +350,7 @@
       min-height: 26px;
       min-width: 26px;
       width: 26px;
-      border-right: 2px solid var(--primary-dark);
+      border-right: 2px solid var(--primary-color);
     }
 
     input {
@@ -425,12 +393,12 @@
 
         height: 24px;
         min-height: 24px;
-        border: 2px solid var(--primary-color);
-        border-top: 0;
+        border: 2px solid var(--primary-light);
         border-radius: 0 0 5px 5px;
         background-color: var(--secondary-lighter);
         width: 130px;
         margin-top: -7px;
+        position: absolute;
 
         .ap {
           color: #610064;
@@ -449,7 +417,7 @@
           }
           
           i { 
-            font-size: 1.2em !important;
+            font-size: 1.1em !important;
             margin-top: 2px;
           }
         }
@@ -465,10 +433,12 @@
       }
 
       .custom-resource-wrapper {
-        margin-top: 5px;
+        margin-top: 27px;
         overflow-x: hidden;
         overflow-y: auto;
         height: 29px;
+        flex-direction: column;
+        display: flex;
 
         .custom-resource {
           color: black;
@@ -486,10 +456,6 @@
             height: 24px;
             border-radius: 3px;
             border: 0;
-          }
-
-          .edit-resource-img {
-            cursor: pointer;
           }
 
           .resource-charges {
@@ -542,8 +508,9 @@
         h3 {
           font-family: $font-header;
           font-size: 16px;
-          border-bottom: 2px solid var(--primary-color);
-          margin-bottom: 2px;
+          border-bottom: 3px solid var(--primary-light);
+          padding-bottom: 2px;
+          margin-bottom: 5px;
           margin-top: 12px;
           font-weight: normal;
         }
@@ -592,6 +559,7 @@
     }
 
     .item-header {
+      background: linear-gradient(to right, var(--table-1), var(--table-2));
       font-family: $font-header;
       border-radius: 4px 4px 0 0;
       
@@ -602,23 +570,23 @@
 
     .item-row {
       height: 40px;
-      border-color: var(--primary-dark);
+      border-color: var(--primary-color);
 
       .column {
         height: 40px;
-        border-color: var(--primary-dark);
+        border-color: var(--primary-color);
       }
 
       .item-img-wrapper {
         height: 40px;
         min-width: 40px;
-        border-bottom: 2px solid var(--primary-dark);
+        border-bottom: 2px solid var(--primary-color);
 
         img {
           min-height: 40px;
           min-width: 40px;
           width: 40px;
-          border-bottom: 2px solid var(--primary-dark);
+          border-bottom: 2px solid var(--primary-color);
         }
 
         .hovered {
@@ -650,8 +618,8 @@
         .action-button-wrapper {
           background-color: var(--secondary-dark);
           border-radius: 3px 3px 0 0;
-          border: 1px solid var(--primary-dark); 
-          border-bottom: 2px solid var(--primary-dark); 
+          border: 1px solid var(--primary-color); 
+          border-bottom: 2px solid var(--primary-color); 
           padding: 0 5px;
           margin: 0 8px;
           color: #ffffff;
@@ -743,7 +711,7 @@
           width: 50px;
           column-gap: 2px;
           row-gap: 1px;
-          border-right: 1px solid var(--primary-dark);
+          border-right: 1px solid var(--primary-color);
 
           .description-icon {
             margin: 0;
@@ -758,6 +726,7 @@
               width: 17px;
               height: 17px;
               font-size: 10px;
+              background-color: $action-point;
             }
 
             .fa-droplet {
@@ -793,7 +762,8 @@
         .column {
           align-items: center;
           justify-content: center;
-          display: flex
+          display: flex;
+          color: var(--secondary-lighter);
         }
 
         .name {
@@ -806,7 +776,7 @@
       .trait-row {
         display: grid;
         height: 30px;
-        border: 2px solid var(--primary-dark);
+        border: 2px solid var(--primary-color);
         border-top: 0;
         background-color: var(--secondary-color);
 
@@ -817,8 +787,8 @@
 
         .column {
           height: 30px;
-          border-color: var(--primary-dark);
-          border-left: 2px solid var(--primary-dark);
+          border-color: var(--primary-color);
+          border-left: 2px solid var(--primary-color);
         }
 
         .name {
@@ -830,14 +800,14 @@
         .trait-img-wrapper {
           height: 28px;
           min-width: 28px;
-          border-bottom: 2px solid var(--primary-dark);
+          border-bottom: 2px solid var(--primary-color);
 
           img {
             margin-top: -1px;
             min-height: 28px;
             min-width: 28px;
             width: 28px;
-            border-bottom: 2px solid var(--primary-dark);
+            border-bottom: 2px solid var(--primary-color);
           }
         }
 
@@ -905,6 +875,7 @@
       .effects-table {
 
         .effects-header {
+          background: linear-gradient(to right, var(--table-1), var(--table-2));
           font-family: $font-header;
           border-radius: 4px 4px 0 0;
           
@@ -914,7 +885,7 @@
         }
 
         .effects-row {
-          border-color: var(--primary-dark);
+          border-color: var(--primary-color);
           color: #000000;
           font-weight: 600;
 
@@ -933,10 +904,10 @@
     .status-wrapper {
 
       .status-header {
+        background: linear-gradient(to right, var(--table-1), var(--table-2));
         font-family: $font-header;
         border-radius: 4px 4px 0 0;
         
-        background: linear-gradient(to right, $table-1, $table-2);
         color: $secondary-lighter;
         display: flex;
         align-items: center;
@@ -999,7 +970,7 @@
           }
 
           &:hover {
-            box-shadow: 0 0 5px 1px inset var(--primary-dark);
+            box-shadow: 0 0 5px 1px inset var(--primary-color);
           }
 
           .status-name {
@@ -1089,7 +1060,7 @@
     .sub-header {
       font-size: 20px;
       font-family: $font-header;
-      background-color: var(--primary-dark);
+      background: linear-gradient(to right, var(--table-1), var(--table-2));
       border-radius: 5px 5px 0px 0px;
       min-height: 40px;
 
@@ -1109,7 +1080,7 @@
 
     .content-wrapper {
       padding: 10px;
-      border: 2px solid var(--primary-dark);
+      border: 2px solid var(--primary-color);
       border-top: 0;
       border-radius: 0px 0px 10px 5px;
       box-shadow: 0 0 10px var(--primary-color) inset;
@@ -1190,7 +1161,7 @@
       padding: 0;
       
       .column {
-        border-right: 2px solid var(--primary-dark);
+        border-right: 2px solid var(--primary-color);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -1211,7 +1182,7 @@
             background-color: white;
             height: 24px;
             width: 24px;
-            border: 1px solid var(--primary-dark)
+            border: 1px solid var(--primary-color)
           }
         }
       }
@@ -1221,7 +1192,7 @@
         text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
         background-color: var(--secondary-dark);
         display: grid;
-        border-top: 2px solid var(--primary-dark);
+        border-top: 2px solid var(--primary-color);
         height: 30px;
         font-size: 16px;
 

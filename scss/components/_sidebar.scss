@@ -82,14 +82,15 @@
 #token-effects-tracker {
   max-width: 40px;
   min-width: 40px;
-  background-color: transparent;
+  background: transparent !important;
+  backdrop-filter: none;
   box-shadow: none;
   border: 0;
   margin-right: 5px;
   margin-left: 8px;
 
   position: fixed;
-  top: 10px;
+  top: 10px !important;
   left: auto !important;
 
   .window-header {
@@ -103,9 +104,11 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    background-color: transparent;
+    background: transparent;
 
-    #token-effects-tracker {
+    .token-effects-tracker-content {
+      background: transparent;
+      box-shadow: none;
       gap: 6px;
     }
   }

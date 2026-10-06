@@ -15,8 +15,8 @@
     <div class="custom-resource-wrapper">
       {{!-- Custom Resource --}}
       {{#each system.resources.custom as |resource key|}}
-      <div class="custom-resource margin-bottom-3" title="{{resource.label}}" data-key="{{key}}" data-type="resource">
-        <img class="resource-icon {{#if @root.editMode}}edit-resource-img{{/if}}" src="{{resource.img}}" {{#if @root.editMode}} data-key="{{key}}"{{/if}}/>
+      <div class="custom-resource margin-bottom-3 draggable" data-tooltip="{{resource.label}}" data-key="{{key}}" data-type="resource">
+        <img class="resource-icon" {{#if @root.editMode}}data-edit="img" data-path="system.resources.custom.{{key}}.img" data-style="cursor: pointer;"{{/if}} src="{{resource.img}}"/>
         <div class="resource-charges">
           <input type="text" name="system.resources.custom.{{key}}.value" value="{{resource.value}}" data-dtype="Number"/>
           <span class="separator">/</span>
@@ -24,12 +24,12 @@
         </div>
         {{#if @root.editMode}}
         <div class="resource-buttons">
-          <a class="edit-resource fa-solid fa-gear fa-sm" data-key="{{key}}" title="{{localize 'dc20rpg.sheet.editResource'}}"></a>
-          <a class="remove-resource fa-solid fa-trash fa-sm" data-key="{{key}}" title="{{localize 'dc20rpg.sheet.removeResource'}}"></a>
+          <a class="edit-resource fa-solid fa-gear fa-sm" data-action="editResource" data-key="{{key}}" data-tooltip="{{localize 'dc20rpg.sheet.editResource'}}"></a>
+          <a class="remove-resource fa-solid fa-trash fa-sm" data-action="removeResource" data-key="{{key}}" data-tooltip="{{localize 'dc20rpg.sheet.removeResource'}}"></a>
         </div>
         {{else}}
           <div class="resource-buttons">
-            <a class="spend-regain-resource fa-solid fa-plus-minus fa-sm" data-key="{{key}}" title="{{localize 'dc20rpg.sheet.resource.spendRegainCustomResouce'}}"></a>
+            <a class="spend-regain-resource fa-solid fa-plus-minus fa-sm" data-rAction="spend" data-action="regain" data-resource="{{key}}" data-tooltip="{{localize 'dc20rpg.sheet.resource.spendRegainCustomResouce'}}"></a>
           </div>
         {{/if}}
       </div>
@@ -37,31 +37,31 @@
 
       {{!-- Item Charges as Resource --}}
       {{#each itemChargesAsResources as |resource key|}}
-      <div class="custom-resource margin-bottom-3" title="{{resource.name}}">
+      <div class="custom-resource margin-bottom-3" data-tooltip="{{resource.name}}">
         <img class="resource-icon" src="{{resource.img}}"/>
         <div class="resource-charges">
           <input class="current-charges update-charges" type="text" value="{{resource.value}}" data-dtype="Number" data-item-id="{{key}}"/>
           <span class="separator">/</span>
           <input disabled type="text" value="{{resource.max}}" data-dtype="Number"/>
         </div>
-        <i class="fa-solid fa-bolt margin-right-3" title="{{localize 'dc20rpg.sheet.itemCharges'}}"></i>
+        <i class="fa-solid fa-bolt margin-right-3" data-tooltip="{{localize 'dc20rpg.sheet.itemCharges'}}"></i>
       </div>
       {{/each}}
 
       {{!-- Item Quantity as Resource --}}
       {{#each itemQuantityAsResources as |resource key|}}
-      <div class="custom-resource margin-bottom-3" title="{{resource.name}}">
+      <div class="custom-resource margin-bottom-3" data-tooltip="{{resource.name}}">
         <img class="resource-icon" src="{{resource.img}}"/>
         <div class="resource-charges">
           <input class="change-item-numeric-value" type="text" value="{{resource.quantity}}" data-item-id="{{key}}" data-path="system.quantity">
         </div>
-        <i class="fa-solid fa-boxes-stacked margin-right-3" title="{{localize 'dc20rpg.sheet.itemQuantity'}}"></i>
+        <i class="fa-solid fa-boxes-stacked margin-right-3" data-tooltip="{{localize 'dc20rpg.sheet.itemQuantity'}}"></i>
       </div>
       {{/each}}
 
       {{#if @root.editMode}}
       <div class="special-resources-buttons margin-bottom-3">
-        <a class="add-custom-resource fa-solid fa-square-plus fa-lg" title="{{localize 'dc20rpg.sheet.addResource'}}"></a>
+        <a class="fa-solid fa-square-plus fa-lg" data-action="addResource" data-tooltip="{{localize 'dc20rpg.sheet.addResource'}}"></a>
       </div>
       {{/if}}
     </div>

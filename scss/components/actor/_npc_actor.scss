@@ -1,0 +1,28 @@
+&.npc,
+&.companion {
+  --primary-color: var(--npc-main);
+  --primary-light: var(--npc-main-light);
+  --primary-dark: var(--npc-main-dark);
+  --primary-darker: var(--npc-main-dark);
+
+  --secondary-color: var(--npc-secondary);
+  --secondary-dark: var(--npc-secondary-dark);
+  --secondary-darker: var(--npc-secondary-darker);
+  --secondary-lighter: var(--npc-secondary-light);
+  --secondary-light-alpha: var(--npc-secondary-light-alpha);
+
+  --table-1: var(--npc-table-1);
+  --table-2: var(--npc-table-2);
+
+  hr {
+    background-image: linear-gradient(90deg, transparent 0%, var(--npc-main-light) 50%, transparent 100%);
+  }
+
+  &.theme-light {
+    --primary-light: var(--npc-main);
+
+    .edit-button {
+      top: 42px;
+    }
+  }
+}

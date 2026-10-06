@@ -33,6 +33,7 @@ export function getAllTokensForActor(actor) {
  */
 export function getSelectedTokens() {
   if (canvas.activeLayer === canvas.tokens) return canvas.activeLayer.placeables.filter(p => p.controlled === true);
+  return [];
 }
 
 

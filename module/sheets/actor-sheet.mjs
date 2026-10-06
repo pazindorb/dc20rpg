@@ -12,6 +12,7 @@ import { ActionSelect } from "../dialogs/action-select.mjs";
 import { RollSelect } from "../dialogs/roll-select.mjs";
 import { createItemBrowser } from "../dialogs/compendium-browser/item-browser.mjs";
 import DC20RpgActiveEffect from "../documents/activeEffect.mjs";
+import { resourceConfigDialog } from "../dialogs/resource-config.mjs";
 
 export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplicationMixin(foundry.applications.sheets.ActorSheetV2) {
   sheetFlags = {};
@@ -33,7 +34,7 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
   /** @override */
   static PARTS = {
     header: {template: "systems/dc20rpg/templates/sheets/actor/header.hbs"},
-    core: {template: "systems/dc20rpg/templates/sheets/actor/core.hbs", scrollable: [".scrollable"]},
+    core: {template: "systems/dc20rpg/templates/sheets/actor/core.hbs", scrollable: [".scrollable", ".custom-resource-wrapper"]},
     effects: {template: "systems/dc20rpg/templates/sheets/actor/effects.hbs", scrollable: [".scrollable"]},
     loot: {template: "systems/dc20rpg/templates/sheets/actor/loot.hbs", scrollable: [".scrollable"]},
     traits: {template: "systems/dc20rpg/templates/sheets/actor/traits.hbs", scrollable: [".scrollable"]},
@@ -67,6 +68,7 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
     const initialized = super._initializeApplicationOptions(options);
     const colorTheme = game.settings.get("core", "uiConfig").colorScheme.applications;
     initialized.classes.push(`theme-${colorTheme}`);
+    initialized.classes.push(options.document.type);
     initialized.window.resizable = true;
     initialized.window.icon = getForActorType(options.document.type, "icon");
     // if (options.document.type === "character") initialized.position.width = 800;
@@ -95,6 +97,10 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
     initialized.actions.copy = this._onCopy;
     initialized.actions.trait = this._onTrait;
     initialized.actions.swapRepeatable = this._onSwapRepeatable;
+
+    initialized.actions.addResource = this._onAddCustomResource;
+    initialized.actions.removeResource = this._onRemoveCustomResource;
+    initialized.actions.editResource = this._onEditCustomResource;
 
     initialized.actions.effectToggle = this._onEffectToggle;
     initialized.actions.manualEffect = this._onManualTrigger;
@@ -233,7 +239,6 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
         prepareItemsForCharacter(context, this.actor);
         break;
       case "npc": case "companion": 
-        this.options.classes.push(actorType);
         // this.position.width = 672;
         // this.position.height = 700;
         prepareNpcData(context);
@@ -248,7 +253,6 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
         }
         break;
       case "storage": 
-        this.options.classes.push(actorType);
         this.position.width = 500;
         this.position.height = 600;
         prepareStorageData(context);
@@ -272,7 +276,9 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
 
   async _onRender(context, options) {
     await super._onRender(context, options);
-    this.element.querySelector('img[data-edit="img"]')?.addEventListener("click", this._onEditImage.bind(this));
+    this.element.querySelectorAll('img[data-edit="img"]').forEach(element => {
+      element.addEventListener("click", this._onEditImage.bind(this));
+    });
 
     // Description
     this.element.querySelector(".description-box prose-mirror")?.addEventListener("save", () => {
@@ -347,6 +353,7 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
       case "help": await this._onRemoveHelpDice(dataset); break;
       case "toggleStatus": await this._onStatusToggle(event, target, true); break;
       case "trait": await this._onTrait(event, target, true); break;
+      case "spend": await this._onSpendResource(event, target); break;
     }
   }
 
@@ -394,12 +401,13 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
   _onEditImage(event) {
     event.preventDefault();
     event.stopPropagation();
+    const path = event.target.dataset.path || "img";
     new FilePicker({
       type: "image",
       displayMode: "tiles",
-      current: this.actor.img,
-      callback: path => {
-        if (path) this.actor.update({img: path});
+      current: getValueFromPath(this.actor, path),
+      callback: selectedPath => {
+        if (selectedPath) this.actor.update({[path]: selectedPath});
       }
     }).render();
   }
@@ -652,6 +660,18 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
   _onManualTrigger(event, target) {
     const effect = this.actor.getEffectById(target.dataset.effectId);
     if (effect) effect.runManualEvent();
+  }
+
+  _onAddCustomResource(event, target) {
+    this.actor.resources.createCustomResource();
+  }
+
+  _onEditCustomResource(event, target) {
+    resourceConfigDialog(this.actor, target.dataset.key)
+  }
+
+  _onRemoveCustomResource(event, target) {
+    this.actor.resources.removeCustomResource(target.dataset.key);
   }
 
    // ================== ACTIONS ===================

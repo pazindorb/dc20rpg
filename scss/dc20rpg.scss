@@ -33,14 +33,6 @@
     @import 'components/actor/pc';
     @import 'components/actor/storage';
     @import 'components/actor/common';
-
-    &.npc {
-      background-color: $npc-background;
-    }
-
-    &.storage {
-      background-color: $storage-background;
-    }
   }
 
   &.item-v13 {
@@ -61,6 +53,7 @@
     min-width: 400px;
     min-height: 300px;
     @import 'components/actor/actor';
+    @import 'components/actor/npc_actor';
 
     .window-content {
       padding: 8px;
