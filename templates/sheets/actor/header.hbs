@@ -36,6 +36,19 @@
   <div class="actor-details">
     <div class="name-row">
       <input class="actor-name" {{#unless editMode}}disabled{{/unless}} name="name" type="text" value="{{name}}" placeholder="{{localize 'dc20rpg.sheet.charName'}}"/>
+      {{#ifCond type '===' "companion"}}
+      <div class="companion-owner" data-tooltip="{{localize 'dc20rpg.sheet.companionOwner'}}">
+        {{#if companionOwner}}
+          <span>{{companionOwner.name}}</span>
+          {{#if editMode}}
+          <a class="fa-solid fa-trash fa-sm" data-action="removeOwner" data-tooltip="{{localize 'dc20rpg.sheet.removeCompanionOwner'}}"></a>
+          {{/if}}
+        {{else}}
+          <span>{{localize "dc20rpg.sheet.noOwner"}}</span>
+          <a class="fa-solid fa-square-plus" data-action="addOwner" data-tooltip="{{localize 'dc20rpg.sheet.addCompanionOwnerSh'}}"></a>
+        {{/if}}
+      </div>
+      {{/ifCond}}
     </div>
 
     <div class="detail-row">
@@ -89,7 +102,7 @@
     </div>
 
     <div class="attr-row">
-      {{#each attributes as |attribute key|}}
+      {{#each sortedAttributes as |attribute key|}}
         <div class="attribute">
           <label>{{localize (concat "dc20rpg.attributes.short." key)}}</label>
           {{#if @root.editMode}}

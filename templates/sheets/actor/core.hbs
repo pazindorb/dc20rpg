@@ -154,16 +154,22 @@
       {{#each main as |table key|}}
       <div class="item-list table-name {{key}}">
         {{!-- Header --}}
-        <div class="item-header" data-table-name='{{key}}' style="grid-template-columns: 35px 1fr 100px">
+        <div class="item-header" data-table-name='{{key}}' style="grid-template-columns: 50px 1fr 60px">
           {{!-- Reorder Buttons --}}
+          {{#if @root.editMode}}
           <div class="column reordering-buttons">
-            {{#ifCond @root.editMode '&&' table.siblings.before}}
+            {{#if table.siblings.before}}
             <a class="fa-solid fa-angle-up" data-action="reorder" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.headerUp'}}" data-tab="main" data-current="{{key}}" data-swapped="{{table.siblings.before}}"></a>
-            {{/ifCond}}
-            {{#ifCond @root.editMode '&&' table.siblings.after}}
+            {{/if}}
+            {{#if table.siblings.after}}
             <a class="fa-solid fa-angle-down" data-action="reorder" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.headerDown'}}" data-tab="main" data-current="{{key}}" data-swapped="{{table.siblings.after}}"></a>
-            {{/ifCond}}
+            {{/if}}
           </div>
+          {{else}}
+          <div class="column cost">
+            <i class="fa-solid fa-dice-d6" data-toolitp="{{localize 'dc20rpg.sheet.itemTable.cost'}}"></i>
+          </div>
+          {{/if}}
 
           {{!-- Table Name --}}
           <div class="column name">
@@ -182,8 +188,14 @@
         {{!-- Rows --}}
         {{#each table.items as |item id|}} 
         <div class="item item-row draggable context-menu {{#if item.equipped}} equipped{{/if}}{{#if item.system.statuses.attuned}} attuned{{/if}}{{#ifCond item.system.toggle.toggleable '&&' item.system.toggle.toggledOn}} activated-effect{{/ifCond}}" 
-            data-middle-click="sheet" data-item-id="{{item._id}}" style="grid-template-columns: 1fr 100px" data-hover="tooltip">
+            data-middle-click="sheet" data-item-id="{{item._id}}" style="grid-template-columns: 50px 1fr 60px" data-hover="tooltip">
           
+          <div class="column cost">
+            <div class="costs">
+              {{{cost-printer item.useCost true true false true}}}
+            </div>
+          </div>
+
           {{!-- Item Name --}}
           <div class="column name">
             {{!-- Image --}}
@@ -200,6 +212,9 @@
 
                 {{!-- Macro --}}
                 {{{on-demand-macro-button item}}}
+
+                {{!-- Keyword --}}
+                {{{keyword-button item}}}
 
                 {{!-- Toggle --}}
                 {{#if item.toggleable}}
@@ -227,6 +242,23 @@
                     {{/if}}
                   {{/if}}
                 {{/if}}
+
+                <div class="action-button-separator" style="flex: 1;"></div>
+
+                {{!-- Manual Recharge --}}
+                {{#ifCond item.system.costs.charges.max '!==' null}}
+                <div class="charges-wrapper" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.charges'}}">
+                  {{!-- Manual charges change --}}
+                  <input class="current-charges" data-cType="numeric" data-path="system.costs.charges.current" value="{{item.system.costs.charges.current}}" type="text" data-item-id="{{id}}"/>
+                  <span class="separator">/</span>
+                  <span class="max-charges">{{item.system.costs.charges.max}}</span>
+
+                  {{!-- Recharge button --}}
+                  {{#if item.system.costs.charges.refresh.charges}}
+                  <a class="fa-solid fa-bolt" data-action="rechargeItem" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.recharge'}}" data-item-id="{{id}}"></a>
+                  {{/if}}
+                </div>
+                {{/ifCond}}
    
                 {{!-- Short Info --}}
                 {{#if item.system.shortInfo}}
@@ -254,9 +286,6 @@
               {{{action-type item}}}
               {{{roll-requests item}}}
               {{{formula-rolls item}}}
-            </div>
-            <div class="costs">
-              {{{cost-printer item.useCost true false false true}}}
             </div>
           {{/if}}
           </div>

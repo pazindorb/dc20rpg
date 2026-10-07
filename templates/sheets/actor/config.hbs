@@ -1,7 +1,27 @@
 <section class="actor-sheet-section tab config standard-form {{tabs.config.cssClass}}" data-group="sheet" data-tab="config">
 <div class="scrollable">
 
+  {{!-- Monster Creator --}}
+  {{#ifCond type '===' "npc"}}
+  <button data-action="monsterCreator" style="width: 100%; margin-top:15px;"><i class="fa-solid fa-dragon margin-right-5"></i>{{localize "dc20rpg.sheet.monsterConfig"}}</button>
+  {{/ifCond}}
+
   {{!-- Companion copy config --}}
+  {{#ifCond type '===' "companion"}}
+  <div class="sub-header margin-top-10">
+    <label>{{localize "dc20rpg.sheet.companionConfig.title"}}</label>
+    <a class="fa-solid {{#if sheetFlags.basicCompanion}}fa-square-caret-down{{else}}fa-square-caret-up{{/if}} fa-lg" data-action="sheetEdit" data-key="basicCompanion"></a>
+  </div>
+  {{#unless sheetFlags.basicCompanion}}
+  <div class="companion-config-wrapper grid grid-4col"> 
+    {{#each shareWithCompanionOwner}} 
+    <a class="companion-config {{#if active}}active{{/if}}" data-cType="activable" data-path="system.shareWithCompanionOwner.{{key}}"> 
+      {{label}}
+    </a>
+    {{/each}}
+  </div>
+  {{/unless}}
+  {{/ifCond}}
 
   {{!-- Basic --}}
   <div class="sub-header margin-top-10">

@@ -23,56 +23,9 @@ import { MonsterCreatorDialog } from "../../dialogs/monster-creator.mjs";
 
 export function activateCommonLinsters(html, actor) {
   // Core funcionalities
-  html.find(".activable").click(ev => changeActivableProperty(datasetOf(ev).path, actor));
-  html.find(".item-activable").click(ev => changeActivableProperty(datasetOf(ev).path, actor.items.get(datasetOf(ev).itemId)));
-  html.find(".item-equip").click(ev => actor.items.get(datasetOf(ev).itemId).equip());
-  html.find(".item-toggle").click(ev => actor.items.get(datasetOf(ev).itemId).toggle());
-  html.find('.rollable').click(ev => actor.roll(datasetOf(ev).key, datasetOf(ev).type, {quickRoll: ev.shiftKey, customLabel: datasetOf(ev).label}));
-  html.find('.roll-item').click(ev => {
-    const item = actor.items.get(datasetOf(ev).itemId);
-    if (item.type === "infusion") _onInfusionRoll(actor, item);
-    else RollDialog.open(actor, item, {quickRoll: ev.shiftKey});
-  });
-  html.find('.toggle-item-numeric').mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, actor.items.get(datasetOf(ev).itemId), (datasetOf(ev).max || 9), 0));
-  html.find('.toggle-actor-numeric').mousedown(ev => toggleUpOrDown(datasetOf(ev).path, ev.which, actor, (datasetOf(ev).max || 9), 0));
-  html.find('.change-actor-value').change(ev => changeValue(valueOf(ev), datasetOf(ev).path, actor));
-  html.find('.change-item-value').change(ev => changeValue(valueOf(ev), datasetOf(ev).path, actor.items.get(datasetOf(ev).itemId)));
-  html.find('.change-item-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, actor.items.get(datasetOf(ev).itemId)));
-  html.find('.change-actor-numeric-value').change(ev => changeNumericValue(valueOf(ev), datasetOf(ev).path, actor));
-  html.find('.update-charges').change(async ev => {
-    const item = actor.items.get(datasetOf(ev).itemId);
-    const max = item.system.costs.charges.max;
-    await changeNumericValue(valueOf(ev), "system.costs.charges.current", item, {upperLimit: max, lowerLimit: 0});
-    actor.sheet.render();
-  });
-  html.find('.recharge-item').click(ev => actor.items.get(datasetOf(ev).itemId).use.regainCharges());
-  html.find('.initiative-roll').click(() => actor.rollInitiative({createCombatants: true, rerollInitiative: true}));
-  html.find('.make-help-action').click(async () => {if (actor.resources.ap.checkAndSpend(1)) actor.help.prepare()});
-  html.find('.help-dice').mousedown(async ev => {
-    if (ev.which !== 3) return;
-    const key = ev.currentTarget.dataset?.key;
-    const owner = getActorFromIds(actor.id, actor.token?.id);
-    if (owner) {
-      const confirmed = await SimplePopup.confirm("Do you want to remove that Help Dice?");
-      if (confirmed) owner.help.clear(key);
-    }
-  });
 
-  // Items 
-  html.find('.trigger-keyword-update').click(ev => {
-    const keyword = actor.keywords.get(datasetOf(ev).keyword);
-    if (keyword) keyword.update(null, true);
-  })
+
   // Resources
-  html.find(".edit-max-ap").change(ev => {
-    changeNumericValue(valueOf(ev), "system.resources.ap.value", actor);
-    changeNumericValue(valueOf(ev), "system.resources.ap.max", actor);
-  })
-  html.find(".grit-to-damage-reduction").click(async ev => {
-    if (actor.resources.grit.checkAndSpend(1)) {
-      await addFlatDamageReductionEffect(actor);
-    }
-  })
   html.find(".rest-point-to-hp").click(ev => {
     datasetOf(ev); 
     if (actor.resources.restPoints.checkAndSpend(1)) {
@@ -80,12 +33,6 @@ export function activateCommonLinsters(html, actor) {
     }
   });
 
-  // Custom Resources
-  html.find(".add-custom-resource").click(() => actor.resources.createCustomResource());
-  html.find('.edit-resource').click(ev => resourceConfigDialog(actor, datasetOf(ev).key));
-  html.find(".remove-resource").click(ev => actor.resources.removeCustomResource(datasetOf(ev).key));
-  html.find(".edit-resource-img").click(ev => actor.resources[datasetOf(ev).key].changeIcon());
-  
   // Skills
   html.find(".expertise-toggle").click(ev => actor.skillAndLanguage[datasetOf(ev).type][datasetOf(ev).key].expertiseToggle());
   html.find(".mastery-toggle").mousedown(ev => _onToggleMastery(datasetOf(ev).key, datasetOf(ev).type, ev.which, actor));
@@ -98,20 +45,11 @@ export function activateCommonLinsters(html, actor) {
   html.find('.remove-language').click(ev => actor.skillAndLanguage.removeCustom(datasetOf(ev).key, "languages"));
 
   // Sidetab
-  html.find(".sidetab-button").click(ev => _onSidetab(ev));
-  html.find(".show-img").click(() => new ImagePopout({ src: actor.img, window: { title: actor.name }, uuid: actor.uuid }).render(true));
   html.find('.mix-ancestry').click(async ev => {
     const ancestryData = await createMixAncestryDialog({position: {left: ev.clientX + 50, top: ev.clientY - 115}});
     if (ancestryData) await DC20RpgItem.create(ancestryData, {parent: actor});
   });
 
-  // Tooltips
-  html.find('.item-tooltip').hover(ev => itemTooltip(actor.items.get(datasetOf(ev).itemId), ev, html, {inside: datasetOf(ev).inside === "true"}), ev => hideTooltip(ev, html));
-  html.find('.enh-tooltip').hover(ev => enhTooltip(actor.items.get(datasetOf(ev).itemId), datasetOf(ev).enhKey, ev, html), ev => hideTooltip(ev, html));
-  html.find('.effect-tooltip').hover(ev => effectTooltip(actor.getEffectById(datasetOf(ev).effectId), ev, html), ev => hideTooltip(ev, html));
-  html.find('.text-tooltip').hover(ev => textTooltip(datasetOf(ev).text, datasetOf(ev).title, datasetOf(ev).img, ev, html), ev => hideTooltip(ev, html));
-  html.find('.journal-tooltip').hover(ev => journalTooltip(datasetOf(ev).uuid, datasetOf(ev).header, datasetOf(ev).img, ev, html, {inside: datasetOf(ev).inside === "true"}), ev => hideTooltip(ev, html));
-  html.find(".item-row").on("dragover", ev => hideTooltip(ev, html));
 }
 
 export function activateCharacterLinsters(html, actor) {
@@ -133,68 +71,15 @@ export function activateCharacterLinsters(html, actor) {
     if (itemData) await DC20RpgItem.create(itemData, {parent: actor});
   });
 
-  // Attributes
-  html.find('.subtract-attribute-point').click(ev => actor.attributes[datasetOf(ev).key].decrease());
-  html.find('.add-attribute-point').click(ev => actor.attributes[datasetOf(ev).key].increase());
-
   // Slots
   html.find('.add-slot').click(ev => _onAddSlot(ev, actor));
   html.find('.delete-slot').click(ev => _onDeleteSlot(datasetOf(ev), actor));
-}
-
-export function activateNpcLinsters(html, actor) {
-  html.find(".monster-creator").click(() => MonsterCreatorDialog.open({actor: actor}));
-}
-
-export function activateCompanionListeners(html, actor) {
-  const getTrait = (actor, traitKey) => actor.system?.traits[traitKey];
-
-  html.find(".trait-tooltip").hover(ev => traitTooltip(getTrait(actor, datasetOf(ev).traitKey), ev, html, {inside: datasetOf(ev).inside === "true"}), ev => hideTooltip(ev, html));
-  html.find(".activable-trait").mousedown(ev => {
-    if (ev.which === 1) activateTrait(datasetOf(ev).traitKey, actor);
-    if (ev.which === 3) deactivateTrait(datasetOf(ev).traitKey, actor);
-  });
-  html.find(".trait-delete").click(ev =>  deleteTrait(datasetOf(ev).traitKey, actor));
-  html.find(".trait-edit").click(ev => editTrait(datasetOf(ev).traitKey, actor));
-  html.find(".trait-repeatable").click(ev => {
-    const trait = getTrait(actor, datasetOf(ev).traitKey);
-    actor.update({[`system.traits.${datasetOf(ev).traitKey}.repeatable`]: !trait.repeatable});
-  });
-  html.find(".remove-companion-owner").click(() => actor.update({["system.companionOwnerId"]: ""}));
-  html.find(".add-companion-owner").click(() => _onAddCompanionOwner(actor));
 }
 
 export function activateStorageListeners(html, actor) {
   html.find(".transfer").click(() => createTransferDialog(actor, getActorsForUser(true), {currencyOnly: true}));
 }
 
-function _onSidetab(ev) {
-  const icon = ev.currentTarget;
-  const sidebar = ev.currentTarget.parentNode;
-  sidebar.classList.toggle("expand");
-  icon.classList.toggle("fa-square-caret-left");
-  icon.classList.toggle("fa-square-caret-right");
-  const isExpanded = sidebar.classList.contains("expand");
-  game.user.setFlag("dc20rpg", "sheet.character.sidebarCollapsed", !isExpanded);
-}
-
-async function _onItemCreate(tab, actor) {
-  let selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.creatableTypes;
-  switch(tab) {
-    case "inventory":   selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.inventoryTypes; break;
-    case "features":    selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.featuresTypes; break;
-    case "known":   selectOptions = CONFIG.DC20RPG.DROPDOWN_DATA.knownTypes; break;
-  }
-
-  const itemType = await SimplePopup.select(game.i18n.localize("dc20rpg.dialog.create.itemType"), selectOptions);
-  if (!itemType) return;
-
-  const itemData = {
-    type: itemType,
-    name: `New ${getLabelFromKey(itemType, CONFIG.DC20RPG.DROPDOWN_DATA.creatableTypes)}`
-  }
-  DC20RpgItem.create(itemData, {parent: actor});
-}
 
 async function _onTransfer(actor) {
   const user = await userSelector(true);
@@ -231,30 +116,4 @@ async function _onInfusionRoll(actor, infusion) {
   const item = actor.items.get(itemId);
   if (!item) return;
   item.infusions.apply(infusion, actor.uuid);
-}
-
-async function _onAddCompanionOwner(actor) {
-  const options = {};
-  game.actors.filter(actor => actor.type === "character" && actor.isOwner).forEach(actor => options[actor.id] = actor.name);
-
-  const selected = await DC20.dialog.SimplePopup.select("Select Owner", options);
-  if (!selected) return;
-  actor.update({["system.companionOwnerId"]: selected})
-}
-
-function _onCreateNewEffect(type, actor) {
-  const duration = type === "temporary" ? 1 : undefined
-  const data = {
-    name: `${actor.name} - New Effect`,
-    img: actor.img,
-    origin: actor.uuid,
-    "duration.rounds": duration,
-    disabled: false
-  }
-  ActiveEffect.create(data, {parent: actor});
-}
-
-function _openEffectSheet(ev, object) {
-  const effect = object.getEffectById(datasetOf(ev).effectId);
-  if (effect) effect.sheet.render(true);
 }

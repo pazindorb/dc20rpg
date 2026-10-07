@@ -212,36 +212,6 @@ export function registerHandlebarsCreators() {
     }
   });
 
-  Handlebars.registerHelper('item-roll-details', (item, sheetData) => {
-    const actionType = item.system.actionType;
-    if (!actionType) return '';
-
-    let content = '';
-    const attackCheck = item.system.attack.checkType;
-    const attackRange = item.system.attack.rangeType;
-    const rollMod = item.system.rollConfig.rollModifier;
-    const check = item.system.check;
-    const checkDC = check.againstDC && check.checkDC ? ` (DC ${check.checkDC})` : ""; 
-    const checkType = getLabelFromKey(item.system.check.checkKey, CONFIG.DC20RPG.ROLL_KEYS.allChecks);
-
-    switch (actionType) {    
-      case "attack": 
-        content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.attackMod')}"><i class="fa-solid ${_attackIcon(attackCheck, attackRange)}"></i><p> ${rollMod}</p></div>`;
-        break;
-
-      case "check": 
-        content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.check')}"><i class="fa-solid fa-user-check"></i><p> ${checkType}${checkDC}</p></div>`;
-        break;
-    }
-
-    if (sheetData.damageFormula !== "") content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.damage')}"><i class="fa-solid fa-droplet"></i><p> ${sheetData.damageFormula}</p></div>`;
-    if (sheetData.healingFormula !== "")content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.healing')}"><i class="fa-solid fa-heart"></i><p> ${sheetData.healingFormula}</p></div>`;
-    if (sheetData.otherFormula !== "")content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.other')}"><i class="fa-solid fa-gear"></i><p> ${sheetData.otherFormula}</p></div>`;
-    if (sheetData.saves !== "")content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.save')}"><i class="fa-solid fa-shield"></i><p> ${sheetData.saves}</p></div>`;
-    if (sheetData.contests !== "")content += `<div class="wrapper" title="${game.i18n.localize('dc20rpg.item.sheet.header.contest')}"><i class="fa-solid fa-hand-back-fist"></i><p> ${game.i18n.localize('dc20rpg.rollType.contest')} ${sheetData.contests}</p></div>`;
-    return content;
-  });
-
   Handlebars.registerHelper('item-properties', (item) => {
     return itemDetailsToHtml(item);
   });
@@ -279,6 +249,14 @@ export function registerHandlebarsCreators() {
 
   Handlebars.registerHelper('cost-printer', (cost, resources=false, charges=false, quantity=false, showMinorAction=false) => costPrinter(cost, resources, charges, quantity, showMinorAction));
   Handlebars.registerHelper('scaling-value-printer', (system, paths, labels, secondPage) => _scalingValuePrinter(system, paths, labels, secondPage));
+
+  Handlebars.registerHelper('keyword-button', (item) => {
+    const keyword = item.system.keyword.key
+    if (keyword && item.actor.keywords.has(keyword) && item.actor.keywords.get(keyword).updateItems[item.id]) {
+      return `<a class="fas fa-at" data-tooltip="${item.system.keyword.message}" data-action="triggerKeyword" data-keyword="${keyword}"></a>`;
+    }
+    return "";
+  })
 
   Handlebars.registerHelper('on-demand-macro-button', (item) => {
     if (item.type === "infustion") return "";
@@ -490,7 +468,7 @@ export function registerHandlebarsCreators() {
     })
     let component = _formulas(dmg, "fa-droplet", CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes);
     component += _formulas(heal, "fa-heart", CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes);
-    component += _formulas(other, "fa-gear");
+    component += _otherFormulas(other, "fa-gear");
     return component;
   });
 
@@ -529,7 +507,7 @@ export function registerHandlebarsCreators() {
       switch(mods.formula.category) {
         case "damage": component += _formulas([mods.formula], "fa-droplet", CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes); break;
         case "healing": component += _formulas([mods.formula], "fa-heart", CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes); break;
-        case "other": component += _formulas([mods.formula], "fa-gear"); break;
+        case "other": component += _otherFormulas([mods.formula], "fa-gear"); break;
       }
     }
     return component;

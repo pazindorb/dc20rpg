@@ -13,6 +13,7 @@ import { RollSelect } from "../dialogs/roll-select.mjs";
 import { createItemBrowser } from "../dialogs/compendium-browser/item-browser.mjs";
 import DC20RpgActiveEffect from "../documents/activeEffect.mjs";
 import { resourceConfigDialog } from "../dialogs/resource-config.mjs";
+import { MonsterCreatorDialog } from "../dialogs/monster-creator.mjs";
 
 export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplicationMixin(foundry.applications.sheets.ActorSheetV2) {
   sheetFlags = {};
@@ -74,8 +75,13 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
     // if (options.document.type === "character") initialized.position.width = 800;
 
     initialized.actions.heldAction = () => this.actor.heldAction.trigger();
+    initialized.actions.monsterCreator = (event) => {event.preventDefault(); MonsterCreatorDialog.open({actor: this.actor});}
     initialized.actions.basicAction = () => ActionSelect.open(this.actor);
     initialized.actions.basicRoll = () => RollSelect.open(this.actor, {basic: true, save: true, attribute: true, skill: true, trade: this.actor.type === "character"});
+    
+    initialized.actions.removeOwner = () => this.actor.update({["system.companionOwnerId"]: ""});
+    initialized.actions.addOwner = this._onAddCompanionOwner;
+
     initialized.actions.help = this._onHelpAction;
     initialized.actions.spend = this._onSpendResource;
     initialized.actions.regain = this._onRegainResource;
@@ -89,6 +95,8 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
     initialized.actions.createItem = this._onItemCreate;
 
     initialized.actions.rollItem = this._onRollItem;
+    initialized.actions.rechargeItem = this._onRechargeItem;
+    initialized.actions.triggerKeyword = this._onTriggerKeyword;
     initialized.actions.equip = this._onEquip;
     initialized.actions.toggle = this._onToggle;
     initialized.actions.macro = this._onMacro;
@@ -231,6 +239,12 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
     duplicateData(context, this.actor);
     sortMapOfItems(context, this.actor.items);
     prepareCommonData(context);
+    context.sortedAttributes = {
+      mig: context.attributes.mig,
+      agi: context.attributes.agi,
+      cha: context.attributes.cha,
+      int: context.attributes.int,
+    }
 
     const actorType = this.actor.type;
     switch (actorType) {
@@ -529,6 +543,15 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
     }
   }
 
+  async _onAddCompanionOwner(event, target) {
+    const options = {};
+    game.actors.filter(actor => actor.type === "character" && actor.isOwner).forEach(actor => options[actor.id] = actor.name);
+
+    const selected = await SimplePopup.select("Select Owner", options);
+    if (!selected) return;
+    this.actor.update({["system.companionOwnerId"]: selected})
+  }
+
   _onCreateTable(event, target) {
     const tab = target.dataset.tab;
     const headers = this.actor.system.sheetData.header.order[tab];
@@ -586,6 +609,16 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
   _onRollItem(event, target) {
     const item = this.actor.items.get(target.dataset.itemId);
     if (item) item.roll();
+  }
+  
+  _onRechargeItem(event, target) {
+    const item = this.actor.items.get(target.dataset.itemId);
+    if (item) item.use.regainCharges()
+  }
+
+  _onTriggerKeyword(event, target) {
+    const keyword = this.actor.keywords.get(target.dataset.keyword);
+    if (keyword) keyword.update(null, true);
   }
 
   _onEquip(event, target) {
