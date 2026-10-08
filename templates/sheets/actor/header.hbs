@@ -86,7 +86,7 @@
     <div class="def-row">
       {{!-- Precision --}}
       <div class="defense" data-tooltip="{{localize 'dc20rpg.sheet.precisionDefence'}}">
-        <i class="fa-solid fa-shield"></i><span class="margin-left-3 margin-right-3">PD</span>
+        <i class="fa-solid fa-bullseye-pointer"></i><span class="margin-left-3 margin-right-3">PD</span>
          <input {{#ifCond system.defences.precision.formulaKey '!==' "flat"}} disabled {{/ifCond}} {{#unless editMode}}disabled{{/unless}} type="text" value="{{system.defences.precision.value}}" data-cType="string" data-path="system.defences.precision.normal" data-dtype="Number"/>
         /<input disabled type="text" value="{{system.defences.precision.heavy}}" data-dtype="Number"/>
         /<input disabled type="text" value="{{system.defences.precision.brutal}}" data-dtype="Number"/>
@@ -94,7 +94,7 @@
 
       {{!-- Area --}}
       <div class="defense" data-tooltip="{{localize 'dc20rpg.sheet.areaDefence'}}">
-        <i class="fa-regular fa-circle-dot"></i><span class="margin-left-3 margin-right-3">AD</span>
+        <i class="fa-solid fa-burst"></i><span class="margin-left-3 margin-right-3">AD</span>
          <input {{#ifCond system.defences.area.formulaKey '!==' "flat"}} disabled {{/ifCond}} {{#unless editMode}}disabled{{/unless}} type="text" value="{{system.defences.area.value}}" data-cType="string" data-path="system.defences.area.normal" data-dtype="Number"/>
         /<input disabled type="text" value="{{system.defences.area.heavy}}" data-dtype="Number"/>
         /<input disabled type="text" value="{{system.defences.area.brutal}}" data-dtype="Number"/>
@@ -103,7 +103,7 @@
 
     <div class="attr-row">
       {{#each sortedAttributes as |attribute key|}}
-        <div class="attribute">
+        <div class="attribute" style="color: {{color-by-key key}}">
           <label>{{localize (concat "dc20rpg.attributes.short." key)}}</label>
           {{#if @root.editMode}}
           <input style="width: 25px;" type="text" value="{{attribute.value}}" data-dtype="Number" name="system.attributes.{{key}}.current"/>

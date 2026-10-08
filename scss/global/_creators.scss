@@ -111,13 +111,59 @@
 
     width: 40px;
     height: 40px;
-    padding: 7px 6px 5px 6px;
+    padding: 6px;
     border: 3px solid $secondary-dark;
     border-radius: 10px;
 
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  i.fa-duotone.fa-shield-halved {
+    --fa-primary-opacity: 1;
+    --fa-secondary-opacity: 1;
+
+    &::before {
+      text-shadow: none;
+    }
+    &::after {
+      text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+    }
+  }
+
+  i.fa-duotone.fa-hand-back-fist {
+    --fa-primary-opacity: 1;
+    --fa-secondary-opacity: 1;
+
+    &::before {
+      text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+    }
+    &::after {
+      text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+    }
+  }
+
+  .rotate::before {
+    transform: rotate(180deg);
+  }
+
+  &.red {
+    i, span, img {
+      background-color: $health-point;
+    }
+  }
+
+  &.blue {
+    i, span, img {
+      background-color: $mana;
+    }
+  }
+
+  &.green {
+    i, span, img {
+      background-color: $health;
+    }
   }
 
   span {

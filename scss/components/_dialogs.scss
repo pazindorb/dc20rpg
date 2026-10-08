@@ -1052,12 +1052,39 @@
       .description-icon {
 
         .letter-circle-icon {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-family: $font-header;
     
           i, span {
             border-color: var(--activable-off);
             font-size: 16px;
             height: 30px;
             width: 30px;
+            color: #ffffff !important;
+          }
+
+          span {
+            font-family: $font-header;
+            font-size: 20px;
+          }
+
+          &.wide  {
+
+            i {
+              border-left: 0;
+              width: 26px;
+              border-radius: 0 5px 5px 0;
+              padding-right: 8px;
+            }
+
+            span {
+              border-right: 0;
+              padding-left: 5px;
+              width: 22px;
+              border-radius: 5px 0 0 5px;
+            }
           }
         }
       }
@@ -1456,12 +1483,39 @@
   .description-icon {
 
     .letter-circle-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: $font-header;
 
       i, span {
         font-size: 12px;
         height: 23px;
         width: 23px;
         border: 2px solid $secondary-darker;
+        border-radius: 5px;
+      }
+
+      span {
+        font-family: $font-header;
+        font-size: 16px;
+      }
+
+      &.wide  {
+
+        i {
+          border-left: 0;
+          padding-right: 8px;
+          width: 14px;
+          border-radius: 0 5px 5px 0;
+        }
+
+        span {
+          border-right: 0;
+          width: 18px;
+          padding-left: 8px;
+          border-radius: 5px 0 0 5px;
+        }
       }
     }
 

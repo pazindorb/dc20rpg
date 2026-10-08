@@ -74,7 +74,7 @@
         {{#each content}} 
         <div class="oneliner-row" {{#if this.data}} {{{this.data}}} style="cursor:pointer"{{/if}}>
           {{#if img}}<img src="{{img}}" {{#if style}}style="{{style}}"{{/if}}/>{{/if}}
-          {{#if icon}}<i class="{{icon}}"></i>{{/if}}
+          {{#if icon}}<i class="{{icon}}" {{#if style}}style="{{style}}"{{/if}}></i>{{/if}}
           <span>{{oneliner}}</span>
         </div>
         {{/each}}
@@ -122,12 +122,24 @@
       <div class="sub-menu">
         <div class="wrapper" style="opacity: 0;"></div>
         <div class="wrapper">
-          <a data-tooltip="{{localize "dc20rpg.rollType.marCheck"}}" data-action="roll" data-type="check" data-key="mar"><i class="fa-solid fa-hand-fist"></i></a>
-          <a data-tooltip="{{localize "dc20rpg.rollType.speCheck"}}" data-action="roll" data-type="check" data-key="spe"><i class="fa-solid fa-hand-sparkles"></i></a>
+          <a data-tooltip="{{localize "dc20rpg.rollType.marCheck"}}" data-action="roll" data-type="check" data-key="mar">
+            <i class="fa-solid fa-hand-fist" style="color: {{color-by-key "mar"}}"></i>
+            </a>
+          <a data-tooltip="{{localize "dc20rpg.rollType.speCheck"}}" data-action="roll" data-type="check" data-key="spe">
+            <i class="fa-solid fa-book-sparkles" style="color: {{color-by-key "spe"}}"></i>
+            </a>
         </div>
         <div class="wrapper">
-          <a data-tooltip="{{localize "dc20rpg.rollType.phySave"}}" data-action="roll" data-type="save" data-key="phy"><i class="fa-solid fa-bicep"></i></a>
-          <a data-tooltip="{{localize "dc20rpg.rollType.menSave"}}" data-action="roll" data-type="save" data-key="men"><i class="fa-solid fa-brain"></i></a>
+          <a data-tooltip="{{localize "dc20rpg.rollType.phySave"}}" data-action="roll" data-type="save" data-key="phy">
+            <i class="fa-solid fa-shield-halved fa-duotone" style="
+                --fa-primary-color: {{color-by-key "mig"}};
+                --fa-secondary-color: {{color-by-key "agi"}};"></i>
+            </a>
+          <a data-tooltip="{{localize "dc20rpg.rollType.menSave"}}" data-action="roll" data-type="save" data-key="men">
+            <i class="fa-solid fa-shield-halved fa-duotone" style="
+                --fa-primary-color: {{color-by-key "cha"}};
+                --fa-secondary-color: {{color-by-key "int"}};"></i>
+            </a>
         </div>
         <div class="wrapper">
           <a data-class="help-action" data-tooltip="{{localize "Perform Help Action"}}" data-action="help"><i class="fa-solid fa-handshake-angle"></i></a>
@@ -154,7 +166,7 @@
       {{#each main as |table key|}}
       <div class="item-list table-name {{key}}">
         {{!-- Header --}}
-        <div class="item-header" data-table-name='{{key}}' style="grid-template-columns: 50px 1fr 60px">
+        <div class="item-header" data-table-name='{{key}}' style="grid-template-columns: 50px 1fr 100px">
           {{!-- Reorder Buttons --}}
           {{#if @root.editMode}}
           <div class="column reordering-buttons">
@@ -188,7 +200,7 @@
         {{!-- Rows --}}
         {{#each table.items as |item id|}} 
         <div class="item item-row draggable context-menu {{#if item.equipped}} equipped{{/if}}{{#if item.system.statuses.attuned}} attuned{{/if}}{{#ifCond item.system.toggle.toggleable '&&' item.system.toggle.toggledOn}} activated-effect{{/ifCond}}" 
-            data-middle-click="sheet" data-item-id="{{item._id}}" style="grid-template-columns: 50px 1fr 60px" data-hover="tooltip">
+            data-middle-click="sheet" data-item-id="{{item._id}}" style="grid-template-columns: 50px 1fr 100px" data-hover="tooltip">
           
           <div class="column cost">
             <div class="costs">
@@ -285,7 +297,10 @@
             <div class="actions">
               {{{action-type item}}}
               {{{roll-requests item}}}
+            </div>
+            <div class="result">
               {{{formula-rolls item}}}
+              {{{against-status item}}}
             </div>
           {{/if}}
           </div>

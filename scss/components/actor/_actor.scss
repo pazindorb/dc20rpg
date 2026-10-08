@@ -253,7 +253,7 @@
       .attribute {
         padding: 5px;
 
-        .roll {
+        .roll, label {
           font-weight: bold;
         }
 
@@ -351,6 +351,20 @@
         .help-dice {
           font-size: 10px;
           cursor: grab;
+        }
+
+        i.fa-duotone {
+          --fa-primary-opacity: 1;
+          --fa-secondary-opacity: 1;
+
+          &:not(:hover) {
+            &::before {
+              text-shadow: 0px 0 black, 0 0px black, 0px 0 black, 0 0px black;
+            }
+            &::after {
+              text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+            }
+          }
         }
       }
     }
@@ -753,7 +767,7 @@
           justify-content: center;
         }
 
-        .actions {
+        .actions, .result {
           display: flex;
           flex-wrap: wrap;
           align-items: center;
@@ -762,41 +776,122 @@
 
           margin-top: -1px;
           height: 100%;
-          width: 60px;
+          width: 40px;
           column-gap: 2px;
           row-gap: 1px;
-          border-right: 1px solid var(--primary-color);
+          overflow: hidden;
+
+          &:hover {
+            overflow: visible;
+          }
 
           .description-icon {
             margin: 0;
           }
 
           .letter-circle-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-            i {
+            i, span {
               border-radius: 5px;
               padding: 0;
               border: 0;
-              width: 17px;
+              width: 18px;
               height: 17px;
-              font-size: 10px;
+              font-size: 12px;
               background-color: $action-point;
+
             }
 
-            .fa-droplet {
-              background-color: $health-point;
+            span {
+              font-family: $font-default;
+              font-size: 12px;
             }
 
-            .fa-gear {
-              background-color: $mana;
+            &.red {
+              i, span, img {
+                color: $health-point;
+                background-color: $health-point;
+              }
             }
 
-            .fa-heart {
-              background-color: $health;
+            &.blue {
+              i, span, img {
+                color: $mana;
+                background-color: $mana;
+              }
+            }
+
+            &.green {
+              i, span, img {
+                color: $health;
+                background-color: $health;
+              }
+            }
+
+            &.wide  {
+
+              i {
+                width: 14px;
+                border-radius: 0 5px 5px 0;
+                padding-right: 2px;
+              }
+
+              span {
+                padding: 0 2px;
+                width: fit-content;
+                border-radius: 5px 0 0 5px;
+              }
             }
           }
         }
 
+        .actions {
+          
+          i, span {
+            font-size: 14px !important;
+            background: transparent !important;
+            text-shadow: -1px 0 #000000, 0 1px #000000, 1px 0 #000000, 0 -1px #000000;
+          }
+
+          i.fa-duotone.fa-shield-halved {
+            --fa-primary-opacity: 1;
+            --fa-secondary-opacity: 1;
+
+            &::before {
+              text-shadow: none;
+            }
+            &::after {
+              text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+            }
+          }
+
+          i.fa-duotone.fa-hand-back-fist {
+            --fa-primary-opacity: 1;
+            --fa-secondary-opacity: 1;
+
+            &::before {
+              text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+            }
+            &::after {
+              text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+            }
+          }
+        }
+
+        .result {
+          width: 60px;
+          border-left: 1px solid var(--primary-color);
+
+          i, span {
+            font-size: 13px !important;
+            background: transparent !important;
+            text-shadow: -1px 0 #fff, 0 1px #fff, 1px 0 #fff, 0 -1px #fff;
+            color: #000;
+          }
+        }
 
       }
     }

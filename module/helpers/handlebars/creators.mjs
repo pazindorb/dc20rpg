@@ -1,8 +1,12 @@
 import { itemDetailsToHtml } from "../../sheets/item-sheet/item-sheet-details.mjs";
-import { getLabelFromKey, getValueFromPath } from "../utils.mjs";
+import { getColorByKey, getLabelFromKey, getValueFromPath } from "../utils.mjs";
 import { allPartials } from "./templates.mjs";
 
 export function registerHandlebarsCreators() {
+
+  Handlebars.registerHelper('color-by-key', (key) => {
+    return getColorByKey(key);
+  })
 
   Handlebars.registerHelper('data', (...params) => {
     const size = params.length - 1;
@@ -425,12 +429,21 @@ export function registerHandlebarsCreators() {
 
   Handlebars.registerHelper('action-type', (item) => {
     if (item.unidefined) return '';
+
+    let content = "";
     const system = item.system;
     switch (system.actionType) {
-      case "attack": return _attack(system.attack);
-      case "check": return _check(system.check);
-      default: return '';
+      case "attack": {
+        content += _attack(system.attack);
+        content += _defense(system.attack);
+        break;
+      }
+      case "check": 
+        content += _check(system.check);
+        content += _vsDC(system.check);
+        break;
     }
+    return content;
   });
 
   Handlebars.registerHelper('roll-requests', (item) => {
@@ -466,10 +479,27 @@ export function registerHandlebarsCreators() {
         case "other": other.push(formula); break;
       }
     })
-    let component = _formulas(dmg, "fa-droplet", CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes);
-    component += _formulas(heal, "fa-heart", CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes);
-    component += _otherFormulas(other, "fa-gear");
+    let component = _formulas(dmg, "fa-layer-plus", "red", CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes);
+    component += _formulas(heal, "fa-layer-plus", "green", CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes);
+    component += _formulas(other, "fa-gear", "blue");
     return component;
+  });
+
+  Handlebars.registerHelper('against-status', (item) => {
+    if (item.unidefined) return '';
+    const againstStatuses = item.system.againstStatuses;
+    if (!againstStatuses) return "";
+
+    const statuses = Object.values(againstStatuses);
+    if (statuses.length === 0) return "";
+    
+    const description = statuses.map(status => {
+      let desc = getLabelFromKey(status.id, CONFIG.DC20RPG.DROPDOWN_DATA.allStatuses);
+      if (status.stacks > 1) desc += ` (${status.stacks})`;
+      return desc;
+    }).join("<br>");
+
+    return _descriptionIcon(`<p>${description}</p>`, "fa-bone-break");
   });
 
   Handlebars.registerHelper('enhancement-mods', (enh) => {
@@ -489,62 +519,106 @@ export function registerHandlebarsCreators() {
     }
     if (mods.modifiesCoreFormula) {
       const description = `${mods.coreFormulaModification} ${game.i18n.localize('dc20rpg.sheet.itemTable.coreFormulaModification')}`
+      component += _descriptionIcon(description, "fa-dice-d20");
+    }
+    if (mods.rollLevelChange) {
+      const description = `${game.i18n.localize(`dc20rpg.sheet.itemTable.${mods.rollLevel.type}`)} (${mods.rollLevel.value})`
       component += _descriptionIcon(description, "fa-dice");
     }
     if (mods.overrideTargetDefence) {
-      const description = `${game.i18n.localize('dc20rpg.sheet.itemTable.overrideTargetDefence')}<br><b>${getLabelFromKey(mods.targetDefenceType, CONFIG.DC20RPG.DROPDOWN_DATA.defences)}</b>`;
-      component += _descriptionIcon(description, "fa-share");
+      const description = `${game.i18n.localize('dc20rpg.sheet.itemTable.overrideTargetDefence')}<br>${getLabelFromKey(mods.targetDefenceType, CONFIG.DC20RPG.DROPDOWN_DATA.defences)}`;
+      component += _descriptionIcon(description, _defenseIcon(mods.targetDefenceType));
     }
     if (mods.actionChange) {
-      const description = `${game.i18n.localize('dc20rpg.sheet.itemTable.actionChange')} <b>${getLabelFromKey(mods.actionType, CONFIG.DC20RPG.DROPDOWN_DATA.actionTypes)}</b>`
-      component += _descriptionIcon(description, "fa-dice-d6", "style='margin-top: -3px;'");
+      const description = `${game.i18n.localize('dc20rpg.sheet.itemTable.actionChange')}<br>${getLabelFromKey(mods.actionType, CONFIG.DC20RPG.DROPDOWN_DATA.actionTypes)}`
+      component += _descriptionIcon(description, "fa-dice-d6");
     }
     if (mods.overrideDamageType) {
-      const description = `${game.i18n.localize('dc20rpg.sheet.itemTable.changeDamageType')} <b>${getLabelFromKey(mods.damageType, CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes)}</b>`
-      component += _descriptionIcon(description, "fa-fire");
+      const description = `${game.i18n.localize('dc20rpg.sheet.itemTable.changeDamageType')}<br>${getLabelFromKey(mods.damageType, CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes)}`
+      component += _descriptionIcon(description, _formulaIcon(mods.damageType), {iconStyle: `style="color:${_formulaColor(mods.damageType)};"`});
     }
     if (mods.addsNewFormula) {
       switch(mods.formula.category) {
-        case "damage": component += _formulas([mods.formula], "fa-droplet", CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes); break;
-        case "healing": component += _formulas([mods.formula], "fa-heart", CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes); break;
-        case "other": component += _otherFormulas([mods.formula], "fa-gear"); break;
+        case "damage": component += _formulas([mods.formula], "fa-layer-plus", "red", CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes); break;
+        case "healing": component += _formulas([mods.formula], "fa-layer-plus", "green", CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes); break;
+        case "other": component += _formulas([mods.formula], "fa-gear", "blue"); break;
       }
+    }
+    if (mods.addsAgainstStatus) {
+      let description = getLabelFromKey(mods.againstStatus.id, CONFIG.DC20RPG.DROPDOWN_DATA.allStatuses);
+      if (mods.againstStatus.stacks > 1) description += ` (${mods.againstStatus.stacks})`
+      component += _descriptionIcon(description, "fa-bone-break");
     }
     return component;
   });
 }
 
 function _attack(attack) {
-  const description = `${getLabelFromKey(attack.checkType + attack.rangeType, CONFIG.DC20RPG.DROPDOWN_DATA.checkRangeType)}<br>vs<br>${getLabelFromKey(attack.targetDefence, CONFIG.DC20RPG.DROPDOWN_DATA.defences)}`;
+  const description = `${getLabelFromKey(attack.checkType + attack.rangeType, CONFIG.DC20RPG.DROPDOWN_DATA.checkRangeType)}`;
   return _descriptionIcon(`<p>${description}</p>`, _attackIcon(attack.checkType, attack.rangeType));
+}
+
+function _defense(attack) {
+  const description = `${game.i18n.localize('dc20rpg.rollType.defense')}<br>${getLabelFromKey(attack.targetDefence, CONFIG.DC20RPG.DROPDOWN_DATA.defences)}`;
+  return _descriptionIcon(`<p>${description}</p>`, _defenseIcon(attack.targetDefence));
+}
+
+function _check(check) {
+  return _descriptionIcon(`<p>${getLabelFromKey(check.checkKey, CONFIG.DC20RPG.ROLL_KEYS.allChecks)}</p>`, _checkIcon(check.checkKey));
+}
+
+function _vsDC(check) {
+  if (check.againstDC && check.checkDC) {
+    return _descriptionChar(`<p>${game.i18n.localize("dc20rpg.rollType.dc")}: ${check.checkDC}</p>`, check.checkDC)
+  }
+  return ""
 }
 
 function _save(saves) {
   let description = "";
   for(let i = 0; i < saves.length; i++) {
-    description += `DC ${saves[i].dc} <b>${getLabelFromKey(saves[i].saveKey, CONFIG.DC20RPG.ROLL_KEYS.saveTypes)}</b>`;
-    if (i !== saves.length - 1) description += "<br>or ";
+    if (!description) description = `<b>${game.i18n.localize('dc20rpg.rollType.against')}</b><br>`; 
+    description += `DC ${saves[i].dc} ${getLabelFromKey(saves[i].saveKey, CONFIG.DC20RPG.ROLL_KEYS.saveTypes)}`;
+    if (i !== saves.length - 1) description += "<br>";
   }
-  return _descriptionIcon(`<p>${description}</p>`, 'fa-shield');
-}
 
-function _check(check) {
-  const checkDC = (check.againstDC && check.checkDC) ? `DC ${check.checkDC} ` : "";
-  const description = `${checkDC} <b>${getLabelFromKey(check.checkKey, CONFIG.DC20RPG.ROLL_KEYS.allChecks)}</b>`;
-  return _descriptionIcon(`<p>${description}</p>`, 'fa-user-check');
+  let style;
+  if (saves.length === 1) {
+    let keys = [];
+    if      (saves[0].saveKey === "phy") keys = ["mig", "agi"];
+    else if (saves[0].saveKey === "men") keys = ["cha", "int"];
+    else    keys = [saves[0].saveKey, saves[0].saveKey];
+
+    style = `style='text-shadow: none;
+    --fa-primary-color: ${getColorByKey(keys[0])};
+    --fa-secondary-color: ${getColorByKey(keys[1])};'`;
+  }
+  return _descriptionIcon(`<p>${description}</p>`, 'fa-shield-halved fa-duotone', {iconStyle: style}); 
 }
 
 function _contest(contests) {
   let description = "";
   for(let i = 0; i < contests.length; i++) {
-    if (i === 0) description += game.i18n.localize('dc20rpg.rollType.contest') + ":<br>";
-    description += `<b>${getLabelFromKey(contests[i].contestedKey, CONFIG.DC20RPG.ROLL_KEYS.contests)}</b>`;
-    if (i !== contests.length - 1) description += "<br>or ";
+    if (!description) description = `<b>${game.i18n.localize('dc20rpg.rollType.contest')}</b><br>`; 
+    description += `${getLabelFromKey(contests[i].contestedKey, CONFIG.DC20RPG.ROLL_KEYS.contests)}`;
+    if (i !== contests.length - 1) description += "<br>";
   }
-  return _descriptionIcon(`<p>${description}</p>`, 'fa-hand-back-fist');
+
+  let style;
+  if (contests.length === 1) {
+    let keys = [];
+    if      (contests[0].contestedKey === "phy") keys = ["mig", "agi"];
+    else if (contests[0].contestedKey === "men") keys = ["cha", "int"];
+    else    keys = [contests[0].contestedKey, contests[0].contestedKey];
+
+    style = `style='text-shadow: none;
+    --fa-primary-color: ${getColorByKey(keys[0])};
+    --fa-secondary-color: ${getColorByKey(keys[1])};'`;
+  }
+  return _descriptionIcon(`<p>${description}</p>`, 'fa-hand-back-fist fa-duotone', {iconStyle: style});
 }
 
-function _formulas(formulas, icon, types) {
+function _formulas(formulas, icon, cssClass, types) {
   if (formulas.length <= 0) return '';
   let description = '';
   for(let i = 0; i < formulas.length; i++) {
@@ -556,14 +630,38 @@ function _formulas(formulas, icon, types) {
     const displayedValue = formula.precalculated != null ? formula.precalculated : formula.formula;
     description += `${displayedValue} ${label}`;
   }
-  return _descriptionIcon(`<p>${description}</p>`, icon);
+
+  if (formulas.length > 2) {
+    return _descriptionCharIcon(`<p>${description}</p>`, icon, "?", {cssClass: cssClass});
+  }
+
+  let content = "";
+  for (const formula of formulas) {
+    const char = formula.precalculated != null ? formula.precalculated : formula.formula;
+    let label = formula.label;
+    if (!label && types) label = getLabelFromKey(formula.type, types);
+    const desc = `${char} ${label}`;
+    content += _descriptionCharIcon(`<p>${desc}</p>`, _formulaIcon(formula.type), char, {cssClass: cssClass, iconStyle: `style="color:${_formulaColor(formula.type)};"`});
+  }
+  return content;
 }
 
-function _descriptionIcon(description, icon, iconStyle="") {
+function _descriptionCharIcon(description, icon, char, options={}) {
   return `
-  <div class="description-icon" title="">
-    <div class="letter-circle-icon" data-tooltip="<span style='display:flex; text-align: center;'>${description}</span>">
-      <i class="fa-solid ${icon}" ${iconStyle}></i>
+  <div class="description-icon">
+    <div class="letter-circle-icon wide ${options.cssClass}" data-tooltip="<span style='display:flex; text-align: center;'>${description}</span>">
+      <span class="char" ${options.iconStyle}>${char}</span>
+      <i class="fa-solid ${icon}" ${options.iconStyle}></i>
+    </div>
+  </div>
+  `
+}
+
+function _descriptionIcon(description, icon, options={}) {
+  return `
+  <div class="description-icon">
+    <div class="letter-circle-icon ${options.cssClass}" data-tooltip="<span style='display:flex; text-align: center;'>${description}</span>">
+      <i class="fa-solid ${icon}" ${options.iconStyle}></i>
     </div>
   </div>
   `
@@ -571,7 +669,7 @@ function _descriptionIcon(description, icon, iconStyle="") {
 
 function _descriptionChar(description, char) {
   return `
-  <div class="description-icon" title="">
+  <div class="description-icon">
     <div class="letter-circle-icon" data-tooltip="<span style='display:flex; text-align: center;'>${description}</span>">
       <span class="char">${char}</span>
     </div>
@@ -644,9 +742,66 @@ function _toCost(key, icon, amount, title, custom) {
 function _attackIcon(attackCheck, attackRange) {
   if (attackCheck === "martial" && attackRange === "melee") return 'fa-sword';
   if (attackCheck === "martial" && attackRange === "ranged") return 'fa-bow-arrow';
-  if (attackCheck === "martial" && attackRange === "area") return 'fa-bullseye';
+  if (attackCheck === "martial" && attackRange === "area") return 'fa-rainbow-half';
   if (attackCheck === "spell" && attackRange === "melee") return 'fa-hand-sparkles';
   if (attackCheck === "spell" && attackRange === "ranged") return 'fa-wand-magic-sparkles';
   if (attackCheck === "spell" && attackRange === "area") return 'fa-meteor';
   return 'fa-question';
+}
+
+function _defenseIcon(defence) {
+  if (defence === "precision") return "fa-bullseye-pointer";
+  if (defence === "area") return "fa-burst";
+  return "fa-question"
+}
+
+function _checkIcon(key) {
+  switch (key) {
+    case "spe": return "fa-book-sparkles";
+    case "mar": return "fa-hand-fist";
+    case "att": return "fa-swords";
+    default: return "fa-user-check"
+  }
+}
+
+function _formulaIcon(key) {
+  switch (key) {
+    case "bludgeoning": return "fa-gavel";
+    case "corrosion": return "fa-droplet";
+    case "cold": return "fa-snowflake";
+    case "fire": return "fa-fire";
+    case "lightning": return "fa-bolt-lightning";
+    case "poison": return "fa-flask-round-poison";
+    case "radiant": return "fa-sun";
+    case "psychic": return "fa-brain";
+    case "umbral": return "fa-star-sharp rotate";
+    case "piercing": return "fa-arrow-archery";
+    case "slashing": return "fa-knife-kitchen";
+    case "true": return "fa-atom-simple";
+    case "heal": return "fa-heart-circle-plus";
+    case "temporary": return "fa-shield-plus";
+    case "": return "fa-gear";
+    default: return "fa-question"
+  }
+}
+
+function _formulaColor(key) {
+  switch (key) {
+    case "bludgeoning": return "#757373";
+    case "piercing": return "#757373";
+    case "slashing": return "#757373";
+    case "corrosion": return "#637e03";
+    case "cold": return "#0378a7";
+    case "fire": return "#a54b01";
+    case "lightning": return "#00926e";
+    case "poison": return "#1f8d04";
+    case "radiant": return "#c5aa0d";
+    case "psychic": return "#9b01a0";
+    case "umbral": return "#410374";
+    case "true": return "#a7719f";
+    case "heal": return "#008b17";
+    case "temporary": return "#3f3f3f";
+    case "": return "#0e03a5";
+    default: return "#000000"
+  }
 }

@@ -1,4 +1,4 @@
-import { getLabelFromKey } from "../../helpers/utils.mjs";
+import { getColorByKey, getLabelFromKey } from "../../helpers/utils.mjs";
 
 export function duplicateData(context, actor) {
   context.config = CONFIG.DC20RPG;
@@ -233,7 +233,8 @@ function _prepareSkillOnelinters(skills, oneliners) {
     oneliners.skills.content.push({
       oneliner: `${skill.label} (${skill.modifier})`, 
       icon: "fa-solid fa-square fa-2xs",
-      data: `data-action="roll" data-type="check" data-key="${key}"`  
+      data: `data-action="roll" data-type="check" data-key="${key}"`,
+      style: `color: ${getColorByKey(skill.baseAttribute)}`  
     })
   }
 }
