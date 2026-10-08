@@ -479,9 +479,10 @@ export function registerHandlebarsCreators() {
         case "other": other.push(formula); break;
       }
     })
-    let component = _formulas(dmg, "fa-layer-plus", "red", CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes);
-    component += _formulas(heal, "fa-layer-plus", "green", CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes);
-    component += _formulas(other, "fa-gear", "blue");
+    let allFormulasSize = dmg.length + heal.length + other.length;
+    let component = _formulas(dmg, allFormulasSize, "fa-layer-plus", CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes);
+    component += _formulas(heal, allFormulasSize, "fa-layer-plus", CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes);
+    component += _formulas(other, allFormulasSize, "fa-gear");
     return component;
   });
 
@@ -539,9 +540,9 @@ export function registerHandlebarsCreators() {
     }
     if (mods.addsNewFormula) {
       switch(mods.formula.category) {
-        case "damage": component += _formulas([mods.formula], "fa-layer-plus", "red", CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes); break;
-        case "healing": component += _formulas([mods.formula], "fa-layer-plus", "green", CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes); break;
-        case "other": component += _formulas([mods.formula], "fa-gear", "blue"); break;
+        case "damage": component += _formulas([mods.formula], 1, "fa-layer-plus", CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes); break;
+        case "healing": component += _formulas([mods.formula], 1, "fa-layer-plus", CONFIG.DC20RPG.DROPDOWN_DATA.healingTypes); break;
+        case "other": component += _formulas([mods.formula], 1, "fa-gear"); break;
       }
     }
     if (mods.addsAgainstStatus) {
@@ -559,7 +560,7 @@ function _attack(attack) {
 }
 
 function _defense(attack) {
-  const description = `${game.i18n.localize('dc20rpg.rollType.defense')}<br>${getLabelFromKey(attack.targetDefence, CONFIG.DC20RPG.DROPDOWN_DATA.defences)}`;
+  const description = `<b>${game.i18n.localize('dc20rpg.rollType.defense')}</b><br>${getLabelFromKey(attack.targetDefence, CONFIG.DC20RPG.DROPDOWN_DATA.defences)}`;
   return _descriptionIcon(`<p>${description}</p>`, _defenseIcon(attack.targetDefence));
 }
 
@@ -618,7 +619,7 @@ function _contest(contests) {
   return _descriptionIcon(`<p>${description}</p>`, 'fa-hand-back-fist fa-duotone', {iconStyle: style});
 }
 
-function _formulas(formulas, icon, cssClass, types) {
+function _formulas(formulas, allFormulasSize, icon, types) {
   if (formulas.length <= 0) return '';
   let description = '';
   for(let i = 0; i < formulas.length; i++) {
@@ -631,8 +632,8 @@ function _formulas(formulas, icon, cssClass, types) {
     description += `${displayedValue} ${label}`;
   }
 
-  if (formulas.length > 2) {
-    return _descriptionCharIcon(`<p>${description}</p>`, icon, "?", {cssClass: cssClass});
+  if (allFormulasSize > 2 && formulas.length > 1) {
+    return _descriptionCharIcon(`<p>${description}</p>`, icon, "?", {iconStyle: `style="color: var(--default-${formulas[0].category}); background-color: var(--default-${formulas[0].category});"`});
   }
 
   let content = "";
@@ -641,7 +642,7 @@ function _formulas(formulas, icon, cssClass, types) {
     let label = formula.label;
     if (!label && types) label = getLabelFromKey(formula.type, types);
     const desc = `${char} ${label}`;
-    content += _descriptionCharIcon(`<p>${desc}</p>`, _formulaIcon(formula.type), char, {cssClass: cssClass, iconStyle: `style="color:${_formulaColor(formula.type)};"`});
+    content += _descriptionCharIcon(`<p>${desc}</p>`, _formulaIcon(formula.type), char, {iconStyle: `style="color:${_formulaColor(formula.type)}; background-color: ${_formulaColor(formula.type)}"`});
   }
   return content;
 }
@@ -649,7 +650,7 @@ function _formulas(formulas, icon, cssClass, types) {
 function _descriptionCharIcon(description, icon, char, options={}) {
   return `
   <div class="description-icon">
-    <div class="letter-circle-icon wide ${options.cssClass}" data-tooltip="<span style='display:flex; text-align: center;'>${description}</span>">
+    <div class="letter-circle-icon wide" ${options.iconStyle} data-tooltip="<span style='display:flex; text-align: center;'>${description}</span>">
       <span class="char" ${options.iconStyle}>${char}</span>
       <i class="fa-solid ${icon}" ${options.iconStyle}></i>
     </div>
@@ -660,7 +661,7 @@ function _descriptionCharIcon(description, icon, char, options={}) {
 function _descriptionIcon(description, icon, options={}) {
   return `
   <div class="description-icon">
-    <div class="letter-circle-icon ${options.cssClass}" data-tooltip="<span style='display:flex; text-align: center;'>${description}</span>">
+    <div class="letter-circle-icon" ${options.iconStyle} data-tooltip="<span style='display:flex; text-align: center;'>${description}</span>">
       <i class="fa-solid ${icon}" ${options.iconStyle}></i>
     </div>
   </div>
@@ -774,9 +775,9 @@ function _formulaIcon(key) {
     case "poison": return "fa-flask-round-poison";
     case "radiant": return "fa-sun";
     case "psychic": return "fa-brain";
-    case "umbral": return "fa-star-sharp rotate";
-    case "piercing": return "fa-arrow-archery";
-    case "slashing": return "fa-knife-kitchen";
+    case "umbral": return "fa-eye-evil";
+    case "piercing": return "fa-knife-kitchen";
+    case "slashing": return "fa-sickle";
     case "true": return "fa-atom-simple";
     case "heal": return "fa-heart-circle-plus";
     case "temporary": return "fa-shield-plus";
@@ -786,22 +787,5 @@ function _formulaIcon(key) {
 }
 
 function _formulaColor(key) {
-  switch (key) {
-    case "bludgeoning": return "#757373";
-    case "piercing": return "#757373";
-    case "slashing": return "#757373";
-    case "corrosion": return "#637e03";
-    case "cold": return "#0378a7";
-    case "fire": return "#a54b01";
-    case "lightning": return "#00926e";
-    case "poison": return "#1f8d04";
-    case "radiant": return "#c5aa0d";
-    case "psychic": return "#9b01a0";
-    case "umbral": return "#410374";
-    case "true": return "#a7719f";
-    case "heal": return "#008b17";
-    case "temporary": return "#3f3f3f";
-    case "": return "#0e03a5";
-    default: return "#000000"
-  }
+  return getColorByKey(key);
 }

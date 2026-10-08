@@ -236,14 +236,5 @@ export function shuffleArray(array) {
 }
 
 export function getColorByKey(key) {
-  switch(key) {
-    case "mig": return "#d80808";
-    case "agi": return "#d1b308";
-    case "cha": return "#08b616";
-    case "int": return "#0c79df";
-    case "mar": return "#da7c11";
-    case "spe": return "#07ce9c";
-    case "prime": return "#d108d8";
-    default: return "black";
-  }
+  return `var(--${key})`;
 }

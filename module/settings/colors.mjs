@@ -56,7 +56,7 @@ function _defaultColors() {
 
     // NPC Sheet
     ['--npc-main']: "#1f268d",
-    ['--npc-main-light']: "#534d69",
+    ['--npc-main-light']: "#687eaf",
     ['--npc-main-lighter']: "#6876a7",
     ['--npc-main-dark']: "#0e1250",
     ['--npc-secondary']: "#c0c0c0",
@@ -66,8 +66,8 @@ function _defaultColors() {
     ['--npc-secondary-darker']: "#262626",
     ['--npc-text-color-1']: "#ffffff",
     ['--npc-text-color-2']: "#000000",
-    ['--npc-table-1']: "#262a69",
-    ['--npc-table-2']: "#050947",
+    ['--npc-table-1']: "#353a81",
+    ['--npc-table-2']: "#030b87",
     ['--npc-header-image-color']: "#2442c9a3",
     ['--npc-sidetab-image-color']: "#2442c9a3",
 
@@ -105,6 +105,31 @@ function _defaultColors() {
     ['--storage-table-2']: "#194805",
     ['--storage-header-image-color']: "#3c8316a3",
     ['--storage-sidetab-image-color']: "#3c8316a3",
+
+    // Markers
+    ['--default-damage']: "#7b0505",
+    ['--default-healing']: "#01830c",
+    ['--mig']: "#d80808",
+    ['--agi']: "#d1b308",
+    ['--cha']: "#08b616",
+    ['--int']: "#0c79df",
+    ['--mar']: "#ffffff",
+    ['--spe']: "#ffffff",
+    ['--prime']: "#ad03b3",
+    ['--bludgeoning']: "#7b0505",
+    ['--piercing']: "#7b0505",
+    ['--slashing']: "#7b0505",
+    ['--corrosion']: "#7b0505",
+    ['--cold']: "#7b0505",
+    ['--fire']: "#7b0505",
+    ['--lightning']: "#7b0505",
+    ['--poison']: "#7b0505",
+    ['--radiant']: "#7b0505",
+    ['--psychic']: "#7b0505",
+    ['--umbral']: "#7b0505",
+    ['--true']: "#7b0505",
+    ['--heal']: "#01830c",
+    ['--temporary']: "#01830c",
   }
 }
 

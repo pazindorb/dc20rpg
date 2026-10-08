@@ -44,7 +44,7 @@
           <span class="separator">/</span>
           <input disabled type="text" value="{{resource.max}}" data-dtype="Number"/>
         </div>
-        <i class="fa-solid fa-bolt margin-right-3" data-tooltip="{{localize 'dc20rpg.sheet.itemCharges'}}"></i>
+        <i class="fa-solid fa-battery-half margin-right-3" data-tooltip="{{localize 'dc20rpg.sheet.itemCharges'}}"></i>
       </div>
       {{/each}}
 
@@ -166,7 +166,7 @@
       {{#each main as |table key|}}
       <div class="item-list table-name {{key}}">
         {{!-- Header --}}
-        <div class="item-header" data-table-name='{{key}}' style="grid-template-columns: 50px 1fr 100px">
+        <div class="item-header" data-table-name='{{key}}' style="grid-template-columns: 1fr 6fr 3fr">
           {{!-- Reorder Buttons --}}
           {{#if @root.editMode}}
           <div class="column reordering-buttons">
@@ -200,7 +200,7 @@
         {{!-- Rows --}}
         {{#each table.items as |item id|}} 
         <div class="item item-row draggable context-menu {{#if item.equipped}} equipped{{/if}}{{#if item.system.statuses.attuned}} attuned{{/if}}{{#ifCond item.system.toggle.toggleable '&&' item.system.toggle.toggledOn}} activated-effect{{/ifCond}}" 
-            data-middle-click="sheet" data-item-id="{{item._id}}" style="grid-template-columns: 50px 1fr 100px" data-hover="tooltip">
+            data-middle-click="sheet" data-item-id="{{item._id}}" style="grid-template-columns: 1fr 6fr 3fr" data-hover="tooltip">
           
           <div class="column cost">
             <div class="costs">
@@ -212,7 +212,7 @@
           <div class="column name">
             {{!-- Image --}}
             <div class="item-img-wrapper roll-item" data-action="rollItem" data-item-id="{{id}}">
-              <a class="original"><img src="{{item.img}}"/></a>
+              <a class="original" style="position: relative;"><img src="{{item.img}}"/></a>
               <a class="hovered"><i class="hover-icon fa-regular fa-dice-d20 fa-2x"></i></a> 
             </div>
             {{!-- Name and buttons --}}
@@ -267,7 +267,7 @@
 
                   {{!-- Recharge button --}}
                   {{#if item.system.costs.charges.refresh.charges}}
-                  <a class="fa-solid fa-bolt" data-action="rechargeItem" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.recharge'}}" data-item-id="{{id}}"></a>
+                  <a class="fa-solid fa-battery-half" data-action="rechargeItem" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.recharge'}}" data-item-id="{{id}}"></a>
                   {{/if}}
                 </div>
                 {{/ifCond}}
@@ -277,12 +277,13 @@
                 <a class="fa-regular fa-circle-question" data-tooltip="{{item.system.shortInfo}}"></a>
                 {{/if}}
               </div>
+              {{!-- Reaction Marker --}}
+              {{#if item.system.isReaction}}
+              <div class="side-marker" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.reaction'}}">
+                <i class="fa-solid fa-reply fa-lg"></i>
+              </div>
+              {{/if}}
             </div>
-            {{#if item.system.isReaction}}
-            <div class="side-marker" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.reaction'}}">
-              <i class="fa-solid fa-reply fa-lg"></i>
-            </div>
-            {{/if}}
           </div>
 
           {{!-- Details --}}

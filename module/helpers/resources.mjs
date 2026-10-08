@@ -62,7 +62,7 @@ function _icon(key) {
     case "grit": return "grit fa-clover cost-icon";
     case "restPoints": return "restPoints fa-campground cost-icon";
     case "health": return "hp fa-heart cost-icon";
-    case "charge-self": return "fa-bolt cost-icon";
+    case "charge-self": return "fa-battery-half cost-icon";
     case "charge-other": return "fa-right-from-bracket cost-icon";
   }
 }

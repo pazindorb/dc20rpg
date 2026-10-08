@@ -636,7 +636,20 @@
       }
 
       .side-marker {
-        font-size: 10px;
+        font-size: 8px;
+
+        color: $secondary-dark;
+        padding: 3px 2px 4px 2px;
+        border-radius: 0 0 0 10px;
+
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        border: 1px solid var(--primary-color);
+        border-right: 0;
+        border-top: 0;
+        
+        background-color: $secondary-lighter;
       }
 
       .item-name-wrapper {
@@ -716,7 +729,7 @@
 
         .costs {
           height: 100%;
-          width: 50px;
+          min-width: 50px;
 
           .cost-printer {
             display: flex;
@@ -776,7 +789,8 @@
 
           margin-top: -1px;
           height: 100%;
-          width: 40px;
+          width: 60px;
+          min-width: 60px;
           column-gap: 2px;
           row-gap: 1px;
           overflow: hidden;
@@ -793,6 +807,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            background-color: transparent !important;
 
             i, span {
               border-radius: 5px;
@@ -801,34 +816,12 @@
               width: 18px;
               height: 17px;
               font-size: 12px;
-              background-color: $action-point;
-
+              background-color: transparent !important;
             }
 
             span {
               font-family: $font-default;
               font-size: 12px;
-            }
-
-            &.red {
-              i, span, img {
-                color: $health-point;
-                background-color: $health-point;
-              }
-            }
-
-            &.blue {
-              i, span, img {
-                color: $mana;
-                background-color: $mana;
-              }
-            }
-
-            &.green {
-              i, span, img {
-                color: $health;
-                background-color: $health;
-              }
             }
 
             &.wide  {
@@ -850,9 +843,8 @@
 
         .actions {
           
-          i, span {
-            font-size: 14px !important;
-            background: transparent !important;
+          i, span { 
+            font-size: 15px !important;
             text-shadow: -1px 0 #000000, 0 1px #000000, 1px 0 #000000, 0 -1px #000000;
           }
 
@@ -882,13 +874,17 @@
         }
 
         .result {
-          width: 60px;
+          min-width: 60px;
+          width: 100%;
           border-left: 1px solid var(--primary-color);
 
           i, span {
             font-size: 13px !important;
-            background: transparent !important;
-            text-shadow: -1px 0 #fff, 0 1px #fff, 1px 0 #fff, 0 -1px #fff;
+            text-shadow: 
+              -1px 0 2px #fff, 
+              0 1px 2px #fff, 
+              1px 0 2px #fff, 
+              0 -1px 2px #fff;
             color: #000;
           }
         }
@@ -1332,9 +1328,10 @@
       border-top: 0;
 
       .companion-config {
-        font-family: $font-header;
-        padding: 6px;
-        font-size: 15px;
+        font-family: $font-default;
+        padding: 8px 4px;
+        font-size: 13px;
+        font-weight: bold;
         border-radius: 0;
         display: flex;
         justify-content: center; 
@@ -1346,9 +1343,8 @@
         color: var(--primary-color);
     
         &.active {
-          background-color: var(--primary-color);
-          border-color: var(--secondary-color);
-          color: var(--secondary-light);
+          background-color: #798b69;
+          color: #ffffff;
         }
           
         &:hover {
