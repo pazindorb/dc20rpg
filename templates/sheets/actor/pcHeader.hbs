@@ -1,0 +1,260 @@
+<header class="pc-sheet-header">
+  {{!-- Edit Mode Button --}}
+  <a class="edit-button" data-action="sheetEdit" data-tooltip="{{localize 'dc20rpg.sheet.editMode'}}" data-key="editMode">
+    <i class="fa-lg fa-square-pen {{#if editMode}}fa-solid{{else}}fa-light{{/if}}"></i>
+  </a> 
+
+  <div class="actor-img">
+    <img src="{{img}}" {{#if editMode}}data-edit="img" data-tooltip="{{localize 'dc20rpg.sheet.editImage'}}"{{else}}data-action="showImg" data-tooltip="{{localize 'dc20rpg.sheet.showImage'}}"{{/if}}/>
+  </div>
+
+  <div class="actor-details">
+    <div class="name-row">
+      <input class="actor-name" {{#unless editMode}}disabled{{/unless}} name="name" type="text" value="{{name}}" placeholder="{{localize 'dc20rpg.sheet.charName'}}"/>
+      <div class="level-wrapper">
+        <div class="top-level">
+          <span data-tooltip="{{localize "dc20rpg.sheet.level"}}">Lv.{{system.details.level}}</span>
+          <span data-tooltip="{{localize "dc20rpg.sheet.combatMastery"}}">CM {{system.details.combatMastery}}</span>
+        </div>
+        <div class="bottom-buttons">
+          {{#ifCond system.details.level '<' 20}}
+          <a class="fa-solid fa-up" data-action="levelUp" data-tooltip="{{localize "dc20rpg.sheet.levelUp"}}"></a>
+          {{/ifCond}}
+          {{#ifCond system.details.level '>' 1}}
+          <a class="fa-solid fa-down" data-action="levelDown" data-tooltip="{{localize "dc20rpg.sheet.levelDown"}}"></a>
+          {{/ifCond}}
+          {{#ifCond system.details.level '>' 0}}
+          <a class="fa fa-clock-rotate-left" data-action="rerun" data-tooltip="{{localize "dc20rpg.sheet.rerunAdvancement"}}"></a>
+          {{/ifCond}}
+          <a class="fa-solid fa-bed" data-action="rest" data-tooltip="{{localize "dc20rpg.sheet.rest"}}"></a>
+          <a class="fa-solid fa-at" data-action="keyword" data-tooltip="{{localize "dc20rpg.sheet.keywordEditor"}}"></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="details-row">
+      {{!-- Ancestry --}}
+      {{#unless ancestry}}
+      <div class="unique-item-wrapper clickable" data-action="compendium" data-rAction="mix" data-item-type="ancestry" data-tooltip="{{localize "dc20rpg.sheet.addAncestry"}}">
+        <img class="item-image" src="icons/svg/angel.svg"/>
+        <input class="item-name" disabled value="{{localize "TYPES.Item.ancestry"}}"/>
+      </div>
+      {{else}}
+      <div class="unique-item-wrapper context-menu" data-middle-click="sheet" data-item-id="{{ancestry.id}}" data-tooltip="{{localize "TYPES.Item.ancestry"}}: {{ancestry.name}}">
+        {{#if editMode}}
+        <a class="delete-button fa-trash fa-solid" data-action="delete" data-item-id="{{ancestry.id}}"></a>
+        {{/if}}
+        <img class="item-image" src="{{ancestry.img}}"/>
+        <input class="item-name" disabled value="{{ancestry.name}}"/>
+      </div>
+      {{/unless}}
+
+      {{!-- Class --}}
+      {{#unless class}}
+      <div class="unique-item-wrapper clickable" data-action="compendium" data-item-type="class" data-tooltip="{{localize "dc20rpg.sheet.addClass"}}">
+        <img class="item-image" src="icons/svg/mystery-man.svg"/>
+        <input class="item-name" disabled value="{{localize "TYPES.Item.class"}}"/>
+      </div>
+      {{else}}
+      <div class="unique-item-wrapper context-menu" data-middle-click="sheet" data-item-id="{{class.id}}" data-tooltip="{{localize "TYPES.Item.class"}}: {{class.name}}">
+        {{#if editMode}}
+        <a class="delete-button fa-trash fa-solid" data-action="delete" data-item-id="{{class.id}}"></a>
+        {{/if}}
+        <img class="item-image" src="{{class.img}}"/>
+        <input class="item-name" disabled value="{{class.name}}"/>
+      </div>
+      {{/unless}}
+
+      {{!-- Subclass --}}
+      {{#unless subclass}}
+      <div class="unique-item-wrapper clickable" data-action="compendium" data-item-type="subclass" data-tooltip="{{localize "dc20rpg.sheet.addSubclass"}}">
+        <img class="item-image" src="icons/svg/ice-aura.svg"/>
+        <input class="item-name" disabled value="{{localize "TYPES.Item.subclass"}}"/>
+      </div>
+      {{else}}
+      <div class="unique-item-wrapper context-menu" data-middle-click="sheet" data-item-id="{{subclass.id}}" data-tooltip="{{localize "TYPES.Item.subclass"}}: {{subclass.name}}">
+        {{#if editMode}}
+        <a class="delete-button fa-trash fa-solid" data-action="delete" data-item-id="{{subclass.id}}"></a>
+        {{/if}}
+        <img class="item-image" src="{{subclass.img}}"/>
+        <input class="item-name" disabled value="{{subclass.name}}"/>
+      </div>
+      {{/unless}}
+
+      {{!-- Background --}}
+      {{#unless background}}
+      <div class="unique-item-wrapper clickable" data-action="compendium" data-item-type="background" data-tooltip="{{localize "dc20rpg.sheet.addBackground"}}">
+        <img class="item-image" src="icons/svg/village.svg"/>
+        <input class="item-name" disabled value="{{localize "TYPES.Item.background"}}"/>
+      </div>
+      {{else}}
+      <div class="unique-item-wrapper context-menu" data-middle-click="sheet" data-item-id="{{background.id}}" data-tooltip="{{localize "TYPES.Item.background"}}: {{background.name}}">
+        {{#if editMode}}
+        <a class="delete-button fa-trash fa-solid" data-action="delete" data-item-id="{{background.id}}"></a>
+        {{/if}}
+        <img class="item-image" src="{{background.img}}"/>
+        <input class="item-name" disabled value="{{background.name}}"/>
+      </div>
+      {{/unless}}
+    </div>
+
+    <div class="resource-row">
+      <div class="resource-wrapper">
+        {{!-- Health --}}
+        <div class="resource health {{#if deathsDoor}}death{{/if}}" data-tooltip="{{localize "dc20rpg.resource.health"}}">
+          <div class="resorce-main">
+            <div class="resource-icon" data-raction="spend" data-action="regain" data-resource="health" data-tooltip="{{localize "dc20rpg.sheet.resource.spendRegainHealth"}}" data-tooltip-direction="UP">
+              {{#if deathsDoor}}
+                <i class="fa-solid fa-skull"></i>
+              {{else}}
+                <i class="fa-sharp fa-solid fa-heart"></i>
+              {{/if}}
+            </div>
+            <div class="resource-management">
+              <div class="resource-values">
+                <input type="text" data-cType="numeric" data-path="system.resources.health.current" value="{{system.resources.health.current}}" data-dtype="Number">
+                <span class="separator"> / </span>
+                <input {{#unless system.resources.health.useFlat}}disabled{{/unless}} data-cType="numeric" type="text" data-path="system.resources.health.max" value="{{system.resources.health.max}}" data-dtype="Number">
+              </div>
+              <div class="resource-buttons">
+                <div class="temporary-hp" data-tooltip="{{localize 'dc20rpg.resources.tempHP'}}">
+                  <i class="fa-solid fa-shield-plus"></i>
+                  <input type="text" data-cType="numeric" data-path="system.resources.health.temp" value="{{system.resources.health.temp}}" data-dtype="Number" placeholder="0">
+                </div>
+
+                {{!-- Death's Door --}}
+                <i class="fa-solid fa-skull death" data-tooltip="{{localize 'dc20rpg.sheet.deathsDoor'}}: <b>{{system.death.treshold}}</b>" ></i>
+
+                <div class="rest-points"  data-tooltip="{{localize 'dc20rpg.resources.restPoints'}}">
+                  <input type="text" data-cType="numeric" data-path="system.resources.restPoints.value" value="{{system.resources.restPoints.value}}" data-dtype="Number">
+                  <a class="fa-solid fa-campground" data-action="spendRestPoint" data-tooltip="{{localize 'dc20rpg.sheet.resource.spendRestPoint'}}" data-tooltip-direction="RIGHT"></a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="resource-bar-wrapper">
+            {{#if deathsDoor}}
+            <div class="resource-bar">
+              <div class="health-bar-death" style="width: {{system.resources.health.deathPercent}}%"></div>
+            </div>
+            {{else}}
+            <div class="resource-bar">
+              <div class="health-bar-temp" style="width: {{system.resources.health.percentTemp}}%"></div>
+              <div class="health-bar" style="width: {{system.resources.health.percent}}%"></div>
+            </div>
+            {{/if}}
+          </div>
+        </div>
+        {{!-- Custom Resources --}}
+        <div class="custom-resource-wrapper scrollable">
+          {{!-- Custom Resources --}}
+          {{#each system.resources.custom as |resource key|}}
+          <div class="resource custom-resource draggable" data-tooltip="{{resource.label}}" data-key="{{key}}" data-type="resource">
+            <div class="resorce-main">
+              <div class="resource-icon" {{#if @root.editMode}}{{else}} data-raction="spend" data-action="regain" data-resource="{{key}}" 
+                    data-tooltip="{{localize "dc20rpg.sheet.resource.spendRegainResource"}}" data-tooltip-direction="UP"{{/if}}>
+                <img src="{{resource.img}}" {{#if @root.editMode}}data-edit="img" data-path="system.resources.custom.{{key}}.img" data-style="cursor: pointer;"{{/if}}>
+              </div>
+              <div class="resource-management">
+                {{#if @root.editMode}}
+                <div class="resource-buttons">
+                  <a class="edit-resource fa-solid fa-gear fa-sm" data-action="editResource" data-key="{{key}}" data-tooltip="{{localize 'dc20rpg.sheet.editResource'}}"></a>
+                  <a class="remove-resource fa-solid fa-trash fa-sm" data-action="removeResource" data-key="{{key}}" data-tooltip="{{localize 'dc20rpg.sheet.removeResource'}}"></a>
+                </div>
+                {{else}}
+                <div class="resource-values">
+                  <input type="text" data-cType="numeric" data-path="system.resources.custom.{{key}}.value" value="{{resource.value}}" data-dtype="Number">
+                  <span class="separator">/</span>
+                  <input disabled type="text" value="{{resource.max}}" data-dtype="Number">
+                </div>
+                {{/if}}
+              </div>
+            </div>
+          </div>
+          {{/each}}
+
+          {{!-- Item Charges as Resource --}}
+          {{#each itemChargesAsResources as |resource key|}}
+          <div class="resource custom-resource" data-middle-click="sheet" data-item-id="{{key}}" data-tooltip="{{localize 'dc20rpg.sheet.itemCharges'}}: {{resource.name}}">
+            <div class="resorce-main">
+              <div class="resource-icon"><img src="{{resource.img}}"></div>
+              <div class="resource-management">
+                <div class="resource-values">
+                  <input type="text" data-cType="numeric" value="{{resource.value}}" data-path="system.costs.charges.current" data-item-id="{{key}}" data-dtype="Number">
+                  <span class="separator">/</span>
+                  <input disabled type="text" value="{{resource.max}}" data-dtype="Number">
+                </div>
+              </div>
+            </div>
+          </div>
+          {{/each}}
+
+          {{!-- Item Quantity as Resource --}}
+          {{#each itemQuantityAsResources as |resource key|}}
+          <div class="resource custom-resource" data-middle-click="sheet" data-item-id="{{key}}" data-tooltip="{{localize 'dc20rpg.sheet.itemQuantity'}}: {{resource.name}}">
+            <div class="resorce-main">
+              <div class="resource-icon"><img src="{{resource.img}}"></div>
+              <div class="resource-management">
+                <div class="resource-values">
+                  <input type="text" data-cType="numeric" value="{{resource.quantity}}" data-path="system.quantity" data-item-id="{{key}}" data-dtype="Number">
+                </div>
+              </div>
+            </div>
+          </div>
+          {{/each}}
+
+          {{!-- Add Custom Resource --}}
+          {{#if @root.editMode}}
+          <a class="fa-solid fa-square-plus fa-2x" style="font-size: 16px; margin-top: 4px;" data-action="addResource" data-tooltip="{{localize 'dc20rpg.sheet.addResource'}}"></a>
+          {{/if}}
+          
+        </div>
+      </div>
+
+      <div class="resource-wrapper margin-left-5">
+        {{!-- Stamina --}}
+        <div class="resource stamina" data-tooltip="{{localize "dc20rpg.resource.stamina"}}">
+          <div class="resorce-main">
+            <div class="resource-icon" data-raction="spend" data-action="regain" data-resource="stamina" data-tooltip="{{localize "dc20rpg.sheet.resource.spendRegainResource"}}" data-tooltip-direction="UP">
+              <i class="fa-solid fa-hand-fist" style="margin-right: 1px; margin-top: 1px;"></i>
+            </div>
+            <div class="resource-management">
+              <div class="resource-values">
+                <input type="text" data-cType="numeric" data-path="system.resources.stamina.value" value="{{system.resources.stamina.value}}" data-dtype="Number">
+                <span class="separator"> / </span>
+                <input disabled type="text" value="{{system.resources.stamina.max}}" data-dtype="Number">
+              </div>
+            </div>
+          </div>
+          <div class="resource-bar-wrapper">
+            <div class="resource-bar">
+              <div class="bar" style="width: {{system.resources.stamina.percent}}%"></div>
+            </div>
+          </div>
+        </div>
+
+        {{!-- Mana --}}
+        <div class="resource mana" data-tooltip="{{localize "dc20rpg.resource.mana"}}">
+          <div class="resorce-main">
+            <div class="resource-icon" data-raction="spend" data-action="regain" data-resource="mana" data-tooltip="{{localize "dc20rpg.sheet.resource.spendRegainResource"}}" data-tooltip-direction="UP">
+              <i class="fa-solid fa-star" style="margin-right: 1px; margin-top: 1px;"></i>
+            </div>
+            <div class="resource-management">
+              <div class="resource-values">
+                <input type="text" data-cType="numeric" data-path="system.resources.mana.value" value="{{system.resources.mana.value}}" data-dtype="Number">
+                <span class="separator"> / </span>
+                <input disabled type="text" value="{{system.resources.mana.max}}" data-dtype="Number">
+              </div>
+            </div>
+          </div>
+          <div class="resource-bar-wrapper">
+            <div class="resource-bar">
+              <div class="bar" style="width: {{system.resources.mana.percent}}%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

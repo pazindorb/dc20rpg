@@ -1,7 +1,7 @@
 import { prepareActiveEffects, prepareStatusContext } from "../helpers/effects.mjs";
 import { duplicateData, prepareCharacterData, prepareCommonData, prepareCompanionData, prepareNpcData, prepareStorageData } from "./actor-sheet/data.mjs";
 import { onSortItem, prepareCompanionTraits, prepareItemsForCharacter, prepareItemsForNpc, prepareItemsForStorage, sortMapOfItems } from "./actor-sheet/items.mjs";
-import { activateTrait, createTrait, deactivateTrait, deleteTrait, editTrait, handleStackableItem } from "../helpers/actors/itemsOnActor.mjs";
+import { activateTrait, changeLevel, createTrait, deactivateTrait, deleteTrait, editTrait, handleStackableItem, rerunAdvancement } from "../helpers/actors/itemsOnActor.mjs";
 import { fillPdfFrom } from "../helpers/actors/pdfConverter.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { itemTransfer } from "../helpers/actors/storage.mjs";
@@ -14,6 +14,9 @@ import { createItemBrowser } from "../dialogs/compendium-browser/item-browser.mj
 import DC20RpgActiveEffect from "../documents/activeEffect.mjs";
 import { resourceConfigDialog } from "../dialogs/resource-config.mjs";
 import { MonsterCreatorDialog } from "../dialogs/monster-creator.mjs";
+import { RestDialog } from "../dialogs/rest.mjs";
+import { keywordEditor } from "../dialogs/keyword-editor.mjs";
+import { createMixAncestryDialog } from "../dialogs/mix-ancestry.mjs";
 
 export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplicationMixin(foundry.applications.sheets.ActorSheetV2) {
   sheetFlags = {};
@@ -35,6 +38,7 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
   /** @override */
   static PARTS = {
     header: {template: "systems/dc20rpg/templates/sheets/actor/header.hbs"},
+    pcHeader: {template: "systems/dc20rpg/templates/sheets/actor/pcHeader.hbs", scrollable: [".scrollable"]},
     core: {template: "systems/dc20rpg/templates/sheets/actor/core.hbs", scrollable: [".scrollable", ".custom-resource-wrapper"]},
     effects: {template: "systems/dc20rpg/templates/sheets/actor/effects.hbs", scrollable: [".scrollable"]},
     loot: {template: "systems/dc20rpg/templates/sheets/actor/loot.hbs", scrollable: [".scrollable"]},
@@ -72,8 +76,13 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
     initialized.classes.push(options.document.type);
     initialized.window.resizable = true;
     initialized.window.icon = getForActorType(options.document.type, "icon");
-    // if (options.document.type === "character") initialized.position.width = 800;
+    if (options.document.type === "character") {
+      initialized.position.width = 700;
+      initialized.position.height = 700;
+    }
 
+    initialized.actions.keyword = () => keywordEditor(this.actor);
+    initialized.actions.rest = () => RestDialog.open(this.actor);
     initialized.actions.heldAction = () => this.actor.heldAction.trigger();
     initialized.actions.monsterCreator = (event) => {event.preventDefault(); MonsterCreatorDialog.open({actor: this.actor});}
     initialized.actions.basicAction = () => ActionSelect.open(this.actor);
@@ -81,10 +90,14 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
     
     initialized.actions.removeOwner = () => this.actor.update({["system.companionOwnerId"]: ""});
     initialized.actions.addOwner = this._onAddCompanionOwner;
+    initialized.actions.levelUp = this._onLevelUp;
+    initialized.actions.levelDown = this._onLevelDown;
+    initialized.actions.rerun = this._onLevelRerun;
 
     initialized.actions.help = this._onHelpAction;
     initialized.actions.spend = this._onSpendResource;
     initialized.actions.regain = this._onRegainResource;
+    initialized.actions.spendRestPoint = this._onSpendRestPoint;
     initialized.actions.roll = this._onRoll;
     initialized.actions.showImg = this._onShowImg;
     initialized.actions.sheetEdit = this._onEditSheetFlag;
@@ -132,7 +145,9 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
         icon: '<i class="fa-solid fa-copy"></i>',
         visible: target => {
           const object = this.#getObjectFrom(target.dataset, true);
-          return object instanceof Item;
+          const isItem = object instanceof Item;
+          const unique = object?.system?.unique;
+          return isItem && !unique;
         },
         onClick: (event, target) => this._onCopy(event, target)
       },
@@ -368,6 +383,7 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
       case "toggleStatus": await this._onStatusToggle(event, target, true); break;
       case "trait": await this._onTrait(event, target, true); break;
       case "spend": await this._onSpendResource(event, target); break;
+      case "mix": await this._onMixAncestry(event, target); break;
     }
   }
 
@@ -527,7 +543,8 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
     const dataset = target.dataset;
     const amount = parseInt(target.dataset.amount) || 1;
     const resource = this.actor.resources[dataset.resource];
-    resource.checkAndSpend(amount);
+    if (dataset.resource === "health") resource.spend(amount, true);
+    else resource.checkAndSpend(amount);
   }
 
   _onRegainResource(event, target) {
@@ -537,10 +554,34 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
     resource.regain(amount);
   }
 
+  _onSpendRestPoint(event, target) {
+    if (this.actor.resources.restPoints.checkAndSpend(1)) {
+      this.actor.resources.health.regain(1);
+    }
+  }
+
   _onHelpAction(event, target) {
     if (this.actor.resources.ap.checkAndSpend(1)) {
       this.actor.help.prepare()
     }
+  }
+
+  async _onLevelUp(event, target) {
+    await changeLevel(true, this.actor.class?.id, this.actor)
+  }
+
+  async _onLevelDown(event, target) {
+    const confirmed = await SimplePopup.confirm("Do you want to level down?");
+    if (confirmed) await changeLevel(false, this.actor.class?.id, this.actor)
+  }
+
+  async _onLevelRerun(event, target) {
+    await rerunAdvancement(this.actor, this.actor.class?.id)
+  }
+
+  async _onMixAncestry(event, target) {
+    const data = await createMixAncestryDialog();
+    if (data) await DC20RpgItem.create(data, {parent: this.actor});
   }
 
   async _onAddCompanionOwner(event, target) {

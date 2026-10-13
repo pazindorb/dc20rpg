@@ -25,13 +25,6 @@ export function activateCommonLinsters(html, actor) {
   // Core funcionalities
 
 
-  // Resources
-  html.find(".rest-point-to-hp").click(ev => {
-    datasetOf(ev); 
-    if (actor.resources.restPoints.checkAndSpend(1)) {
-      actor.resources.health.regain(1);
-    }
-  });
 
   // Skills
   html.find(".expertise-toggle").click(ev => actor.skillAndLanguage[datasetOf(ev).type][datasetOf(ev).key].expertiseToggle());
@@ -44,27 +37,10 @@ export function activateCommonLinsters(html, actor) {
   html.find('.add-language').click(() => actor.skillAndLanguage.addCustom("languages"));
   html.find('.remove-language').click(ev => actor.skillAndLanguage.removeCustom(datasetOf(ev).key, "languages"));
 
-  // Sidetab
-  html.find('.mix-ancestry').click(async ev => {
-    const ancestryData = await createMixAncestryDialog({position: {left: ev.clientX + 50, top: ev.clientY - 115}});
-    if (ancestryData) await DC20RpgItem.create(ancestryData, {parent: actor});
-  });
-
 }
 
 export function activateCharacterLinsters(html, actor) {
   // Header - Top Buttons
-  html.find(".rest").click(() => RestDialog.open(actor));
-  html.find(".level").click(async ev => {
-    if (datasetOf(ev).up !== "true") {
-      const confirmed = await SimplePopup.confirm("Do you want to level down?");
-      if (!confirmed) return;
-    }
-    changeLevel(datasetOf(ev).up, datasetOf(ev).itemId, actor)
-  });
-  html.find(".rerun-advancement").click(ev => rerunAdvancement(actor, datasetOf(ev).classId));
-  html.find(".configuration").click(() => characterConfigDialog(actor));
-  html.find(".keyword-editor").click(() => keywordEditor(actor));
   html.find('.transfer').click(() => _onTransfer(actor));
   html.find('.open-item-creator').click(async ev => {
     const itemData = await openItemCreator(datasetOf(ev).itemType);

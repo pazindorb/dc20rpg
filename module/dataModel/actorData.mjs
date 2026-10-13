@@ -66,7 +66,7 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
       death: new f.SchemaField({
         active: new f.BooleanField({required: true, initial: false}),
         treshold: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
-        formula: new f.StringField({required: true, initial: "- @prime - @combatMastery - @death.bonus"}),
+        formula: new f.StringField({required: true, initial: "- @primeValue - @combatMastery - @death.bonus"}),
         bonus: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         applicable: new f.BooleanField({required: true, initial: false}),
       }),
@@ -216,7 +216,7 @@ export class DC20CharacterData extends DC20BaseActorData {
       death: new f.SchemaField({
         active: new f.BooleanField({required: true, initial: false}),
         treshold: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
-        formula: new f.StringField({required: true, initial: "- @prime - @combatMastery - @death.bonus"}),
+        formula: new f.StringField({required: true, initial: "- @primeValue - @combatMastery - @death.bonus"}),
         bonus: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         applicable: new f.BooleanField({required: true, initial: true}),
       }),

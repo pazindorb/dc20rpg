@@ -321,7 +321,7 @@ export async function changeLevel(up, itemId, actor) {
   const ancestry = actor.items.get(actor.system.details.ancestry.id);
   let subclass = actor.items.get(actor.system.details.subclass.id);
 
-  if (up === "true") {
+  if (up) {
     currentLevel = Math.min(currentLevel + 1, 20);
     applyAdvancements(actor, currentLevel, clazz, subclass, ancestry, null, oldActorData);
   }
@@ -338,8 +338,8 @@ export async function changeLevel(up, itemId, actor) {
 export async function rerunAdvancement(actor, classId) {
   const confirmed = await SimplePopup.confirm("Do you want to repeat the last level up?");
   if (!confirmed) return;
-  await changeLevel("false", classId, actor);
-  await changeLevel("true", classId, actor);
+  await changeLevel(false, classId, actor);
+  await changeLevel(true, classId, actor);
 }
 
 export async function clearOverridenScalingValue(item, index) {

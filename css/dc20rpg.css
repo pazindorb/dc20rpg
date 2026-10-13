@@ -12909,8 +12909,8 @@
 }
 .dc20rpg.actor-v13 .actor-sheet-section.core .scrollable .item-row .details .result i, .dc20rpg.actor-v13 .actor-sheet-section.core .scrollable .item-row .details .result span {
   font-size: 13px !important;
-  text-shadow: -1px 0 2px #fff, 0 1px 2px #fff, 1px 0 2px #fff, 0 -1px 2px #fff;
   color: #000;
+  text-shadow: none;
 }
 .dc20rpg.actor-v13 .actor-sheet-section.traits .scrollable .trait-table .trait-header {
   display: grid;
@@ -13454,6 +13454,572 @@
 }
 .dc20rpg.actor-v13.npc.theme-light .edit-button, .dc20rpg.actor-v13.companion.theme-light .edit-button {
   top: 42px;
+}
+.dc20rpg.actor-v13 .pc-sheet-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .edit-button {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background: #494943;
+  border-radius: 2px;
+  height: 15px;
+  width: 15px;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  color: #bbaf02;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .edit-button i {
+  margin-top: 2px;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-img {
+  min-width: 200px;
+  position: relative;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-img img {
+  -o-object-position: 50% 0;
+  object-position: 50% 0;
+  -o-object-fit: cover;
+  object-fit: cover;
+  height: 200px;
+  width: 200px;
+  border-radius: 10px;
+  -webkit-box-shadow: 0 0 10px 0 black;
+  box-shadow: 0 0 10px 0 black;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details {
+  height: 194px;
+  -webkit-box-flex: 1;
+  -ms-flex: 1 1 0px;
+  flex: 1 1 0;
+  min-width: 0;
+  -webkit-box-shadow: 0 0 10px 0 black;
+  box-shadow: 0 0 10px 0 black;
+  border-radius: 0 10px 10px 0;
+  margin-left: -5px;
+  padding-left: 5px;
+  background: -webkit-gradient(linear, left bottom, left top, from(var(--pc-header-gradinet-2)), to(var(--pc-header-gradinet-1))), url(../images/sheet/header/header_background.jpg) center/cover no-repeat;
+  background: linear-gradient(0deg, var(--pc-header-gradinet-2), var(--pc-header-gradinet-1)), url(../images/sheet/header/header_background.jpg) center/cover no-repeat;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .name-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin-right: 5px;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .name-row .actor-name {
+  font-family: "Humaroid";
+  font-size: 34px;
+  text-indent: 10px;
+  padding: 0.35rem 0.5rem;
+  height: auto;
+  color: white;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  background-color: transparent;
+  border: 0;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .name-row .level-wrapper {
+  background-color: color-mix(in srgb, var(--pc-secondary-dark) 70%, transparent);
+  border: 3px solid var(--pc-secondary-darker);
+  border-bottom: 0;
+  padding: 5px;
+  border-radius: 5px 5px 0 0;
+  height: 50px;
+  min-width: 120px;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .name-row .level-wrapper .top-level {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .name-row .level-wrapper .bottom-buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: space-evenly;
+  -ms-flex-pack: space-evenly;
+  justify-content: space-evenly;
+  margin-top: 3px;
+  border-top: 2px solid var(--pc-secondary-darker);
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .name-row .level-wrapper .bottom-buttons a {
+  padding: 5px 0;
+  color: white;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  border-radius: 5px;
+  font-size: 12px;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .name-row .level-wrapper .bottom-buttons a:hover {
+  -webkit-box-shadow: 0 0 10px 2px var(--pc-main-dark) inset;
+  box-shadow: 0 0 10px 2px var(--pc-main-dark) inset;
+  cursor: pointer;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .name-row .level-wrapper span {
+  font-size: 14px;
+  font-family: "Signika", sans-serif;
+  color: white;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .details-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: color-mix(in srgb, var(--pc-secondary-dark) 70%, transparent);
+  padding: 3px 5px;
+  border-radius: 0 0 15px 0;
+  margin-right: 5px;
+  border: 3px solid var(--pc-secondary-darker);
+  border-left: 0;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .details-row .unique-item-wrapper {
+  -webkit-box-flex: 1;
+  -ms-flex: 1 1 25%;
+  flex: 1 1 25%;
+  min-width: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  height: 24px;
+  border-radius: 4px;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .details-row .unique-item-wrapper.clickable:hover {
+  -webkit-box-shadow: 0 0 10px 2px var(--pc-main-dark) inset;
+  box-shadow: 0 0 10px 2px var(--pc-main-dark) inset;
+  cursor: pointer;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .details-row .unique-item-wrapper input:disabled {
+  -webkit-box-flex: 1;
+  -ms-flex: 1 1 0px;
+  flex: 1 1 0;
+  min-width: 0;
+  width: 0;
+  font-family: "Signika", sans-serif;
+  color: var(--pc-secondary-light);
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  background-color: transparent;
+  border-radius: 0;
+  border: 0;
+  text-indent: 5px;
+  padding-right: 10px;
+  pointer-events: none;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .details-row .unique-item-wrapper img {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 24px;
+  flex: 0 0 24px;
+  height: 24px;
+  width: 24px;
+  border: 0;
+  border-radius: 5px;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .details-row .unique-item-wrapper .fa-trash {
+  color: #aa0303;
+  text-shadow: -1px 0 #ffffff, 0 1px #ffffff, 1px 0 #ffffff, 0 -1px #ffffff;
+  width: 0;
+  position: relative;
+  left: 6px;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: start;
+  margin-top: 5px;
+  padding-left: 5px;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .resource {
+  padding: 5px;
+  -webkit-box-shadow: 0 0 5px 2px var(--pc-secondary-darker);
+  box-shadow: 0 0 5px 2px var(--pc-secondary-darker);
+  border-radius: 5px;
+  background: linear-gradient(225deg, rgba(54, 54, 54, 0.6901960784), rgba(36, 36, 36, 0.6784313725));
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .resource .resorce-main {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .resource .resorce-main .resource-icon {
+  border: 2px solid #838383;
+  border-radius: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  height: 25px;
+  width: 25px;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .resource .resorce-main .resource-icon i {
+  font-size: 14px;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .resource .resorce-main .resource-icon img {
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .resource .resorce-main .resource-icon:hover {
+  cursor: pointer;
+  -webkit-box-shadow: 0 0 10px 2px #838383;
+  box-shadow: 0 0 10px 2px #838383;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .resource .resorce-main .resource-management .resource-values {
+  font-size: 14px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .resource .resorce-main .resource-management .resource-values input, .dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .resource .resorce-main .resource-management .resource-valuesinput:disabled {
+  text-align: center;
+  width: 30px;
+  height: 20px;
+  padding: 0 2px;
+  font-weight: bold;
+  color: #e9e9e9;
+  background-color: transparent;
+  border: 0;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .resource .resorce-main .resource-management .resource-values span {
+  color: #e9e9e9;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .resource .resource-bar-wrapper {
+  background-color: var(--secondary-lighter);
+  border: 0;
+  border-radius: 5px;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .resource .resource-bar {
+  margin-top: 7px;
+  height: 5px;
+  position: relative;
+  border-radius: 4px;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .resource .resource-bar .bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  border-radius: 4px;
+  background-color: #10d140;
+  max-width: 100%;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .health {
+  border: 1px solid #019c08;
+  margin-top: 0;
+  background: linear-gradient(225deg, rgba(1, 109, 6, 0.5254901961), rgba(0, 53, 3, 0.5254901961));
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .health .resorce-main .resource-icon {
+  border: 2px solid #019c08;
+  color: #019c08;
+  background: -webkit-gradient(linear, left bottom, left top, from(rgba(0, 53, 3, 0.5254901961)), to(rgba(49, 109, 52, 0.5254901961)));
+  background: linear-gradient(0deg, rgba(0, 53, 3, 0.5254901961), rgba(49, 109, 52, 0.5254901961));
+  height: 45px;
+  width: 45px;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .health .resorce-main .resource-icon i {
+  font-size: 26px;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .health .resorce-main .resource-icon:hover {
+  cursor: pointer;
+  -webkit-box-shadow: 0 0 10px 2px #019c08 inset;
+  box-shadow: 0 0 10px 2px #019c08 inset;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .health .resorce-main .resource-management .resource-values {
+  font-size: 20px;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .health .resorce-main .resource-management .resource-values input, .dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .health .resorce-main .resource-management .resource-valuesinput:disabled {
+  width: 50px;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .health .resorce-main .resource-management .resource-values .death {
+  color: #e9e9e9;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .health .resorce-main .resource-management .resource-buttons {
+  margin-top: 5px;
+  padding: 0 5px;
+  display: block;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .health .resorce-main .resource-management .resource-buttons .rest-points, .dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .health .resorce-main .resource-management .resource-buttons .temporary-hp {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .health .resorce-main .resource-management .resource-buttons .rest-points a, .dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .health .resorce-main .resource-management .resource-buttons .rest-points i, .dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .health .resorce-main .resource-management .resource-buttons .temporary-hp a, .dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .health .resorce-main .resource-management .resource-buttons .temporary-hp i {
+  font-size: 12px;
+  width: 15px;
+  height: 15px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .health .resorce-main .resource-management .resource-buttons .rest-points input, .dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .health .resorce-main .resource-management .resource-buttons .temporary-hp input {
+  font-size: 12px;
+  width: 20px;
+  height: 15px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  padding: 0 2px;
+  background: transparent;
+  border: 0;
+  font-weight: bold;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .health .resorce-main .resource-management .resource-buttons .rest-points {
+  color: #05b8a9;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .health .resorce-main .resource-management .resource-buttons .rest-points input {
+  color: #05b8a9;
+  text-align: end;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .health .resorce-main .resource-management .resource-buttons .temporary-hp {
+  color: #b4b2b2;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .health .resorce-main .resource-management .resource-buttons .temporary-hp input {
+  color: #b4b2b2;
+  text-align: start;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .health .resorce-main .resource-management .resource-buttons .temporary-hp input::-webkit-input-placeholder {
+  color: #b4b2b2;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .health .resorce-main .resource-management .resource-buttons .temporary-hp input::-moz-placeholder {
+  color: #b4b2b2;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .health .resorce-main .resource-management .resource-buttons .temporary-hp input:-ms-input-placeholder {
+  color: #b4b2b2;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .health .resorce-main .resource-management .resource-buttons .temporary-hp input::-ms-input-placeholder {
+  color: #b4b2b2;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .health .resorce-main .resource-management .resource-buttons .temporary-hp input::placeholder {
+  color: #b4b2b2;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .health .resource-bar-wrapper {
+  background-color: var(--secondary-lighter);
+  border: 0;
+  border-radius: 5px;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .health .resource-bar {
+  margin-top: 5px;
+  height: 10px;
+  position: relative;
+  border-radius: 4px;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .health .resource-bar .health-bar, .dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .health .resource-bar .health-bar-temp, .dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .health .resource-bar .health-bar-death {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  border-radius: 4px;
+  background-color: #10d140;
+  max-width: 100%;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .health .resource-bar .health-bar-death {
+  background-color: #940000;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .health .resource-bar .health-bar-temp {
+  background-color: #6195b3;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .health .resource-bar .health-bar {
+  width: 100%;
+  background: -webkit-gradient(linear, left top, right top, from(#0b922d), color-stop(50%, #0db337), to(#0cc039));
+  background: linear-gradient(to right, #0b922d 0%, #0db337 50%, #0cc039 100%);
+  clip-path: inset(0 calc(100% - var(--health-percent)) 0 0);
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .health.death {
+  background: linear-gradient(225deg, rgba(109, 1, 1, 0.5254901961), rgba(53, 0, 0, 0.5254901961));
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .health.death .resorce-main .resource-icon {
+  border: 2px solid #ad0000;
+  color: #ad0000;
+  background: -webkit-gradient(linear, left bottom, left top, from(rgba(53, 0, 0, 0.5254901961)), to(rgba(109, 49, 49, 0.5254901961)));
+  background: linear-gradient(0deg, rgba(53, 0, 0, 0.5254901961), rgba(109, 49, 49, 0.5254901961));
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .health.death .resorce-main .resource-icon:hover {
+  cursor: pointer;
+  -webkit-box-shadow: 0 0 10px 2px #ad0000 inset;
+  box-shadow: 0 0 10px 2px #ad0000 inset;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .stamina {
+  border: 1px solid #9c8001;
+  background: linear-gradient(225deg, rgba(109, 93, 1, 0.5254901961), rgba(53, 52, 0, 0.5254901961));
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .stamina .resorce-main .resource-icon {
+  border: 2px solid #9c8001;
+  color: #9c8001;
+  background: -webkit-gradient(linear, left bottom, left top, from(rgba(109, 93, 1, 0.5254901961)), to(rgba(53, 52, 0, 0.5254901961)));
+  background: linear-gradient(0deg, rgba(109, 93, 1, 0.5254901961), rgba(53, 52, 0, 0.5254901961));
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .stamina .resorce-main .resource-icon:hover {
+  cursor: pointer;
+  -webkit-box-shadow: 0 0 5px 2px #9c8001 inset;
+  box-shadow: 0 0 5px 2px #9c8001 inset;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .stamina .resource-bar .bar {
+  background-color: #ced110;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .mana {
+  margin-top: 3px;
+  border: 1px solid #01789c;
+  background: linear-gradient(225deg, rgba(1, 84, 109, 0.5254901961), rgba(0, 36, 53, 0.5254901961));
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .mana .resorce-main .resource-icon {
+  border: 2px solid #01789c;
+  color: #01789c;
+  background: -webkit-gradient(linear, left bottom, left top, from(rgba(1, 84, 109, 0.5254901961)), to(rgba(0, 36, 53, 0.5254901961)));
+  background: linear-gradient(0deg, rgba(1, 84, 109, 0.5254901961), rgba(0, 36, 53, 0.5254901961));
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .mana .resorce-main .resource-icon:hover {
+  cursor: pointer;
+  -webkit-box-shadow: 0 0 5px 2px #01789c inset;
+  box-shadow: 0 0 5px 2px #01789c inset;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .mana .resource-bar .bar {
+  background-color: #1094d1;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .custom-resource-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 0;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  height: 26px;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .custom-resource-wrapper .resource-buttons {
+  margin: 0 4px;
+  margin-top: 2px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .custom-resource-wrapper .resource-buttons .remove-resource {
+  margin-left: 3px;
+  color: var(--dark-red);
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .custom-resource-wrapper .custom-resource {
+  border: 1px solid #b5b5b5;
+  width: 80px;
+  background: linear-gradient(225deg, rgba(187, 174, 185, 0.5254901961), rgba(117, 117, 106, 0.5254901961));
+  padding: 1px;
+  margin-top: 3px;
+  height: 22px;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .custom-resource-wrapper .custom-resource .resorce-main .resource-management .resource-values {
+  font-size: 14px;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .custom-resource-wrapper .custom-resource .resorce-main .resource-management .resource-values input, .dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .custom-resource-wrapper .custom-resource .resorce-main .resource-management .resource-valuesinput:disabled {
+  width: 22px;
+  height: 15px;
+  font-weight: bold;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .custom-resource-wrapper .custom-resource .resorce-main .resource-icon {
+  border: 1px solid #b5b5b5;
+  color: #b5b5b5;
+  background: -webkit-gradient(linear, left bottom, left top, from(rgba(231, 173, 222, 0.5254901961)), to(rgba(146, 146, 137, 0.5254901961)));
+  background: linear-gradient(0deg, rgba(231, 173, 222, 0.5254901961), rgba(146, 146, 137, 0.5254901961));
+  height: 18px;
+  width: 18px;
+  border-radius: 3px;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .custom-resource-wrapper .custom-resource .resorce-main .resource-icon i {
+  font-size: 14px;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .custom-resource-wrapper .custom-resource .resorce-main .resource-icon img {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+}
+.dc20rpg.actor-v13 .pc-sheet-header .actor-details .resource-row .custom-resource-wrapper .custom-resource .resorce-main .resource-icon:hover {
+  cursor: pointer;
+  -webkit-box-shadow: 0 0 5px 2px #b5b5b5 inset;
+  box-shadow: 0 0 5px 2px #b5b5b5 inset;
 }
 .dc20rpg.actor-v13 .window-content {
   padding: 8px;

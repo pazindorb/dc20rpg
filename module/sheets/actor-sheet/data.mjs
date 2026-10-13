@@ -10,6 +10,8 @@ export function duplicateData(context, actor) {
   context.items = actor.items.contents;
   context.name = actor.name;
   context.img = actor.img;
+  context.dead = actor.dead;
+  context.deathsDoor = actor.deathsDoor;
 }
 
 function _help(actor) {
@@ -129,6 +131,10 @@ function _resourceBarsPercentages(context) {
   const hpPercentTemp = Math.ceil(100 * hpValue/hpMax);
   if (isNaN(hpPercent)) resources.health.percentTemp = 0;
   else resources.health.percentTemp = hpPercentTemp <= 100 ? hpPercentTemp : 100;
+
+  const treshold = context.system?.death?.treshold || 0;
+  const deathPercent = Math.ceil(100 * hpValue/treshold);
+  resources.health.deathPercent = deathPercent;
 
   if (!resources.mana) return;
   const manaCurrent = resources.mana.value;

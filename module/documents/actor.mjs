@@ -48,6 +48,10 @@ export class DC20RpgActor extends Actor {
     return this.statuses.has("dead");
   }
 
+  get deathsDoor() {
+    return this.statuses.has("deathsDoor");
+  }
+
   get sustains() {
     return Object.keys(this.system.sustain).length > 0;
   }

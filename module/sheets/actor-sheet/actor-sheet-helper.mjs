@@ -22,7 +22,7 @@ function _getTabsForActor(type) {
       if (type === "companion") allowed.push("traits");
       break;
 
-    case "characher": 
+    case "character": 
       allowed = ["pcHeader", "pcCore", "inventory", "features", "spells", "effects", "pcConfig", "journal"];
       break;
 
