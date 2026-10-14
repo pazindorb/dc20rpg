@@ -6,6 +6,13 @@
 
   <div class="actor-img">
     <img src="{{img}}" {{#if editMode}}data-edit="img" data-tooltip="{{localize 'dc20rpg.sheet.editImage'}}"{{else}}data-action="showImg" data-tooltip="{{localize 'dc20rpg.sheet.showImage'}}"{{/if}}/>
+
+    {{!-- Action Points --}}
+    <div class="action-points-wrapper" data-tooltip="{{localize "dc20rpg.sheet.resource.spendRegainAP"}}" data-raction="spend" data-action="regain" data-resource="ap">
+      <div class="points">
+        {{{icon-printer-empty system.resources.ap.value system.resources.ap.max 4 "fa-solid fa-dice-d6 ap" "fa-regular fa-dice-d6 ap" system.globalModifier.prevent.goUnderAP "#b20000"}}}
+      </div>
+    </div>
   </div>
 
   <div class="actor-details">
@@ -98,8 +105,9 @@
       {{/unless}}
     </div>
 
-    <div class="resource-row">
-      <div class="resource-wrapper">
+    <div class="main-row">
+      {{!-- Resource Column --}}
+      <div class="resource-column">
         {{!-- Health --}}
         <div class="resource health {{#if deathsDoor}}death{{/if}}" data-tooltip="{{localize "dc20rpg.resource.health"}}">
           <div class="resorce-main">
@@ -113,7 +121,7 @@
             <div class="resource-management">
               <div class="resource-values">
                 <input type="text" data-cType="numeric" data-path="system.resources.health.current" value="{{system.resources.health.current}}" data-dtype="Number">
-                <span class="separator"> / </span>
+                <span class="separator" style="font-size: 14px;"> / </span>
                 <input {{#unless system.resources.health.useFlat}}disabled{{/unless}} data-cType="numeric" type="text" data-path="system.resources.health.max" value="{{system.resources.health.max}}" data-dtype="Number">
               </div>
               <div class="resource-buttons">
@@ -148,6 +156,48 @@
         </div>
         {{!-- Custom Resources --}}
         <div class="custom-resource-wrapper scrollable">
+          {{!-- Stamina --}}
+          <div class="resource stamina" data-tooltip="{{localize "dc20rpg.resource.stamina"}}">
+            <div class="resorce-main">
+              <div class="resource-icon" data-raction="spend" data-action="regain" data-resource="stamina" data-tooltip="{{localize "dc20rpg.sheet.resource.spendRegainResource"}}" data-tooltip-direction="UP">
+                <i class="fa-solid fa-hand-fist" style="margin-top: 1px;"></i>
+              </div>
+              <div class="resource-management">
+                <div class="resource-values">
+                  <input type="text" data-cType="numeric" data-path="system.resources.stamina.value" value="{{system.resources.stamina.value}}" data-dtype="Number">
+                  <span class="separator"> / </span>
+                  <input disabled type="text" value="{{system.resources.stamina.max}}" data-dtype="Number">
+                </div>
+              </div>
+            </div>
+            <div class="resource-bar-wrapper">
+              <div class="resource-bar">
+                <div class="bar" style="width: {{system.resources.stamina.percent}}%"></div>
+              </div>
+            </div>
+          </div>
+
+          {{!-- Mana --}}
+          <div class="resource mana" data-tooltip="{{localize "dc20rpg.resource.mana"}}">
+            <div class="resorce-main">
+              <div class="resource-icon" data-raction="spend" data-action="regain" data-resource="mana" data-tooltip="{{localize "dc20rpg.sheet.resource.spendRegainResource"}}" data-tooltip-direction="UP">
+                <i class="fa-solid fa-star" style="margin-right: 0.5px; margin-top: 1px;"></i>
+              </div>
+              <div class="resource-management">
+                <div class="resource-values">
+                  <input type="text" data-cType="numeric" data-path="system.resources.mana.value" value="{{system.resources.mana.value}}" data-dtype="Number">
+                  <span class="separator"> / </span>
+                  <input disabled type="text" value="{{system.resources.mana.max}}" data-dtype="Number">
+                </div>
+              </div>
+            </div>
+            <div class="resource-bar-wrapper">
+              <div class="resource-bar">
+                <div class="bar" style="width: {{system.resources.mana.percent}}%"></div>
+              </div>
+            </div>
+          </div>
+
           {{!-- Custom Resources --}}
           {{#each system.resources.custom as |resource key|}}
           <div class="resource custom-resource draggable" data-tooltip="{{resource.label}}" data-key="{{key}}" data-type="resource">
@@ -178,7 +228,7 @@
           {{#each itemChargesAsResources as |resource key|}}
           <div class="resource custom-resource" data-middle-click="sheet" data-item-id="{{key}}" data-tooltip="{{localize 'dc20rpg.sheet.itemCharges'}}: {{resource.name}}">
             <div class="resorce-main">
-              <div class="resource-icon"><img src="{{resource.img}}"></div>
+              <div class="resource-icon" style="cursor:default"><img disabled src="{{resource.img}}"></div>
               <div class="resource-management">
                 <div class="resource-values">
                   <input type="text" data-cType="numeric" value="{{resource.value}}" data-path="system.costs.charges.current" data-item-id="{{key}}" data-dtype="Number">
@@ -194,7 +244,7 @@
           {{#each itemQuantityAsResources as |resource key|}}
           <div class="resource custom-resource" data-middle-click="sheet" data-item-id="{{key}}" data-tooltip="{{localize 'dc20rpg.sheet.itemQuantity'}}: {{resource.name}}">
             <div class="resorce-main">
-              <div class="resource-icon"><img src="{{resource.img}}"></div>
+              <div class="resource-icon" style="cursor:default"><img src="{{resource.img}}"></div>
               <div class="resource-management">
                 <div class="resource-values">
                   <input type="text" data-cType="numeric" value="{{resource.quantity}}" data-path="system.quantity" data-item-id="{{key}}" data-dtype="Number">
@@ -212,47 +262,102 @@
         </div>
       </div>
 
-      <div class="resource-wrapper margin-left-5">
-        {{!-- Stamina --}}
-        <div class="resource stamina" data-tooltip="{{localize "dc20rpg.resource.stamina"}}">
-          <div class="resorce-main">
-            <div class="resource-icon" data-raction="spend" data-action="regain" data-resource="stamina" data-tooltip="{{localize "dc20rpg.sheet.resource.spendRegainResource"}}" data-tooltip-direction="UP">
-              <i class="fa-solid fa-hand-fist" style="margin-right: 1px; margin-top: 1px;"></i>
+      {{!-- Defense Column --}}
+      <div class="defense-column">
+        <div class="box-header">
+          <i class="fa-solid fa-shield"></i>
+          <label>{{localize "dc20rpg.sheet.defense"}}</label>
+        </div>
+        <div class="box-content">
+          <div class="defense-content" data-tooltip="{{localize "dc20rpg.sheet.precisionDefence"}}">
+            <div class="hit-value">
+              <i class="fa-solid fa-bullseye-pointer"></i>
+              <span>{{system.defences.precision.value}}</span>
             </div>
-            <div class="resource-management">
-              <div class="resource-values">
-                <input type="text" data-cType="numeric" data-path="system.resources.stamina.value" value="{{system.resources.stamina.value}}" data-dtype="Number">
-                <span class="separator"> / </span>
-                <input disabled type="text" value="{{system.resources.stamina.max}}" data-dtype="Number">
+            <div class="treshold">
+              <div class="treshold-value" data-tooltip="{{localize "dc20rpg.sheet.precisionDefence"}}: {{localize "DC20RPG.HeavyHit"}}">
+                <span>{{system.defences.precision.heavy}}</span>
+              </div>
+              <div class="treshold-value" data-tooltip="{{localize "dc20rpg.sheet.precisionDefence"}}: {{localize "DC20RPG.BrutalHit"}}">
+                <span>{{system.defences.precision.brutal}}</span>
               </div>
             </div>
           </div>
-          <div class="resource-bar-wrapper">
-            <div class="resource-bar">
-              <div class="bar" style="width: {{system.resources.stamina.percent}}%"></div>
+          <div class="defense-content" data-tooltip="{{localize "dc20rpg.sheet.areaDefence"}}">
+            <div class="hit-value">
+              <i class="fa-solid fa-burst"></i>
+              <span>{{system.defences.area.value}}</span>
+            </div>
+            <div class="treshold">
+              <div class="treshold-value" data-tooltip="{{localize "dc20rpg.sheet.areaDefence"}}: {{localize "DC20RPG.HeavyHit"}}">
+                <span>{{system.defences.area.heavy}}</span>
+              </div>
+              <div class="treshold-value" data-tooltip="{{localize "dc20rpg.sheet.areaDefence"}}: {{localize "DC20RPG.BrutalHit"}}">
+                <span>{{system.defences.area.brutal}}</span>
+              </div>
             </div>
           </div>
         </div>
+      </div>
 
-        {{!-- Mana --}}
-        <div class="resource mana" data-tooltip="{{localize "dc20rpg.resource.mana"}}">
-          <div class="resorce-main">
-            <div class="resource-icon" data-raction="spend" data-action="regain" data-resource="mana" data-tooltip="{{localize "dc20rpg.sheet.resource.spendRegainResource"}}" data-tooltip-direction="UP">
-              <i class="fa-solid fa-star" style="margin-right: 1px; margin-top: 1px;"></i>
-            </div>
-            <div class="resource-management">
-              <div class="resource-values">
-                <input type="text" data-cType="numeric" data-path="system.resources.mana.value" value="{{system.resources.mana.value}}" data-dtype="Number">
-                <span class="separator"> / </span>
-                <input disabled type="text" value="{{system.resources.mana.max}}" data-dtype="Number">
-              </div>
-            </div>
+      {{!-- Movement Column --}}
+      <div class="movement-column">
+        <div class="box-header">
+          <i class="fa-solid fa-foot-wing"></i>
+          <label>{{localize "dc20rpg.sheet.movement"}}</label>
+        </div>
+        <div class="box-content">
+          {{!-- Ground Speed --}}
+          <div class="movement-content" data-tooltip="{{system.movement.ground.label}}"> 
+            <i class="fa-solid fa-person-running"></i>
+            <span>{{system.movement.ground.current}}</span>
           </div>
-          <div class="resource-bar-wrapper">
-            <div class="resource-bar">
-              <div class="bar" style="width: {{system.resources.mana.percent}}%"></div>
-            </div>
+
+          {{!-- Jump Distance --}}
+          <div class="movement-content" data-tooltip="{{system.jump.label}}"> 
+            <i class="fa-solid fa-frog"></i>
+            <span>{{system.jump.current}}</span>
           </div>
+
+          {{!-- Swimming Speed --}}
+          {{#if system.movement.swimming.current}}
+          <div class="movement-content" data-tooltip="{{system.movement.swimming.label}}"> 
+            <i class="fa-solid fa-fish"></i>
+            <span>{{system.movement.swimming.current}}</span>
+          </div>
+          {{/if}}
+
+          {{!-- Glide Speed --}}
+          {{#if system.movement.glide.current}}
+          <div class="movement-content" data-tooltip="{{system.movement.glide.label}}"> 
+            <i class="fa-solid fa-parachute-box"></i>
+            <span>{{system.movement.glide.current}}</span>
+          </div>
+          {{/if}}
+
+          {{!-- Fly Speed --}}
+          {{#if system.movement.flying.current}}
+          <div class="movement-content" data-tooltip="{{system.movement.flying.label}}"> 
+            <i class="fa-solid fa-dove"></i>
+            <span>{{system.movement.flying.current}}</span>
+          </div>
+          {{/if}}
+
+          {{!-- Climb Speed --}}
+          {{#if system.movement.climbing.current}}
+          <div class="movement-content" data-tooltip="{{system.movement.climbing.label}}"> 
+            <i class="fa-solid fa-mountain"></i>
+            <span>{{system.movement.climbing.current}}</span>
+          </div>
+          {{/if}}
+
+          {{!-- Burrow Speed --}}
+          {{#if system.movement.burrow.current}}
+          <div class="movement-content" data-tooltip="{{system.movement.burrow.label}}"> 
+            <i class="fa-solid fa-shovel"></i>
+            <span>{{system.movement.burrow.current}}</span>
+          </div>
+          {{/if}}
         </div>
       </div>
     </div>
