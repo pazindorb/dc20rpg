@@ -236,8 +236,9 @@ function _prepareSkillOnelinters(skills, oneliners) {
     let shouldShow = key === "awa" || skill.mastery > 0;
     if (!shouldShow) continue;
 
+    const modifier = skill.modifier > 0 ? `+${skill.modifier}` : skill.modifier;
     oneliners.skills.content.push({
-      oneliner: `${skill.label} (${skill.modifier})`, 
+      oneliner: `${skill.label} (${modifier})`, 
       icon: "fa-solid fa-square fa-2xs",
       data: `data-action="roll" data-type="check" data-key="${key}"`,
       style: `color: ${getColorByKey(skill.baseAttribute)}`  

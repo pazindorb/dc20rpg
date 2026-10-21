@@ -28,6 +28,8 @@ function defaultFields() {
       slots: new f.BooleanField({required: true, initial: false}),
       inactiveEffects: new f.BooleanField({required: true, initial: true}),
       nonessentialEffects: new f.BooleanField({required: true, initial: false}),
+      mana: new f.BooleanField({required: true, initial: true}),
+      stamina: new f.BooleanField({required: true, initial: true}),
     }),
   };
 }

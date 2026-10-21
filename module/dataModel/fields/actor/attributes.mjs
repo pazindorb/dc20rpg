@@ -13,7 +13,8 @@ export default class AttributeFields extends foundry.data.fields.SchemaField {
       bonuses: new f.SchemaField({
         check: new f.NumberField(init0),
         value: new f.NumberField(init0),
-        save: new f.NumberField(init0)
+        save: new f.NumberField(init0),
+        points: new f.NumberField(init0)
       })
     });
     fields = {

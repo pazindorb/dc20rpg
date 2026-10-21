@@ -14,6 +14,7 @@ export function makeCalculations(actor) {
 
 		_skillPoints(actor);
 		_attributePoints(actor);
+		_savePoints(actor);
 		_spellsAndManeuversKnown(actor);
 		_spendLimits(actor);
 	}
@@ -93,13 +94,15 @@ function _skillModifier(skill, key, actor) {
 		const attribute = attributes[skill.baseAttribute];
 		skill.modifier = attribute.value + attribute.bonuses.check + (2 * skill.mastery) + skill.bonus - actor.exhaustion;
 	}
+	skill.passive = skill.modifier + 10;
 }
 
 function _highestAttribute(attributes, actor) {
 	let highestKey = "";
 	if (!attributes) return "int"; // fallback for outdated actors - remove one day :)
 
-	const actorAtt = actor.system.attributes;
+	const actorAtt = foundry.utils.deepClone(actor.system.attributes);
+	actorAtt.prime = {value: actor.system.details.prime};
 	for (const key of attributes) {
 		if (!highestKey) {
 			highestKey = key;
@@ -201,6 +204,16 @@ function _attributePoints(actor) {
 							// players start with -2 in the attribute and spend points from there
 						});
 	attributePoints.left = attributePoints.max - attributePoints.spent;
+}
+
+function _savePoints(actor) {
+	const savePoints = actor.system.savePoints;
+	savePoints.max = evaluateDicelessFormula(savePoints.maxFormula, actor.getRollData()).total;
+
+	let spent = 0;
+	Object.values(actor.system.attributes).forEach(atr => spent += atr.bonuses.points);
+	savePoints.spent = spent;
+	savePoints.left = savePoints.max - savePoints.spent;
 }
 
 function _spellsAndManeuversKnown(actor) {

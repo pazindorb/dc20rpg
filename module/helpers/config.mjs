@@ -483,8 +483,7 @@ DC20RPG.DROPDOWN_DATA.shortAttributes = {
   agi: "AGI",
   int: "INT",
   cha: "CHA",
-  prime: "PRI",
-  max: "MAX"
+  prime: "PRIME"
 }
 
 DC20RPG.DROPDOWN_DATA.dcCalculationTypes = {

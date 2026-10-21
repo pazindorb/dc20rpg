@@ -38,6 +38,10 @@
   "dc20rpg.contextMenu.equip": "Equip/Unequip Item",
 
   "ACTOR.TABS.core": "Core",
+  "ACTOR.TABS.pcCore": "Core",
+  "ACTOR.TABS.inventory": "Inventory",
+  "ACTOR.TABS.features": "Features",
+  "ACTOR.TABS.known": "Maneuvers & Spells",
   "ACTOR.TABS.effects": "Effects",
   "ACTOR.TABS.loot": "Loot",
   "ACTOR.TABS.config": "Config",
@@ -269,6 +273,7 @@
   "DC20RPG.Add": "Add",
   "DC20RPG.Check": "Check",
   "DC20RPG.Save": "Save",
+  "DC20RPG.Passive": "Passive",
 
   "dc20rpg.defence.precision": "Precision Defense",
   "dc20rpg.defence.area": "Area Defense",
@@ -377,8 +382,11 @@
   "dc20rpg.sheet.monsterConfig": "Open Monster Creator",
   "dc20rpg.sheet.editMode": "Edit Mode",
   "dc20rpg.sheet.edit": "Edit",
+  "dc20rpg.sheet.favoriteAdd": "Mark as Favorite",
+  "dc20rpg.sheet.favoriteRemove": "Remove from Favorite",
   "dc20rpg.sheet.copy": "Copy",
   "dc20rpg.sheet.delete": "Delete",
+  "dc20rpg.sheet.remove": "Remove",
   "dc20rpg.sheet.restPoints": "Rest Points",
   "dc20rpg.sheet.rerunAdvancement": "Repeat Level Up",
   "dc20rpg.sheet.configuration": "Character Configuration",
@@ -398,9 +406,26 @@
   "dc20rpg.sheet.showSlots": "Character Details / Equipment Slots",
   "dc20rpg.sheet.slotDelete": "Delete Equipment Slot",
 
+  "dc20rpg.sheet.core.skills": "Skills & Attributes",
+  "dc20rpg.sheet.core.details": "Character Details",
+  "dc20rpg.sheet.core.trades": "Trades",
+  "dc20rpg.sheet.core.languages": "Languages",
+
+  "dc20rpg.sheet.core.showAll": "Attributes & Skills Mode",
+  "dc20rpg.sheet.core.showAttributes": "Attributes Mode",
+  "dc20rpg.sheet.core.showSkills": "Skills Mode",
+
+  "dc20rpg.sheet.core.savePoints": "LMB: Spend Save Point, RMB: Restore Save Point",
+  "dc20rpg.sheet.core.convertSkillToTrade": "LMB: Convert 1 Skill Point into 2 Trade Points<br>RMB: Revert conversion",
+  "dc20rpg.sheet.core.convertTradeToLang": "LMB: Convert 1 Trade Point into 2 Language Points<br>RMB: Revert conversion",
+  "dc20rpg.sheet.core.skillPointsLeft": "Skill Points Left",
+  "dc20rpg.sheet.core.TradePointsLeft": "Trade Points Left",
+  "dc20rpg.sheet.core.languagePointsLeft": "Language Points Left",
+
   "dc20rpg.sheet.resource.spendRegainAP": "LMB: Regain 1 Action Point<br>RMB: Spend 1 Action Point",
   "dc20rpg.sheet.resource.spendRegainHealth": "LMB: Regain 1 Health Point<br>RMB: Spend 1 Health Point",
   "dc20rpg.sheet.resource.spendRegainResource": "LMB: Regain Resource<br>RMB: Spend Resource",
+  "dc20rpg.sheet.resource.showHideResource": "Show/Hide basic resource",
 
   "dc20rpg.sheet.resource.useAp":"Use 1 AP",
   "dc20rpg.sheet.resource.regainAp":"Regain 1 AP",
@@ -430,6 +455,7 @@
   "dc20rpg.sheet.attributes.pointsLeft": "Attribute Points left to spend",
   "dc20rpg.sheet.attributes.subtractPoint": "Subtract Attribute Point",
   "dc20rpg.sheet.attributes.addPoint": "Add Attribute Point",
+  "dc20rpg.sheet.attributes.savePoint": "LMB: Spend Save Point<br>RMB: Restore Save Point",
   "dc20rpg.sheet.attributes.prime": "Prime",
 
   "dc20rpg.sheet.equipmentSlot.head": "Head",
@@ -639,9 +665,9 @@
   "dc20rpg.sheet.skills.pointsLeft": "Points left to spend",
   "dc20rpg.sheet.skills.roll": "Roll Check",
   "dc20rpg.sheet.skills.variableRoll": "Variable Attribute Roll",
-  "dc20rpg.sheet.skills.baseAttribute": "Attribute used for rolling",
+  "dc20rpg.sheet.skills.baseAttribute": "Attribute associated with the skill",
   "dc20rpg.sheet.skills.expertise": "Spend Point to gain Expertise",
-  "dc20rpg.sheet.skills.mastery": "Increase/Reduce Skill Mastery",
+  "dc20rpg.sheet.skills.mastery": "LMB: Increase Skill Mastery<br>RMB: Reduce Skill Mastery",
   "dc20rpg.sheet.languages.mastery": "Increase/Reduce Language Mastery",
 
   "dc20rpg.sheet.skills.showHideUnknown": "Show/Hide Unknown",
@@ -2163,5 +2189,15 @@
   "dc20rpg.area.sphere": "Sphere",
   "dc20rpg.area.cylinder": "Cylinder",
   "dc20rpg.area.dome": "Dome",
-  "dc20rpg.area.zone": "Zone"
+  "dc20rpg.area.zone": "Zone",
+
+  "DC20RPG.WARN.UNIQUE_MISSING": "Select {name} for your Character",
+  "DC20RPG.WARN.POINTS_OVER": "You spent <b>{points}</b> too many {name} Points",
+  "DC20RPG.WARN.POINTS_UNDER": "You have <b>{points}</b> {name} Points left to spend",
+
+  "DC20RPG.ATTRIBUTE": "Attribute",
+  "DC20RPG.SAVE": "Save",
+  "DC20RPG.SKILL": "Skill",
+  "DC20RPG.TRADE": "Trade",
+  "DC20RPG.LANGUAGE": "Language"
 }

@@ -633,7 +633,8 @@ function _formulas(formulas, allFormulasSize, icon, types) {
   }
 
   if (allFormulasSize > 2 && formulas.length > 1) {
-    return _descriptionCharIcon(`<p>${description}</p>`, icon, "?", {iconStyle: `style="color: var(--default-${formulas[0].category}); background-color: var(--default-${formulas[0].category});"`});
+    const color = formulas[0].category === "other" ? "#000000" : `var(--default-${formulas[0].category})`;
+    return _descriptionCharIcon(`<p>${description}</p>`, icon, "?", {iconStyle: `style="color: ${color}; background-color: ${color};"`});
   }
 
   let content = "";

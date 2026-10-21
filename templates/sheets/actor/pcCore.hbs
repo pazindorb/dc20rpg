@@ -1,0 +1,315 @@
+<section class="pc-sheet-section actor-sheet-section tab pcCore core standard-form {{tabs.pcCore.cssClass}}" data-group="sheet" data-tab="pcCore">
+<div class="scrollable">
+  <div class="core-left-side">
+
+    <div class="subtab-wrapper">
+      <div class="tab-selector">
+        <a class="fa-solid fa-dice {{#ifCond sheetFlags.subtab '===' "skills"}}active{{/ifCond}}" data-action="sheetEdit" data-key="subtab" data-value="skills" data-tooltip="{{localize "dc20rpg.sheet.core.skills"}}"></a>
+        <a class="fa-solid fa-circle-info {{#ifCond sheetFlags.subtab '===' "details"}}active{{/ifCond}}" data-action="sheetEdit" data-key="subtab" data-value="details" data-tooltip="{{localize "dc20rpg.sheet.core.details"}}"></a>
+        <a class="fa-solid fa-hammer {{#ifCond sheetFlags.subtab '===' "trades"}}active{{/ifCond}}" data-action="sheetEdit" data-key="subtab" data-value="trades" data-tooltip="{{localize "dc20rpg.sheet.core.trades"}}"></a>
+        <a class="fa-solid fa-language {{#ifCond sheetFlags.subtab '===' "languages"}}active{{/ifCond}}" data-action="sheetEdit" data-key="subtab" data-value="languages" data-tooltip="{{localize "dc20rpg.sheet.core.languages"}}"></a>
+      </div>
+      <div class="tab-content">
+
+        {{!-- Skills & Attributes --}}
+        {{#ifCond sheetFlags.subtab '===' "skills"}}
+
+        {{!-- TODO: Add new skill transfer points to trade/etc --}}
+        <div class="top-menu-wrapper">
+          <div class="top-menu">
+            <div class="top-menu-buttons">
+              {{#if editMode}}
+              <a class="fa-solid fa-square-plus" data-action="addSkill" data-type="skills" data-tooltip="{{localize "dc20rpg.sheet.skills.addSkill"}}"></a>
+              {{else}}
+              <a class="fa-solid fa-square-star" data-action="sheetEdit" data-key="skillMode" data-value="all" data-tooltip="{{localize "dc20rpg.sheet.core.showAll"}}"></a>
+              <a class="fa-solid fa-square-a" data-action="sheetEdit" data-key="skillMode" data-value="attributes" data-tooltip="{{localize "dc20rpg.sheet.core.showAttributes"}}"></a>
+              <a class="fa-solid fa-square-s" data-action="sheetEdit" data-key="skillMode" data-value="skills" data-tooltip="{{localize "dc20rpg.sheet.core.showSkills"}}"></a>
+              {{/if}}
+            </div>
+
+            {{#if editMode}}
+            <div class="top-menu-buttons end">
+              <span data-tooltip="{{localize "dc20rpg.sheet.core.skillPointsLeft"}}">S({{system.skillPoints.skill.left}})</span>
+              <a class="fa-solid fa-square-arrow-right" data-action="convert" data-rAction="revert" data-from="skill" data-to="trade" data-tooltip="{{localize "dc20rpg.sheet.core.convertSkillToTrade"}}" style="font-size: 12px"></a>
+              <span data-tooltip="{{localize "dc20rpg.sheet.core.tradePointsLeft"}}">T({{system.skillPoints.trade.left}})</span>
+              <a class="fa-solid fa-square-arrow-right" data-action="convert" data-rAction="revert" data-from="trade" data-to="language" data-tooltip="{{localize "dc20rpg.sheet.core.convertTradeToLang"}}" style="font-size: 12px"></a>
+              <span data-tooltip="{{localize "dc20rpg.sheet.core.languagePointsLeft"}}">L({{system.skillPoints.language.left}})</span>
+            </div>
+            {{/if}}
+          </div>
+        </div>
+        
+        {{!-- Attributes --}}
+        <div class="attributes-column">
+          <div class="attributes">
+            {{!-- Prime --}}
+            {{#ifCond sheetFlags.skillMode '!==' "skills"}}
+            <div class="attribute" data-tooltip="{{localize "dc20rpg.attributes.prime"}}">
+              <input class="attribute-name" type="text" style="background-color: {{color-by-key "prime"}};" disabled value="{{localize "dc20rpg.attributes.prime"}}"/>
+              <div class="attribute-menu">
+                <a class="roll-button" data-action="roll" data-type="check" data-key="prime" data-tooltip="{{localize "dc20rpg.attributes.prime"}} {{localize "DC20RPG.Check"}}">
+                  <span class="original"><i class="fa-regular fa-dice-d20 fa-lg"></i></span>
+                  <span class="hovered">{{numberFormat system.details.prime sign=true}}</span>
+                </a>
+                <input type="number" style="background-color: {{color-by-key "prime"}};" disabled value="{{system.details.prime}}"/>
+              </div>
+            </div>
+            {{/ifCond}}
+            {{#ifCond sheetFlags.skillMode '!==' "attributes"}}
+            {{> "systems/dc20rpg/templates/sheets/actor/partials/skills.hbs" @root attr="prime"}}
+            {{/ifCond}}
+
+            {{!-- Attributes --}}
+            {{#each sortedAttributes as |attribute key|}}
+            {{#ifCond @root.sheetFlags.skillMode '!==' "skills"}}
+            {{> "systems/dc20rpg/templates/sheets/actor/partials/attribute.hbs" @root attribute=attribute key=key}}
+            {{/ifCond}}
+            {{#ifCond @root.sheetFlags.skillMode '!==' "attributes"}}
+            {{> "systems/dc20rpg/templates/sheets/actor/partials/skills.hbs" @root attr=key}}
+            {{/ifCond}}
+            {{/each}}
+          </div>
+        </div>
+        {{/ifCond}}
+
+        {{!-- Details --}}
+        {{#ifCond sheetFlags.subtab '===' "details"}}
+        DETAILS
+        {{/ifCond}}
+
+        {{!-- Trades --}}
+        {{#ifCond sheetFlags.subtab '===' "trades"}}
+        TRADES
+        {{/ifCond}}
+
+        {{!-- Languages --}}
+        {{#ifCond sheetFlags.subtab '===' "languages"}}
+        languages
+        {{/ifCond}}
+      </div>
+    </div>
+  </div>
+
+  <div class="core-right-side">
+    <div class="top-menu-wrapper">
+      {{!-- Top Menu --}}
+      <div class="top-menu">
+        {{#if editMode}}
+        <div class="top-menu-buttons">
+          <a data-tooltip="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-action="createTable" data-tab="favorites"><i class="fa-lg fa-solid fa-diagram-predecessor"></i></a>
+          <a data-tooltip="{{localize "dc20rpg.sheet.openCompendium"}}" data-action="compendium" data-item-type="weapon" data-unlock="true"><i class="fa-lg fa-solid fa-book-atlas"></i></a>
+          <a data-tooltip="{{localize 'dc20rpg.sheet.items.createItem'}}" data-action="createItem"><i class="fa-lg fa-solid fa-sack"></i></a>
+        </div>
+        {{else}}
+        <a class="menu-button first" data-action="basicRoll"><i class="fa-solid fa-dice margin-right-5"></i><span>{{localize "dc20rpg.sheet.basicRoll"}}</span></a>
+        <div class="menu-value" data-action="roll" data-key="att" data-type="check">
+          <a>{{localize "dc20rpg.sheet.attack"}}: {{numberFormat system.attackMod.value.martial decimals=0 sign=true}}</a>
+          {{#ifCond system.attackMod.value.martial '!==' system.attackMod.value.spell}}
+          <a class="fa-solid fa-circle-question" data-tooltip="{{localize "dc20rpg.sheet.checkSave.martialAttack"}} {{system.attackMod.value.martial}} / {{localize "dc20rpg.sheet.checkSave.spellAttack"}} {{system.attackMod.value.spell}}"></a>
+          {{/ifCond}}
+        </div>
+        <div class="menu-value">
+          <span>{{localize "dc20rpg.sheet.saveDC"}}: {{numberFormat system.saveDC.value.spell decimals=0 sign=false}}</span>
+          {{#ifCond system.saveDC.value.martial '!==' system.saveDC.value.spell}}
+          <a class="fa-solid fa-circle-question" data-tooltip="{{localize "dc20rpg.sheet.checkSave.martialSave"}} {{system.saveDC.value.martial}} / {{localize "dc20rpg.sheet.checkSave.spellSave"}} {{system.saveDC.value.spell}}"></a>
+          {{/ifCond}}
+        </div>
+        <a class="menu-button last" data-action="basicAction"><span>{{localize "dc20rpg.sheet.basicAction"}}</span><i class="fa-solid fa-dice-d6 margin-left-5"></i></a>
+        {{/if}}
+      </div>
+
+      {{!-- Sub Menu --}}
+      <div class="sub-menu">
+        <div class="wrapper" style="opacity: 0;"></div>
+        <div class="wrapper">
+          <a data-tooltip="{{localize "dc20rpg.rollType.marCheck"}}" data-action="roll" data-type="check" data-key="mar">
+            <i class="fa-solid fa-hand-fist" style="color: {{color-by-key "mar"}}"></i>
+            </a>
+          <a data-tooltip="{{localize "dc20rpg.rollType.speCheck"}}" data-action="roll" data-type="check" data-key="spe">
+            <i class="fa-solid fa-book-sparkles" style="color: {{color-by-key "spe"}}"></i>
+            </a>
+        </div>
+        <div class="wrapper">
+          <a data-tooltip="{{localize "dc20rpg.rollType.phySave"}}" data-action="roll" data-type="save" data-key="phy">
+            <i class="fa-solid fa-shield-halved fa-duotone" style="
+                --fa-primary-color: {{color-by-key "mig"}};
+                --fa-secondary-color: {{color-by-key "agi"}};"></i>
+            </a>
+          <a data-tooltip="{{localize "dc20rpg.rollType.menSave"}}" data-action="roll" data-type="save" data-key="men">
+            <i class="fa-solid fa-shield-halved fa-duotone" style="
+                --fa-primary-color: {{color-by-key "cha"}};
+                --fa-secondary-color: {{color-by-key "int"}};"></i>
+            </a>
+        </div>
+        <div class="wrapper">
+          <a data-class="help-action" data-tooltip="{{localize "Perform Help Action"}}" data-action="help"><i class="fa-solid fa-handshake-angle"></i></a>
+          {{#each help.dice as |dice key|}}
+            <div class="help-dice draggable {{#if dice.subtraction}}subtraction{{/if}}" data-key="{{key}}" data-rAction="help" data-tooltip="{{dice.tooltip}}">
+              <i class="fa-solid {{dice.icon}} fa-lg"></i>
+            </div>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+
+    {{!-- Held Action --}}
+    {{#if system.heldAction._id}}
+      <div class="held-action-wrapper" data-action="heldAction" data-tooltip="{{localize "dc20rpg.sheet.heldAction.roll"}}">
+        <img src="{{system.heldAction.img}}"/>
+        <input class="disabled" value="{{system.heldAction.name}}" />
+        <i class="fa-solid fa-hand-holding-star"></i>
+      </div>
+    {{/if}}
+
+    {{!-- Item Tables --}}
+    <div class="item-table margin-top-10">
+      {{#each favorites as |table key|}}
+      <div class="item-list table-name {{key}}">
+        {{!-- Header --}}
+        <div class="item-header" data-table-name='{{key}}' style="grid-template-columns: 1fr 6fr 3fr">
+          {{!-- Reorder Buttons --}}
+          {{#if @root.editMode}}
+          <div class="column reordering-buttons">
+            {{#if table.siblings.before}}
+            <a class="fa-solid fa-angle-up" data-action="reorder" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.headerUp'}}" data-tab="favorites" data-current="{{key}}" data-swapped="{{table.siblings.before}}"></a>
+            {{/if}}
+            {{#if table.siblings.after}}
+            <a class="fa-solid fa-angle-down" data-action="reorder" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.headerDown'}}" data-tab="favorites" data-current="{{key}}" data-swapped="{{table.siblings.after}}"></a>
+            {{/if}}
+          </div>
+          {{else}}
+          <div class="column cost">
+            <i class="fa-solid fa-dice-d6" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.cost'}}"></i>
+          </div>
+          {{/if}}
+
+          {{!-- Table Name --}}
+          <div class="column name">
+            <input {{#ifCond @root.editMode '&&' table.custom}}{{else}}disabled{{/ifCond}} type="text" name="system.sheetData.header.order.favorites.{{key}}.name" value="{{localize table.name}}"/>
+          </div>
+
+          {{!-- Details --}}
+          <div class="column details">
+            <i class="{{#if @root.editMode}}fa-solid fa-gear{{else}}fa-light fa-dice-d20{{/if}}"></i>
+            {{#ifCond @root.editMode '&&' table.custom}}
+              <a class="fa-lg fa-solid fa-xmark margin-left-3" data-action="deleteTable" data-tab="favorites" data-table="{{key}}" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.removeTable'}}"></a>
+            {{/ifCond}}
+          </div>
+        </div>
+
+        {{!-- Rows --}}
+        {{#each table.items as |item id|}} 
+        <div class="item item-row draggable context-menu {{#if item.equipped}} equipped{{/if}}{{#if item.system.statuses.attuned}} attuned{{/if}}{{#ifCond item.system.toggle.toggleable '&&' item.system.toggle.toggledOn}} activated-effect{{/ifCond}}" 
+            data-middle-click="sheet" data-item-id="{{item._id}}" style="grid-template-columns: 1fr 6fr 3fr" data-hover="tooltip">
+          
+          <div class="column cost">
+            <div class="costs">
+              {{{cost-printer item.useCost true true false true}}}
+            </div>
+          </div>
+
+          {{!-- Item Name --}}
+          <div class="column name">
+            {{!-- Image --}}
+            <div class="item-img-wrapper roll-item" data-action="rollItem" data-item-id="{{id}}">
+              <a class="original" style="position: relative;"><img src="{{item.img}}"/></a>
+              <a class="hovered"><i class="hover-icon fa-regular fa-dice-d20 fa-2x"></i></a> 
+            </div>
+            {{!-- Name and buttons --}}
+            <div class="item-name-wrapper">
+              <input class="disabled" value="{{item.name}}" />
+              <div class="action-button-wrapper">
+                {{!-- Roll --}}
+                <a class="fa-light fa-dice-d20" data-action="rollItem" data-item-id="{{id}}" data-tooltip="{{localize "dc20rpg.sheet.rollMenu.rollItem"}}"></a>
+
+                {{!-- Macro --}}
+                {{{on-demand-macro-button item}}}
+
+                {{!-- Keyword --}}
+                {{{keyword-button item}}}
+
+                {{!-- Toggle --}}
+                {{#if item.toggleable}}
+                  {{#if item.toggledOn}}
+                  <a class="fa-lg fa-solid fa-toggle-on" data-action="toggle" data-item-id="{{id}}" data-tooltip="{{localize "dc20rpg.sheet.itemTable.deactivateItem"}}"></a>
+                  {{else}}
+                  <a class="fa-lg fa-solid fa-toggle-off" data-action="toggle" data-item-id="{{id}}" data-tooltip="{{localize "dc20rpg.sheet.itemTable.activateItem"}}"></a>
+                  {{/if}}
+                {{/if}}
+
+                {{#if item.equippable}}
+                  {{!-- Equipped --}}
+                  {{#if item.equipped}}
+                  <a class="fa-solid fa-suitcase-rolling" data-action="equip" data-item-id="{{id}}" data-tooltip="{{localize "dc20rpg.sheet.itemTable.unequipItem"}}"></a>
+                  {{else}}
+                  <a class="fa-regular fa-suitcase-rolling" data-action="equip" data-item-id="{{id}}" data-tooltip="{{localize "dc20rpg.sheet.itemTable.equipItem"}}"></a>
+                  {{/if}}
+                  
+                  {{!-- Attuned --}}
+                  {{#if item.system.properties.attunement.active}}
+                    {{#if item.system.statuses.attuned}}
+                    <a class="fa-solid fa-hat-wizard" data-cType="activable" data-path="system.statuses.attuned" data-item-id="{{id}}" data-tooltip="{{localize "dc20rpg.sheet.itemTable.unattuneItem"}}"></a>
+                    {{else}}
+                    <a class="fa-regular fa-hat-wizard" data-cType="activable" data-path="system.statuses.attuned" data-item-id="{{id}}" data-tooltip="{{localize "dc20rpg.sheet.itemTable.attuneItem"}}"></a>
+                    {{/if}}
+                  {{/if}}
+                {{/if}}
+
+                <div class="action-button-separator" style="flex: 1;"></div>
+
+                {{!-- Manual Recharge --}}
+                {{#ifCond item.system.costs.charges.max '!==' null}}
+                <div class="charges-wrapper" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.charges'}}">
+                  {{!-- Manual charges change --}}
+                  <input class="current-charges" data-cType="numeric" data-path="system.costs.charges.current" value="{{item.system.costs.charges.current}}" type="text" data-item-id="{{id}}"/>
+                  <span class="separator">/</span>
+                  <span class="max-charges">{{item.system.costs.charges.max}}</span>
+
+                  {{!-- Recharge button --}}
+                  {{#if item.system.costs.charges.refresh.charges}}
+                  <a class="fa-solid fa-battery-half" data-action="rechargeItem" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.recharge'}}" data-item-id="{{id}}"></a>
+                  {{/if}}
+                </div>
+                {{/ifCond}}
+   
+                {{!-- Short Info --}}
+                {{#if item.system.shortInfo}}
+                <a class="fa-regular fa-circle-question" data-tooltip="{{item.system.shortInfo}}"></a>
+                {{/if}}
+              </div>
+              {{!-- Reaction Marker --}}
+              {{#if item.system.isReaction}}
+              <div class="side-marker" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.reaction'}}">
+                <i class="fa-solid fa-reply fa-lg"></i>
+              </div>
+              {{/if}}
+            </div>
+          </div>
+
+          {{!-- Details --}}
+          <div class="column details">
+          {{#if @root.editMode}}
+            <div class="configuration">
+              <a class="fas fa-edit" data-tooltip="{{localize "dc20rpg.sheet.items.editItem"}}" data-action="edit" data-item-id="{{id}}"></a>
+              <a class="fas fa-copy" data-tooltip="{{localize "dc20rpg.sheet.items.copyItem"}}" data-action="copy" data-item-id="{{id}}"></a>
+              <a class="fas fa-trash" data-tooltip="{{localize "dc20rpg.sheet.items.deleteItem"}}" data-action="delete" data-item-id="{{id}}"></a>
+            </div>
+          {{else}}
+            <div class="actions">
+              {{{action-type item}}}
+              {{{roll-requests item}}}
+            </div>
+            <div class="result">
+              {{{formula-rolls item}}}
+              {{{against-status item}}}
+            </div>
+          {{/if}}
+          </div>
+        </div>
+        {{/each}}
+      </div>
+      {{/each}}
+    </div>
+  </div>
+</div>  
+</section> 

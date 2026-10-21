@@ -22,20 +22,6 @@ import { DC20RpgItem } from "../../documents/item.mjs";
 import { MonsterCreatorDialog } from "../../dialogs/monster-creator.mjs";
 
 export function activateCommonLinsters(html, actor) {
-  // Core funcionalities
-
-
-
-  // Skills
-  html.find(".expertise-toggle").click(ev => actor.skillAndLanguage[datasetOf(ev).type][datasetOf(ev).key].expertiseToggle());
-  html.find(".mastery-toggle").mousedown(ev => _onToggleMastery(datasetOf(ev).key, datasetOf(ev).type, ev.which, actor));
-  html.find(".skill-point-converter").click(ev => actor.skillAndLanguage.convertPoints(datasetOf(ev).from, datasetOf(ev).to, datasetOf(ev).operation, datasetOf(ev).rate));
-  html.find('.add-skill').click(() => actor.skillAndLanguage.addCustom("skills"));
-  html.find('.remove-skill').click(ev => actor.skillAndLanguage.removeCustom(datasetOf(ev).key, "skills"));
-  html.find('.add-trade').click(() => actor.skillAndLanguage.addCustom("trades"));
-  html.find('.remove-trade').click(ev => actor.skillAndLanguage.removeCustom(datasetOf(ev).key, "trades"));
-  html.find('.add-language').click(() => actor.skillAndLanguage.addCustom("languages"));
-  html.find('.remove-language').click(ev => actor.skillAndLanguage.removeCustom(datasetOf(ev).key, "languages"));
 
 }
 

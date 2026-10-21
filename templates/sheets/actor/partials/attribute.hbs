@@ -1,0 +1,32 @@
+<div class="attribute" data-tooltip="{{attribute.label}}">
+  {{!-- Edit --}}
+  {{#if @root.editMode}}
+  <input class="attribute-name" type="text" style="background-color: {{color-by-key key}};" disabled value="{{localize (concat "dc20rpg.attributes.short." key)}}"/>
+  <div class="config-wrapper">
+    <a class="save-points" data-toolitp="{{localize "dc20rpg.sheet.core.savePoints"}}" data-action="savePoint" data-rAction="savePoint" data-key="{{key}}" data-tooltip="{{localize "dc20rpg.sheet.attributes.savePoint"}}">
+      <i class="{{#ifCond attribute.bonuses.points '>' 0}}fa-solid{{else}}fa-regular{{/ifCond}} fa-shield"></i>
+      <i class="{{#ifCond attribute.bonuses.points '>' 1}}fa-solid{{else}}fa-regular{{/ifCond}} fa-shield"></i>
+      <i class="{{#ifCond attribute.bonuses.points '>' 2}}fa-solid{{else}}fa-regular{{/ifCond}} fa-shield"></i>
+    </a>
+    <div class="attribute-buttons">
+      <a class="fa-solid fa-plus" data-action="attribute" data-key="{{key}}" data-type="increase" data-tooltip="{{localize "dc20rpg.sheet.attributes.addPoint"}}"></a>
+      <a class="fa-solid fa-minus" data-action="attribute" data-key="{{key}}" data-type="decrease" data-tooltip="{{localize "dc20rpg.sheet.attributes.subtractPoint"}}"></a>
+    </div>
+    <input type="number" style="background-color: {{color-by-key key}};" disabled value="{{attribute.value}}" data-dtype="Number"/>
+  </div>
+  {{else}}
+  {{!-- Display --}}
+  <input class="attribute-name" type="text" style="background-color: {{color-by-key key}};" disabled value="{{localize (concat "dc20rpg.attributes.short." key)}}"/>
+  <div class="attribute-menu">
+    <a class="roll-button" data-action="roll" data-type="save" data-key="{{key}}" data-tooltip="{{attribute.label}} {{localize "DC20RPG.Save"}}">
+      <span class="original"><i class="fa-solid fa-shield fa-lg"></i></span>
+      <span class="hovered">{{numberFormat attribute.save sign=true}}</span>
+    </a>
+    <a class="roll-button" data-action="roll" data-type="check" data-key="{{key}}" data-tooltip="{{attribute.label}} {{localize "DC20RPG.Check"}}">
+      <span class="original"><i class="fa-regular fa-dice-d20 fa-lg"></i></span>
+      <span class="hovered">{{numberFormat attribute.check sign=true}}</span>
+    </a>
+    <input type="number" style="background-color: {{color-by-key key}};" disabled value="{{attribute.value}}" data-dtype="Number"/>
+  </div>
+  {{/if}}
+</div>

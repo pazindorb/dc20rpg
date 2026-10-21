@@ -201,6 +201,9 @@ function _enrichAttributesObject(actor) {
     attribute.increase = async () => await _increaseAttribute(key, actor);
     attribute.decrease = async () => await _decreaseAttribute(key, actor);
     
+    attribute.saveIncrease = async () => await _increaseSave(key, actor);
+    attribute.saveDecrease = async () => await _decreaseSave(key, actor);
+
     actor.attributes[key] = attribute;
   }
 }
@@ -217,6 +220,18 @@ async function _decreaseAttribute(key, actor) {
   const value = actor.system.attributes[key].current;
   const newValue = Math.max(-2, value - 1);
 	await actor.update({[`system.attributes.${key}.current`]: newValue});
+}
+
+async function _increaseSave(key, actor) {
+  const value = actor.system.attributes[key].bonuses.points;
+  const newValue = Math.min(3, value + 1);
+  await actor.update({[`system.attributes.${key}.bonuses.points`]: newValue});
+}
+
+async function _decreaseSave(key, actor) {
+  const value = actor.system.attributes[key].bonuses.points;
+  const newValue = Math.max(0, value - 1);
+  await actor.update({[`system.attributes.${key}.bonuses.points`]: newValue});
 }
 
 //==================================//==================================
@@ -295,8 +310,8 @@ async function _refreshAll(actor) {
 }
 
 async function _addCustom(type, actor) {
-  const key = generateKey();
-  const object = type === "languages" ? SkillConfiguration.lang("mortal", "New Language") : SkillConfiguration.skill("int", "New Skill");
+  const key = `s${generateKey()}`;
+  const object = type === "languages" ? SkillConfiguration.lang("mortal", "New Language") : SkillConfiguration.skill("mig", "New Skill");
   object.custom = true;
   actor.update({[`system.${type}.${key}`]: object});
 }

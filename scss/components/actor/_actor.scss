@@ -267,6 +267,23 @@
   }
 }
 
+.warn-icon {
+  padding: 4px;
+  width: 25px;
+  height: 25px;
+  color: #e7e300;
+  border: 1px solid #e7e300;
+  border-radius: 15px;
+  background-color: #585858;
+  position: absolute;
+  z-index: 200;
+  top: 5px;
+
+  &:hover {
+    box-shadow: 0 0 6px 2px #e7e300;
+  }
+}
+
 .actor-sheet-section {
   flex: 1;
   min-height: 0;
@@ -297,6 +314,12 @@
         background-color: var(--secondary-dark);
         border-right: 2px solid var(--primary-color);
         border-radius: 3px 0 0 3px; 
+
+        &.end {
+          border-right: 0;
+          border-radius: 0 3px 3px 0; 
+          border-left: 2px solid var(--primary-color);
+        }
       }
 
       .menu-button {

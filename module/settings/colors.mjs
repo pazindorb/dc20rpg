@@ -84,7 +84,7 @@ function _defaultColors() {
     ['--pc-text-color-1']: "#ffffff",
     ['--pc-text-color-2']: "#000000",
     ['--pc-table-1']: "#573085",
-    ['--pc-table-2']: "#290547",
+    ['--pc-table-2']: "#4e008f",
     ['--pc-header-image-color']: "#44116ba3",
     ['--pc-header-gradinet-1']: "#1a0335cc",
     ['--pc-header-gradinet-2']: "#4c0085cc",

@@ -26,7 +26,9 @@ function actorPartials() {
     "Effects Table": "systems/dc20rpg/templates/actor_v2/parts/shared/effects-table.hbs",
     "Traits Table": "systems/dc20rpg/templates/actor_v2/parts/shared/traits-table.hbs",
     "Statuses": "systems/dc20rpg/templates/actor_v2/parts/shared/statuses.hbs",
-    "Help Tracker": "systems/dc20rpg/templates/actor_v2/parts/shared/help-tracker.hbs"
+    "Help Tracker": "systems/dc20rpg/templates/actor_v2/parts/shared/help-tracker.hbs",
+    "Skills": "systems/dc20rpg/templates/sheets/actor/partials/skills.hbs",
+    "Attribute": "systems/dc20rpg/templates/sheets/actor/partials/attribute.hbs",
   }
 }
 

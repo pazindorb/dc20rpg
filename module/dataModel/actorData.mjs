@@ -193,6 +193,11 @@ export class DC20CharacterData extends DC20BaseActorData {
       sheetData: new SheetDataFields("character"),
       attributes: new AttributeFields(-2),
       attributePoints: new PointFields(12),
+      savePoints: new f.SchemaField({
+        max: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        maxFormula: new f.StringField({required: true, initial: "2 + @chaValue"}),
+        spent: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+      }),
       resources: new ResourceFields(true),
       skillPoints: new f.SchemaField({
         skill: new PointFields(0, {converted: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 })}),

@@ -1,0 +1,40 @@
+<div class="skills-wrapper">
+  {{#each skills.skills as |skill key|}}
+  {{#ifCond skill.baseAttribute '===' ../attr}}
+  {{!-- Edit --}}
+  {{#if @root.editMode}}
+  <div class="skill">
+    <span class="mastery-box expertise-box clickable {{#if skill.expertise}}active{{/if}}" style="background-color: {{color-by-key skill.baseAttribute}}" data-tooltip="{{localize "Spend Point to gain Expertise"}}"
+      data-action="expertise" data-type="skills" data-key="{{key}}"
+    >E</span>
+    <span class="mastery-box clickable" style="background-color: {{color-by-key skill.baseAttribute}}"
+      data-tooltip="{{localize "dc20rpg.sheet.skills.mastery"}}" data-rAction="masteryToggle" data-action="masteryToggle" data-type="skills" data-key="{{key}}"
+    >
+      {{skill.short}}
+    </span>
+    <input class="skill-name" type="text" {{#unless skill.custom}}disabled{{/unless}} value="{{skill.label}}" name="system.skills.{{key}}.label"/>
+    <div class="skill-menu">
+      <select name="system.skills.{{key}}.baseAttribute" data-tooltip="{{localize 'dc20rpg.sheet.skills.baseAttribute'}}">
+        {{selectOptions @root.config.DROPDOWN_DATA.shortAttributes selected=skill.baseAttribute}}
+      </select>
+      {{#if skill.custom}}
+      <a class="remove-skill fa-solid fa-x" data-action="removeSkill" data-type="skills" data-key="{{key}}" data-tooltip="{{localize "dc20rpg.sheet.remove"}}"></a>
+      {{/if}}
+    </div>
+  </div>
+  {{else}}
+  {{!-- Display --}}
+  <div class="skill">
+    <span class="mastery-box" style="background-color: {{color-by-key skill.baseAttribute}}" data-tooltip="{{skill.masteryLabel}}">
+      {{skill.short}}
+    </span>
+    <input class="skill-name" type="text" disabled value="{{skill.label}}"/>
+    <div class="skill-menu">
+      <span data-tooltip="{{skill.label}} {{localize "DC20RPG.Passive"}}">{{skill.passive}}</span>
+      <a data-action="roll" data-type="check" data-key="{{key}}" data-tooltip="{{skill.label}} {{localize "DC20RPG.Check"}}">{{numberFormat skill.modifier sign=true}}</a>
+    </div>
+  </div>
+  {{/if}}
+  {{/ifCond}}
+  {{/each}}
+</div>

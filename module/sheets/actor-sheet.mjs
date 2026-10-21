@@ -6,7 +6,7 @@ import { fillPdfFrom } from "../helpers/actors/pdfConverter.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { itemTransfer } from "../helpers/actors/storage.mjs";
 import { DC20RpgItem } from "../documents/item.mjs";
-import { getForActorType } from "./actor-sheet/actor-sheet-helper.mjs";
+import { collectWarning, getForActorType } from "./actor-sheet/actor-sheet-helper.mjs";
 import { getValueFromPath } from "../helpers/utils.mjs";
 import { ActionSelect } from "../dialogs/action-select.mjs";
 import { RollSelect } from "../dialogs/roll-select.mjs";
@@ -19,7 +19,11 @@ import { keywordEditor } from "../dialogs/keyword-editor.mjs";
 import { createMixAncestryDialog } from "../dialogs/mix-ancestry.mjs";
 
 export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplicationMixin(foundry.applications.sheets.ActorSheetV2) {
-  sheetFlags = {};
+  sheetFlags = {
+    subtab: "skills",
+    skillMode: "all",
+    editMode: false
+  };
 
   /** @override */
   static DEFAULT_OPTIONS = {
@@ -39,6 +43,10 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
   static PARTS = {
     header: {template: "systems/dc20rpg/templates/sheets/actor/header.hbs"},
     pcHeader: {template: "systems/dc20rpg/templates/sheets/actor/pcHeader.hbs", scrollable: [".scrollable"]},
+    pcCore: {template: "systems/dc20rpg/templates/sheets/actor/pcCore.hbs", scrollable: [".scrollable"]},
+    inventory: {template: "systems/dc20rpg/templates/sheets/actor/inventory.hbs", scrollable: [".scrollable"]},
+    features: {template: "systems/dc20rpg/templates/sheets/actor/features.hbs", scrollable: [".scrollable"]},
+    known: {template: "systems/dc20rpg/templates/sheets/actor/known.hbs", scrollable: [".scrollable"]},
     core: {template: "systems/dc20rpg/templates/sheets/actor/core.hbs", scrollable: [".scrollable", ".custom-resource-wrapper"]},
     effects: {template: "systems/dc20rpg/templates/sheets/actor/effects.hbs", scrollable: [".scrollable"]},
     loot: {template: "systems/dc20rpg/templates/sheets/actor/loot.hbs", scrollable: [".scrollable"]},
@@ -51,6 +59,10 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
   static TABS = {
     sheet: {
       tabs: [
+        {id: "pcCore", icon: "fa-solid fa-list-ul"},
+        {id: "inventory", icon: "fa-solid fa-box"},
+        {id: "features", icon: "fa-solid fa-book"},
+        {id: "known", icon: "fa-solid fa-hand-sparkles"},
         {id: "core", icon: "fa-solid fa-list-ul"},
         {id: "effects", icon: "fa-solid fa-person-rays"},
         {id: "traits", icon: "fa-solid fa-box"},
@@ -65,7 +77,7 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
 
   constructor(options = {}) {
     super(options);
-    // if (this.actor.type === "character") this.tabGroups.sheet = "contents";
+    if (this.actor.type === "character") this.tabGroups.sheet = "pcCore";
   }
 
   /** @override */
@@ -119,6 +131,14 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
     initialized.actions.trait = this._onTrait;
     initialized.actions.swapRepeatable = this._onSwapRepeatable;
 
+    initialized.actions.expertise = this._onExpertiseToggle;
+    initialized.actions.masteryToggle = this._onMasteryToggle;
+    initialized.actions.addSkill = this._onAddSkill;
+    initialized.actions.removeSkill = this._onRemoveSkill;
+    initialized.actions.convert = this._onConvertPoints;
+    initialized.actions.attribute = this._onAttribute;
+    initialized.actions.savePoint = this._onSavePoint;
+
     initialized.actions.addResource = this._onAddCustomResource;
     initialized.actions.removeResource = this._onRemoveCustomResource;
     initialized.actions.editResource = this._onEditCustomResource;
@@ -139,6 +159,28 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
         icon: '<i class="fa-solid fa-pen-to-square"></i>',
         visible: target => this.#getObjectFrom(target.dataset, true),
         onClick: (event, target) => this._onEdit(event, target)
+      },
+      {
+        label: "dc20rpg.sheet.favoriteAdd",
+        icon: '<i class="fa-regular fa-star"></i>',
+        visible: target => {
+          if (this.actor.type !== "character") return false;
+          const object = this.#getObjectFrom(target.dataset, true);
+          if (!object instanceof Item) return false;
+          return !object?.flags?.dc20rpg?.favorite;
+        },
+        onClick: (event, target) => this._onMarkFavorite(event, target)
+      },
+      {
+        label: "dc20rpg.sheet.favoriteRemove",
+        icon: '<i class="fa-solid fa-star"></i>',
+        visible: target => {
+          if (this.actor.type !== "character") return false;
+          const object = this.#getObjectFrom(target.dataset, true);
+          if (!object instanceof Item) return false;
+          return object?.flags?.dc20rpg?.favorite;
+        },
+        onClick: (event, target) => this._onMarkFavorite(event, target)
       },
       {
         label: "dc20rpg.sheet.copy",
@@ -264,12 +306,11 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
     const actorType = this.actor.type;
     switch (actorType) {
       case "character": 
+        context.warning = collectWarning(this.actor);
         prepareCharacterData(context);
         prepareItemsForCharacter(context, this.actor);
         break;
       case "npc": case "companion": 
-        // this.position.width = 672;
-        // this.position.height = 700;
         prepareNpcData(context);
         prepareItemsForNpc(context, this.actor);
         if (actorType === "npc") {
@@ -384,6 +425,9 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
       case "trait": await this._onTrait(event, target, true); break;
       case "spend": await this._onSpendResource(event, target); break;
       case "mix": await this._onMixAncestry(event, target); break;
+      case "masteryToggle": await this._onMasteryToggle(event, target, true);
+      case "savePoint": await this._onSavePoint(event, target, true);
+      case "revert": await this._onRevertPoints(event, target);
     }
   }
 
@@ -529,8 +573,14 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
 
   _onEditSheetFlag(event, target) {
     const key = target.dataset.key;
-    const value = !!this.sheetFlags[key];
-    this.sheetFlags[key] = !value;
+    const textValue = target.dataset.value;
+    if (textValue) {
+      this.sheetFlags[key] = textValue;
+    }
+    else {
+      const value = !!this.sheetFlags[key];
+      this.sheetFlags[key] = !value;
+    }
     this.render();
   }
 
@@ -697,6 +747,58 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
   _onTrait(event, target, deactivate=false) {
     if (deactivate) deactivateTrait(target.dataset.traitKey, this.actor);
     else activateTrait(target.dataset.traitKey, this.actor);
+  }
+
+  _onMarkFavorite(event, target) {
+    const object = this.#getObjectFrom(target.dataset, true);
+    if (object) {
+      const favorite = object?.flags?.dc20rpg?.favorite;
+      object.update({["flags.dc20rpg.favorite"]: !favorite});
+    }
+  }
+
+  _onMasteryToggle(event, target, down=false) {
+    const dataset = target.dataset;
+    const obj = this.actor.skillAndLanguage[dataset.type][dataset.key];
+    if (down) obj.masteryDown();
+    else obj.masteryUp();
+  }
+
+  _onExpertiseToggle(event, target) {
+    const dataset = target.dataset;
+    this.actor.skillAndLanguage[dataset.type][dataset.key].expertiseToggle();
+  }
+
+  _onAddSkill(event, target) {
+    const dataset = target.dataset;
+    this.actor.skillAndLanguage.addCustom(dataset.type);
+  }
+
+  _onRemoveSkill(event, target) {
+    const dataset = target.dataset;
+    this.actor.skillAndLanguage.removeCustom(dataset.key, dataset.type);
+  }
+
+  _onConvertPoints(event, target) {
+    const dataset = target.dataset;
+    this.actor.skillAndLanguage.convertPoints(dataset.from, dataset.to, "convert", 2)
+  }
+
+  _onRevertPoints(event, target) {
+    const dataset = target.dataset;
+    this.actor.skillAndLanguage.convertPoints(dataset.to, dataset.from, "revert", 2)
+  }
+
+  _onAttribute(event, target) {
+    const dataset = target.dataset;
+    if (dataset.type === "increase") this.actor.attributes[dataset.key].increase();
+    else this.actor.attributes[dataset.key].decrease();
+  }
+
+  _onSavePoint(event, target, decrease=false) {
+    const dataset = target.dataset;
+    if (decrease) this.actor.attributes[dataset.key].saveDecrease();
+    else this.actor.attributes[dataset.key].saveIncrease();
   }
 
   _onSwapRepeatable(event, target) {

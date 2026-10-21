@@ -320,7 +320,7 @@ function _coreAttributes(actor) {
 		if (companionShare(actor, `saves.${key}`)) {
 			attribute.saveMastery = actor.companionOwner.system.attributes[key].saveMastery
 		}
-		let save = attribute.value + attribute.bonuses.save - exhaustion;
+		let save = attribute.value + attribute.bonuses.save + attribute.bonuses.points - exhaustion;
 		if (attribute.saveMastery) save += details.combatMastery;
 		attribute.save = save;
 
