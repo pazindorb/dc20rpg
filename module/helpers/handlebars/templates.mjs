@@ -28,6 +28,8 @@ function actorPartials() {
     "Statuses": "systems/dc20rpg/templates/actor_v2/parts/shared/statuses.hbs",
     "Help Tracker": "systems/dc20rpg/templates/actor_v2/parts/shared/help-tracker.hbs",
     "Skills": "systems/dc20rpg/templates/sheets/actor/partials/skills.hbs",
+    "Trades": "systems/dc20rpg/templates/sheets/actor/partials/trades.hbs",
+    "Languages": "systems/dc20rpg/templates/sheets/actor/partials/languages.hbs",
     "Attribute": "systems/dc20rpg/templates/sheets/actor/partials/attribute.hbs",
   }
 }

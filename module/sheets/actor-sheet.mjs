@@ -20,8 +20,7 @@ import { createMixAncestryDialog } from "../dialogs/mix-ancestry.mjs";
 
 export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplicationMixin(foundry.applications.sheets.ActorSheetV2) {
   sheetFlags = {
-    subtab: "skills",
-    skillMode: "all",
+    subtab: "all",
     editMode: false
   };
 
@@ -52,6 +51,7 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
     loot: {template: "systems/dc20rpg/templates/sheets/actor/loot.hbs", scrollable: [".scrollable"]},
     traits: {template: "systems/dc20rpg/templates/sheets/actor/traits.hbs", scrollable: [".scrollable"]},
     config: {template: "systems/dc20rpg/templates/sheets/actor/config.hbs", scrollable: [".scrollable"]},
+    pcConfig: {template: "systems/dc20rpg/templates/sheets/actor/pcConfig.hbs", scrollable: [".scrollable"]},
     description: {template: "systems/dc20rpg/templates/sheets/actor/description.hbs", scrollable: [".scrollable"]},
   }
 
@@ -68,6 +68,7 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
         {id: "traits", icon: "fa-solid fa-box"},
         {id: "loot", icon: "fa-solid fa-sack"},
         {id: "description", icon: "fa-solid fa-feather"},
+        {id: "pcConfig", icon: "fa-solid fa-gear"},
         {id: "config", icon: "fa-solid fa-gear"},
       ],
       initial: "core",
@@ -117,6 +118,7 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
     initialized.actions.deleteTable = this._onDeleteTable;
     initialized.actions.reorder = this._onReorderTable;
     initialized.actions.compendium = this._onCompendiumBrowser;
+    initialized.actions.config = this._onConfig;
     initialized.actions.createItem = this._onItemCreate;
 
     initialized.actions.rollItem = this._onRollItem;
@@ -166,7 +168,8 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
         visible: target => {
           if (this.actor.type !== "character") return false;
           const object = this.#getObjectFrom(target.dataset, true);
-          if (!object instanceof Item) return false;
+          if (!(object instanceof Item)) return false;
+          if (object.system.unique) return false;          
           return !object?.flags?.dc20rpg?.favorite;
         },
         onClick: (event, target) => this._onMarkFavorite(event, target)
@@ -177,7 +180,8 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
         visible: target => {
           if (this.actor.type !== "character") return false;
           const object = this.#getObjectFrom(target.dataset, true);
-          if (!object instanceof Item) return false;
+          if (!(object instanceof Item)) return false;
+          if (object.system.unique) return false;    
           return object?.flags?.dc20rpg?.favorite;
         },
         onClick: (event, target) => this._onMarkFavorite(event, target)
@@ -293,6 +297,8 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
     const context = await super._prepareContext(options);
     context.editMode = this.sheetFlags.editMode;
     context.sheetFlags = this.sheetFlags;
+    context.sheetFlags.showTopMenu = !["attributes", "details"].includes(this.sheetFlags.subtab);
+
     duplicateData(context, this.actor);
     sortMapOfItems(context, this.actor.items);
     prepareCommonData(context);
@@ -552,6 +558,9 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
       if (!trait) return null;
       return new Item(trait.itemData);
     }
+    if (dataset.uuid) {
+      return await fromUuid(dataset.uuid);
+    }
   }
   
   /** 
@@ -676,6 +685,28 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
   _onCompendiumBrowser(event, target) {
     const dataset = target.dataset;
     createItemBrowser(dataset.itemType, dataset.unlock !== "true", this.actor.sheet);
+  }
+
+  _onConfig(event, target) {
+    this.sheetFlags.defenseClosed = true,
+    this.sheetFlags.movementClosed = true,
+    this.sheetFlags.sensesClosed = true,
+    this.sheetFlags.dmgReductionClosed = true,
+    this.sheetFlags.statusesClosed = true;
+
+    let key = target.dataset.key;
+    if (key === "reduction") key = "defense";
+
+    if (["resistance", "immune", "vulnerability"].includes(key)) {
+      this.sheetFlags.dmgReductionClosed = false,
+      this.sheetFlags.statusesClosed = false;
+    }
+    else {
+      this.sheetFlags[`${key}Closed`] = false;
+    }
+    
+    this.changeTab("pcConfig", "sheet");
+    this.render();
   }
 
   async _onItemCreate(event, target) {

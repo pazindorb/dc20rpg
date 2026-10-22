@@ -33,10 +33,11 @@ export function prepareCharacterData(context) {
   _skills(context);
   _trades(context);
   _languages(context);
+  _oneliners(context);
 }
 
 export function prepareNpcData(context) {
-  _oneliners(context);
+  _oneliners(context, true);
 }
 
 export function prepareStorageData(context) {
@@ -158,24 +159,29 @@ function _resourceBarsPercentages(context) {
   else resources.grit.percent = gritPercent <= 100 ? gritPercent : 100;
 }
 
-function _oneliners(context) {
-  const oneliners = {
-    skills: {header: "dc20rpg.sheet.oneliner.skills", content: []},
-    movement: {header: "dc20rpg.sheet.oneliner.movement", content: []},
-    senses: {header: "dc20rpg.sheet.oneliner.senses", content: []},
-    reduction: {header: "dc20rpg.sheet.oneliner.reduction", content: []},
-    resistance: {header: "dc20rpg.sheet.oneliner.resistance", content: []},
-    immune: {header: "dc20rpg.sheet.oneliner.immune", content: []},
-    vulnerability: {header: "dc20rpg.sheet.oneliner.vulnerability", content: []},
-    languages: {header: "dc20rpg.sheet.oneliner.languages", content: []},
+function _oneliners(context, npc=false) {
+  const oneliners = {};
+  if (npc) {
+    oneliners.skills = {header: "dc20rpg.sheet.oneliner.skills", content: []};
+    oneliners.movement = {header: "dc20rpg.sheet.oneliner.movement", content: []};
+    _prepareSkillOnelinters(context.system.skills, oneliners);
+    _prepareMovementOneliners(context.system.movement, context.system.jump, oneliners);
   }
 
-  _prepareSkillOnelinters(context.system.skills, oneliners);
-  _prepareMovementOneliners(context.system.movement, context.system.jump, oneliners);
+  oneliners.senses = {header: "dc20rpg.sheet.oneliner.senses", content: []};
+  oneliners.reduction = {header: "dc20rpg.sheet.oneliner.reduction", content: []};
+  oneliners.resistance = {header: "dc20rpg.sheet.oneliner.resistance", content: []};
+  oneliners.immune = {header: "dc20rpg.sheet.oneliner.immune", content: []};
+  oneliners.vulnerability = {header: "dc20rpg.sheet.oneliner.vulnerability", content: []};
+
+  if (npc) {
+    oneliners.languages = {header: "dc20rpg.sheet.oneliner.languages", content: []};
+    _prepareLangOneliners(context.system.languages, oneliners);
+  }
+
   _prepareSensesOneliners(context.system.senses, oneliners);
   _prepareDROneliners(context.system.damageReduction, oneliners);
   _prepareStatusOneliners(context.system.statusResistances, oneliners);
-  _prepareLangOneliners(context.system.languages, oneliners);
 
   context.oneliners = oneliners;
 }
@@ -300,7 +306,7 @@ function _prepareDROneliners(damageReduction, oneliners) {
       oneliners.resistance.content.push({oneliner: `${reduction.label} (${game.i18n.localize("dc20rpg.sheet.oneliner.half")})`, img: img});
     }    
     if (reduction.vulnerability && !reduction.resistance) {
-      oneliners.resistance.content.push({oneliner: `${reduction.label} (${game.i18n.localize("dc20rpg.sheet.oneliner.double")})`, img: img});
+      oneliners.vulnerability.content.push({oneliner: `${reduction.label} (${game.i18n.localize("dc20rpg.sheet.oneliner.double")})`, img: img});
     }
   }
 

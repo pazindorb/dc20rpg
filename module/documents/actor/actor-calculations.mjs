@@ -322,6 +322,11 @@ function _movement(actor) {
 			}
 		}
 	}
+
+	// Starting Movement
+	const starting = actor.system.startingMovement;
+	const agi = actor.system.attributes.agi.value || 0;
+	starting.value = 2 + agi + starting.bonus;
 }
 
 function _jump(actor) {

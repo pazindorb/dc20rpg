@@ -288,7 +288,7 @@ function _enhanceRoll(roll, formula, key) {
 export function sheetRollDataFrom(data={}, actor) {
   const sheetData = foundry.utils.deepClone(data);
 
-  if (sheetData.checkKey.length > 4 && !["prime", "initiative", "deathSave"].includes(sheetData.checkKey)) {
+  if (sheetData.checkKey.length > 4 && !["prime", "initiative", "deathSave", "language"].includes(sheetData.checkKey)) {
     const skill = actor.skillAndLanguage.skills[sheetData.checkKey];
     const label = skill?.label ? `${skill?.label} Check` : "Check";
     sheetData.label = label;

@@ -81,7 +81,7 @@ function _details(data) {
 	}
 	if (data.details.prime) {
 		data.prime = data.details.primeCheck ?? 0;
-		data.primeValue = data.details.primeValue;
+		data.primeValue = data.details.prime;
 	}
 
 	data.classHp = data.details?.class?.maxHpBonus || "6";

@@ -1,0 +1,31 @@
+<div class="skills-wrapper"> 
+  {{#each skills.languages as |lang key|}}
+  {{#ifCond lang.mastery '||' @root.system.sheetData.show.unknownLanguages}}
+    <div class="skill" data-hover="tooltip" data-header="{{lang.label}}" data-uuid="{{labelFromKey key @root.config.SYSTEM_CONSTANTS.JOURNAL_UUID.languagesJournal}}">
+      {{#if @root.editMode}}
+      <span class="mastery-box clickable" data-tooltip="{{lang.masteryLabel}}" data-rAction="masteryToggle" data-action="masteryToggle" data-type="languages" data-key="{{key}}">
+        {{lang.short}}
+      </span>
+      {{else}} 
+      <span class="mastery-box" data-tooltip="{{lang.masteryLabel}}">
+        {{lang.short}}
+      </span>
+      {{/if}}
+      <input class="skill-name" type="text" disabled value="{{lang.label}}"/>
+
+      <div class="skill-menu">
+      {{#if @root.editMode}} 
+        {{#if lang.custom}}
+        <a class="remove-skill fa-solid fa-x" data-action="removeSkill" data-type="languages" data-key="{{key}}" data-tooltip="{{localize "dc20rpg.sheet.remove"}}"></a>
+        {{/if}}
+      
+      {{else}}
+        {{#ifCond lang.mastery '===' 1}}
+        <a data-action="roll" data-type="check" data-key="language" data-tooltip="{{lang.label}} {{localize "DC20RPG.Check"}}"><i class="fa-regular fa-dice-d20"></i></a>
+        {{/ifCond}}
+      {{/if}}
+      </div>
+    </div>
+  {{/ifCond}}
+  {{/each}}
+</div>

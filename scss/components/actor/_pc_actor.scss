@@ -698,6 +698,7 @@
           grid-template-columns: 1fr 1fr;
           gap: 2px;
           height: 64px;
+          overflow: auto;
 
           .movement-content {
             display: flex;
@@ -705,6 +706,7 @@
             justify-content: space-around;
             padding: 0px;
             height: 100%;
+            min-height: 20px;
 
             border: 1px solid var(--pc-secondary-darker);
             background-color: color-mix(in srgb, var(--pc-secondary-darker) 75%, transparent);
@@ -745,7 +747,6 @@
         background-color: var(--pc-secondary);
         border-radius: 5px 5px 0 0;
         border: 2px solid var(--pc-main);
-        border-bottom: 0;
 
         color: var(--pc-secondary-darker);
         display: flex;
@@ -772,8 +773,9 @@
       .tab-content {
 
         .top-menu {
-          border-radius: 0 0 5px 5px;
+          border-radius: 0;
           height: 30px;
+          border-top: 0;
 
           .top-menu-buttons {
             font-size: 18px;
@@ -785,7 +787,10 @@
             align-items: center;
 
             a {
-
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 12px;
             }
 
             span {
@@ -960,106 +965,144 @@
               }
             }
           }
+        }
 
-          .skills-wrapper {
-            margin-left: 12px;
-            margin-right: 3px;
+        .skills-wrapper {
+          margin-left: 12px;
+          margin-right: 3px;
 
-            .skill {
+          .skill {
+            display: flex;
+            justify-content: space-between;
+            background-color: var(--pc-secondary-dark);
+            height: 25px;
+            border: 2px solid var(--pc-main);
+            border-top: 0;
+
+            .mastery-box {
+              font-size: 14px;
+              margin-top: 3px;
+              margin-left: 2px;
+              border-radius: 2px;
+              min-width: 20px;
+              min-height: 18px;
+              width: 20px;
+              height: 18px;
+              font-weight: bold;
+
+              color: white;
+              text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+              border: 1px solid var(--pc-secondary-darker);
+              background-color: var(--pc-main);
+
               display: flex;
-              justify-content: space-between;
-              background-color: var(--pc-secondary-dark);
-              height: 25px;
-              border: 2px solid var(--pc-main);
-              border-top: 0;
+              justify-content: center;
+              text-align: center;
 
-              .mastery-box {
-                font-size: 14px;
-                margin-top: 3px;
-                margin-left: 2px;
-                border-radius: 2px;
-                min-width: 20px;
-                min-height: 18px;
+              &.clickable:hover {
+                cursor: pointer;
+                box-shadow: 0 0 5px 0px inset var(--pc-secondary-dark);
+              }
+
+              &.expertise-box {
+                margin-top: 5px;
+                font-size: 10px;
+                min-width: 14px;
+                min-height: 14px;
+                width: 14px;
+                height: 14px;
+
+                &:not(.active) {
+                  filter: contrast(0.5);;
+                }
+              }
+            }
+
+            .skill-name {
+              height: 25px;
+              border: 0;
+              background-color: transparent;
+              color: white;
+              text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+            }
+
+            .skill-menu {
+              display: flex;
+              align-items: center;
+              justify-content: space-around;
+              margin-right: 5px;
+
+              a, span {
+                font-size: 12px;
+                margin: 0 2px;
+                border-radius: 5px;
                 width: 20px;
                 height: 18px;
                 font-weight: bold;
 
-                color: white;
-                text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+                color: var(--pc-main);
                 border: 1px solid var(--pc-secondary-darker);
-                background-color: var(--pc-secondary-dark);
+                background-color: var(--pc-secondary-light);
 
-                display: flex;
-                justify-content: center;
-                text-align: center;
-
-                &.clickable:hover {
-                  cursor: pointer;
-                  box-shadow: 0 0 5px 0px inset var(--pc-secondary-dark);
-                }
-
-                &.expertise-box {
-                  margin-top: 5px;
-                  font-size: 10px;
-                  min-width: 14px;
-                  min-height: 14px;
-                  width: 14px;
-                  height: 14px;
-
-                  &:not(.active) {
-                    filter: contrast(0.5);;
-                  }
-                }
-              }
-
-              .skill-name {
-                height: 25px;
-                border: 0;
-                background-color: transparent;
-                color: white;
-                text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-              }
-
-              .skill-menu {
                 display: flex;
                 align-items: center;
-                justify-content: space-around;
-                margin-right: 5px;
-
-                a, span {
-                  font-size: 12px;
-                  margin: 0 2px;
-                  border-radius: 5px;
-                  width: 20px;
-                  height: 18px;
-                  font-weight: bold;
-
-                  color: var(--pc-main);
-                  border: 1px solid var(--pc-secondary-darker);
-                  background-color: var(--pc-secondary-light);
-
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                  text-align: center;
-                }
-
-                span {
-                  color: var(--pc-main-dark);
-                  background-color: var(--pc-secondary);
-                  border-radius: 0;
-                }
-
-                a:hover {
-                  box-shadow: 0 0 5px 0px inset var(--pc-secondary-dark);
-                }
-
-                select {
-                  padding: 0;
-                  height: 20px;
-                  width: 60px;
-                }
+                justify-content: center;
+                text-align: center;
               }
+
+              span {
+                color: var(--pc-main-dark);
+                background-color: var(--pc-secondary);
+                border-radius: 0;
+              }
+
+              a:hover {
+                box-shadow: 0 0 5px 0px inset var(--pc-secondary-dark);
+              }
+
+              select {
+                padding: 0;
+                height: 20px;
+                width: 60px;
+              }
+            }
+          }
+        }
+
+        .details-wrapper {
+          padding: 5px 3px;
+
+          .oneliner-wrapper {
+
+            h3 {
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+
+              padding: 0 8px;
+              border-color: var(--pc-main);
+              color: white;
+              text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+            }
+          }
+
+          .combat-training {
+            gap: 4px;
+            margin-top: 0px;
+            margin-bottom: 3px;
+            
+            .mastery {
+              border-radius: 2px;
+              width: 40px;
+              height: 25px;
+              background-color: var(--pc-main);
+              border: 1px solid var(--pc-secondary-light);
+              filter: invert(30%);
+              box-shadow: 0 0 4px 0px var(--pc-secondary-light);
+            }
+        
+            .mastery.active {
+              filter: invert(0);
             }
           }
         }

@@ -3,7 +3,7 @@
   {{#ifCond skill.baseAttribute '===' ../attr}}
   {{!-- Edit --}}
   {{#if @root.editMode}}
-  <div class="skill">
+  <div class="skill" data-hover="tooltip" data-header="{{skill.label}}" data-uuid="{{labelFromKey key @root.config.SYSTEM_CONSTANTS.JOURNAL_UUID.skillsJournal}}">
     <span class="mastery-box expertise-box clickable {{#if skill.expertise}}active{{/if}}" style="background-color: {{color-by-key skill.baseAttribute}}" data-tooltip="{{localize "Spend Point to gain Expertise"}}"
       data-action="expertise" data-type="skills" data-key="{{key}}"
     >E</span>
@@ -24,7 +24,7 @@
   </div>
   {{else}}
   {{!-- Display --}}
-  <div class="skill">
+  <div class="skill" data-hover="tooltip" data-header="{{skill.label}}" data-uuid="{{labelFromKey key @root.config.SYSTEM_CONSTANTS.JOURNAL_UUID.skillsJournal}}">
     <span class="mastery-box" style="background-color: {{color-by-key skill.baseAttribute}}" data-tooltip="{{skill.masteryLabel}}">
       {{skill.short}}
     </span>

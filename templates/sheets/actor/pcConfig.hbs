@@ -1,0 +1,285 @@
+<section class="actor-sheet-section pc-sheet-section tab pcConfig config standard-form {{tabs.pcConfig.cssClass}}" data-group="sheet" data-tab="pcConfig">
+<div class="scrollable">
+
+  {{!-- Defense & Health --}}
+  <div class="sub-header margin-top-10">
+    <label>{{localize "dc20rpg.sheet.npcConfig.defenseDR.title"}}</label>
+    <a class="fa-solid {{#if sheetFlags.defenseClosed}}fa-square-caret-down{{else}}fa-square-caret-up{{/if}} fa-lg" data-action="sheetEdit" data-key="defenseClosed"></a>
+  </div>
+  {{#unless sheetFlags.defenseClosed}}
+  <div class="content-wrapper">
+    {{!-- Precistion Defense --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.sheet.npcConfig.defense.pdFormula"}}</label>
+      <div class="form-fields">
+        {{#ifCond system.defences.precision.formulaKey '===' "flat"}}
+        <input type="number" value="{{system.defences.precision.normal}}" name="system.defences.precision.normal"/>
+        {{/ifCond}}
+        {{#ifCond system.defences.precision.formulaKey '===' "custom"}}
+        <input type="text" value="{{system.defences.precision.customFormula}}" name="system.defences.precision.customFormula"/>
+        {{/ifCond}}
+        <select name="system.defences.precision.formulaKey">
+          {{selectOptions config.DROPDOWN_DATA.precisionDefenceFormulasLabels selected=system.defences.precision.formulaKey}}
+        </select>
+      </div>
+    </div>
+
+    {{!-- Area Defense --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.sheet.npcConfig.defense.adFormula"}}</label>
+      <div class="form-fields">
+        {{#ifCond system.defences.area.formulaKey '===' "flat"}}
+        <input type="number" value="{{system.defences.area.normal}}" name="system.defences.area.normal"/>
+        {{/ifCond}}
+        {{#ifCond system.defences.area.formulaKey '===' "custom"}}
+        <input type="text" value="{{system.defences.area.customFormula}}" name="system.defences.area.customFormula"/>
+        {{/ifCond}}
+        <select name="system.defences.area.formulaKey">
+          {{selectOptions config.DROPDOWN_DATA.areaDefenceFormulasLabels selected=system.defences.area.formulaKey}}
+        </select>
+      </div>
+    </div>
+
+    {{!-- Damage Reduction --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.sheet.npcConfig.defense.reduction"}}</label>
+      <div class="form-fields">
+        <i class="fa-solid fa-sword"></i>
+        <span>{{localize "dc20rpg.properties.pdr"}}</span>
+        <input type="checkbox" name="system.damageReduction.pdr.active" {{checked system.damageReduction.pdr.active}}/>
+        <i class="fa-solid fa-fire"></i>
+        <span>{{localize "dc20rpg.properties.edr"}}</span>
+        <input type="checkbox" name="system.damageReduction.edr.active" {{checked system.damageReduction.edr.active}}/>
+        <i class="fa-solid fa-wand-sparkles"></i>
+        <span>{{localize "dc20rpg.properties.mdr"}}</span>
+        <input type="checkbox" name="system.damageReduction.mdr.active" {{checked system.damageReduction.mdr.active}}/>
+      </div>
+    </div>
+    
+  </div>
+  {{/unless}}
+
+  {{!-- Movement --}}
+  <div class="sub-header margin-top-10">
+    <label>{{localize "dc20rpg.sheet.npcConfig.movement.title"}}</label>
+    <a class="fa-solid {{#if sheetFlags.movementClosed}}fa-square-caret-down{{else}}fa-square-caret-up{{/if}} fa-lg" data-action="sheetEdit" data-key="movementClosed"></a>
+  </div>
+  {{#unless sheetFlags.movementClosed}}
+  <div class="content-wrapper">
+    {{!-- Jump --}}
+    <div class="form-group symetric">
+      <label>{{localize "dc20rpg.sheet.npcConfig.movement.jump"}}</label>
+      <div class="form-fields">
+        {{#ifCond system.jump.key '===' "flat"}}
+        <input type="text" value="{{system.jump.current}}" data-path="system.jump.value" data-cType="numeric"/>
+        {{/ifCond}}
+        <select name="system.jump.key">
+          {{selectOptions config.DROPDOWN_DATA.jumpCalculationKeys selected=system.jump.key}}
+        </select>
+      </div>
+    </div>
+
+    {{!-- Ground --}}
+    <div class="form-group symetric">
+      <label>{{localize "dc20rpg.sheet.npcConfig.movement.ground"}}</label>
+      <div class="form-fields">
+        {{#if system.movement.ground.useCustom}}
+        <input type="text" value="{{system.movement.ground.current}}" data-path="system.movement.ground.value" data-cType="numeric"
+            data-tooltip="{{localize "dc20rpg.sheet.npcConfig.movement.fixed"}}"/>
+        {{/if}}
+        <input type="checkbox" name="system.movement.ground.useCustom" {{checked system.movement.ground.useCustom}} data-tooltip="{{localize "dc20rpg.sheet.npcConfig.movement.fixed"}}"/>
+      </div>
+    </div>
+
+    {{!-- Climb --}}
+    <div class="form-group symetric">
+      <label>{{localize "dc20rpg.sheet.npcConfig.movement.climbing"}}</label>
+      <div class="form-fields">
+        {{#if system.movement.climbing.useCustom}}
+        <input type="text" value="{{system.movement.climbing.current}}" data-path="system.movement.climbing.value" data-cType="numeric"
+            data-tooltip="{{localize "dc20rpg.sheet.npcConfig.movement.fixed"}}"/>
+        {{else}}
+        <a class="{{#if system.movement.climbing.halfSpeed}}fa-solid{{else}}fa-thin{{/if}} fa-lg fa-bar-progress-quarter" data-cType="activable" 
+            data-path="system.movement.climbing.halfSpeed" data-tooltip="{{localize "dc20rpg.sheet.npcConfig.movement.half"}}" style="flex: 0"></a>
+        <a class="{{#if system.movement.climbing.fullSpeed}}fa-solid{{else}}fa-thin{{/if}} fa-lg fa-bar-progress" data-cType="activable" 
+            data-path="system.movement.climbing.fullSpeed" data-tooltip="{{localize "dc20rpg.sheet.npcConfig.movement.full"}}" style="flex: 0"></a>
+        {{/if}}
+        <input type="checkbox" name="system.movement.climbing.useCustom" {{checked system.movement.climbing.useCustom}} data-tooltip="{{localize "dc20rpg.sheet.npcConfig.movement.fixed"}}"/>
+      </div>
+    </div>
+
+    {{!-- Swim --}}
+    <div class="form-group symetric">
+      <label>{{localize "dc20rpg.sheet.npcConfig.movement.swimming"}}</label>
+      <div class="form-fields">
+        {{#if system.movement.swimming.useCustom}}
+        <input type="text" value="{{system.movement.swimming.current}}" data-path="system.movement.swimming.value" data-cType="numeric"
+            data-tooltip="{{localize "dc20rpg.sheet.npcConfig.movement.fixed"}}"/>
+        {{else}}
+        <a class="{{#if system.movement.swimming.halfSpeed}}fa-solid{{else}}fa-thin{{/if}} fa-lg fa-bar-progress-quarter" data-cType="activable" 
+            data-path="system.movement.swimming.halfSpeed" data-tooltip="{{localize "dc20rpg.sheet.npcConfig.movement.half"}}" style="flex: 0"></a>
+        <a class="{{#if system.movement.swimming.fullSpeed}}fa-solid{{else}}fa-thin{{/if}} fa-lg fa-bar-progress" data-cType="activable" 
+            data-path="system.movement.swimming.fullSpeed" data-tooltip="{{localize "dc20rpg.sheet.npcConfig.movement.full"}}" style="flex: 0"></a>
+        {{/if}}
+        <input type="checkbox" name="system.movement.swimming.useCustom" {{checked system.movement.swimming.useCustom}} data-tooltip="{{localize "dc20rpg.sheet.npcConfig.movement.fixed"}}"/>
+      </div>
+    </div>
+
+    {{!-- Burrow --}}
+    <div class="form-group symetric">
+      <label>{{localize "dc20rpg.sheet.npcConfig.movement.burrow"}}</label>
+      <div class="form-fields">
+        {{#if system.movement.burrow.useCustom}}
+        <input type="text" value="{{system.movement.burrow.current}}" data-path="system.movement.burrow.value" data-cType="numeric"
+            data-tooltip="{{localize "dc20rpg.sheet.npcConfig.movement.fixed"}}"/>
+        {{else}}
+        <a class="{{#if system.movement.burrow.halfSpeed}}fa-solid{{else}}fa-thin{{/if}} fa-lg fa-bar-progress-quarter" data-cType="activable" 
+            data-path="system.movement.burrow.halfSpeed" data-tooltip="{{localize "dc20rpg.sheet.npcConfig.movement.half"}}" style="flex: 0"></a>
+        <a class="{{#if system.movement.burrow.fullSpeed}}fa-solid{{else}}fa-thin{{/if}} fa-lg fa-bar-progress" data-cType="activable" 
+            data-path="system.movement.burrow.fullSpeed" data-tooltip="{{localize "dc20rpg.sheet.npcConfig.movement.full"}}" style="flex: 0"></a>
+        {{/if}}
+        <input type="checkbox" name="system.movement.burrow.useCustom" {{checked system.movement.burrow.useCustom}} data-tooltip="{{localize "dc20rpg.sheet.npcConfig.movement.fixed"}}"/>
+      </div>
+    </div>
+
+    {{!-- Glide --}}
+    <div class="form-group symetric">
+      <label>{{localize "dc20rpg.sheet.npcConfig.movement.glide"}}</label>
+      <div class="form-fields">
+        {{#if system.movement.glide.useCustom}}
+        <input type="text" value="{{system.movement.glide.current}}" data-path="system.movement.glide.value" data-cType="numeric"
+            data-tooltip="{{localize "dc20rpg.sheet.npcConfig.movement.fixed"}}"/>
+        {{else}}
+        <a class="{{#if system.movement.glide.halfSpeed}}fa-solid{{else}}fa-thin{{/if}} fa-lg fa-bar-progress-quarter" data-cType="activable" 
+            data-path="system.movement.glide.halfSpeed" data-tooltip="{{localize "dc20rpg.sheet.npcConfig.movement.half"}}" style="flex: 0"></a>
+        <a class="{{#if system.movement.glide.fullSpeed}}fa-solid{{else}}fa-thin{{/if}} fa-lg fa-bar-progress" data-cType="activable" 
+            data-path="system.movement.glide.fullSpeed" data-tooltip="{{localize "dc20rpg.sheet.npcConfig.movement.full"}}" style="flex: 0"></a>
+        {{/if}}
+        <input type="checkbox" name="system.movement.glide.useCustom" {{checked system.movement.glide.useCustom}} data-tooltip="{{localize "dc20rpg.sheet.npcConfig.movement.fixed"}}"/>
+      </div>
+    </div>
+
+    {{!-- Fly --}}
+    <div class="form-group symetric">
+      <label>{{localize "dc20rpg.sheet.npcConfig.movement.flying"}}</label>
+      <div class="form-fields">
+        {{#if system.movement.flying.useCustom}}
+        <input type="text" value="{{system.movement.flying.current}}" data-path="system.movement.flying.value" data-cType="numeric"
+            data-tooltip="{{localize "dc20rpg.sheet.npcConfig.movement.fixed"}}"/>
+        {{else}}
+        <a class="{{#if system.movement.flying.halfSpeed}}fa-solid{{else}}fa-thin{{/if}} fa-lg fa-bar-progress-quarter" data-cType="activable" 
+            data-path="system.movement.flying.halfSpeed" data-tooltip="{{localize "dc20rpg.sheet.npcConfig.movement.half"}}" style="flex: 0"></a>
+        <a class="{{#if system.movement.flying.fullSpeed}}fa-solid{{else}}fa-thin{{/if}} fa-lg fa-bar-progress" data-cType="activable" 
+            data-path="system.movement.flying.fullSpeed" data-tooltip="{{localize "dc20rpg.sheet.npcConfig.movement.full"}}" style="flex: 0"></a>
+        {{/if}}
+        <input type="checkbox" name="system.movement.flying.useCustom" {{checked system.movement.flying.useCustom}} data-tooltip="{{localize "dc20rpg.sheet.npcConfig.movement.fixed"}}"/>
+      </div>
+    </div>
+
+  </div>
+  {{/unless}}
+
+  {{!-- Senses --}}
+  <div class="sub-header margin-top-10">
+    <label>{{localize "dc20rpg.sheet.npcConfig.senses.title"}}</label>
+    <a class="fa-solid {{#if sheetFlags.sensesClosed}}fa-square-caret-down{{else}}fa-square-caret-up{{/if}} fa-lg" data-action="sheetEdit" data-key="sensesClosed"></a>
+  </div>
+  {{#unless sheetFlags.sensesClosed}}
+  <div class="content-wrapper">
+    {{!-- Darkvision --}}
+    <div class="form-group symetric">
+      <label>{{localize 'dc20rpg.sheet.darkvision'}}</label>
+      <div class="form-fields">
+        <input type="text" data-cType="numeric" data-path="system.senses.darkvision.range" value="{{system.senses.darkvision.value}}" data-dtype="Number"/>
+      </div>
+    </div>
+
+    {{!-- Tremorsense --}}
+    <div class="form-group symetric">
+      <label>{{localize 'dc20rpg.sheet.truesight'}}</label>
+      <div class="form-fields">
+        <input type="text" data-cType="numeric" data-path="system.senses.truesight.range" value="{{system.senses.truesight.value}}" data-dtype="Number"/>
+      </div>
+    </div>
+
+    {{!-- Blindsight --}}
+    <div class="form-group symetric">
+      <label>{{localize 'dc20rpg.sheet.blindsight'}}</label>
+      <div class="form-fields">
+        <input type="text" data-cType="numeric" data-path="system.senses.blindsight.range" value="{{system.senses.blindsight.value}}" data-dtype="Number"/>
+      </div>
+    </div>
+
+    {{!-- Truesight --}}
+    <div class="form-group symetric">
+      <label>{{localize 'dc20rpg.sheet.truesight'}}</label>
+      <div class="form-fields">
+        <input type="text" data-cType="numeric" data-path="system.senses.truesight.range" value="{{system.senses.truesight.value}}" data-dtype="Number"/>
+      </div>
+    </div>
+  </div>
+  {{/unless}}
+
+  {{!-- Damage Modification --}}
+  <div class="sub-header margin-top-10">
+    <label>{{localize "dc20rpg.sheet.npcConfig.dmgReduction.title"}}</label>
+    <a class="fa-solid {{#if sheetFlags.dmgReductionClosed}}fa-square-caret-down{{else}}fa-square-caret-up{{/if}} fa-lg" data-action="sheetEdit" data-key="dmgReductionClosed"></a>
+  </div>
+  {{#unless sheetFlags.dmgReductionClosed}}
+  <div class="content-wrapper config-table">
+    {{#each system.damageReduction.damageTypes as |dmgType key|}}
+    <div class="row" style="grid-template-columns: 1fr 40px 40px 40px 40px 40px">
+      <div class="column icon">
+        <img src="systems/dc20rpg/images/sheet/resistances/{{key}}.svg"/>
+        <span>{{dmgType.label}}</span>
+      </div>
+      <a class="column" data-tooltip="{{dmgType.label}} {{localize "dc20rpg.sheet.dmgTypes.vulnerabilityHalf"}}" data-cType="activable" data-path="system.damageReduction.damageTypes.{{key}}.vulnerability">
+        <i class="fa-lg {{#if dmgType.vulnerability}}fa-solid fa-heart-crack{{/if}}"></i>
+      </a>
+      <div class="column" data-tooltip="{{dmgType.label}} {{localize "dc20rpg.sheet.dmgTypes.vulnerabilityX"}}">
+        <input type="number" data-cType="numeric" data-path="system.damageReduction.damageTypes.{{key}}.vulnerable" value="{{dmgType.vulnerable}}"/>
+      </div>
+      <a class="column" data-tooltip="{{dmgType.label}} {{localize "dc20rpg.sheet.dmgTypes.resistanceHalf"}}" data-cType="activable" data-path="system.damageReduction.damageTypes.{{key}}.resistance">
+        <i class="fa-lg {{#if dmgType.resistance}}fa-solid fa-shield-halved {{/if}}"></i>
+      </a>
+      <div class="column" data-tooltip="{{dmgType.label}} {{localize "dc20rpg.sheet.dmgTypes.resistanceX"}}">
+        <input type="number" data-cType="numeric" data-path="system.damageReduction.damageTypes.{{key}}.resist" value="{{dmgType.resist}}"/>
+      </div>
+      <a class="column" data-tooltip="{{dmgType.label}} {{localize "dc20rpg.sheet.dmgTypes.resistanceImmune"}}" data-cType="activable" data-path="system.damageReduction.damageTypes.{{key}}.immune">
+        <i class="fa-lg {{#if dmgType.immune}}fa-solid fa-shield{{/if}}"></i>
+      </a>
+    </div>
+    {{/each}}
+  </div>
+  {{/unless}}
+
+
+  {{!-- Statuses --}}
+  <div class="sub-header margin-top-10">
+    <label>{{localize "dc20rpg.sheet.npcConfig.statuses.title"}}</label>
+    <a class="fa-solid {{#if sheetFlags.statusesClosed}}fa-square-caret-down{{else}}fa-square-caret-up{{/if}} fa-lg" data-action="sheetEdit" data-key="statusesClosed"></a>
+  </div>
+  {{#unless sheetFlags.statusesClosed}}
+  <div class="content-wrapper config-table">
+    {{#each system.statusResistances as |status key|}}
+    <div class="row" style="grid-template-columns: 1fr 40px 40px 40px">
+      <div class="column icon">
+        <img src="systems/dc20rpg/images/statuses/{{key}}.svg" style="background-color:black;"/>
+        <span>{{status.label}}</span>
+      </div>
+      <div class="column" data-tooltip="{{status.label}} {{localize "dc20rpg.sheet.condImm.vulnerability"}}">
+        <input type="number" data-cType="numeric" data-path="system.statusResistances.{{key}}.vulnerability" value="{{status.vulnerability}}"/>
+      </div>
+      <div class="column" data-tooltip="{{status.label}} {{localize "dc20rpg.sheet.condImm.resistance"}}">
+        <input type="number" data-cType="numeric" data-path="system.statusResistances.{{key}}.resistance" value="{{status.resistance}}"/>
+      </div>
+      <a class="column" data-tooltip="{{status.label}} {{localize 'dc20rpg.sheet.condImm.immunity'}}" data-cType="activable" data-path="system.statusResistances.{{key}}.immunity">
+        <i class="fa-lg {{#if status.immunity}}fa-solid fa-check{{/if}}"></i>
+      </a>
+    </div>
+    {{/each}}
+  </div>
+  {{/unless}}
+
+</div>  
+</section> 

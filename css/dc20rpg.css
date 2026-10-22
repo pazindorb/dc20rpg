@@ -13551,6 +13551,7 @@
   grid-template-columns: 1fr 1fr;
   gap: 2px;
   height: 64px;
+  overflow: auto;
 }
 .dc20rpg.actor-v13 .pc-sheet-header .actor-details .main-row .movement-column .box-content .movement-content {
   display: -webkit-box;
@@ -13563,6 +13564,7 @@
   justify-content: space-around;
   padding: 0px;
   height: 100%;
+  min-height: 20px;
   border: 1px solid var(--pc-secondary-darker);
   background-color: color-mix(in srgb, var(--pc-secondary-darker) 75%, transparent);
   border-radius: 5px;
@@ -13591,7 +13593,6 @@
   background-color: var(--pc-secondary);
   border-radius: 5px 5px 0 0;
   border: 2px solid var(--pc-main);
-  border-bottom: 0;
   color: var(--pc-secondary-darker);
   display: -webkit-box;
   display: -ms-flexbox;
@@ -13624,8 +13625,9 @@
   background-color: var(--pc-secondary-dark);
 }
 .dc20rpg.actor-v13 .pc-sheet-section.pcCore .scrollable .subtab-wrapper .tab-content .top-menu {
-  border-radius: 0 0 5px 5px;
+  border-radius: 0;
   height: 30px;
+  border-top: 0;
 }
 .dc20rpg.actor-v13 .pc-sheet-section.pcCore .scrollable .subtab-wrapper .tab-content .top-menu .top-menu-buttons {
   font-size: 18px;
@@ -13641,6 +13643,18 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+}
+.dc20rpg.actor-v13 .pc-sheet-section.pcCore .scrollable .subtab-wrapper .tab-content .top-menu .top-menu-buttons a {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  font-size: 12px;
 }
 .dc20rpg.actor-v13 .pc-sheet-section.pcCore .scrollable .subtab-wrapper .tab-content .top-menu .top-menu-buttons span {
   font-size: 12px;
@@ -13848,11 +13862,11 @@
   display: -ms-flexbox;
   display: flex;
 }
-.dc20rpg.actor-v13 .pc-sheet-section.pcCore .scrollable .subtab-wrapper .tab-content .attributes-column .skills-wrapper {
+.dc20rpg.actor-v13 .pc-sheet-section.pcCore .scrollable .subtab-wrapper .tab-content .skills-wrapper {
   margin-left: 12px;
   margin-right: 3px;
 }
-.dc20rpg.actor-v13 .pc-sheet-section.pcCore .scrollable .subtab-wrapper .tab-content .attributes-column .skills-wrapper .skill {
+.dc20rpg.actor-v13 .pc-sheet-section.pcCore .scrollable .subtab-wrapper .tab-content .skills-wrapper .skill {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -13864,7 +13878,7 @@
   border: 2px solid var(--pc-main);
   border-top: 0;
 }
-.dc20rpg.actor-v13 .pc-sheet-section.pcCore .scrollable .subtab-wrapper .tab-content .attributes-column .skills-wrapper .skill .mastery-box {
+.dc20rpg.actor-v13 .pc-sheet-section.pcCore .scrollable .subtab-wrapper .tab-content .skills-wrapper .skill .mastery-box {
   font-size: 14px;
   margin-top: 3px;
   margin-left: 2px;
@@ -13877,7 +13891,7 @@
   color: white;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
   border: 1px solid var(--pc-secondary-darker);
-  background-color: var(--pc-secondary-dark);
+  background-color: var(--pc-main);
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -13886,12 +13900,12 @@
   justify-content: center;
   text-align: center;
 }
-.dc20rpg.actor-v13 .pc-sheet-section.pcCore .scrollable .subtab-wrapper .tab-content .attributes-column .skills-wrapper .skill .mastery-box.clickable:hover {
+.dc20rpg.actor-v13 .pc-sheet-section.pcCore .scrollable .subtab-wrapper .tab-content .skills-wrapper .skill .mastery-box.clickable:hover {
   cursor: pointer;
   -webkit-box-shadow: 0 0 5px 0px inset var(--pc-secondary-dark);
   box-shadow: 0 0 5px 0px inset var(--pc-secondary-dark);
 }
-.dc20rpg.actor-v13 .pc-sheet-section.pcCore .scrollable .subtab-wrapper .tab-content .attributes-column .skills-wrapper .skill .mastery-box.expertise-box {
+.dc20rpg.actor-v13 .pc-sheet-section.pcCore .scrollable .subtab-wrapper .tab-content .skills-wrapper .skill .mastery-box.expertise-box {
   margin-top: 5px;
   font-size: 10px;
   min-width: 14px;
@@ -13899,18 +13913,18 @@
   width: 14px;
   height: 14px;
 }
-.dc20rpg.actor-v13 .pc-sheet-section.pcCore .scrollable .subtab-wrapper .tab-content .attributes-column .skills-wrapper .skill .mastery-box.expertise-box:not(.active) {
+.dc20rpg.actor-v13 .pc-sheet-section.pcCore .scrollable .subtab-wrapper .tab-content .skills-wrapper .skill .mastery-box.expertise-box:not(.active) {
   -webkit-filter: contrast(0.5);
   filter: contrast(0.5);
 }
-.dc20rpg.actor-v13 .pc-sheet-section.pcCore .scrollable .subtab-wrapper .tab-content .attributes-column .skills-wrapper .skill .skill-name {
+.dc20rpg.actor-v13 .pc-sheet-section.pcCore .scrollable .subtab-wrapper .tab-content .skills-wrapper .skill .skill-name {
   height: 25px;
   border: 0;
   background-color: transparent;
   color: white;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
-.dc20rpg.actor-v13 .pc-sheet-section.pcCore .scrollable .subtab-wrapper .tab-content .attributes-column .skills-wrapper .skill .skill-menu {
+.dc20rpg.actor-v13 .pc-sheet-section.pcCore .scrollable .subtab-wrapper .tab-content .skills-wrapper .skill .skill-menu {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -13921,7 +13935,7 @@
   justify-content: space-around;
   margin-right: 5px;
 }
-.dc20rpg.actor-v13 .pc-sheet-section.pcCore .scrollable .subtab-wrapper .tab-content .attributes-column .skills-wrapper .skill .skill-menu a, .dc20rpg.actor-v13 .pc-sheet-section.pcCore .scrollable .subtab-wrapper .tab-content .attributes-column .skills-wrapper .skill .skill-menu span {
+.dc20rpg.actor-v13 .pc-sheet-section.pcCore .scrollable .subtab-wrapper .tab-content .skills-wrapper .skill .skill-menu a, .dc20rpg.actor-v13 .pc-sheet-section.pcCore .scrollable .subtab-wrapper .tab-content .skills-wrapper .skill .skill-menu span {
   font-size: 12px;
   margin: 0 2px;
   border-radius: 5px;
@@ -13942,19 +13956,57 @@
   justify-content: center;
   text-align: center;
 }
-.dc20rpg.actor-v13 .pc-sheet-section.pcCore .scrollable .subtab-wrapper .tab-content .attributes-column .skills-wrapper .skill .skill-menu span {
+.dc20rpg.actor-v13 .pc-sheet-section.pcCore .scrollable .subtab-wrapper .tab-content .skills-wrapper .skill .skill-menu span {
   color: var(--pc-main-dark);
   background-color: var(--pc-secondary);
   border-radius: 0;
 }
-.dc20rpg.actor-v13 .pc-sheet-section.pcCore .scrollable .subtab-wrapper .tab-content .attributes-column .skills-wrapper .skill .skill-menu a:hover {
+.dc20rpg.actor-v13 .pc-sheet-section.pcCore .scrollable .subtab-wrapper .tab-content .skills-wrapper .skill .skill-menu a:hover {
   -webkit-box-shadow: 0 0 5px 0px inset var(--pc-secondary-dark);
   box-shadow: 0 0 5px 0px inset var(--pc-secondary-dark);
 }
-.dc20rpg.actor-v13 .pc-sheet-section.pcCore .scrollable .subtab-wrapper .tab-content .attributes-column .skills-wrapper .skill .skill-menu select {
+.dc20rpg.actor-v13 .pc-sheet-section.pcCore .scrollable .subtab-wrapper .tab-content .skills-wrapper .skill .skill-menu select {
   padding: 0;
   height: 20px;
   width: 60px;
+}
+.dc20rpg.actor-v13 .pc-sheet-section.pcCore .scrollable .subtab-wrapper .tab-content .details-wrapper {
+  padding: 5px 3px;
+}
+.dc20rpg.actor-v13 .pc-sheet-section.pcCore .scrollable .subtab-wrapper .tab-content .details-wrapper .oneliner-wrapper h3 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 0 8px;
+  border-color: var(--pc-main);
+  color: white;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+.dc20rpg.actor-v13 .pc-sheet-section.pcCore .scrollable .subtab-wrapper .tab-content .details-wrapper .combat-training {
+  gap: 4px;
+  margin-top: 0px;
+  margin-bottom: 3px;
+}
+.dc20rpg.actor-v13 .pc-sheet-section.pcCore .scrollable .subtab-wrapper .tab-content .details-wrapper .combat-training .mastery {
+  border-radius: 2px;
+  width: 40px;
+  height: 25px;
+  background-color: var(--pc-main);
+  border: 1px solid var(--pc-secondary-light);
+  -webkit-filter: invert(30%);
+  filter: invert(30%);
+  -webkit-box-shadow: 0 0 4px 0px var(--pc-secondary-light);
+  box-shadow: 0 0 4px 0px var(--pc-secondary-light);
+}
+.dc20rpg.actor-v13 .pc-sheet-section.pcCore .scrollable .subtab-wrapper .tab-content .details-wrapper .combat-training .mastery.active {
+  -webkit-filter: invert(0);
+  filter: invert(0);
 }
 .dc20rpg.actor-v13 .window-content {
   padding: 8px;

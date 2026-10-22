@@ -52,6 +52,10 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
       additionalInfo: new f.StringField({initial: ""}),
       size: new SizeFields(),
       jump: new JumpFields(),
+      startingMovement: new f.SchemaField({
+        value: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        bonus: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 })
+      }),
       movement: new MovementFields(),
       senses: new SenseFields(),
       scaling: new f.ObjectField({required: true}),
@@ -284,7 +288,6 @@ export class DC20NpcData extends DC20BaseActorData {
 
     return this.mergeSchema(super.defineSchema(), {
       defences: new DefenceFields("flat"),
-      jump: new JumpFields(),
       details: new f.SchemaField({
         level: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         combatMastery: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
