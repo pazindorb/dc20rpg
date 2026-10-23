@@ -297,7 +297,6 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
     const context = await super._prepareContext(options);
     context.editMode = this.sheetFlags.editMode;
     context.sheetFlags = this.sheetFlags;
-    context.sheetFlags.showTopMenu = !["attributes", "details"].includes(this.sheetFlags.subtab);
 
     duplicateData(context, this.actor);
     sortMapOfItems(context, this.actor.items);
@@ -693,6 +692,7 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
     this.sheetFlags.sensesClosed = true,
     this.sheetFlags.dmgReductionClosed = true,
     this.sheetFlags.statusesClosed = true;
+    this.sheetFlags.formulasClosed = true;
 
     let key = target.dataset.key;
     if (key === "reduction") key = "defense";

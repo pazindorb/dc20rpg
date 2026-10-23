@@ -31,6 +31,7 @@ function actorPartials() {
     "Trades": "systems/dc20rpg/templates/sheets/actor/partials/trades.hbs",
     "Languages": "systems/dc20rpg/templates/sheets/actor/partials/languages.hbs",
     "Attribute": "systems/dc20rpg/templates/sheets/actor/partials/attribute.hbs",
+    "PC Details": "systems/dc20rpg/templates/sheets/actor/partials/pcDetails.hbs"
   }
 }
 

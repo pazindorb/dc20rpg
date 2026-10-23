@@ -1,0 +1,196 @@
+<div class="subtab-wrapper margin-top-5">
+  <div class="tab-selector">
+    <a class="fa-solid fa-square-star {{#ifCond sheetFlags.subtab '===' "all"}}active{{/ifCond}}" data-action="sheetEdit" data-key="subtab" data-value="all" data-tooltip="{{localize "dc20rpg.sheet.core.showAll"}}"></a>
+    <a class="fa-solid fa-square-d {{#ifCond sheetFlags.subtab '===' "details"}}active{{/ifCond}}" data-action="sheetEdit" data-key="subtab" data-value="details" data-tooltip="{{localize "dc20rpg.sheet.core.details"}}"></a>
+    <a class="fa-solid fa-square-a {{#ifCond sheetFlags.subtab '===' "attributes"}}active{{/ifCond}}" data-action="sheetEdit" data-key="subtab" data-value="attributes" data-tooltip="{{localize "dc20rpg.sheet.core.showAttributes"}}"></a>
+    <a class="fa-solid fa-square-s {{#ifCond sheetFlags.subtab '===' "skills"}}active{{/ifCond}}" data-action="sheetEdit" data-key="subtab" data-value="skills" data-tooltip="{{localize "dc20rpg.sheet.core.showSkills"}}"></a>
+    <a class="fa-solid fa-square-t {{#ifCond sheetFlags.subtab '===' "trades"}}active{{/ifCond}}" data-action="sheetEdit" data-key="subtab" data-value="trades" data-tooltip="{{localize "dc20rpg.sheet.core.showTrades"}}"></a>
+    <a class="fa-solid fa-square-l {{#ifCond sheetFlags.subtab '===' "languages"}}active{{/ifCond}}" data-action="sheetEdit" data-key="subtab" data-value="languages" data-tooltip="{{localize "dc20rpg.sheet.core.showLanguages"}}"></a>
+  </div>
+
+  <div class="tab-content">
+    {{!-- Menu --}}
+    {{#ifCond sheetFlags.subtab '!==' "details"}}
+    <div class="top-menu-wrapper">
+      <div class="top-menu">
+        <div class="top-menu-buttons">
+          {{!-- All Config --}}
+          {{#ifCond sheetFlags.subtab '===' "all"}}
+          {{#if editMode}}
+            <a class="add-button" data-action="addSkill" data-type="skills" data-tooltip="{{localize "dc20rpg.sheet.skills.addSkill"}}"><i class="fa-solid fa-plus"></i><i class="fa-solid fa-square-s"></i></a>
+          {{else}}
+            <a data-tooltip="{{localize "dc20rpg.rollType.phySave"}}" data-action="roll" data-type="save" data-key="phy">
+              <i class="fa-solid fa-shield-halved fa-duotone" style="
+                  --fa-primary-color: {{color-by-key "mig"}};
+                  --fa-secondary-color: {{color-by-key "agi"}};"></i>
+              <span class="margin-left-3">{{localize "dc20rpg.sheet.checkSave.phy"}}</span>
+            </a>
+          {{/if}}
+          {{/ifCond}}
+
+          {{!-- Attributes Config --}}
+          {{#ifCond sheetFlags.subtab '===' "attributes"}}
+          {{#if editMode}}
+          
+          {{else}}
+            <a data-tooltip="{{localize "dc20rpg.rollType.phySave"}}" data-action="roll" data-type="save" data-key="phy">
+              <i class="fa-solid fa-shield-halved fa-duotone" style="
+                  --fa-primary-color: {{color-by-key "mig"}};
+                  --fa-secondary-color: {{color-by-key "agi"}};"></i>
+              <span class="margin-left-3">{{localize "dc20rpg.sheet.checkSave.phy"}}</span>
+            </a>
+          {{/if}}
+          {{/ifCond}}
+
+          {{!-- Skill Config --}}
+          {{#ifCond sheetFlags.subtab '===' "skills"}}
+          {{#if editMode}}
+            <a class="add-button" data-action="addSkill" data-type="skills" data-tooltip="{{localize "dc20rpg.sheet.skills.addSkill"}}"><i class="fa-solid fa-plus"></i><i class="fa-solid fa-square-s"></i></a>
+          {{else}}
+
+          {{/if}}
+          {{/ifCond}}
+
+          {{!-- Trade config --}}
+          {{#ifCond sheetFlags.subtab '===' "trades"}}
+          {{#if editMode}}
+          <a class="add-button" data-action="addSkill" data-type="trades" data-tooltip="{{localize "dc20rpg.sheet.skills.addTradeSkill"}}"><i class="fa-solid fa-plus"></i><i class="fa-solid fa-square-t"></i></a>
+          {{/if}}
+          <a class="fa-solid margin-left-3 {{#if system.sheetData.show.unknownTrades}}fa-eye-slash{{else}}fa-eye{{/if}}" data-cType="activable" data-path="system.sheetData.show.unknownTrades" data-tooltip="{{localize "dc20rpg.sheet.skills.showHideUnknown"}}"></a>
+          {{/ifCond}}
+
+          {{!-- Language Config --}}
+          {{#ifCond sheetFlags.subtab '===' "languages"}}
+          {{#if editMode}}
+          <a class="add-button" data-action="addSkill" data-type="languages" data-tooltip="{{localize "dc20rpg.sheet.skills.addLanguage"}}"><i class="fa-solid fa-plus"></i><i class="fa-solid fa-square-l"></i></a>
+          {{/if}}
+          <a class="fa-solid margin-left-3 {{#if system.sheetData.show.unknownLanguages}}fa-eye-slash{{else}}fa-eye{{/if}}" data-cType="activable" data-path="system.sheetData.show.unknownLanguages" data-tooltip="{{localize "dc20rpg.sheet.skills.showHideLanguages"}}"></a>
+          {{/ifCond}}
+        </div>
+
+        {{#if editMode}}
+        {{!-- Points Converter --}}
+        <div class="top-menu-buttons end">
+          <span data-tooltip="{{localize "dc20rpg.sheet.core.skillPointsLeft"}}">S({{system.skillPoints.skill.left}})</span>
+          <a class="fa-solid fa-square-arrow-right" data-action="convert" data-rAction="revert" data-from="skill" data-to="trade" data-tooltip="{{localize "dc20rpg.sheet.core.convertSkillToTrade"}}" style="font-size: 12px; margin: 0 3px;"></a>
+          <span data-tooltip="{{localize "dc20rpg.sheet.core.tradePointsLeft"}}">T({{system.skillPoints.trade.left}})</span>
+          <a class="fa-solid fa-square-arrow-right" data-action="convert" data-rAction="revert" data-from="trade" data-to="language" data-tooltip="{{localize "dc20rpg.sheet.core.convertTradeToLang"}}" style="font-size: 12px; margin: 0 3px;"></a>
+          <span data-tooltip="{{localize "dc20rpg.sheet.core.languagePointsLeft"}}">L({{system.skillPoints.language.left}})</span>
+        </div>
+        {{else}}
+        {{#ifCond sheetFlags.subtab '===' "attributes"}}
+        <div class="top-menu-buttons end">
+          <a data-tooltip="{{localize "dc20rpg.rollType.menSave"}}" data-action="roll" data-type="save" data-key="men">
+            <i class="fa-solid fa-shield-halved fa-duotone" style="
+                --fa-primary-color: {{color-by-key "cha"}};
+                --fa-secondary-color: {{color-by-key "int"}};"></i>
+            <span class="margin-left-3">{{localize "dc20rpg.sheet.checkSave.men"}}</span>
+          </a>
+        </div>
+        {{/ifCond}}
+        {{#ifCond sheetFlags.subtab '===' "all"}}
+        <div class="top-menu-buttons end">
+          <a data-tooltip="{{localize "dc20rpg.rollType.menSave"}}" data-action="roll" data-type="save" data-key="men">
+            <i class="fa-solid fa-shield-halved fa-duotone" style="
+                --fa-primary-color: {{color-by-key "cha"}};
+                --fa-secondary-color: {{color-by-key "int"}};"></i>
+            <span class="margin-left-3">{{localize "dc20rpg.sheet.checkSave.men"}}</span>
+          </a>
+        </div>
+        {{/ifCond}}
+        {{/if}}
+      </div>
+    </div>
+    {{/ifCond}}
+
+    {{!-- Display: Details --}}
+    {{#ifCond sheetFlags.subtab '===' "details"}}
+    <div class="details-wrapper">
+
+      <div class="oneliner-wrapper">
+        {{!-- Print Oneliners --}}
+        {{#each oneliners as |o key|}}
+          <h3>{{localize header}} {{#if @root.editMode}}<a class="fa-solid fa-gear fa-2xs" data-action="config" data-key="{{key}}" data-tooltip="{{localize "dc20rpg.sheet.configure"}}"></a>{{/if}}</h3>
+          {{#each content}}
+          <div class="oneliner-row" {{#if this.data}} {{{this.data}}} style="cursor:pointer"{{/if}}>
+            {{#if img}}<img src="{{img}}" {{#if style}}style="{{style}}"{{/if}}/>{{/if}}
+            {{#if icon}}<i class="{{icon}}" {{#if style}}style="{{style}}"{{/if}}></i>{{/if}}
+            <span>{{oneliner}}</span>
+          </div>
+          {{/each}}
+        {{/each}}
+
+        {{!-- Combat Training --}}
+        <h3>{{localize "dc20rpg.sheet.combatTraining"}}</h3>
+        <div class="combat-training grid grid-6col">
+        {{#each system.combatTraining as |mastery key|}}
+          <img class="mastery {{#if mastery}}active{{/if}}" src="systems/dc20rpg/images/sheet/details/masteries/{{key}}.svg" data-tooltip="{{varLocalize 'dc20rpg.mastery.' key ''}}"/>
+        {{/each}}
+        </div>
+      </div>
+    </div>
+    {{/ifCond}}
+
+    {{!-- Display: Attributes + Skills --}}
+    {{#ifCond sheetFlags.subtab '===' "all"}}
+    <div class="attributes-column">
+      <div class="attributes">
+        <div class="attribute" data-tooltip="{{localize "dc20rpg.attributes.prime"}}">
+          <input class="attribute-name" type="text" style="background-color: {{color-by-key "prime"}};" disabled value="{{localize "dc20rpg.attributes.prime"}}"/>
+          <div class="attribute-menu">
+            <a class="roll-button" data-action="roll" data-type="check" data-key="prime" data-tooltip="{{localize "dc20rpg.attributes.prime"}} {{localize "DC20RPG.Check"}}">
+              <span class="original"><i class="fa-regular fa-dice-d20 fa-lg"></i></span>
+              <span class="hovered">{{numberFormat system.details.prime sign=true}}</span>
+            </a>
+            <input type="number" style="background-color: {{color-by-key "prime"}};" disabled value="{{system.details.prime}}"/>
+          </div>
+        </div>
+        {{> "systems/dc20rpg/templates/sheets/actor/partials/skills.hbs" @root attr="prime"}}
+        {{#each sortedAttributes as |attribute key|}}
+        {{> "systems/dc20rpg/templates/sheets/actor/partials/attribute.hbs" @root attribute=attribute key=key}}
+        {{> "systems/dc20rpg/templates/sheets/actor/partials/skills.hbs" @root attr=key}}
+        {{/each}}
+      </div>
+    </div>
+    {{/ifCond}}
+
+    {{!-- Display: Attributes --}}
+    {{#ifCond sheetFlags.subtab '===' "attributes"}}
+    <div class="attributes-column">
+      <div class="attributes">
+        <div class="attribute" data-tooltip="{{localize "dc20rpg.attributes.prime"}}">
+          <input class="attribute-name" type="text" style="background-color: {{color-by-key "prime"}};" disabled value="{{localize "dc20rpg.attributes.prime"}}"/>
+          <div class="attribute-menu">
+            <a class="roll-button" data-action="roll" data-type="check" data-key="prime" data-tooltip="{{localize "dc20rpg.attributes.prime"}} {{localize "DC20RPG.Check"}}">
+              <span class="original"><i class="fa-regular fa-dice-d20 fa-lg"></i></span>
+              <span class="hovered">{{numberFormat system.details.prime sign=true}}</span>
+            </a>
+            <input type="number" style="background-color: {{color-by-key "prime"}};" disabled value="{{system.details.prime}}"/>
+          </div>
+        </div>
+        {{#each sortedAttributes as |attribute key|}}
+        {{> "systems/dc20rpg/templates/sheets/actor/partials/attribute.hbs" @root attribute=attribute key=key}}
+        {{/each}}
+      </div>
+    </div>
+    {{/ifCond}}
+
+    {{!-- Display: Skills --}}
+    {{#ifCond sheetFlags.subtab '===' "skills"}}
+    {{> "systems/dc20rpg/templates/sheets/actor/partials/skills.hbs" @root attr="prime"}}
+    {{#each sortedAttributes as |attribute key|}}
+    {{> "systems/dc20rpg/templates/sheets/actor/partials/skills.hbs" @root attr=key}}
+    {{/each}}
+    {{/ifCond}}
+
+    {{!-- Display: Trades --}}
+    {{#ifCond sheetFlags.subtab '===' "trades"}}
+    {{> "systems/dc20rpg/templates/sheets/actor/partials/trades.hbs"}}
+    {{/ifCond}}
+
+    {{!-- Display: Languages --}}
+    {{#ifCond sheetFlags.subtab '===' "languages"}}
+    {{> "systems/dc20rpg/templates/sheets/actor/partials/languages.hbs"}}
+    {{/ifCond}}
+  </div>
+</div>

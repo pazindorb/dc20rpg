@@ -59,6 +59,52 @@
   </div>
   {{/unless}}
 
+  {{!-- Formulas --}}
+  <div class="sub-header margin-top-10">
+    <label>{{localize "dc20rpg.sheet.pcConfig.formulas.title"}}</label>
+    <a class="fa-solid {{#if sheetFlags.formulasClosed}}fa-square-caret-down{{else}}fa-square-caret-up{{/if}} fa-lg" data-action="sheetEdit" data-key="formulasClosed"></a>
+  </div>
+  {{#unless sheetFlags.formulasClosed}}
+  <div class="content-wrapper">
+
+    {{!-- Max HP --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.sheet.pcConfig.formulas.health"}}</label>
+      <input type="text" value="{{system.resources.health.maxFormula}}" name="system.resources.health.maxFormula"/>
+    </div>    
+
+    {{!-- Max Stamina --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.sheet.pcConfig.formulas.stamina"}}</label>
+      <input type="text" value="{{system.resources.stamina.maxFormula}}" name="system.resources.stamina.maxFormula"/>
+    </div>    
+
+    {{!-- Max Mana --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.sheet.pcConfig.formulas.mana"}}</label>
+      <input type="text" value="{{system.resources.mana.maxFormula}}" name="system.resources.mana.maxFormula"/>
+    </div>    
+
+    {{!-- Max Rest Points --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.sheet.pcConfig.formulas.restPoints"}}</label>
+      <input type="text" value="{{system.resources.restPoints.maxFormula}}" name="system.resources.restPoints.maxFormula"/>
+    </div>    
+
+    {{!-- Rest Points Regeneration Formula --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.sheet.pcConfig.formulas.regenerationFormula"}}</label>
+      <input type="text" value="{{system.resources.restPoints.regenerationFormula}}" name="system.resources.restPoints.regenerationFormula"/>
+    </div>    
+
+    {{!-- Death Treshold --}}
+    <div class="form-group">
+      <label>{{localize "dc20rpg.sheet.pcConfig.formulas.death"}}</label>
+      <input type="text" value="{{system.death.formula}}" name="system.death.formula"/>
+    </div>    
+  </div>
+  {{/unless}}
+
   {{!-- Movement --}}
   <div class="sub-header margin-top-10">
     <label>{{localize "dc20rpg.sheet.npcConfig.movement.title"}}</label>

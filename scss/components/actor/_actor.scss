@@ -375,19 +375,19 @@
           font-size: 10px;
           cursor: grab;
         }
+      }
+    }
 
-        i.fa-duotone {
-          --fa-primary-opacity: 1;
-          --fa-secondary-opacity: 1;
+    i.fa-duotone {
+      --fa-primary-opacity: 1;
+      --fa-secondary-opacity: 1;
 
-          &:not(:hover) {
-            &::before {
-              text-shadow: 0px 0 black, 0 0px black, 0px 0 black, 0 0px black;
-            }
-            &::after {
-              text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-            }
-          }
+      &:not(:hover) {
+        &::before {
+          text-shadow: 0px 0 black, 0 0px black, 0px 0 black, 0 0px black;
+        }
+        &::after {
+          text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
         }
       }
     }
@@ -443,128 +443,12 @@
     --scroll-margin: 0;
   }
 
-  &.core .scrollable {
+  .two-column {
     display: grid;
     grid-template-columns: 130px 1fr;
+    gap: 4px;
 
-    .core-left-side {
-
-      .action-points-wrapper {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        height: 24px;
-        min-height: 24px;
-        border: 2px solid var(--primary-light);
-        border-radius: 0 0 5px 5px;
-        background-color: var(--secondary-lighter);
-        width: 130px;
-        margin-top: -7px;
-        position: absolute;
-
-        .ap {
-          color: #610064;
-        }
-
-        .points {
-          display: flex;
-          align-items: center;
-          justify-content: space-around;
-          flex-grow: 1;
-          width: 100px;
-
-          b {
-            color: #610064;
-            font-size: 16px;
-          }
-          
-          i { 
-            font-size: 1.1em !important;
-            margin-top: 2px;
-          }
-        }
-
-        a {
-          width: 20px;
-          min-width: 20px;
-          height: 20px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-      }
-
-      .custom-resource-wrapper {
-        margin-top: 27px;
-        overflow-x: hidden;
-        overflow-y: auto;
-        height: 29px;
-        flex-direction: column;
-        display: flex;
-
-        .custom-resource {
-          color: black;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background-color: $secondary-lighter;
-          border: 2px solid var(--primary-color);
-          border-radius: 3px 5px 6px 3px;
-          flex-direction: row;
-          height: 26px;
-
-          .resource-icon {
-            width: 24px;
-            height: 24px;
-            border-radius: 3px;
-            border: 0;
-          }
-
-          .resource-charges {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-
-            input {
-              text-align: center;
-              color: black;
-              font-weight: bold;
-
-              background-color: transparent;
-              border: 0;
-            }
-
-            .input-container {
-              display: flex;
-              align-items: center;
-
-              .separator {
-                margin: 0 5px;
-              }
-            }
-          }
-
-          .resource-buttons {
-            margin: 0 4px;
-            margin-top: 2px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-
-            .remove-resource {
-              margin-left: 3px;
-              color: $dark-red;
-            }
-          }
-        }
-        
-        .add-custom-resource {
-          color: $secondary-lighter;
-          margin-left: 4px;
-        }
-      }
+    .left-side {
 
       .oneliner-wrapper {
 
@@ -616,11 +500,131 @@
         }
       }
     }
+  }
 
-    .core-right-side {
-      margin-left: 4px;
+  &.core .scrollable {
+    
+    .action-points-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      height: 24px;
+      min-height: 24px;
+      border: 2px solid var(--primary-light);
+      border-radius: 0 0 5px 5px;
+      background-color: var(--secondary-lighter);
+      width: 130px;
+      margin-top: -7px;
+      position: absolute;
+
+      .ap {
+        color: #610064;
+      }
+
+      .points {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        flex-grow: 1;
+        width: 100px;
+
+        b {
+          color: #610064;
+          font-size: 16px;
+        }
+        
+        i { 
+          font-size: 1.1em !important;
+          margin-top: 2px;
+        }
+      }
+
+      a {
+        width: 20px;
+        min-width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
     }
 
+    .custom-resource-wrapper {
+      margin-top: 27px;
+      overflow-x: hidden;
+      overflow-y: auto;
+      height: 29px;
+      flex-direction: column;
+      display: flex;
+
+      .custom-resource {
+        color: black;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: $secondary-lighter;
+        border: 2px solid var(--primary-color);
+        border-radius: 3px 5px 6px 3px;
+        flex-direction: row;
+        height: 26px;
+
+        .resource-icon {
+          width: 24px;
+          height: 24px;
+          border-radius: 3px;
+          border: 0;
+        }
+
+        .resource-charges {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          input {
+            text-align: center;
+            color: black;
+            font-weight: bold;
+
+            background-color: transparent;
+            border: 0;
+          }
+
+          .input-container {
+            display: flex;
+            align-items: center;
+
+            .separator {
+              margin: 0 5px;
+            }
+          }
+        }
+
+        .resource-buttons {
+          margin: 0 4px;
+          margin-top: 2px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+
+          .remove-resource {
+            margin-left: 3px;
+            color: $dark-red;
+          }
+        }
+      }
+      
+      .add-custom-resource {
+        color: $secondary-lighter;
+        margin-left: 4px;
+      }
+    }
+
+  }
+
+  .item-table {
+    
     .item-header {
       background: linear-gradient(to right, var(--table-1), var(--table-2));
       font-family: $font-header;
