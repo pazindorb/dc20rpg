@@ -741,13 +741,13 @@
   .two-column {
     display: grid;
     grid-template-columns: 200px 1fr;
-    gap: 4px;
+    gap: 10px;
 
     .left-side {
       
       .subtab-wrapper {
 
-        .tab-selector {
+        .tab-selector, .subtab-selector {
           background-color: var(--pc-secondary);
           border-radius: 5px 5px 0 0;
           border: 2px solid var(--pc-main);
@@ -759,7 +759,7 @@
 
           a {
             font-size: 14px;
-            width: 40px;
+            width: 70px;
             height: 35px;
             display: flex;
             align-items: center;
@@ -768,8 +768,22 @@
             &.active {
               color: var(--pc-secondary-light);
               font-size: 18px;
-              width: 50px;
+              width: 120px;
               background-color: var(--pc-secondary-dark);
+            }
+          }
+        }
+
+        .subtab-selector {
+          border-radius: 0;
+          border-top: 0;
+
+          a {
+            height: 25px;
+            width: 40px;
+
+            &.active {
+              width: 50px;
             }
           }
         }
@@ -1112,12 +1126,181 @@
           }
         }
       }
+
+      .slot-selector {
+
+        .add-slot-button {
+          width: 100%;
+          margin-top: 15px;
+        }
+
+        .characer-img {
+          margin: 0 8px;
+          border-radius: 0 0 5px 5px;
+
+          img {
+            object-position: 50% 0;
+            object-fit: cover;
+            height: 333px;
+            width: 100%;
+            border: 2px solid var(--pc-main);
+            border-top: 0;
+            border-radius: 0 0 5px 5px;
+          }
+        }
+
+        .slot-wrapper {
+          display: flex;
+          flex-direction: row;
+          position: relative;
+          height: 0px;
+        }
+
+        .weapon-slots {
+          width: 100%;
+          align-content: center;
+          justify-content: center;
+
+          .slot-section {
+            margin-top: 320px;
+          }
+        }
+
+        .left-slots {
+          margin-top: 5px;
+          display: flex;
+          flex-direction: column;
+          flex: 3;
+        }
+
+        .right-slots {
+          margin-top: 5px;
+          display: flex;
+          flex-direction: column;
+          flex: 1;
+          align-items: flex-end !important;
+
+          .slot-section {
+            justify-content: end;
+            flex-direction: column;
+
+            .delete-slot {
+              left: -13px;
+              top: 13px;
+            }
+          }
+        }
+
+        .slot-section {
+          display: flex;
+          justify-content: start;
+          align-items: center;
+
+          .slot {
+            margin: 1px;
+        
+            img {
+              width: 45px;
+              height: 45px;
+              border-radius: 4px;
+
+              &.empty {
+                border: 2px solid #c9c9c9;
+                filter: grayscale(1);
+              }
+
+              &:not(.empty) {
+                border: 2px solid #51a100;
+                box-shadow: 0 0 5px 0px #51a100;
+              }
+            }
+          }
+
+          .delete-slot {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            left: 10px;
+            top: -10px;
+
+            color: var(--dark-red);
+            height: 0px;
+            width: 0px;
+            z-index: 1;
+
+            text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+
+            &:hover {
+              cursor: pointer;
+              box-shadow: 0 0 5px 3px $primary-light inset;
+            }
+          }
+        }
+      }
     }
 
     .right-side {
 
       .menu-value {
         padding: 0 10px;
+      }
+
+      .containers {
+        display: flex;
+        align-items: center;
+        background-color: var(--pc-secondary);
+        border: 2px solid var(--pc-main);
+        border-radius: 15px 5px 5px 15px;
+
+        .container-icon {
+          width: 35px;
+          height: 35px;
+          align-items: center;
+          display: flex;
+          justify-content: center;
+          font-size: 16px;
+          
+          color: var(--pc-secondary-light);
+          border-right: 2px solid var(--pc-main);
+          background-color: var(--pc-main);
+          margin-right: 10px;
+          border-radius: 11px 0 0 11px;
+
+        }
+
+        .container {
+          margin: 5px 8px;
+
+          img {
+            background-color: var(--pc-secondary-dark);
+            border: 2px solid var(--pc-main);
+            border-radius: 3px;
+
+            min-height: 25px;
+            min-width: 25px;
+            height: 25px;
+            width: 25px;
+
+            &:hover {
+              box-shadow: 0 0 5px 1px var(--pc-main);
+              cursor: pointer;
+            }
+          }
+
+          a {
+            position: relative;
+            top: 13px;
+            left: 6px;
+            font-size: 12px;
+            color: #830000;
+            height: 0;
+            width: 0;
+            display: flex;
+            text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+          }
+  
+        }
       }
     }
   }

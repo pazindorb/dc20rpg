@@ -230,15 +230,15 @@ export function registerHandlebarsCreators() {
         `<img class="empty" src="${slot.slotIcon}" data-tooltip="${game.i18n.localize(slot.slotName)}"/>`
       
       const deleteButton = !options.hash.editMode ? "" :
-        `<a class="delete-slot fas fa-trash " data-tooltip="${game.i18n.localize("dc20rpg.sheet.slotDelete")}" data-key="${key}" data-category="${category}"></a>`;
-      const defaultKeys = ["default", "mainHand", "offHand", "left", "right"]
+        `<a class="delete-slot fas fa-trash" data-action="deleteSlot" data-tooltip="${game.i18n.localize("dc20rpg.sheet.slotDelete")}" data-key="${key}" data-category="${category}"></a>`;
+      const defaultKeys = ["default", "mainHand", "offHand", "left", "right"];
 
-      const itemClass = slot.itemId ? "item-edit editable" : "";
-      const itemData = slot.itemId ? `data-item-id=${slot.itemId}` : "";
+      const itemEditAction = slot.itemId ? `data-item-id=${slot.itemId} data-middle-click="sheet"` : "";
+      const full = slot.itemId ? "full" : "";
 
       content += ` 
       ${defaultKeys.includes(key) ? "" : deleteButton}
-      <div class="slot ${itemClass}" ${itemData} data-key="${key}" data-category="${category}">
+      <div class="slot context-menu ${full}" ${itemEditAction} data-key="${key}" data-category="${category}">
         ${img}
       </div>`;
     }

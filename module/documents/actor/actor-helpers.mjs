@@ -453,6 +453,7 @@ function _enrichEquipmentSlots(actor) {
     equipmentSlots[category] = {
       addSlot: async (key=generateKey(), data={}) => await _addNewSlot(category, data, key, actor),
       freeSlot: () => _getFreeSlot(category, actor),
+      getItemsForSlot: () => _getItemsForSlot(category, actor),
       slots: {}
     };
     
@@ -517,6 +518,10 @@ function _getFreeSlot(category, actor) {
     if (!slot.isEquipped) return slot;
   }
   return categorySlots[0];
+}
+
+function _getItemsForSlot(category, actor) {
+  return actor.items.filter(item => item.system.statuses?.slotLink?.predefined === category);
 }
 
 //==================================

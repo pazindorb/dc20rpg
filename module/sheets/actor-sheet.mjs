@@ -7,7 +7,7 @@ import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { itemTransfer } from "../helpers/actors/storage.mjs";
 import { DC20RpgItem } from "../documents/item.mjs";
 import { collectWarning, getForActorType } from "./actor-sheet/actor-sheet-helper.mjs";
-import { getValueFromPath } from "../helpers/utils.mjs";
+import { getValueFromPath, toSelectOptions } from "../helpers/utils.mjs";
 import { ActionSelect } from "../dialogs/action-select.mjs";
 import { RollSelect } from "../dialogs/roll-select.mjs";
 import { createItemBrowser } from "../dialogs/compendium-browser/item-browser.mjs";
@@ -17,10 +17,14 @@ import { MonsterCreatorDialog } from "../dialogs/monster-creator.mjs";
 import { RestDialog } from "../dialogs/rest.mjs";
 import { keywordEditor } from "../dialogs/keyword-editor.mjs";
 import { createMixAncestryDialog } from "../dialogs/mix-ancestry.mjs";
+import { openItemCreator } from "../dialogs/item-creator.mjs";
+import { getActorsForUser, userSelector } from "../helpers/users.mjs";
+import { createTransferDialog } from "../dialogs/transfer.mjs";
 
 export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplicationMixin(foundry.applications.sheets.ActorSheetV2) {
   sheetFlags = {
-    subtab: "all",
+    subtab: "skills",
+    skillTab: "all",
     editMode: false
   };
 
@@ -131,6 +135,7 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
     initialized.actions.delete = this._onDelete;
     initialized.actions.copy = this._onCopy;
     initialized.actions.trait = this._onTrait;
+    initialized.actions.itemCreator = this._onItemCreator;
     initialized.actions.swapRepeatable = this._onSwapRepeatable;
 
     initialized.actions.expertise = this._onExpertiseToggle;
@@ -149,61 +154,123 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
     initialized.actions.manualEffect = this._onManualTrigger;
     initialized.actions.createEffect = this._onEffectCreate;
     initialized.actions.toggleStatus = this._onStatusToggle;
+
+    initialized.actions.addSlot = this._onAddSlot;
+    initialized.actions.deleteSlot = this._onDeleteSlot;
+    initialized.actions.transfer = this._onTransfer;
     
     return initialized;
   }
 
   // ================= CONTEXT MENU ===================
   _getContextMenuOptions() { 
-    return [
-      {
-        label: "dc20rpg.sheet.edit",
-        icon: '<i class="fa-solid fa-pen-to-square"></i>',
-        visible: target => this.#getObjectFrom(target.dataset, true),
-        onClick: (event, target) => this._onEdit(event, target)
+    const options = [];
+    // Equippment Slots
+    this._fillEquipmentSlots(options);
+
+    // Equippable
+    options.push({
+      label: "dc20rpg.sheet.itemTable.unequipItem",
+      icon: '<i class="fa-solid fa-suitcase-rolling"></i>',
+      visible: target => {
+        if (this.actor.type !== "character") return false;
+        const object = this.#getObjectFrom(target.dataset, true);
+        if (!(object instanceof Item)) return false;
+        if (!object.equippable) return false; 
+        return object.equipped;
       },
-      {
-        label: "dc20rpg.sheet.favoriteAdd",
-        icon: '<i class="fa-regular fa-star"></i>',
-        visible: target => {
-          if (this.actor.type !== "character") return false;
-          const object = this.#getObjectFrom(target.dataset, true);
-          if (!(object instanceof Item)) return false;
-          if (object.system.unique) return false;          
-          return !object?.flags?.dc20rpg?.favorite;
-        },
-        onClick: (event, target) => this._onMarkFavorite(event, target)
+      onClick: (event, target) => this._onEquip(event, target)
+    });
+    options.push({
+      label: "dc20rpg.sheet.itemTable.equipItem",
+      icon: '<i class="fa-solid fa-suitcase-rolling"></i>',
+      visible: target => {
+        if (this.actor.type !== "character") return false;
+        const object = this.#getObjectFrom(target.dataset, true);
+        if (!(object instanceof Item)) return false;
+        if (!object.equippable) return false; 
+        return !object.equipped;
       },
-      {
-        label: "dc20rpg.sheet.favoriteRemove",
-        icon: '<i class="fa-solid fa-star"></i>',
-        visible: target => {
-          if (this.actor.type !== "character") return false;
-          const object = this.#getObjectFrom(target.dataset, true);
-          if (!(object instanceof Item)) return false;
-          if (object.system.unique) return false;    
-          return object?.flags?.dc20rpg?.favorite;
-        },
-        onClick: (event, target) => this._onMarkFavorite(event, target)
+      onClick: (event, target) => this._onEquip(event, target)
+    });
+
+    // Favoritable
+    options.push({
+      label: "dc20rpg.sheet.favoriteAdd",
+      icon: '<i class="fa-regular fa-star"></i>',
+      visible: target => {
+        if (this.actor.type !== "character") return false;
+        const object = this.#getObjectFrom(target.dataset, true);
+        if (!(object instanceof Item)) return false;
+        if (object.system.unique) return false;          
+        return !object?.flags?.dc20rpg?.favorite;
       },
-      {
-        label: "dc20rpg.sheet.copy",
-        icon: '<i class="fa-solid fa-copy"></i>',
-        visible: target => {
-          const object = this.#getObjectFrom(target.dataset, true);
-          const isItem = object instanceof Item;
-          const unique = object?.system?.unique;
-          return isItem && !unique;
-        },
-        onClick: (event, target) => this._onCopy(event, target)
+      onClick: (event, target) => this._onMarkFavorite(event, target)
+    });
+    options.push({
+      label: "dc20rpg.sheet.favoriteRemove",
+      icon: '<i class="fa-solid fa-star"></i>',
+      visible: target => {
+        if (this.actor.type !== "character") return false;
+        const object = this.#getObjectFrom(target.dataset, true);
+        if (!(object instanceof Item)) return false;
+        if (object.system.unique) return false;    
+        return object?.flags?.dc20rpg?.favorite;
       },
-      {
-        label: "dc20rpg.sheet.delete",
-        icon: '<i class="fa-solid fa-trash"></i>',
-        visible: target => this.#getObjectFrom(target.dataset, true),
-        onClick: (event, target) => this._onDelete(event, target)
-      }
-    ];
+      onClick: (event, target) => this._onMarkFavorite(event, target)
+    });
+
+    // Default
+    options.push({
+      label: "dc20rpg.sheet.edit",
+      icon: '<i class="fa-solid fa-pen-to-square"></i>',
+      visible: target => this.#getObjectFrom(target.dataset, true),
+      onClick: (event, target) => this._onEdit(event, target)
+    });
+    options.push({
+      label: "dc20rpg.sheet.copy",
+      icon: '<i class="fa-solid fa-copy"></i>',
+      visible: target => {
+        const object = this.#getObjectFrom(target.dataset, true);
+        const isItem = object instanceof Item;
+        const unique = object?.system?.unique;
+        return isItem && !unique;
+      },
+      onClick: (event, target) => this._onCopy(event, target)
+    });
+    options.push({
+      label: "dc20rpg.sheet.delete",
+      icon: '<i class="fa-solid fa-trash"></i>',
+      visible: target => this.#getObjectFrom(target.dataset, true),
+      onClick: (event, target) => this._onDelete(event, target)
+    });
+
+    return options;
+  }
+
+  _fillEquipmentSlots(options) {
+    const actor = this.actor;
+    const slots = this.actor.equipmentSlots;
+    const categories = ["weapon", "head", "neck", "mantle", "body", "waist", "hand", "ring", "feet", "trinket"];
+
+    for (const category of categories) {
+      slots[category].getItemsForSlot().forEach(item => 
+        options.push({
+          label: `${game.i18n.localize("dc20rpg.sheet.itemTable.equip")}: ${item.name}`,
+          icon: `<img src=${item.img} / style="width: 20px; height: 20px; margin-right: 3px;">`,
+          visible: target => {
+            if (this.actor.type !== "character") return false;
+            if (!target.classList.contains("slot")) return false;
+            if (target.classList.contains("full")) return false;
+            return target.dataset.category === category;
+          },
+          onClick: (event, target) => {
+            const dataset = target.dataset;
+            actor.equipmentSlots[category].slots[dataset.key].equip(item);
+          }
+        })
+      )
+    }
   }
 
   // ================= CONTEXT MENU ===================
@@ -346,7 +413,10 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
 
   async _onFirstRender(context, options) {
     await super._onFirstRender(context, options);
-    this._createContextMenu(this._getContextMenuOptions, ".context-menu", {fixed: true});
+    this._createContextMenu(this._getContextMenuOptions, ".context-menu", {
+      fixed: true,
+      onOpen: () => ui.context.menuItems = this._getContextMenuOptions()
+    });
   }
 
   async _onRender(context, options) {
@@ -730,7 +800,22 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
 
   _onRollItem(event, target) {
     const item = this.actor.items.get(target.dataset.itemId);
-    if (item) item.roll();
+    if (!item) return;
+    if (item.type === "infusion") this._onInfusionRoll(item);
+    else item.roll();
+  }
+
+  async _onInfusionRoll(infusion) {
+    if (this.actor.type !== "character") {
+      ui.notifications.warn("Only player character can use infusion");
+      return;
+    }
+
+    const items = this.actor.getAllItemsWithType(["weapon", "spellFocus", "consumable", "equipment"]);
+    const itemId = await SimplePopup.select("Select Item to Infuse", toSelectOptions(items, "id", "name"));
+    const item = this.actor.items.get(itemId);
+    if (!item) return;
+    item.infusions.apply(infusion, this.actor.uuid);
   }
   
   _onRechargeItem(event, target) {
@@ -830,6 +915,37 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
     const dataset = target.dataset;
     if (decrease) this.actor.attributes[dataset.key].saveDecrease();
     else this.actor.attributes[dataset.key].saveIncrease();
+  }
+
+  async _onItemCreator(event, target) {
+    const itemData = await openItemCreator(target.dataset.type);
+    if (itemData) await DC20RpgItem.create(itemData, {parent: this.actor});
+  }
+
+  async _onAddSlot(event, target) {
+    event.preventDefault();
+    const category = await SimplePopup.select("Select Category", CONFIG.DC20RPG.DROPDOWN_DATA.equipmentSlots);
+    if (!category) return;
+    this.actor.equipmentSlots[category].addSlot();
+  }
+
+  _onDeleteSlot(event, target) {
+    const dataset = target.dataset;
+    this.actor.equipmentSlots[dataset.category].slots[dataset.key].delete();
+  }
+
+  async _onTransfer(event, target) {
+    // Character version
+    if (target.dataset.mode === "character") {
+      const user = await userSelector(true);
+      const traders = getActorsForUser(true, user);
+      createTransferDialog(this.actor, traders, {lockFlexibleTrader: true});
+    }
+
+    // Storage version
+    if (target.dataset.mode === "storage") {
+      createTransferDialog(this.actor, getActorsForUser(true), {currencyOnly: true})
+    }
   }
 
   _onSwapRepeatable(event, target) {

@@ -156,6 +156,20 @@ export class DC20RpgItem extends Item {
     return await gmDelete(operation, this);
   }
 
+  async _preCreate(data, options, user) {
+    // Clear equipped and attuned
+    if (data?.system?.statuses?.slotLink) {
+      this.updateSource({system: {
+        statuses: {
+          slotLink: {category: "", key: ""},
+          equipped: false,
+          attuned: false
+        }
+      }})
+    }
+    super._preCreate(data, options, user);
+  }
+
   async _onCreate(data, options, userId) {
     const onCreateReturn = super._onCreate(data, options, userId);
     if (userId === game.user.id && this.actor) {

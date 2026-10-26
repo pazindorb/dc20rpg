@@ -5,6 +5,19 @@
   </div>
 
   <div class="right-side">
+    <div class="top-menu-wrapper">
+      {{!-- Top Menu --}}
+      <div class="top-menu">
+        {{#if editMode}}
+          <div class="top-menu-buttons">
+            <a data-tooltip="{{localize 'dc20rpg.sheet.itemTable.createTable'}}" data-action="createTable" data-tab="features"><i class="fa-lg fa-solid fa-diagram-predecessor"></i></a>
+            <a data-tooltip="{{localize "dc20rpg.sheet.openCompendium"}}" data-action="compendium" data-item-type="feature" data-unlock="false"><i class="fa-lg fa-solid fa-book-atlas"></i></a>
+            <a data-tooltip="{{localize 'dc20rpg.sheet.items.createItem'}}" data-action="createItem"><i class="fa-lg fa-solid fa-sack"></i></a>
+          </div>
+        {{/if}}
+      </div>
+    </div>
+
     {{!-- Item Tables --}}
     <div class="item-table margin-top-10">
       {{#each features as |table key|}}
