@@ -104,6 +104,7 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
     initialized.actions.monsterCreator = (event) => {event.preventDefault(); MonsterCreatorDialog.open({actor: this.actor});}
     initialized.actions.basicAction = () => ActionSelect.open(this.actor);
     initialized.actions.basicRoll = () => RollSelect.open(this.actor, {basic: true, save: true, attribute: true, skill: true, trade: this.actor.type === "character"});
+    initialized.actions.deathSave = () => this.actor.rollDeathSave();
     
     initialized.actions.removeOwner = () => this.actor.update({["system.companionOwnerId"]: ""});
     initialized.actions.addOwner = this._onAddCompanionOwner;
@@ -166,7 +167,7 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
   _getContextMenuOptions() { 
     const options = [];
     // Equippment Slots
-    this._fillEquipmentSlots(options);
+    if (this.actor === "character") this._fillEquipmentSlots(options);
 
     // Equippable
     options.push({
@@ -476,6 +477,11 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
         const value = getValueFromPath(object, path);
         await object.update({[path]: !value});
         break;
+
+      case "numeric-toggle":
+        const number = getValueFromPath(object, path);
+        await object.update({[path]: (number + 1)});
+        break;
     }
   }
 
@@ -492,6 +498,7 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
 
   async _onRightClick(event) {
     const target = this.#getTarget(event.target, "raction");
+    const cTarget = this.#getTarget(event.target, "ctype");
     const dataset = target.dataset;
 
     switch (dataset.raction) {
@@ -500,9 +507,17 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
       case "trait": await this._onTrait(event, target, true); break;
       case "spend": await this._onSpendResource(event, target); break;
       case "mix": await this._onMixAncestry(event, target); break;
-      case "masteryToggle": await this._onMasteryToggle(event, target, true);
-      case "savePoint": await this._onSavePoint(event, target, true);
-      case "revert": await this._onRevertPoints(event, target);
+      case "masteryToggle": await this._onMasteryToggle(event, target, true); break;
+      case "savePoint": await this._onSavePoint(event, target, true); break;
+      case "revert": await this._onRevertPoints(event, target); break;
+    }
+
+    switch (cTarget.dataset.ctype) {
+      case "numeric-toggle":
+        const path = cTarget.dataset.path;
+        const number = getValueFromPath(this.actor, path);
+        await this.actor.update({[path]: (number - 1)});
+        break;
     }
   }
 

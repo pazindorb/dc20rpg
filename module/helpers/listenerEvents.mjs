@@ -48,8 +48,3 @@ export function activateDefaultListeners(app, html) {
   html.find(".numeric-input").change(ev => _onNumericValueChange(datasetOf(ev).path, valueOf(ev)));
   html.find(".numeric-input-nullable").change(ev => _onNumericValueChange(datasetOf(ev).path, valueOf(ev), true));
 }
-
-export function addToMultiSelect(object, path, key, value) {
-  if (!key) return;
-  object.update({[`${path}.${key}`]: value});
-}

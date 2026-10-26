@@ -2801,6 +2801,7 @@
   -ms-flex-pack: center;
   justify-content: center;
   font-family: "Humaroid";
+  border-radius: 5px;
 }
 .dc20rpg #roll-prompt .header .action-outcome .description-icon .letter-circle-icon i, .dc20rpg #roll-prompt .header .action-outcome .description-icon .letter-circle-icon span {
   border-color: var(--activable-off);
@@ -11704,9 +11705,8 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
@@ -11719,7 +11719,6 @@
   border-radius: 0 0 8px 8px;
   background-color: var(--secondary-dark);
   padding: 2px 5px;
-  margin: 0 1em;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -11730,6 +11729,17 @@
   -ms-flex-pack: center;
   justify-content: center;
   gap: 4px;
+}
+.dc20rpg.actor-v13 .actor-sheet-section .top-menu-wrapper .sub-menu .wrapper a {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
 }
 .dc20rpg.actor-v13 .actor-sheet-section .top-menu-wrapper .sub-menu .wrapper .help-dice {
   font-size: 10px;
@@ -12725,13 +12735,8 @@
 .dc20rpg.actor-v13 .actor-sheet-section.config .scrollable .config-table .row:last-child {
   border-radius: 0 0 5px 5px;
 }
-.dc20rpg.actor-v13 .actor-sheet-section.config .scrollable .config-table .row input {
-  text-align: center;
-  background-color: transparent;
-  color: white;
+.dc20rpg.actor-v13 .actor-sheet-section.config .scrollable .config-table .row a {
   font-weight: bold;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-  font-size: 16px;
 }
 .dc20rpg.actor-v13 .actor-sheet-section.config .scrollable .config-table .row a:hover {
   -webkit-box-shadow: 0 0 5px 1px inset var(--primary-light);

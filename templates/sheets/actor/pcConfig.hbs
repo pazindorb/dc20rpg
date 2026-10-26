@@ -282,15 +282,15 @@
       <a class="column" data-tooltip="{{dmgType.label}} {{localize "dc20rpg.sheet.dmgTypes.vulnerabilityHalf"}}" data-cType="activable" data-path="system.damageReduction.damageTypes.{{key}}.vulnerability">
         <i class="fa-lg {{#if dmgType.vulnerability}}fa-solid fa-heart-crack{{/if}}"></i>
       </a>
-      <div class="column" data-tooltip="{{dmgType.label}} {{localize "dc20rpg.sheet.dmgTypes.vulnerabilityX"}}">
-        <input type="number" data-cType="numeric" data-path="system.damageReduction.damageTypes.{{key}}.vulnerable" value="{{dmgType.vulnerable}}"/>
-      </div>
+      <a class="column" data-tooltip="{{dmgType.label}} {{localize "dc20rpg.sheet.dmgTypes.vulnerabilityX"}}" data-cType="numeric-toggle" data-path="system.damageReduction.damageTypes.{{key}}.vulnerable">
+        <span>{{dmgType.vulnerable}}</span>
+      </a>
       <a class="column" data-tooltip="{{dmgType.label}} {{localize "dc20rpg.sheet.dmgTypes.resistanceHalf"}}" data-cType="activable" data-path="system.damageReduction.damageTypes.{{key}}.resistance">
         <i class="fa-lg {{#if dmgType.resistance}}fa-solid fa-shield-halved {{/if}}"></i>
       </a>
-      <div class="column" data-tooltip="{{dmgType.label}} {{localize "dc20rpg.sheet.dmgTypes.resistanceX"}}">
-        <input type="number" data-cType="numeric" data-path="system.damageReduction.damageTypes.{{key}}.resist" value="{{dmgType.resist}}"/>
-      </div>
+      <a class="column" data-tooltip="{{dmgType.label}} {{localize "dc20rpg.sheet.dmgTypes.resistanceX"}}" data-cType="numeric-toggle" data-path="system.damageReduction.damageTypes.{{key}}.resist">
+        <span>{{dmgType.resist}}</span>
+      </a>
       <a class="column" data-tooltip="{{dmgType.label}} {{localize "dc20rpg.sheet.dmgTypes.resistanceImmune"}}" data-cType="activable" data-path="system.damageReduction.damageTypes.{{key}}.immune">
         <i class="fa-lg {{#if dmgType.immune}}fa-solid fa-shield{{/if}}"></i>
       </a>
@@ -313,12 +313,12 @@
         <img src="systems/dc20rpg/images/statuses/{{key}}.svg" style="background-color:black;"/>
         <span>{{status.label}}</span>
       </div>
-      <div class="column" data-tooltip="{{status.label}} {{localize "dc20rpg.sheet.condImm.vulnerability"}}">
-        <input type="number" data-cType="numeric" data-path="system.statusResistances.{{key}}.vulnerability" value="{{status.vulnerability}}"/>
-      </div>
-      <div class="column" data-tooltip="{{status.label}} {{localize "dc20rpg.sheet.condImm.resistance"}}">
-        <input type="number" data-cType="numeric" data-path="system.statusResistances.{{key}}.resistance" value="{{status.resistance}}"/>
-      </div>
+      <a class="column" data-tooltip="{{status.label}} {{localize "dc20rpg.sheet.condImm.vulnerability"}}" data-cType="numeric-toggle" data-path="system.statusResistances.{{key}}.vulnerability">
+        <span>{{status.vulnerability}}</span>
+      </a>
+      <a class="column" data-tooltip="{{status.label}} {{localize "dc20rpg.sheet.condImm.resistance"}}" data-cType="numeric-toggle" data-path="system.statusResistances.{{key}}.resistance">
+        <span>{{status.resistance}}</span>
+      </a>
       <a class="column" data-tooltip="{{status.label}} {{localize 'dc20rpg.sheet.condImm.immunity'}}" data-cType="activable" data-path="system.statusResistances.{{key}}.immunity">
         <i class="fa-lg {{#if status.immunity}}fa-solid fa-check{{/if}}"></i>
       </a>

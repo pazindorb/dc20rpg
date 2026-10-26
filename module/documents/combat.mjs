@@ -485,44 +485,7 @@ export class DC20RpgCombat extends Combat {
     // Check if actor is on death's door
     const notDead = !actor.statuses.has("dead");
     const deathsDoor = actor.system.death;
-    const exhaustion = actor.exhaustion;
-    const saveFormula = `d20 - ${exhaustion}`;
-    if (deathsDoor.active && notDead) {
-      const details = {
-        label: game.i18n.localize('dc20rpg.death.save'),
-        type: "deathSave",
-        against: 10,
-        roll: saveFormula,
-        checkKey: "deathSave"
-      };
-      const roll = await RollDialog.open(actor, details, {sendToActorOwners: true});
-      if (!roll) return;
-
-      // Critical Success: You are restored to 1 HP
-      if (roll.crit) {
-        actor.update({["system.resources.health.current"]: 1}, {hpChangeSource: game.i18n.localize('dc20rpg.death.crit')});
-      }
-      // Success (5): You regain 1 HP.
-      else if (roll._total >= 15) {
-        DC20Target.quickApplyHealingFor(actor, {source: "Death Save Success (over 5) - You regain 1 HP", value: 1, type: "heal"});
-      }
-      // Success: No change.
-
-      // Failure: You gain Bleeding 1.
-      if (roll._total < 10) {
-        actor.toggleStatusEffect("bleeding", {active: true});
-      }
-
-      // Failure (5): You gain Bleeding 2 instead.
-      if (roll._total < 5) {
-        actor.toggleStatusEffect("bleeding", {active: true});
-      }
-
-      // Critical Failure: You also fall Unconscious until you’re restored to 1 HP or higher.
-      if (roll.fail) {
-        actor.toggleStatusEffect("unconscious", {active: true});
-      }
-    }
+    if (deathsDoor.active && notDead) actor.rollDeathSave();
   }
 
   async _sustainCheck(actor) {

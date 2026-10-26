@@ -1,7 +1,6 @@
 import DC20RpgActiveEffect from "../documents/activeEffect.mjs";
 import { DC20ChatMessage } from "../sidebar/chat/chat-message.mjs";
 import { DC20Target } from "../subsystems/target/target.mjs";
-import { evaluateDicelessFormula } from "./rolls.mjs";
 
 /** @override */
 //NEW UPDATE CHECK: We need to make sure it works fine with future foundry updates. This method modifies ActiveEffectRegistry.refresh method. 

@@ -12,6 +12,7 @@ import { DC20Roll } from "../roll/rollApi.mjs";
 import { RollDialog } from "../roll/rollDialog.mjs";
 import { DC20ChatMessage } from "../sidebar/chat/chat-message.mjs";
 import { enhanceStatusEffectWithExtras, healthThresholdsCheck } from "../statusEffects/statusUtils.mjs";
+import { DC20Target } from "../subsystems/target/target.mjs";
 import DC20RpgActiveEffect from "./activeEffect.mjs";
 import { makeCalculations } from "./actor/actor-calculations.mjs";
 import { prepareDataFromItems, prepareEquippedItemsFlags, prepareRollDataForItems, prepareUniqueItemData } from "./actor/actor-copyItemData.mjs";
@@ -757,6 +758,52 @@ export class DC20RpgActor extends Actor {
         image: sustain.img,
         description: `You are no longer sustaining '${sustain.name}' - ${message}`,
       }, this);
+    }
+  }
+
+  async rollDeathSave() {
+    if (this.statuses.has("dead")) {
+      ui.notifications.error('dc20rpg.death.dead', {localize: true});
+      return;
+    }
+    if (!this.system.death.active) {
+      ui.notifications.error('dc20rpg.death.deathsDoor', {localize: true});
+      return;
+    }
+
+    const details = {
+      label: game.i18n.localize('dc20rpg.death.save'),
+      type: "deathSave",
+      against: 10,
+      roll: `d20 - ${this.exhaustion}`,
+      checkKey: "deathSave"
+    };
+    const roll = await RollDialog.open(this, details, {sendToActorOwners: true});
+    if (!roll) return;
+
+    // Critical Success: You are restored to 1 HP
+    if (roll.crit) {
+      this.update({["system.resources.health.current"]: 1}, {hpChangeSource: game.i18n.localize('dc20rpg.death.crit')});
+    }
+    // Success (5): You regain 1 HP.
+    else if (roll._total >= 15) {
+      DC20Target.quickApplyHealingFor(this, {source: "Death Save Success (over 5) - You regain 1 HP", value: 1, type: "heal"});
+    }
+    // Success: No change.
+
+    // Failure: You gain Bleeding 1.
+    if (roll._total < 10) {
+      this.toggleStatusEffect("bleeding", {active: true});
+    }
+
+    // Failure (5): You gain Bleeding 2 instead.
+    if (roll._total < 5) {
+      this.toggleStatusEffect("bleeding", {active: true});
+    }
+
+    // Critical Failure: You also fall Unconscious until you’re restored to 1 HP or higher.
+    if (roll.fail) {
+      this.toggleStatusEffect("unconscious", {active: true});
     }
   }
 

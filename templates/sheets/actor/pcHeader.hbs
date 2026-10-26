@@ -135,7 +135,11 @@
                 </div>
 
                 {{!-- Death's Door --}}
+                {{#if system.death.active}}
+                <a class="fa-solid fa-skull death" data-action="deathSave" style="color: #c90101" data-tooltip="{{localize 'dc20rpg.death.roll'}}" ></a>
+                {{else}}
                 <i class="fa-solid fa-skull death" data-tooltip="{{localize 'dc20rpg.sheet.deathsDoor'}}: <b>{{system.death.treshold}}</b>" ></i>
+                {{/if}}
 
                 <div class="rest-points"  data-tooltip="{{localize 'dc20rpg.resources.restPoints'}}">
                   <input type="text" data-cType="numeric" data-path="system.resources.restPoints.value" value="{{system.resources.restPoints.value}}" data-dtype="Number">
