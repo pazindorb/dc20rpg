@@ -784,8 +784,8 @@ export class DC20Target {
 
   get contestOutcome() {
     if (this.contest == null) return null;
-    if (this.contest < 0) return {label: "Succeeded with " + this.targetRoll, type: "success"};
-    if (this.contest >= 0) return {label: "Failed with " + this.targetRoll, type: "fail"};
+    if (this.contest <= 0) return {label: "Succeeded with " + this.targetRoll, type: "success"};
+    if (this.contest > 0) return {label: "Failed with " + this.targetRoll, type: "fail"};
   }
 
   //=======================================// 

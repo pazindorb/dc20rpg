@@ -32,7 +32,8 @@ export function getAllTokensForActor(actor) {
  * Returns an array of currently selected tokens by user.
  */
 export function getSelectedTokens() {
-  if (canvas.activeLayer === canvas.tokens) return canvas.activeLayer.placeables.filter(p => p.controlled === true);
+  if (canvas.activeLayer === canvas.tokens) return canvas.activeLayer.placeables.filter(p => p.controlled === true) || [];
+  return [];
 }
 
 
@@ -179,7 +180,7 @@ async function _canvasItemDrop(canvas, data, event) {
   }
 
   const itemData = item.toObject();
-  item.gmDelete({transfer: true});
+  if (item.actor) item.gmDelete({transfer: true});
 
   const tempActor = new DC20RpgActor({
     type: "storage",

@@ -117,7 +117,7 @@ export class RollDialog extends DC20Dialog {
       this.item = data;
       this.updateObject = this.item;
 
-      this._prepareAttackRange();
+      this._prepareAttack();
       const areas = this.item.system.areas || {};
       this.hasAreas = Object.keys(areas).length > 0;
     }
@@ -147,12 +147,27 @@ export class RollDialog extends DC20Dialog {
     }
   }
 
-  async _prepareAttackRange() {
+  async _prepareAttack() {
+    const updateData = {};
+    // Prepare Attack Range
     let rangeType = ""; 
     const system = this.item.system;
     if (system.actionType === "attack") rangeType = system.attack.rangeType;
     this.item.system.rollMenu.rangeType = rangeType;
-    await this.item.update({["system.rollMenu.rangeType"]: rangeType});
+    updateData["system.rollMenu.rangeType"] = rangeType;
+
+    // Use equipped weapon for useWeapon
+    const usesWeapon = this.item?.system?.usesWeapon || {};
+    if (usesWeapon.weaponAttack && !usesWeapon.weaponId) {
+      const weapon = this.actor.getAllItemsWithType(["weapon"]).find((item) => item.equipped);
+      const weaponId = weapon?.id || "";
+      if (weaponId) {
+        this.item.system.usesWeapon.weaponId = weaponId;
+        updateData["system.usesWeapon.weaponId"] = weaponId;
+      }
+    }
+
+    await this.item.update(updateData);
   }
 
   _initializeApplicationOptions(options) {

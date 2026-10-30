@@ -7,8 +7,13 @@ import DC20RpgActiveEffect from "../../documents/activeEffect.mjs";
 //              FINISH ROLL             =
 //=======================================
 export function finishSheetRoll(roll, actor, rollMenu, sheetRollData) {
+  const checkKey = sheetRollData.checkKey;
+  if (checkKey) {
+    const shouldApplyMcp = actor.inCombat && !rollMenu.ignoreMCP && !["save", "flat"].includes(sheetRollData.type)
+    if (shouldApplyMcp) actor.mcp.apply(checkKey);
+    if (!sheetRollData.initiative) _respectNat1Rules(roll, actor, sheetRollData.type, null, rollMenu);
+  }
   _runCritAndCritFailEvents(roll, actor, rollMenu)
-  if (!sheetRollData.initiative) _respectNat1Rules(roll, actor, sheetRollData.type, null, rollMenu);
   rollMenu.clear();
   sheetRollData.clearEnhancements();
   runPostRollEffectActions();

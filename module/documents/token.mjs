@@ -82,6 +82,18 @@ export class DC20RpgTokenDocument extends TokenDocument {
     this._updateSize(spaceOccupation);
   }
 
+  async _preCreate(data, options, user) {
+    const result = await super._preCreate(data, options, user);
+    if (result === false) return false;
+
+    const size = this.actor?.system?.size;
+    if (!size || this.flags?.dc20rpg?.notOverrideSize) return result;
+
+    const spaceOccupation = size.spaceOccupation || this._sizeCategoryToSpaces(size.size);
+    this.updateSource({width: spaceOccupation, height: spaceOccupation});
+    return result;
+  }
+
   _sizeCategoryToSpaces(category) {
     switch(category) {
       case "tiny":                  return 0.5;
@@ -96,6 +108,7 @@ export class DC20RpgTokenDocument extends TokenDocument {
 
   async _updateSize(size) {
     if (!game.user.isActiveGM) return;
+    if (!this.persisted) return;
     if (this.width !== size && this.height !== size && this._id) {
       await this.update({
         _id: this._id,

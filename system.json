@@ -2,10 +2,10 @@
   "id": "dc20rpg",
   "title": "DC20",
   "description": "Game System implementing DC20 ruleset.",
-  "version": "0.10.7.0",
+  "version": "0.10.7.1",
   "compatibility": {
     "minimum": 14,
-    "verified": "14.367"
+    "verified": "14.369"
   },
   "relationships": {
     "requires": [
@@ -22,6 +22,31 @@
   "socket": true,
   "esmodules": ["module/dc20rpg.mjs"],
   "styles": ["css/dc20rpg.css"],
+  "documentTypes": {
+    "Actor": {
+      "character": {},
+      "npc": {},
+      "companion": {},
+      "storage": {}
+    },
+    "Item": {
+      "basicAction": {},
+      "weapon": {},
+      "spellFocus": {},
+      "equipment": {},
+      "consumable": {},
+      "loot": {},
+      "container": {},
+      "feature": {},
+      "maneuver": {},
+      "spell": {},
+      "infusion": {},
+      "class": {},
+      "subclass": {},
+      "ancestry": {},
+      "background": {}
+    }
+  },
   "scripts": [
     "lib/pdf-lib/pdf-lib.min.js",
     "lib/pdf-lib/fontkit.umd.min.js"
@@ -246,6 +271,6 @@
   ],
   "primaryTokenAttribute": "resources.health",
   "url": "",
-  "manifest": "https://github.com/pazindorb/dc20rpg/releases/download/0.10.7.0/system.json",
-  "download": "https://github.com/pazindorb/dc20rpg/releases/download/0.10.7.0/dc20rpg.zip"
+  "manifest": "https://github.com/pazindorb/dc20rpg/releases/download/0.10.7.1/system.json",
+  "download": "https://github.com/pazindorb/dc20rpg/releases/download/0.10.7.1/dc20rpg.zip"
 }

@@ -207,6 +207,7 @@ export class Area {
     if (!game.user.isActiveGM) return;
     if (preventEffectRemoval) return;
     const token = event?.data?.token;
+    if (token?._destroyed || !token?.parent?.tokens?.has(token.id)) return;
     const actor = token?.actor;
     if (!actor) return;
 
