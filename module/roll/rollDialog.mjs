@@ -536,7 +536,7 @@ export class RollDialog extends DC20Dialog {
     if (!this.hasAreas) return;
 
     const areas = this.#prepareAreas();
-    const options = {targetMode: true};
+    const options = {targetMode: true, itemId: this.item?.id};
     const token = this.actor.getActiveTokens()[0];
     if (token) options.tokenId = token.id;
     AreaPlacer.create(areas, options);

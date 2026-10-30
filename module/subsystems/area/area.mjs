@@ -6,6 +6,7 @@ import { runTemporaryMacro } from "../../helpers/macros.mjs";
 import { DC20RpgActorSheet } from "../../sheets/actor-sheet.mjs";
 import { DC20ItemSheet } from "../../sheets/item-sheet.mjs";
 import { gmCreate } from "../../helpers/sockets.mjs";
+import { playAutomatedAnimation } from "../../helpers/aaIntegration.mjs";
 
 export class Area {
   type = "";
@@ -69,6 +70,7 @@ export class Area {
     const data = this.#prepareData(options);
     await this.#runMacro("preCreation", {data: data, options: options});
     const region = options.token ? await this.#placeOnToken(options.token, data) : await this.#placeOnSelector(data);
+    await playAutomatedAnimation(region, options.tokenId, options.itemId);
     this.#maximizeApps();
     this.#handleSustain(region, options.sustain);
     await this.#runMacro("postCreation", {region: region, options: options});

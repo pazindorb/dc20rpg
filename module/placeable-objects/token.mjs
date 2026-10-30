@@ -349,7 +349,8 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
 
       const [areaData, effects] = this.#prepareAreaDataAndCollectEffects(item);
       const area = Area.enrich(areas[0], {areaData: areaData, effects: effects, actor: this.actor});
-      if (area) await area.place({token: this, flags: {toggledBy: item.id}});
+      const options = {token: this, tokenId: this.id, itemId: item.id, flags: {toggledBy: item.id}};
+      if (area) await area.place(options);
   }
 
   async #passiveAreaCheck() {
@@ -362,7 +363,7 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
       const area = Area.enrich(areas[0], {areaData: areaData, effects: effects, actor: this.actor});
       if (!area) continue;
 
-      const options = {token: this};
+      const options = {token: this, tokenId: this.id, itemId: item.id};
       if (this.#isToggled(area, item.toggledOn)) {
         options.flags = {toggledBy: item.id};
       }
