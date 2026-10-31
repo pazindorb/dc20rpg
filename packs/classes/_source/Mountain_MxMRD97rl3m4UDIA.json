@@ -234,21 +234,46 @@
       "disabled": false,
       "name": "Favored Terrain: Mountain",
       "img": "icons/environment/wilderness/cave-entrance-mountain-blue.webp",
-      "_id": "7GJqcas3X1G46a3a",
+      "_id": "utannqRHKO4TAQC2",
       "type": "base",
       "system": {
         "statusId": "",
         "disableWhen": {
-          "mode": "=="
+          "mode": "==",
+          "path": "",
+          "value": ""
         },
         "changes": [
           {
             "key": "system.movement.climbing.fullSpeed",
             "value": true,
             "priority": null,
-            "type": "override"
+            "type": "override",
+            "phase": "initial",
+            "useCustom": false
           }
-        ]
+        ],
+        "sustained": {
+          "isSustained": false,
+          "actorUuid": "",
+          "itemId": ""
+        },
+        "condition": false,
+        "duration": {
+          "useCounter": false,
+          "resetWhenEnabled": false,
+          "onTimeEnd": "",
+          "expiryAction": ""
+        },
+        "effectKey": "",
+        "macro": "",
+        "addToChat": false,
+        "applyToSelf": false,
+        "applyToTemplate": true,
+        "requireEquip": false,
+        "nonessential": false,
+        "refreshTarget": false,
+        "chatMessageId": ""
       },
       "description": "<ul><li><p>You gain a Climb Speed equal to your Speed.</p></li><li><p>You have  Resistance to @UUID[Compendium.dc20rpg.rules.JournalEntry.x06moaa9pWzbdrxB.JournalEntryPage.5c530bfaa0e69dbb]{Exhaustion} from high altitudes.</p></li><li><p>You gain Resistance to damage from Falling.</p></li></ul>",
       "tint": "#ffffff",
@@ -274,20 +299,20 @@
         }
       },
       "_stats": {
-        "compendiumSource": null,
+        "compendiumSource": "Compendium.dc20rpg.classes.Item.MxMRD97rl3m4UDIA.ActiveEffect.7GJqcas3X1G46a3a",
         "duplicateSource": null,
-        "coreVersion": "14.364",
+        "coreVersion": "14.367",
         "systemId": "dc20rpg",
-        "systemVersion": "0.9.6.0",
-        "createdTime": null,
-        "modifiedTime": 1750880256677,
+        "systemVersion": "0.10.7.1",
+        "createdTime": 1793264825558,
+        "modifiedTime": 1793264825558,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
       "start": null,
       "showIcon": 1,
       "folder": null,
-      "_key": "!items.effects!MxMRD97rl3m4UDIA.7GJqcas3X1G46a3a"
+      "_key": "!items.effects!MxMRD97rl3m4UDIA.utannqRHKO4TAQC2"
     }
   ],
   "folder": "0xHwSQYKF1SrpW78",

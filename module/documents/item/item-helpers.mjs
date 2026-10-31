@@ -1567,7 +1567,7 @@ function _collectFromItemAndEnhancements(item) {
   item.enhancements.active.values().forEach(enh => {
     if (enh.modifications.addsAgainstStatus && enh.modifications.againstStatus?.id) {
       const status = foundry.utils.deepClone(enh.modifications.againstStatus);
-      const stackable = CONFIG.statusEffects[status.id].stackable;
+      const stackable = CONFIG.statusEffects[status.id]?.stackable;
       if (stackable && !enh.preventEnhStatusStacking) {
         status.stacks = (status.stacks || 1) * enh.number;
       }

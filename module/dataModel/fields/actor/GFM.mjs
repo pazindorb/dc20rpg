@@ -50,7 +50,7 @@ export async function extractGFModValue(key, actor) {
         });
       }
 
-      globalMod.value += mod.value;
+      globalMod.value += globalMod.value ? ` + ${mod.value}` : mod.value;
       if (globalMod.source === "") globalMod.source += `${mod.source}`
       else globalMod.source += ` + ${mod.source}`
     } catch (e) {

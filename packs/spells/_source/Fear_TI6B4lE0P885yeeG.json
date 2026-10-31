@@ -155,12 +155,12 @@
         "description": "<p>The range of the Spell increases by 5 Spaces. You can use this Enhancement a maximum of two times.</p>",
         "hide": false,
         "resources": {
-          "ap": 1,
-          "health": null,
-          "mana": null,
-          "stamina": null,
-          "grit": null,
-          "restPoints": null,
+          "ap": "1",
+          "health": "",
+          "mana": "",
+          "stamina": "",
+          "grit": "",
+          "restPoints": "",
           "custom": {}
         },
         "charges": {
@@ -226,9 +226,9 @@
           },
           "addsRange": true,
           "bonusRange": {
-            "melee": null,
-            "normal": 5,
-            "max": null
+            "melee": "",
+            "normal": "5",
+            "max": ""
           },
           "changeManaSpendLimit": 0,
           "changeStaminaSpendLimit": 0,
@@ -239,7 +239,10 @@
             "timeUnit": ""
           },
           "actionChange": false,
-          "actionType": ""
+          "actionType": "",
+          "areaDistance": "",
+          "areaWidth": "",
+          "overrideAreaType": ""
         },
         "key": "Z8C5akUPu7jJmnhZ",
         "sourceItemId": "TI6B4lE0P885yeeG",
@@ -346,7 +349,8 @@
           "actionChange": false,
           "actionType": "",
           "areaDistance": "",
-          "areaWidth": ""
+          "areaWidth": "",
+          "overrideAreaType": ""
         },
         "key": "m3TQsUTQh37AevMo",
         "sourceItemId": "TI6B4lE0P885yeeG",
@@ -453,7 +457,8 @@
           "actionChange": false,
           "actionType": "",
           "areaDistance": "",
-          "areaWidth": ""
+          "areaWidth": "",
+          "overrideAreaType": ""
         },
         "key": "l7qIgdBWKN7n8cRr",
         "sourceItemId": "TI6B4lE0P885yeeG",
@@ -561,7 +566,8 @@
           "actionChange": false,
           "actionType": "",
           "areaDistance": "",
-          "areaWidth": ""
+          "areaWidth": "",
+          "overrideAreaType": ""
         },
         "key": "2f2XaqkOITco7hWR",
         "sourceItemId": "TI6B4lE0P885yeeG",
@@ -573,7 +579,8 @@
         "copyToSheetRoll": {},
         "altCostMax": 1,
         "altCost": 0,
-        "drmCheck": false
+        "drmCheck": false,
+        "preventEnhStatusStacking": false
       },
       "vuLxeBrTD9HlbIRK": {
         "name": "Targets",
@@ -669,7 +676,8 @@
           "actionChange": false,
           "actionType": "",
           "areaDistance": "",
-          "areaWidth": ""
+          "areaWidth": "",
+          "overrideAreaType": ""
         },
         "key": "vuLxeBrTD9HlbIRK",
         "sourceItemId": "TI6B4lE0P885yeeG",
@@ -697,9 +705,9 @@
       "unit": ""
     },
     "duration": {
-      "value": null,
-      "type": "instantaneous",
-      "timeUnit": ""
+      "value": 1,
+      "type": "continuous",
+      "timeUnit": "minutes"
     },
     "target": {
       "count": null,
@@ -1041,11 +1049,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "14.363",
+    "coreVersion": "14.369",
     "systemId": "dc20rpg",
-    "systemVersion": "0.10.6.0",
+    "systemVersion": "0.10.7.1",
     "createdTime": 1767956241674,
-    "modifiedTime": 1782598865690,
+    "modifiedTime": 1793346292629,
     "lastModifiedBy": "dOcXwrUs2VunZl0y"
   },
   "ownership": {
