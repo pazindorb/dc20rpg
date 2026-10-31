@@ -4157,30 +4157,24 @@
             {
               "img": "icons/magic/life/heart-glowing-red.webp",
               "origin": "Item.kKnbYGiXMMVFTPBl",
-              "duration": {
-                "rounds": null,
-                "startTime": 0,
-                "seconds": null,
-                "combat": null,
-                "turns": null,
-                "startRound": 15,
-                "startTurn": 0
-              },
+              "duration": {},
               "disabled": false,
               "name": "Healthy",
               "_id": "PSuA1LxP0d27xfAw",
               "type": "base",
               "system": {
-                "statusId": ""
+                "statusId": "",
+                "changes": [
+                  {
+                    "key": "system.resources.health.max",
+                    "value": 2,
+                    "priority": null,
+                    "type": "add",
+                    "phase": "initial",
+                    "useCustom": false
+                  }
+                ]
               },
-              "changes": [
-                {
-                  "key": "system.resources.health.max",
-                  "mode": 2,
-                  "value": "2",
-                  "priority": null
-                }
-              ],
               "description": "<p>You gain +1 maximum HP.</p>",
               "tint": "#ffffff",
               "transfer": true,
@@ -4210,6 +4204,12 @@
                 "createdTime": null,
                 "modifiedTime": 1738757143113,
                 "lastModifiedBy": "dOcXwrUs2VunZl0y"
+              },
+              "start": {
+                "combat": null,
+                "round": 15,
+                "time": 0,
+                "turn": 0
               }
             }
           ],
@@ -20424,7 +20424,7 @@
         "formulas": {
           "SaJkGgLYTVwarjUP": {
             "formula": "1",
-            "type": "bludgeoning",
+            "type": "fire",
             "category": "damage",
             "fail": false,
             "failFormula": "",
@@ -20531,7 +20531,7 @@
           "TFDhuigMAAmOcDaU": {
             "name": "onDemand",
             "trigger": "onDemand",
-            "command": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.physicalDamageTypes, \"fire\": \"Fire\"}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Attack damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  item.update({\n    [\"system.formulas.SaJkGgLYTVwarjUP.type\"]: selected\n  })\n}",
+            "command": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.physicalDamageTypes, \"fire\": \"Fire\"}\nconst selected = await DC20.dialog.SimplePopup.select(\"Select your Attack damage type\", damageTypes)\n\nif (selected) {\n  item.update({\n    [\"system.formulas.SaJkGgLYTVwarjUP.type\"]: selected\n  })\n}",
             "disabled": false,
             "title": ""
           }
@@ -20587,11 +20587,11 @@
       "_stats": {
         "compendiumSource": "Compendium.dc20rpg.ancestries.Item.dKbustTYVPy53Jnf",
         "duplicateSource": null,
-        "coreVersion": "14.364",
+        "coreVersion": "14.367",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
+        "systemVersion": "0.10.7.0",
         "createdTime": 1781983842703,
-        "modifiedTime": 1781983842753,
+        "modifiedTime": 1793220938571,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -30373,11 +30373,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "14.364",
+    "coreVersion": "14.367",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.1",
+    "systemVersion": "0.10.7.0",
     "createdTime": 1739779735118,
-    "modifiedTime": 1762860928620,
+    "modifiedTime": 1793220947989,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

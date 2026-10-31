@@ -630,7 +630,8 @@
         "bonus": 0,
         "max": 3,
         "current": 3,
-        "temp": null
+        "temp": null,
+        "useFlat": true
       },
       "stamina": {
         "value": 0,
@@ -1494,30 +1495,24 @@
             {
               "img": "icons/magic/defensive/shield-barrier-glowing-triangle-blue.webp",
               "origin": "Item.kKnbYGiXMMVFTPBl",
-              "duration": {
-                "rounds": null,
-                "startTime": null,
-                "seconds": null,
-                "combat": null,
-                "turns": null,
-                "startRound": null,
-                "startTurn": null
-              },
+              "duration": {},
               "disabled": false,
               "name": "Resistance (Cold)",
               "_id": "PSuA1LxP0d27xfAw",
               "type": "base",
               "system": {
-                "statusId": ""
+                "statusId": "",
+                "changes": [
+                  {
+                    "key": "system.damageReduction.damageTypes.cold.resist",
+                    "value": 1,
+                    "priority": null,
+                    "type": "add",
+                    "phase": "initial",
+                    "useCustom": false
+                  }
+                ]
               },
-              "changes": [
-                {
-                  "key": "system.damageReduction.damageTypes.cold.resist",
-                  "mode": 2,
-                  "value": "1",
-                  "priority": null
-                }
-              ],
               "description": "<p>I<span style=\"font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif\">t gains Resistance 1 to a damage type of your choice.</span></p>",
               "tint": "#ffffff",
               "transfer": true,
@@ -1541,7 +1536,8 @@
                 "createdTime": null,
                 "modifiedTime": null,
                 "lastModifiedBy": null
-              }
+              },
+              "start": null
             }
           ],
           "folder": null,
@@ -4326,30 +4322,24 @@
             {
               "img": "icons/magic/life/heart-glowing-red.webp",
               "origin": "Item.kKnbYGiXMMVFTPBl",
-              "duration": {
-                "rounds": null,
-                "startTime": 0,
-                "seconds": null,
-                "combat": null,
-                "turns": null,
-                "startRound": 15,
-                "startTurn": 0
-              },
+              "duration": {},
               "disabled": false,
               "name": "Healthy",
               "_id": "PSuA1LxP0d27xfAw",
               "type": "base",
               "system": {
-                "statusId": ""
+                "statusId": "",
+                "changes": [
+                  {
+                    "key": "system.resources.health.max",
+                    "value": 2,
+                    "priority": null,
+                    "type": "add",
+                    "phase": "initial",
+                    "useCustom": false
+                  }
+                ]
               },
-              "changes": [
-                {
-                  "key": "system.resources.health.max",
-                  "mode": 2,
-                  "value": "2",
-                  "priority": null
-                }
-              ],
               "description": "<p>You gain +1 maximum HP.</p>",
               "tint": "#ffffff",
               "transfer": true,
@@ -4379,6 +4369,12 @@
                 "createdTime": null,
                 "modifiedTime": 1738757143113,
                 "lastModifiedBy": "dOcXwrUs2VunZl0y"
+              },
+              "start": {
+                "combat": null,
+                "round": 15,
+                "time": 0,
+                "turn": 0
               }
             }
           ],
@@ -20374,7 +20370,7 @@
         "formulas": {
           "SaJkGgLYTVwarjUP": {
             "formula": "1",
-            "type": "bludgeoning",
+            "type": "slashing",
             "category": "damage",
             "fail": false,
             "failFormula": "",
@@ -20470,7 +20466,7 @@
           "Z9Nx7SlW0MN25fN0": {
             "name": "onDemand",
             "trigger": "onDemand",
-            "command": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.physicalDamageTypes}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Attack damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  item.update({\n    [\"system.formulas.SaJkGgLYTVwarjUP.type\"]: selected\n  })\n}",
+            "command": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.physicalDamageTypes}\nconst selected = await DC20.dialog.SimplePopup.select(\"Select your Attack damage type\", damageTypes)\n\nif (selected) {\n  item.update({\n    [\"system.formulas.SaJkGgLYTVwarjUP.type\"]: selected\n  })\n}",
             "disabled": false,
             "title": ""
           }
@@ -20505,11 +20501,11 @@
       "_stats": {
         "compendiumSource": "Compendium.dc20rpg.ancestries.Item.dKbustTYVPy53Jnf",
         "duplicateSource": null,
-        "coreVersion": "14.364",
+        "coreVersion": "14.367",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
+        "systemVersion": "0.10.7.0",
         "createdTime": 1730709846589,
-        "modifiedTime": 1781983809275,
+        "modifiedTime": 1793220888486,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
@@ -30292,11 +30288,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "14.364",
+    "coreVersion": "14.367",
     "systemId": "dc20rpg",
-    "systemVersion": "0.9.8.1",
+    "systemVersion": "0.10.7.0",
     "createdTime": 1730709591638,
-    "modifiedTime": 1762860904629,
+    "modifiedTime": 1793220918129,
     "lastModifiedBy": "dOcXwrUs2VunZl0y",
     "exportSource": null
   },

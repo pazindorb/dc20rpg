@@ -20423,7 +20423,7 @@
         "formulas": {
           "SaJkGgLYTVwarjUP": {
             "formula": "1",
-            "type": "bludgeoning",
+            "type": "poison",
             "category": "damage",
             "fail": false,
             "failFormula": "",
@@ -20530,7 +20530,7 @@
           "QjIrRVs8ECTQzDPz": {
             "name": "onDemand",
             "trigger": "onDemand",
-            "command": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.physicalDamageTypes, \"poison\": \"Poison\"}\nconst selected = await game.dc20rpg.tools.getSimplePopup(\"select\", {header: \"Select your Attack damage type\", selectOptions: damageTypes});\n\nif (selected) {\n  item.update({\n    [\"system.formulas.SaJkGgLYTVwarjUP.type\"]: selected\n  })\n}",
+            "command": "const damageTypes = {...CONFIG.DC20RPG.DROPDOWN_DATA.physicalDamageTypes, \"poison\": \"Poison\"}\nconst selected = await DC20.dialog.SimplePopup.select(\"Select your Attack damage type\", damageTypes)\n\nif (selected) {\n  item.update({\n    [\"system.formulas.SaJkGgLYTVwarjUP.type\"]: selected\n  })\n}",
             "disabled": false,
             "title": ""
           }
@@ -20586,11 +20586,11 @@
       "_stats": {
         "compendiumSource": "Compendium.dc20rpg.ancestries.Item.dKbustTYVPy53Jnf",
         "duplicateSource": null,
-        "coreVersion": "14.364",
+        "coreVersion": "14.367",
         "systemId": "dc20rpg",
-        "systemVersion": "0.10.6.0",
+        "systemVersion": "0.10.7.0",
         "createdTime": 1781983839342,
-        "modifiedTime": 1781983839398,
+        "modifiedTime": 1793220966907,
         "lastModifiedBy": "dOcXwrUs2VunZl0y",
         "exportSource": null
       },
