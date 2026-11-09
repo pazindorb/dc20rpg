@@ -27,7 +27,7 @@ function _getTabsForActor(type) {
       break;
 
     case "storage":
-      allowed = ["storageHeader", "content"];
+      allowed = ["storageHeader", "storageCore"];
       break;
   }
   return allowed;

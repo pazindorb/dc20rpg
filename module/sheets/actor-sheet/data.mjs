@@ -167,6 +167,9 @@ function _oneliners(context, npc=false) {
     _prepareSkillOnelinters(context.system.skills, oneliners);
     _prepareMovementOneliners(context.system.movement, context.system.jump, oneliners);
   }
+  else {
+    oneliners.size = {header: "dc20rpg.sheet.oneliner.size", content: [{oneliner: context.system.size.label, icon: "fa-solid fa-square fa-2xs"}]};
+  }
 
   oneliners.senses = {header: "dc20rpg.sheet.oneliner.senses", content: []};
   oneliners.reduction = {header: "dc20rpg.sheet.oneliner.reduction", content: []};

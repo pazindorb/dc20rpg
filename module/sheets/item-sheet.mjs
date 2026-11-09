@@ -288,7 +288,7 @@ export class DC20ItemSheet extends foundry.applications.api.HandlebarsApplicatio
       const item = this.item.system.contents[dataset.itemKey];
       if (!item) return
 
-      dragData = item;
+      dragData = foundry.utils.deepClone(item);
       dragData.fromContainer = true;
       dragData.containerUuid = this.item.uuid;
       dragData.itemKey = dataset.itemKey;

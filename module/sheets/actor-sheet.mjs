@@ -47,6 +47,8 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
     header: {template: "systems/dc20rpg/templates/sheets/actor/header.hbs"},
     pcHeader: {template: "systems/dc20rpg/templates/sheets/actor/pcHeader.hbs", scrollable: [".scrollable"]},
     pcCore: {template: "systems/dc20rpg/templates/sheets/actor/pcCore.hbs", scrollable: [".scrollable"]},
+    storageHeader: {template: "systems/dc20rpg/templates/sheets/actor/storageHeader.hbs", scrollable: [".scrollable"]},
+    storageCore: {template: "systems/dc20rpg/templates/sheets/actor/storageCore.hbs", scrollable: [".scrollable"]},
     inventory: {template: "systems/dc20rpg/templates/sheets/actor/inventory.hbs", scrollable: [".scrollable"]},
     features: {template: "systems/dc20rpg/templates/sheets/actor/features.hbs", scrollable: [".scrollable"]},
     known: {template: "systems/dc20rpg/templates/sheets/actor/known.hbs", scrollable: [".scrollable"]},
@@ -83,6 +85,7 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
   constructor(options = {}) {
     super(options);
     if (this.actor.type === "character") this.tabGroups.sheet = "pcCore";
+    if (this.actor.type === "storage") this.tabGroups.sheet = "storageCore";
   }
 
   /** @override */
@@ -167,7 +170,7 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
   _getContextMenuOptions() { 
     const options = [];
     // Equippment Slots
-    if (this.actor === "character") this._fillEquipmentSlots(options);
+    if (this.actor.type === "character") this._fillEquipmentSlots(options);
 
     // Equippable
     options.push({
@@ -280,8 +283,10 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
   /** @override */
   async _renderFrame(options) {
     const frame = await  super._renderFrame(options);
+    if (this.actor.type !== "storage") {
+      frame.appendChild(this.#navTabElement());
+    }
     frame.appendChild(PDE.TooltipCreator.getTooltipHtml());
-    frame.appendChild(this.#navTabElement());
     return frame;
   }
 
@@ -1024,6 +1029,12 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
     if (this.actor.type === "storage") return true;
     else return super._canDragStart(selector);
   }
+
+  _canRender(options) {
+    if (this.actor.type === "storage") return true;
+    else return super._canRender(options);
+  }
+
   _onDragStart(event) {
     const dataset = event.currentTarget.dataset;
     if (dataset.type === "resource") {
@@ -1063,6 +1074,7 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
     const droppedData  = event.dataTransfer.getData('text/plain');
     if (!droppedData) return;
     const droppedObject = JSON.parse(droppedData);
+    event.actorType = droppedObject?.actorType;
 
     if (droppedObject?.fromContainer) {
       const container = await fromUuid(droppedObject.containerUuid);
@@ -1073,24 +1085,25 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
     else await super._onDrop(event);
   }
 
-  async _onDropItem(event, data) {
-    if ((this.actor.type === "storage" && data.actorType !== undefined) || data.actorType === "storage") {
-      await itemTransfer(event, data, this.actor);
+  async _onDropItem(event, item) {
+    const actorType = event.actorType;
+    if ((this.actor.type === "storage" && actorType !== undefined) || actorType === "storage") {
+      await itemTransfer(event, item, this.actor);
       return;
     }
-    const item = await Item.implementation.fromDropData(data);
-    if (this.actor.type === "storage" && data.actorType === undefined) {
+
+    if (this.actor.type === "storage" && actorType === undefined) {
       if (!CONFIG.DC20RPG.DROPDOWN_DATA.inventoryTypes[item.type]) {
         ui.notifications.error("Storage actor can only store: 'weapons', 'equipment', 'consumables' and 'loot'");
         return;
       }
     }
 
-    const onSelf = data.uuid.includes(this.actor.uuid);
-    if (data.actorType !== undefined && CONFIG.DC20RPG.DROPDOWN_DATA.inventoryTypes[item.type] && !onSelf) {
+    const onSelf = item.uuid.includes(this.actor.uuid);
+    if (actorType !== undefined && CONFIG.DC20RPG.DROPDOWN_DATA.inventoryTypes[item.type] && !onSelf) {
       const selected = await SimplePopup.open("confirm", {confirmLabel: "Transfer", denyLabel: "Duplicate", message: "Do you want to transfer or duplicate this item?"});
       if (selected) {
-        await itemTransfer(event, data, this.actor);
+        await itemTransfer(event, item, this.actor);
         return;
       }
     }
@@ -1118,7 +1131,7 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
 
     const stackable = item.system.stackable;
     if (stackable && onSelf) await handleStackableItem(item, this.actor, event, false);
-    else await super._onDropItem(event, data);
+    else await super._onDropItem(event, item);
   }
 
   async _onDropActor(event, data) {

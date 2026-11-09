@@ -162,7 +162,6 @@ export function prepareItemsForStorage(context, actor) {
   if (!headersOrdering) return;
 
   const inventory = _sortAndPrepareTables(headersOrdering.inventory);
-  const containers = [];
 
    for (const item of context.items) {
     _prepareItemUsageCosts(item);
@@ -172,16 +171,12 @@ export function prepareItemsForStorage(context, actor) {
 
     switch (item.type) {
       
-      case 'weapon': case 'equipment': case 'spellFocus': case 'consumable': case 'loot':
+      case 'weapon': case 'equipment': case 'spellFocus': case 'consumable': case 'loot': case 'container':
         const fallback = item.type === "spellFocus" ? "weapon" : item.type;
         _addItemToTable(item, inventory, fallback); 
         break;
-      case 'container':
-        containers.push(item);
-        break;
     }
    }
-   context.containers = containers;
    context.inventory = _filterItems(actor.system.sheetData.header.filter.inventory, inventory);
 }
 

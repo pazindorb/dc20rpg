@@ -472,7 +472,7 @@ DC20RPG.DROPDOWN_DATA.monsterRanks = {
 
 DC20RPG.DROPDOWN_DATA.storageTypes = {
   partyInventory: "Party Inventory",
-  randomLootTable: "Random Loot Table",
+  randomLootTable: "Loot Table",
   vendor: "Vendor"
 }
 

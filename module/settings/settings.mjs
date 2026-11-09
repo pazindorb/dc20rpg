@@ -192,6 +192,33 @@ export function registerGameSettings(settings) {
     }}),
 	});
 
+  settings.register("dc20rpg", "pickupCanvasItemDistance", {
+    name: "Canvas Item pick up distance",
+    hint: "The distance at which the Token will be able to pick up the canvas dropped Item (0 = no limit)",
+    scope: "world",
+    config: true,
+    default: 0,
+    type: Number
+	});
+
+  settings.register("dc20rpg", "openVendorDistance", {
+    name: "Opening distance of the Vendor Sheet",
+    hint: "The distance at which the Token will be able to open the Vendor Storage sheet (0 = no limit, sheet owner = no limit)",
+    scope: "world",
+    config: true,
+    default: 0,
+    type: Number
+	});
+
+  settings.register("dc20rpg", "openLootTableDistance", {
+    name: "Opening distance of the Loot Sheet",
+    hint: "The distance at which the Token will be able to open the Loot Storage sheet (0 = no limit, sheet owner = no limit)",
+    scope: "world",
+    config: true,
+    default: 0,
+    type: Number
+	});
+
   // ======================================
   // ==          CHAT MESSAGE            ==
   // ======================================

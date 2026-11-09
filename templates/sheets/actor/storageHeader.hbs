@@ -1,0 +1,105 @@
+<header class="storage-sheet-header storage-header">
+  <img class="storage-img" src="{{img}}" {{#if isGM}}data-edit="img" data-tooltip="{{localize 'dc20rpg.sheet.editImage'}}"{{else}}data-action="showImg" data-tooltip="{{localize 'dc20rpg.sheet.showImage'}}"{{/if}}/>
+
+  <div class="storage-info-wrapper">
+    <div class="char-name">
+      <input {{#unless isGM}}disabled{{/unless}} name="name" type="text" value="{{name}}" placeholder="{{localize 'dc20rpg.sheet.charName'}}"/>
+    </div>
+
+    {{#if isGM}}
+    <div class="config-wrapper scrollable">
+
+      <div class="form-group symetric" style="margin-top:0;">
+        <div class="icon-wrapper">
+          <i class="fa-solid fa-box-open"></i>
+          <label>{{localize 'dc20rpg.sheet.storageType'}}</label>
+        </div>
+        <select data-cType="string" name="system.storageType">
+          {{selectOptions @root.config.DROPDOWN_DATA.storageTypes selected=system.storageType blank=""}}
+        </select>
+      </div>
+
+      {{#ifCond system.storageType '===' "randomLootTable"}}
+      <div class="form-group symetric">
+        <div class="icon-wrapper">
+          <i class="fa-solid fa-dice"></i>
+          <label>{{localize 'dc20rpg.sheet.storage.skipRoll'}}</label>
+        </div>
+        <input type="checkbox" name="system.randomLoot.skipRoll" {{checked system.randomLoot.skipRoll}}/>
+      </div>
+      {{#unless system.randomLoot.skipRoll}}
+      <div class="form-group symetric">
+        <div class="icon-wrapper">
+          <i class="fa-light fa-dice-d20"></i>
+          <label>{{localize 'dc20rpg.sheet.storage.rollDice'}}</label>
+        </div>
+        <input type="text" data-dtype="Number" name="system.randomLoot.rollDice" value="{{system.randomLoot.rollDice}}" style="flex:0.5;"/>
+      </div>
+      <div class="form-group symetric">
+        <div class="icon-wrapper">
+          <i class="fa-solid fa-boxes-stacked"></i>
+          <label>{{localize 'dc20rpg.sheet.storage.numberOfItems'}}</label>
+        </div>
+        <input type="text" data-dtype="Number" name="system.randomLoot.numberOfItems" value="{{system.randomLoot.numberOfItems}}" style="flex:0.5;"/>
+      </div>
+      {{/unless}}
+      {{/ifCond}}
+
+      {{#ifCond system.storageType '===' "vendor"}}
+      <div class="form-group symetric">
+        <div class="icon-wrapper">
+          <i class="fa-solid fa-infinity"></i>
+          <label>{{localize 'dc20rpg.sheet.storage.infiniteStock'}}</label>
+        </div>
+        <input type="checkbox" name="system.vendor.infiniteStock" {{checked system.vendor.infiniteStock}}/>
+      </div>
+      <div class="form-group symetric" data-tooltip="{{localize 'dc20rpg.sheet.storage.discountPercentHint'}}">
+        <div class="icon-wrapper">
+          <i class="fa-solid fa-tag"></i>
+          <label>{{localize 'dc20rpg.sheet.storage.discountPercent'}}</label>
+        </div>
+        <input type="text" data-dtype="Number" name="system.vendor.discountPercent" value="{{system.vendor.discountPercent}}" style="flex:0.5;"/>
+      </div>
+      <div class="form-group symetric">
+        <div class="icon-wrapper">
+          <i class="fa-solid fa-boxes-stacked"></i>
+          <label>{{localize 'dc20rpg.sheet.storage.allowSelling'}}</label>
+        </div>
+        <input type="checkbox" name="system.vendor.allowSelling" {{checked system.vendor.allowSelling}}/>
+      </div>
+      {{#if system.vendor.allowSelling}}
+      <div class="form-group symetric" data-tooltip="{{localize 'dc20rpg.sheet.storage.sellCostPercentHint'}}">
+        <div class="icon-wrapper">
+          <i class="fa-solid fa-gavel"></i>
+          <label>{{localize 'dc20rpg.sheet.storage.sellCostPercent'}}</label>
+        </div>
+        <input type="text" data-dtype="Number" name="system.vendor.sellCostPercent" value="{{system.vendor.sellCostPercent}}" style="flex:0.5;"/>
+      </div>
+      {{/if}}
+      {{/ifCond}}
+    </div>
+    {{else}}
+    {{#ifCond system.storageType '===' "vendor"}}
+    <div class="config-wrapper scrollable">
+      <div class="form-group symetric" data-tooltip="{{localize 'dc20rpg.sheet.storage.discountPercentHint'}}">
+        <div class="icon-wrapper">
+          <i class="fa-solid fa-tag"></i>
+          <label>{{localize 'dc20rpg.sheet.storage.discountPercent'}}</label>
+        </div>
+        <input type="text" data-dtype="Number" disabled value="{{system.vendor.discountPercent}}" style="flex:0.5;"/>
+      </div>
+      {{#if system.vendor.allowSelling}}
+      <div class="form-group symetric" data-tooltip="{{localize 'dc20rpg.sheet.storage.sellCostPercentHint'}}">
+        <div class="icon-wrapper">
+          <i class="fa-solid fa-tag"></i>
+          <label>{{localize 'dc20rpg.sheet.storage.sellCostPercent'}}</label>
+        </div>
+        <input type="text" data-dtype="Number" disabled value="{{system.vendor.sellCostPercent}}" style="flex:0.5;"/>
+      </div>
+      {{/if}}
+    </div>
+    {{/ifCond}}
+    {{/if}}
+
+  </div>
+</header>

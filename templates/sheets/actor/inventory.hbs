@@ -21,7 +21,7 @@
           </div>
         {{else}}
         <div class="top-menu-buttons" style="padding: 1px 10px;">
-          <div class="currencies" title="{{localize "dc20rpg.sheet.currency.title"}}">
+          <div class="currencies" data-tooltip="{{localize "dc20rpg.sheet.currency.title"}}">
             <i class="fa-solid fa-coins"></i>
             {{#each system.currency as |value key|}}
             <div class="currency {{key}}" data-tooltip="{{localize (concat 'dc20rpg.sheet.currency.' key)}}">
@@ -55,7 +55,7 @@
       {{#each inventory as |table key|}}
       <div class="item-list table-name {{key}}">
         {{!-- Header --}}
-        <div class="item-header" data-table-name='{{key}}' style="grid-template-columns: 1fr 6fr 3fr">
+        <div class="item-header" data-table-name='{{key}}' style="grid-template-columns: 1fr 6fr 1fr 1fr 3fr">
           {{!-- Reorder Buttons --}}
           {{#if @root.editMode}}
           <div class="column reordering-buttons">
@@ -77,6 +77,16 @@
             <input {{#ifCond @root.editMode '&&' table.custom}}{{else}}disabled{{/ifCond}} type="text" name="system.sheetData.header.order.inventory.{{key}}.name" value="{{localize table.name}}"/>
           </div>
 
+          {{!-- Weight --}}
+          <div class="column weight" data-tooltip="{{localize "dc20rpg.sheet.itemTable.weight"}}">
+            <i class="fa-solid fa-weight-hanging"></i>
+          </div>
+
+          {{!-- Quantity --}}
+          <div class="column quantity" data-tooltip="{{localize "dc20rpg.sheet.itemTable.quantity"}}">
+            <i class="fa-solid fa-boxes-stacked"></i>
+          </div>
+
           {{!-- Details --}}
           <div class="column details">
             <i class="{{#if @root.editMode}}fa-solid fa-gear{{else}}fa-light fa-dice-d20{{/if}}"></i>
@@ -89,7 +99,7 @@
         {{!-- Rows --}}
         {{#each table.items as |item id|}} 
         <div class="item item-row draggable context-menu {{#if item.equipped}} equipped{{/if}}{{#if item.system.statuses.attuned}} attuned{{/if}}{{#ifCond item.system.toggle.toggleable '&&' item.system.toggle.toggledOn}} activated-effect{{/ifCond}}" 
-            data-middle-click="sheet" data-item-id="{{item._id}}" style="grid-template-columns: 1fr 6fr 3fr" data-hover="tooltip">
+            data-middle-click="sheet" data-item-id="{{item._id}}" style="grid-template-columns: 1fr 6fr 1fr 1fr 3fr" data-hover="tooltip">
           
           <div class="column cost">
             <div class="costs">
@@ -173,6 +183,16 @@
               </div>
               {{/if}}
             </div>
+          </div>
+
+          {{!-- Weight --}}
+          <div class="column weight" data-tooltip="{{localize "dc20rpg.sheet.itemTable.weight"}}">
+            <input data-cType="numeric" data-path="system.weight" value="{{item.system.weight}}" type="text" data-item-id="{{id}}"/>
+          </div>
+
+          {{!-- Quantity --}}
+          <div class="column quantity" data-tooltip="{{localize "dc20rpg.sheet.itemTable.quantity"}}">
+            <input data-cType="numeric" data-path="system.quantity" value="{{item.system.quantity}}" type="text" data-item-id="{{id}}"/>
           </div>
 
           {{!-- Details --}}

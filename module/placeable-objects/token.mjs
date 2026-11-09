@@ -140,23 +140,65 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
 
   async _onClickLeft2(event) {
     if (this.document.itemToken) {
-      const tokens = getTokensForUser();
-      const selected = await PDE.TokenSelector.open(tokens, {customMessage: "Select Actor to pick up this item."});
-      if (selected.length === 0) return;
-
-      for (const token of selected) {
-        const actor = token?.actor;
-        if (actor) {
-          const itemData = this.document.flags.dc20rpg.itemData;
-          if (itemData.system.properties?.cumbersome?.active) {
-            if (!actor.resources.ap.checkAndSpend(1)) return;
-          }
-          await DC20RpgItem.gmCreate(itemData, {parent: actor});
-        }
-      }
-      await this.gmDelete();
+      return await this.#onClickDroppedItem();
     }
-    else await super._onClickLeft2(event);
+    if (this.document?.actor?.type === "storage") {
+      return await this.#onClickStorage();
+    }
+    await super._onClickLeft2(event);
+  }
+
+  async #onClickDroppedItem() {
+    const distance = game.settings.get("dc20rpg", "pickupCanvasItemDistance");
+    const tokens = await this.#getUserTokensInRange(distance);
+    if (tokens.length === 0) {
+      ui.notifications.warn("Your tokens are too far away to interact with this Item.")
+      return;
+    }
+    const selected = await PDE.TokenSelector.open(tokens, {customMessage: "Select Actor to pick up this item."});
+    if (selected.length === 0) return;
+
+    for (const token of selected) {
+      const actor = token?.actor;
+      if (actor) {
+        const itemData = this.document.flags.dc20rpg.itemData;
+        if (itemData.system.properties?.cumbersome?.active) {
+          if (!actor.resources.ap.checkAndSpend(1)) return;
+        }
+        await DC20RpgItem.gmCreate(itemData, {parent: actor});
+      }
+    }
+    await this.gmDelete();
+  }
+
+  async #onClickStorage() {
+    const actor = this.document.actor;
+    if (actor.isOwner) return actor.sheet.render({force: true});
+
+    const storageType = actor.system.storageType;
+    let settingName = "";
+    if (storageType === "vendor")           settingName = "openVendorDistance";
+    if (storageType === "randomLootTable")  settingName = "openLootTableDistance";
+    if (!settingName) return;
+    
+    const distance = game.settings.get("dc20rpg", settingName);
+    if (distance === 0) return actor.sheet.render({force: true});
+
+    const tokensInRange = await this.#getUserTokensInRange(distance);
+    if (tokensInRange.length > 0) {
+      actor.sheet.render({force: true});
+    }
+    else {
+      ui.notifications.warn("Your tokens are too far away to interact with this Storage.")
+    }
+  }
+
+  async #getUserTokensInRange(range) {
+    const userTokens = getTokensForUser();
+    if (range === 0) return userTokens;
+    
+    const tokensInRange = await this.getTokensInRange(range);
+    return tokensInRange.filter(token => userTokens.find(ut => ut.id === token.id));
   }
 
   /** @override */
@@ -170,6 +212,7 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
       if (this.document.itemToken) return true;
       else ui.notifications.warn("TOKEN.WarningNoActor", {localize: true});
     }
+    if ( this.actor?.type === "storage") return true;
     //====== INJECTED ====== 
     return this.actor?.testUserPermission(user, "LIMITED");
   }

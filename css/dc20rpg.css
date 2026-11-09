@@ -11756,6 +11756,66 @@
 .dc20rpg.actor-v13 .actor-sheet-section .top-menu-wrapper i.fa-duotone:not(:hover)::after {
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
+.dc20rpg.actor-v13 .actor-sheet-section .containers {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: var(--secondary-color);
+  border: 2px solid var(--primary-color);
+  border-radius: 15px 5px 5px 15px;
+}
+.dc20rpg.actor-v13 .actor-sheet-section .containers .container-icon {
+  width: 36px;
+  height: 36px;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  font-size: 16px;
+  color: var(--secondary-light);
+  border-right: 2px solid var(--primary-color);
+  background-color: var(--primary-color);
+  margin-right: 10px;
+  border-radius: 11px 0 0 11px;
+}
+.dc20rpg.actor-v13 .actor-sheet-section .containers .container {
+  margin: 3px 5px;
+}
+.dc20rpg.actor-v13 .actor-sheet-section .containers .container img {
+  background-color: var(--secondary-dark);
+  border: 2px solid var(--primary-color);
+  border-radius: 3px;
+  min-height: 30px;
+  min-width: 30px;
+  height: 30px;
+  width: 30px;
+}
+.dc20rpg.actor-v13 .actor-sheet-section .containers .container img:hover {
+  -webkit-box-shadow: 0 0 5px 1px var(--primary-color);
+  box-shadow: 0 0 5px 1px var(--primary-color);
+  cursor: pointer;
+}
+.dc20rpg.actor-v13 .actor-sheet-section .containers .container a {
+  position: relative;
+  top: 13px;
+  left: 6px;
+  font-size: 12px;
+  color: #830000;
+  height: 0;
+  width: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+}
 .dc20rpg.actor-v13 .actor-sheet-section .held-action-wrapper {
   margin-top: 10px;
   height: 30px;
@@ -12310,6 +12370,11 @@
   font-size: 13px !important;
   color: #000;
   text-shadow: none;
+}
+.dc20rpg.actor-v13 .actor-sheet-section .item-table .item-row .weight input, .dc20rpg.actor-v13 .actor-sheet-section .item-table .item-row .quantity input {
+  background-color: transparent;
+  color: black;
+  font-weight: bold;
 }
 .dc20rpg.actor-v13 .actor-sheet-section.traits .scrollable .trait-table .trait-header {
   display: grid;
@@ -13680,8 +13745,7 @@
 .dc20rpg.actor-v13 .pc-sheet-section .two-column .left-side .subtab-wrapper .tab-selector a.active, .dc20rpg.actor-v13 .pc-sheet-section .two-column .left-side .subtab-wrapper .subtab-selector a.active {
   color: var(--pc-secondary-light);
   font-size: 18px;
-  width: 120px;
-  background-color: var(--pc-secondary-dark);
+  background-color: var(--pc-main);
 }
 .dc20rpg.actor-v13 .pc-sheet-section .two-column .left-side .subtab-wrapper .subtab-selector {
   border-radius: 0;
@@ -13690,9 +13754,6 @@
 .dc20rpg.actor-v13 .pc-sheet-section .two-column .left-side .subtab-wrapper .subtab-selector a {
   height: 25px;
   width: 40px;
-}
-.dc20rpg.actor-v13 .pc-sheet-section .two-column .left-side .subtab-wrapper .subtab-selector a.active {
-  width: 50px;
 }
 .dc20rpg.actor-v13 .pc-sheet-section .two-column .left-side .subtab-wrapper .tab-content .top-menu {
   border-radius: 0;
@@ -14217,65 +14278,264 @@
 .dc20rpg.actor-v13 .pc-sheet-section .two-column .right-side .menu-value {
   padding: 0 10px;
 }
-.dc20rpg.actor-v13 .pc-sheet-section .two-column .right-side .containers {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  background-color: var(--pc-secondary);
-  border: 2px solid var(--pc-main);
-  border-radius: 15px 5px 5px 15px;
+.dc20rpg.actor-v13.storage {
+  --primary-color: var(--storage-main);
+  --primary-light: var(--storage-main-light);
+  --primary-dark: var(--storage-main-dark);
+  --primary-darker: var(--storage-main-dark);
+  --secondary-color: var(--storage-secondary);
+  --secondary-dark: var(--storage-secondary-dark);
+  --secondary-darker: var(--storage-secondary-darker);
+  --secondary-lighter: var(--storage-secondary-light);
+  --secondary-light-alpha: var(--storage-secondary-light-alpha);
+  --table-1: var(--storage-table-1);
+  --table-2: var(--storage-table-2);
 }
-.dc20rpg.actor-v13 .pc-sheet-section .two-column .right-side .containers .container-icon {
-  width: 35px;
-  height: 35px;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+.dc20rpg.actor-v13.storage .window-content {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  gap: 8px;
+}
+.dc20rpg.actor-v13.storage .storage-sheet-header {
+  display: grid;
+  grid-template-columns: 132px minmax(0, 1fr);
+  gap: 10px;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  min-height: 150px;
+  padding: 8px;
+  overflow: hidden;
+  border: 2px solid var(--primary-dark);
+  border-radius: 8px;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--storage-header-image-color) 85%, transparent), transparent 70%), var(--secondary-dark);
+  -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.35);
+}
+.dc20rpg.actor-v13.storage .storage-sheet-header .storage-img {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 132px;
+  height: 132px;
+  min-width: 132px;
+  min-height: 132px;
+  padding: 4px;
+  -ms-flex-item-align: center;
+  align-self: center;
+  border: 2px solid var(--storage-main-light);
+  border-radius: 4px;
+  background-color: var(--primary-dark);
+}
+.dc20rpg.actor-v13.storage .storage-sheet-header .storage-img img {
+  display: block;
+  -o-object-fit: cover;
+  object-fit: cover;
+  -o-object-position: 50% 0;
+  object-position: 50% 0;
+  cursor: pointer;
+}
+.dc20rpg.actor-v13.storage .storage-sheet-header .storage-info-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  min-width: 0;
+  max-height: 160px;
+  padding-right: 3px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.dc20rpg.actor-v13.storage .storage-sheet-header .storage-info-wrapper .char-name {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  margin-bottom: 4px;
+  border: 2px solid var(--primary-light);
+  border-radius: 5px;
+  background-color: rgba(37, 37, 37, 0.1803921569);
+}
+.dc20rpg.actor-v13.storage .storage-sheet-header .storage-info-wrapper .char-name input {
+  text-indent: 5px;
+  height: 30px;
+  padding: 0 8px;
+  border: 0;
+  color: white;
+  background: transparent;
+  font-family: "Humaroid";
+  font-size: 24px;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+.dc20rpg.actor-v13.storage .storage-sheet-header .storage-info-wrapper .char-name input:disabled {
+  color: white;
+}
+.dc20rpg.actor-v13.storage .storage-sheet-header .storage-info-wrapper .config-wrapper {
+  height: 105px;
+  overflow: auto;
+  background: rgba(37, 37, 37, 0.1803921569);
+  border: 2px solid var(--primary-light);
+  border-radius: 5px;
+  padding: 5px;
+}
+.dc20rpg.actor-v13.storage .storage-sheet-header .storage-info-wrapper .form-group {
+  margin-top: 5px;
+  padding-left: 6px;
+  color: var(--secondary-lighter);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  color: white;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+.dc20rpg.actor-v13.storage .storage-sheet-header .storage-info-wrapper .form-group .icon-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: start;
+}
+.dc20rpg.actor-v13.storage .storage-sheet-header .storage-info-wrapper .form-group input, .dc20rpg.actor-v13.storage .storage-sheet-header .storage-info-wrapper .form-group select {
+  text-align: end;
+  height: 25px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: end;
+}
+.dc20rpg.actor-v13.storage .storage-sheet-header .storage-info-wrapper .form-group.short-form input {
+  max-width: 50px;
+}
+.dc20rpg.actor-v13.storage .storage-sheet-header .storage-info-wrapper .form-group.symetric .icon-wrapper {
+  -webkit-box-flex: 2;
+  -ms-flex: 2;
+  flex: 2;
+}
+.dc20rpg.actor-v13.storage .storage-sheet-header .storage-info-wrapper .form-group.symetric input, .dc20rpg.actor-v13.storage .storage-sheet-header .storage-info-wrapper .form-group.symetric select {
+  -webkit-box-flex: 2;
+  -ms-flex: 2;
+  flex: 2;
+}
+.dc20rpg.actor-v13.storage .storage-sheet-header .storage-info-wrapper .form-group a.checked {
+  color: var(--checkbox);
+}
+.dc20rpg.actor-v13.storage .storage-sheet-header .storage-info-wrapper .form-group label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+.dc20rpg.actor-v13.storage .storage-sheet-header .storage-info-wrapper .form-group i {
+  width: 20px;
+  margin-right: 4px;
+  text-align: center;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+.dc20rpg.actor-v13.storage .storage-sheet-section {
+  min-height: 0;
+}
+.dc20rpg.actor-v13.storage .storage-sheet-section .scrollable {
+  padding-top: 0;
+}
+.dc20rpg.actor-v13.storage .storage-sheet-section .item-table .item-header {
+  min-height: 32px;
+}
+.dc20rpg.actor-v13.storage .storage-sheet-section .item-table .item-header .name input {
+  font-family: "Humaroid";
+  font-size: 17px;
+}
+.dc20rpg.actor-v13.storage .storage-sheet-section .item-table .item-header .reordering-buttons {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  gap: 1px;
+  font-size: 11px;
+}
+.dc20rpg.actor-v13.storage .storage-sheet-section .item-table .item-row {
+  color: black;
+  min-height: 40px;
+  border-color: var(--primary-color);
+  background-color: var(--secondary-color);
+}
+.dc20rpg.actor-v13.storage .storage-sheet-section .item-table .item-row .column {
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-  font-size: 16px;
-  color: var(--pc-secondary-light);
-  border-right: 2px solid var(--pc-main);
-  background-color: var(--pc-main);
-  margin-right: 10px;
-  border-radius: 11px 0 0 11px;
+  border-color: var(--primary-color);
 }
-.dc20rpg.actor-v13 .pc-sheet-section .two-column .right-side .containers .container {
-  margin: 5px 8px;
+.dc20rpg.actor-v13.storage .storage-sheet-section .item-table .item-row .column.name {
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  min-width: 0;
 }
-.dc20rpg.actor-v13 .pc-sheet-section .two-column .right-side .containers .container img {
-  background-color: var(--pc-secondary-dark);
-  border: 2px solid var(--pc-main);
-  border-radius: 3px;
-  min-height: 25px;
-  min-width: 25px;
-  height: 25px;
-  width: 25px;
+.dc20rpg.actor-v13.storage .storage-sheet-section .item-table .item-row .column input,
+.dc20rpg.actor-v13.storage .storage-sheet-section .item-table .item-row .column select {
+  width: 50px;
+  min-width: 0;
+  height: 26px;
+  padding: 0 3px;
+  border: 0;
+  color: #111;
+  background: transparent;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  text-align: center;
 }
-.dc20rpg.actor-v13 .pc-sheet-section .two-column .right-side .containers .container img:hover {
-  -webkit-box-shadow: 0 0 5px 1px var(--pc-main);
-  box-shadow: 0 0 5px 1px var(--pc-main);
-  cursor: pointer;
+.dc20rpg.actor-v13.storage .storage-sheet-section .item-table .item-row .column select {
+  width: 48px;
+  padding: 0;
 }
-.dc20rpg.actor-v13 .pc-sheet-section .two-column .right-side .containers .container a {
-  position: relative;
-  top: 13px;
-  left: 6px;
-  font-size: 12px;
-  color: #830000;
-  height: 0;
-  width: 0;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+.dc20rpg.actor-v13.storage .storage-sheet-section .item-table .item-row .item-img-wrapper {
+  height: 38px;
+  min-width: 38px;
+  width: 38px;
+  border-right: 1px solid var(--primary-color);
+}
+.dc20rpg.actor-v13.storage .storage-sheet-section .item-table .item-row .item-img-wrapper img {
+  min-width: 38px;
+  width: 38px;
+  height: 38px;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+.dc20rpg.actor-v13.storage .storage-sheet-section .item-table .item-row .item-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 600;
+}
+.dc20rpg.actor-v13.storage .storage-sheet-section .item-table .item-row .loot-rool {
+  gap: 2px;
+}
+.dc20rpg.actor-v13.storage .storage-sheet-section .item-table .item-row .loot-rool input {
+  width: 31px;
+}
+.dc20rpg.actor-v13.storage.theme-light .storage-sheet-header {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--storage-header-image-color) 65%, transparent), transparent 75%), var(--secondary-dark);
 }
 .dc20rpg.actor-v13 .window-content {
   padding: 8px;

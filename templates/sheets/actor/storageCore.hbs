@@ -1,0 +1,107 @@
+<section class="storage-sheet-section actor-sheet-section tab storageCore standard-form active" data-group="sheet" data-tab="storageCore">
+  <div class="scrollable">
+    {{#if system.storageType}}
+    <div class="top-menu-wrapper">
+      <div class="top-menu">
+        <div class="top-menu-buttons" style="padding: 1px 10px;">
+          <div class="currencies" data-tooltip="{{localize "dc20rpg.sheet.currency.title"}}">
+            <i class="fa-solid fa-coins"></i>
+            {{#each system.currency as |value key|}}
+            <div class="currency {{key}}" data-tooltip="{{localize (concat 'dc20rpg.sheet.currency.' key)}}">
+              <input {{#unless @root.canUserModify}}disabled{{/unless}} type="number" name="system.currency.{{key}}" value="{{value}}" data-dtype="Number"/>
+            </div>
+            {{/each}}
+            {{#ifCond system.storageType "!==" "vendor"}}
+            <a class="fa-lg fa-solid fa-money-bill-transfer margin-left-5" data-action="transfer" data-mode="storage" data-tooltip="{{localize 'dc20rpg.sheet.transfer'}}"></a>
+            {{/ifCond}}
+          </div>
+        </div>
+
+        {{#if isGM}}
+        <div class="top-menu-buttons end">
+          <a data-action="createTable" data-tab="inventory" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.createTable'}}"><i class="fa-lg fa-solid fa-diagram-predecessor"></i></a>
+        </div>
+        {{/if}}
+      </div>
+    </div>
+
+    <div class="item-table item-storage margin-top-10">
+      {{#each inventory as |table key|}}
+      <div class="item-list table-name {{key}}">
+        <div class="item-header" data-table-name="{{key}}" style="grid-template-columns: 35px {{@root.gridTemplate}}">
+          <div class="column reordering-buttons">
+            {{#if table.siblings.before}}
+            <a class="fa-solid fa-angle-up" data-action="reorder" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.headerUp'}}" data-tab="inventory" data-current="{{key}}" data-swapped="{{table.siblings.before}}"></a>
+            {{/if}}
+            {{#if table.siblings.after}}
+            <a class="fa-solid fa-angle-down" data-action="reorder" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.headerDown'}}" data-tab="inventory" data-current="{{key}}" data-swapped="{{table.siblings.after}}"></a>
+            {{/if}}
+          </div>
+
+          <div class="column name">
+            <input {{#unless table.custom}}disabled{{/unless}} type="text" name="system.sheetData.header.order.inventory.{{key}}.name" value="{{localize table.name}}"/>
+          </div>
+
+          {{#ifCond @root.system.storageType '===' "vendor"}}
+          <div class="column"><i class="fa-solid fa-coins" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.cost'}}"></i></div>
+          {{/ifCond}}
+
+          {{#ifCond @root.system.storageType '===' "randomLootTable"}}{{#if @root.isGM}}
+          <div class="column"><i class="fa-light fa-dice-d20" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.lootRoll'}}"></i></div>
+          {{/if}}{{/ifCond}}
+
+          <div class="column"><i class="fa-solid fa-boxes-stacked" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.quantity'}}"></i></div>
+
+          {{#if @root.isGM}}
+          <div class="column">
+            <i class="fa-solid fa-gear"></i>
+            {{#if table.custom}}
+            <a class="fa-lg fa-solid fa-xmark margin-left-3" data-action="deleteTable" data-tab="inventory" data-table="{{key}}" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.removeTable'}}"></a>
+            {{/if}}
+          </div>
+          {{/if}}
+        </div>
+
+        {{#each table.items as |item id|}}
+        <div class="item item-row draggable" data-middle-click="sheet" data-item-id="{{item._id}}" data-hover="tooltip" style="grid-template-columns: {{@root.gridTemplate}}">
+          <div class="column name">
+            <div class="item-img-wrapper">
+              <img src="{{item.img}}"/>
+            </div>
+            <div class="item-name">{{item.name}}</div>
+          </div>
+
+          {{#ifCond @root.system.storageType '===' "vendor"}}
+          <div class="column" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.cost'}}">
+            <input {{#unless @root.isGM}}disabled{{/unless}} data-cType="numeric" data-path="system.price.value" value="{{item.system.price.value}}" type="text" data-item-id="{{id}}"/>
+            <select {{#unless @root.isGM}}disabled{{/unless}} data-cType="string" data-path="system.price.currency" data-item-id="{{id}}">
+              {{selectOptions @root.config.DROPDOWN_DATA.currencyTypes selected=item.system.price.currency}}
+            </select>
+          </div>
+          {{/ifCond}}
+
+          {{#ifCond @root.system.storageType '===' "randomLootTable"}}{{#if @root.isGM}}
+          <div class="column loot-rool" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.lootRoll'}}">
+            <input disabled value="{{item.lowerLimit}}"/>
+            <span>-</span>
+            <input data-cType="numeric" data-path="system.lootRoll" value="{{item.system.lootRoll}}" type="text" data-item-id="{{id}}"/>
+          </div>
+          {{/if}}{{/ifCond}}
+
+          <div class="column" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.quantity'}}">
+            <input data-cType="numeric" data-path="system.quantity" value="{{item.system.quantity}}" type="text" data-item-id="{{id}}"/>
+          </div>
+
+          {{#if @root.isGM}}
+          <div class="column">
+            <a class="fas fa-trash" data-action="delete" data-item-id="{{id}}" data-tooltip="{{localize 'dc20rpg.sheet.items.deleteItem'}}"></a>
+          </div>
+          {{/if}}
+        </div>
+        {{/each}}
+      </div>
+      {{/each}}
+    </div>
+    {{/if}}
+  </div>
+</section>

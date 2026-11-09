@@ -13,9 +13,9 @@
       >
         {{skill.short}}
       </span>
-      <input class="skill-name" type="text" {{#unless skill.custom}}disabled{{/unless}} value="{{skill.label}}" name="system.trades.{{key}}.label"/>
+      <input class="skill-name" type="text" {{#unless skill.custom}}disabled{{/unless}} value="{{skill.label}}" data-cType="string" data-path="system.trades.{{key}}.label"/>
       <div class="skill-menu">
-        <select name="system.trades.{{key}}.baseAttribute" data-tooltip="{{localize 'dc20rpg.sheet.skills.baseAttribute'}}">
+        <select data-cType="string" data-path="system.trades.{{key}}.baseAttribute" data-tooltip="{{localize 'dc20rpg.sheet.skills.baseAttribute'}}">
           {{selectOptions @root.config.DROPDOWN_DATA.shortAttributes selected=skill.baseAttribute}}
         </select>
         {{#if skill.custom}}

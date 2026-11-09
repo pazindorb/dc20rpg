@@ -5,6 +5,8 @@ import { evaluateFormula } from "../rolls.mjs";
 import { handleStackableItem } from "./itemsOnActor.mjs";
 
 export async function generateRandomLootTable(storage) {
+  if (storage.system.randomLoot.skipRoll) return; // Just leave all the items
+
   const numberOfItems = storage.system.randomLoot.numberOfItems;
   if (numberOfItems >= storage.items.size) return;
 
@@ -57,8 +59,7 @@ function _prepareItems(items, maxValue) {
   return itemMap;
 }
 
-export async function itemTransfer(event, data, actor) {
-  const originalItem = await fromUuid(data.uuid);
+export async function itemTransfer(event, originalItem, actor) {
   const actorFrom = originalItem.actor;
 
   const canOrginal = actorFrom.testUserPermission(game.user, "OWNER");
@@ -71,7 +72,7 @@ export async function itemTransfer(event, data, actor) {
 
   // Storage accepts only inventory items
   if (!CONFIG.DC20RPG.DROPDOWN_DATA.inventoryTypes[originalItem.type]) {
-    ui.notifications.error("Storage actor can only store: 'weapons', 'equipment', 'consumables' and 'loot'");
+    ui.notifications.error("Storage actor can only store: 'weapons', 'equipment', 'consumables', 'containers' and 'loot'");
     return;
   }
 
@@ -108,17 +109,23 @@ export async function itemTransfer(event, data, actor) {
   const infiniteStock = originalItem.actor.system?.vendor?.infiniteStock;
   const itemData = originalItem.toObject();
   await DC20RpgItem.gmCreate(itemData, {parent: actor});
-  if (!infiniteStock) await originalItem.delete({transfer: true});
+  if (!infiniteStock) await originalItem.gmDelete({transfer: true});
 }
 
 async function _handleTrade(vendor, buyer, items) {
   let priceMultiplier = 1;
+  // Apply buyout price modifier
   if (buyer.system.storageType === "vendor") {
     if (!buyer.system?.vendor?.allowSelling) {
       ui.notifications.error("This vendor cannot buy items.");
       return false;
     }
     priceMultiplier = buyer.system?.vendor?.sellCostPercent/100 || 1;
+  }
+
+  // Apply discount price modifier
+  if (vendor.system.storageType === "vendor") {
+    priceMultiplier = vendor.system?.vendor?.discountPercent/100 || 1;
   }
 
   const finalCost = calculateItemsCost(items, priceMultiplier);

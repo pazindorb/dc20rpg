@@ -193,9 +193,14 @@ function storageFields() {
           order: 2,
           custom: false
         },
+        container: {
+          name: "dc20rpg.table.header.container",
+          order: 3,
+          custom: false
+        },
         loot: {
 					name: "dc20rpg.table.header.loot",
-					order: 3,
+					order: 4,
 					custom: false
 				}
       }})

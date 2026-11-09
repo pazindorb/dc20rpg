@@ -530,8 +530,8 @@ export class DC20RpgActor extends Actor {
 
   _onUpdate(changed, options, userId) {
     super._onUpdate(changed, options, userId);
-    // HP change check
     if (userId === game.user.id) {
+      // HP change check
       if (changed.system?.resources?.health) {
         healthThresholdsCheck(changed.system.resources.health.current, this);
         const tokens = this.getActiveTokens();
@@ -545,33 +545,33 @@ export class DC20RpgActor extends Actor {
           tokens.forEach(token => displayScrollingTextOnToken(token, text, "#9c0000"));
         }
       }
-    }
 
-    // Update Storage token
-    if (this.type === "storage") {
-      const storageType = changed?.system?.storageType;
-      if (storageType) {
-        switch(storageType) {
-          case "partyInventory": 
-            this.update({['prototypeToken.actorLink'] : true});
-            break;
-          case "randomLootTable": 
-            this.update({['prototypeToken.actorLink'] : false});
-            break;
-          case "vendor": 
-            this.update({['prototypeToken.actorLink'] : false});
-            break;
+      // Update Storage token
+      if (this.type === "storage") {
+        const storageType = changed?.system?.storageType;
+        if (storageType) {
+          switch(storageType) {
+            case "partyInventory": 
+              this.update({['prototypeToken.actorLink'] : true});
+              break;
+            case "randomLootTable": 
+              this.update({['prototypeToken.actorLink'] : false});
+              break;
+            case "vendor": 
+              this.update({['prototypeToken.actorLink'] : false});
+              break;
+          }
         }
       }
-    }
 
-    // Scale monster level
-    if (this.system?.scaling?.isScalingMonster) {
-      const levelChanged = changed?.system?.details?.level;
-      if (levelChanged != null) {
-        SimplePopup.confirm("Run Monster Level Scaling?").then(result => {
-          if (result) this.monsterConfig.scaleToLevel();
-        })
+      // Scale monster level
+      if (this.system?.scaling?.isScalingMonster) {
+        const levelChanged = changed?.system?.details?.level;
+        if (levelChanged != null) {
+          SimplePopup.confirm("Run Monster Level Scaling?").then(result => {
+            if (result) this.monsterConfig.scaleToLevel();
+          })
+        }
       }
     }
   }

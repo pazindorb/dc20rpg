@@ -413,6 +413,7 @@ export class DC20StorageData extends DC20BaseActorData {
     return this.mergeSchema(super.defineSchema(), {
       sheetData: new SheetDataFields("storage"),
       randomLoot: new f.SchemaField({
+        skipRoll:  new f.BooleanField({required: true, initial: false}),
         numberOfItems: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
         rollDice: new f.NumberField({ required: true, nullable: false, integer: true, initial: 100 }),
       }),
@@ -420,6 +421,7 @@ export class DC20StorageData extends DC20BaseActorData {
         allowSelling: new f.BooleanField({required: true, initial: false}),
         sellCostPercent: new f.NumberField({ required: true, nullable: false, integer: true, initial: 30 }),
         infiniteStock: new f.BooleanField({required: true, initial: false}),
+        discountPercent: new f.NumberField({ required: true, nullable: false, integer: true, initial: 100 }),
       }),
       storageType: new f.StringField({required: true, initial: ""}),
     });
