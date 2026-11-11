@@ -4,10 +4,9 @@ export default class DamageReductionFields extends foundry.data.fields.SchemaFie
     const init0 = { required: true, nullable: false, integer: true, initial: 0 };
 
     const dmgType = (category) => ({
-      vulnerable: new f.NumberField(init0),
-      resist: new f.NumberField(init0),
       vulnerability: new f.BooleanField({required: true, initial: false}),
       resistance: new f.BooleanField({required: true, initial: false}),
+      limited: new f.BooleanField({required: true, initial: false}),
       immune: new f.BooleanField({required: true, initial: false}),
       category: new f.StringField({required: true, initial: category}) 
     });

@@ -34,6 +34,7 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
       details: new f.SchemaField({
         level: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         combatMastery: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        tier: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         prime: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
       }),
       resources: new ResourceFields(false),
@@ -250,6 +251,7 @@ export class DC20CharacterData extends DC20BaseActorData {
           bonus: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         }), 
         combatMastery: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        tier: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         martial: new f.BooleanField({required: true, initial: false}),
         staminaFeature: new f.BooleanField({required: true, initial: false}),
         spellcaster: new f.BooleanField({required: true, initial: false}),
@@ -291,6 +293,7 @@ export class DC20NpcData extends DC20BaseActorData {
       details: new f.SchemaField({
         level: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
         combatMastery: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),
+        tier: new f.NumberField({ required: true, nullable: false, integer: true, initial: 1 }),
         creatureType: new f.StringField({required: true}),
         creatureRole: new f.StringField({required: true}),
       }),

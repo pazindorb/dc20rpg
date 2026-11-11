@@ -30,6 +30,7 @@ import { SustainManager } from "../dialogs/sustain-manager.mjs";
 import { itemDetailsToHtml } from "../sheets/item-sheet/item-sheet-details.mjs";
 import { costPrinter } from "./handlebars/creators.mjs";
 import { enhanceTooltipDescription } from "./tooltip.mjs";
+import { refreshSkillStoreWithDefault } from "../settings/skillConfig.mjs";
 
 export function prepareDC20Tools() {
   window.DC20 = {
@@ -68,6 +69,9 @@ export function prepareDC20Tools() {
     DC20RpgTokenDocument,
     DC20RpgToken,
     ColorSetting,
+    migration: {
+      refreshSkillStoreWithDefault
+    }
   }
 
   game.dc20rpg = {

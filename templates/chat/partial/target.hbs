@@ -10,7 +10,7 @@
       <div class="name">{{name}}</div>
     </div>
     {{#if attackOutcome}}
-    <div class="label {{attackOutcome.type}}" data-tooltip="{{varLocalize "dc20rpg.chat.defaultDefence." calcData.defenceKey ""}}">{{attackOutcome.label}}</div>
+    <div class="label {{attackOutcome.type}}" data-tooltip="{{varLocalize "dc20rpg.chat.defaultDefence." calcData.defenceKey ""}}">{{attackOutcome.label}} <i class="{{attackOutcome.icon}}" style="margin-left:1px; font-size:12px;"></i></div>
     {{/if}}
   </div>
   {{/unless}}

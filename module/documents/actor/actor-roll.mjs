@@ -40,6 +40,7 @@ function _calculateDetails(data, actor) {
 	const level = actor.system.details.level || 0;
 	data.level = level;
 	data.combatMastery = Math.ceil(level/2);
+	data.tier = 1 + Math.floor(level/5);
 
 	// Calculate prime
 	const useMaxPrime = game.settings.get("dc20rpg", "useMaxPrime");
@@ -78,6 +79,9 @@ function _details(data) {
 	}
 	if (data.details.combatMastery) {
 		data.combatMastery = data.details.combatMastery ?? 0;
+	}
+	if (data.details.tier) {
+		data.tier = data.details.tier ?? 1;
 	}
 	if (data.details.prime) {
 		data.prime = data.details.primeCheck ?? 0;

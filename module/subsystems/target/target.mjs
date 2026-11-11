@@ -15,6 +15,7 @@ export class DC20Target {
   hit = null;
   check = null;
   contest = null;
+  tier = null;
 
   coreRoll = null;
   targetRoll = null;
@@ -123,6 +124,10 @@ export class DC20Target {
 
   setContestDC(dc) {
     this.contestDC = dc;
+  }
+
+  setTier(tier) {
+    this.tier = tier;
   }
   
   setTargetModifiers(targetModifiers=[]) {
@@ -337,7 +342,7 @@ export class DC20Target {
     final.modified = await this.#targetModifierBonus(final.modified, calcData);
 
     if (options.isDamage) {
-      if (options.isAttack && attackHit < 5) this.#applyDamageReduction(final.modified, reduction);
+      if (options.isAttack && attackHit < 10) this.#applyLimitedDamageResistance(final.modified, reduction);
       final.modified = this.#damageModifications(final.modified, reduction);
       final.clear = this.#damageModifications(final.clear, reduction);
     }
@@ -381,17 +386,17 @@ export class DC20Target {
     const skipHeavy = !!calcData.skipFor?.heavy;
     const skipBrutal = !!calcData.skipFor?.brutal;
     if (skipHeavy) return formula;
-    let extraDmg = Math.max(0, Math.floor(attackHit/5)); // We don't want to have negative extra damage
-    
-    if (extraDmg === 1) formula.source += " + Heavy Hit";
-    if (extraDmg > 1 && skipBrutal) {
-      extraDmg = 1;
+
+    const hitLevel = Math.max(0, Math.floor(attackHit/5));
+    if (hitLevel === 1 || (hitLevel > 1 && skipBrutal)) {
+      formula.value += this.tier;
       formula.source += " + Heavy Hit";
     }
+    else if (hitLevel > 1) {
+      formula.value += (2 * this.tier);
+      formula.source += " + Brutal Hit";
+    }
 
-    if (extraDmg === 2) formula.source += " + Brutal Hit";
-    if (extraDmg >= 3) formula.source += ` + Brutal Hit(over ${extraDmg * 5})`;
-    formula.value += extraDmg;
     return formula;
   }
 
@@ -445,7 +450,7 @@ export class DC20Target {
     const isCrit = calcData.isCritSuccess;
     if (canCrit && !skipCrit && isCrit) {
       formula.source += " + Critical";
-      formula.value += 2;
+      formula.value += this.tier;
       return formula;
     }
     else {
@@ -476,32 +481,13 @@ export class DC20Target {
     return formula;
   }
 
-  #applyDamageReduction(formula, dr) {
+  #applyLimitedDamageResistance(formula, dr) {
     const type = formula.type;
-    const ignore = this.targetFlags.ignore || {};
+    const ignoreLR = this.targetFlags.ignore?.limited || new Set();
 
-    let drKey = "";
-    let dmgTypes = [];
-    if (CONFIG.DC20RPG.DROPDOWN_DATA.physicalDamageTypes[type]) {
-      drKey = "pdr";
-      dmgTypes = Object.keys(CONFIG.DC20RPG.DROPDOWN_DATA.physicalDamageTypes);
-    }
-    if (CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes[type]) {
-      drKey = "edr";
-      dmgTypes = Object.keys(CONFIG.DC20RPG.DROPDOWN_DATA.elementalDamageTypes);
-    }
-    if (CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes[type]) {
-      drKey = "mdr";
-      dmgTypes = Object.keys(CONFIG.DC20RPG.DROPDOWN_DATA.mysticalDamageTypes);
-    }
-    if (!drKey) return;
-    if (ignore[drKey]) return;
-
-    const activeDr = dr[drKey].active;
-    if (activeDr) {
-      for (const key of dmgTypes) {
-        dr.damageTypes[key].resistance = true;
-      }
+    const limitedResistance = dr.damageTypes[type]?.limited;
+    if (limitedResistance && !ignoreLR.has(type)) {
+      dr.damageTypes[type].resistance = true;
     }
   }
 
@@ -514,22 +500,10 @@ export class DC20Target {
     const ignoreImmune = ignore.immune && ignore.immune.has(type);
     const modifications = dr.damageTypes[type];
 
-    // STEP 1 - Adding & Subtracting
-    // Resistance X
-    if (modifications.resist > 0 && !ignoreResitance) {
-      formula.source += ` - Resistance(${modifications.resist})`;
-      formula.value -= modifications.resist;
-    }
-    // Vulnerability X
-    if (modifications.vulnerable > 0) {
-      formula.source += ` + Vulnerability(${modifications.vulnerable})`;
-      formula.value += modifications.vulnerable; 
-    }
-
-    // STEP 2 - Doubling & Halving
+    // STEP 1 - Doubling & Halving
     // Immunity
     if (modifications.immune && !ignoreImmune) {
-      formula.source = "Resistance(Immune)";
+      formula.source = "Immune";
       formula.value = 0;
       formula.immune = true;
       return formula;
@@ -543,14 +517,14 @@ export class DC20Target {
       const newValue = Math.ceil(formula.value/2);
       if (newValue === formula.value) formula.value = formula.value - 1;
       else formula.value = newValue;
-      formula.source += ` - Resistance(Half)`;
+      formula.source += ` - Resistance`;
     } 
     // Vulnerability (adds minimum 1)
     if (modifications.vulnerability) {
       const newValue = Math.ceil(formula.value * 2);
       if (newValue === formula.value) formula.value = formula.value + 1;
       else formula.value = newValue;
-      formula.source += ` + Vulnerability(Double)`;
+      formula.source += ` + Vulnerability`;
     }
     return formula;
   }
@@ -721,18 +695,14 @@ export class DC20Target {
 
   async #prepareTargetFlags(calcData) {
     const ignore = {
-      pdr: false,
-      edr: false,
-      mdr: false,
+      limited: new Set(),
       resistance: new Set(),
       immune: new Set()
     }
     for (const modifier of await this.getMatchingTargetModifiers({calcData: calcData, hit: this.hit})) {
       const flags = modifier.flags;
       if (flags) {
-        if (flags.ignorePdr) ignore.pdr = true;
-        if (flags.ignoreEdr) ignore.edr = true;
-        if (flags.ignoreMdr) ignore.mdr = true;
+        ignore.limited = new Set([...ignore.limited, ...Object.keys(flags.ignoreLimited)]);
         ignore.resistance = new Set([...ignore.resistance, ...Object.keys(flags.ignoreResistance)]);
         ignore.immune = new Set([...ignore.immune, ...Object.keys(flags.ignoreImmune)]);
       }
@@ -746,6 +716,7 @@ export class DC20Target {
   get attackOutcome() {
     if (this.hit == null) return null;
 
+    const icon = this?.calcData?.defenceKey === "precision" ? "fa-solid fa-bullseye-pointer" : "fa-solid fa-burst";
     const calcData = this.calcData || {};
     const crit = calcData.isCritSuccess && !calcData.skipFor?.crit;
     const critMiss = calcData.isCritFail;
@@ -753,33 +724,27 @@ export class DC20Target {
     const miss = this.hit < 0 && !crit;
     const heavy = this.hit >= 5 && !calcData.skipFor?.heavy;
     const brutal = this.hit >= 10 && !calcData.skipFor?.brutal;
-    const brutalP = this.hit >= 15 && !calcData.skipFor?.brutal;
 
     if (critMiss) {
-      return {label: "Critical Miss", type: "fail"};
+      return {label: "Critical Miss", type: "fail", icon: icon};
     }
     if (miss) {
-      return {label: "Miss", type: "fail"};
+      return {label: "Miss", type: "fail", icon: icon};
     }
 
-    if (brutalP) {
-      return crit ?  
-        {label: "Critical Brutal(+)", type: "success"} :
-        {label: "Brutal Hit(+)", type: "success"};
-    }
     if (brutal) {
       return crit ?  
-        {label: "Critical Brutal", type: "success"} :
-        {label: "Brutal Hit", type: "success"};
+        {label: "Critical Brutal", type: "success", icon: icon} :
+        {label: "Brutal Hit", type: "success", icon: icon};
     }
     if (heavy) {
       return crit ?  
-        {label: "Critical Heavy", type: "success"} :
-        {label: "Heavy Hit", type: "success"};
+        {label: "Critical Heavy", type: "success", icon: icon} :
+        {label: "Heavy Hit", type: "success", icon: icon};
     }
     return crit ?  
-        {label: "Critical Hit", type: "success"} :
-        {label: "Hit", type: "success"};
+        {label: "Critical Hit", type: "success", icon: icon} :
+        {label: "Hit", type: "success", icon: icon};
   }
 
   get contestOutcome() {

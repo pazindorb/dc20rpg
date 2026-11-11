@@ -22,8 +22,6 @@ function _help(actor) {
 }
 
 export function prepareCommonData(context) {
-  _damageReduction(context);
-  _statusResistances(context);
   _resourceBarsPercentages(context);
   _attributes(context);
   _size(context);
@@ -97,28 +95,6 @@ function _getGridTemplate(type) {
   return "1fr 50px";
 }
 
-function _damageReduction(context) {
-  const dmgTypes = context.system.damageReduction.damageTypes;
-  for (const [key, dmgType] of Object.entries(dmgTypes)) {
-    dmgType.notEmpty = false;
-    if (dmgType.immune) dmgType.notEmpty = true;
-    if (dmgType.resistance) dmgType.notEmpty = true;
-    if (dmgType.vulnerability) dmgType.notEmpty = true;
-    if (dmgType.vulnerable) dmgType.notEmpty = true;
-    if (dmgType.resist) dmgType.notEmpty = true;
-  }
-}
-
-function _statusResistances(context) {
-  const statusResistances = context.system.statusResistances;
-  for (const [key, status] of Object.entries(statusResistances)) {
-    status.notEmpty = false;
-    if (status.immunity) status.notEmpty = true;
-    if (status.resistance) status.notEmpty = true;
-    if (status.vulnerability) status.notEmpty = true;
-  }
-}
-
 function _resourceBarsPercentages(context) {
   const resources = context.system.resources;
 
@@ -172,7 +148,6 @@ function _oneliners(context, npc=false) {
   }
 
   oneliners.senses = {header: "dc20rpg.sheet.oneliner.senses", content: []};
-  oneliners.reduction = {header: "dc20rpg.sheet.oneliner.reduction", content: []};
   oneliners.resistance = {header: "dc20rpg.sheet.oneliner.resistance", content: []};
   oneliners.immune = {header: "dc20rpg.sheet.oneliner.immune", content: []};
   oneliners.vulnerability = {header: "dc20rpg.sheet.oneliner.vulnerability", content: []};
@@ -297,31 +272,19 @@ function _prepareDROneliners(damageReduction, oneliners) {
       continue;
     }
 
-    const reductionX = reduction.resist - reduction.vulnerable;
-    if (reductionX > 0) {
-      oneliners.resistance.content.push({oneliner: `${reduction.label} (${reductionX})`, img: img});
-    }
-    if (reductionX < 0) {
-      oneliners.vulnerability.content.push({oneliner: `${reduction.label} (${Math.abs(reductionX)})`, img: img});
-    }
+    const resistance = reduction.resistance && !reduction.vulnerability;
+    const vulnerability = reduction.vulnerability && !reduction.resistance;
+    const limited = !resistance & reduction.limited;
 
-    if (reduction.resistance && !reduction.vulnerability) {
-      oneliners.resistance.content.push({oneliner: `${reduction.label} (${game.i18n.localize("dc20rpg.sheet.oneliner.half")})`, img: img});
+    if (resistance) {
+      oneliners.resistance.content.push({oneliner: reduction.label, img: img});
     }    
-    if (reduction.vulnerability && !reduction.resistance) {
-      oneliners.vulnerability.content.push({oneliner: `${reduction.label} (${game.i18n.localize("dc20rpg.sheet.oneliner.double")})`, img: img});
+    if (vulnerability) {
+      oneliners.vulnerability.content.push({oneliner: reduction.label, img: img});
     }
-  }
-
-  // Damage Reduction
-  if (damageReduction.pdr.active) {
-    oneliners.reduction.content.push({oneliner: game.i18n.localize("dc20rpg.properties.pdr"), icon: "fa-solid fa-square fa-2xs"});
-  }
-  if (damageReduction.edr.active) {
-    oneliners.reduction.content.push({oneliner: game.i18n.localize("dc20rpg.properties.edr"), icon: "fa-solid fa-square fa-2xs"});
-  }
-  if (damageReduction.mdr.active) {
-    oneliners.reduction.content.push({oneliner: game.i18n.localize("dc20rpg.properties.mdr"), icon: "fa-solid fa-square fa-2xs"});
+    if (limited) {
+      oneliners.resistance.content.push({oneliner: `${reduction.label} (${game.i18n.localize("dc20rpg.sheet.oneliner.limited")})`, img: img});
+    }
   }
 }
 

@@ -70,17 +70,21 @@
       {{!-- Level --}}
       <span data-tooltip="{{localize 'dc20rpg.sheet.level'}}">{{localize 'dc20rpg.sheet.level'}}</span>
       {{#if system.scaling.isScalingMonster}}
-        <select {{#unless editMode}}disabled{{/unless}} name="system.details.level" data-dtype="Number" style="width: 40px;">
+        <select {{#unless editMode}}disabled{{/unless}} name="system.details.level" data-dtype="Number" style="width: 25px;">
           {{selectOptions @root.config.DROPDOWN_DATA.levels selected=system.details.level}}
         </select>
       {{else}}
-        <input {{#unless editMode}}disabled{{/unless}} name="system.details.level" type="text" value="{{system.details.level}}" data-dtype="Number" style="width: 40px;"/>
+        <input {{#unless editMode}}disabled{{/unless}} name="system.details.level" type="text" value="{{system.details.level}}" data-dtype="Number" style="width: 25px;"/>
       {{/if}}
 
       {{!-- Combat Mastery --}}
       <span class="margin-right-3">|</span>
-      <input disabled type="text" value="CM" style="width: 40px;" data-tooltip="{{localize 'dc20rpg.sheet.combatMastery'}}"/>
-      <input disabled type="text" value="{{system.details.combatMastery}}" style="width: 30px; padding: 0;"/>
+      <input disabled type="text" value="CM" style="width: 25px" data-tooltip="{{localize 'dc20rpg.sheet.combatMastery'}}"/>
+      <input disabled type="text" value="{{system.details.combatMastery}}" style="width: 20px; padding: 0;"/>
+
+      {{!-- Tier Damage --}}
+      <input disabled type="text" value="T" style="width: 20px;" data-tooltip="{{localize 'dc20rpg.sheet.tier'}}"/>
+      <input disabled type="text" value="+{{system.details.tier}}" style="width: 20px; padding: 0;"/>
     </div>
 
     <div class="def-row">

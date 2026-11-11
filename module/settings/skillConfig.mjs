@@ -6,16 +6,13 @@ export function defaultSkillList() {
     skills: {
       awa: SkillConfiguration.skill("prime", "dc20rpg.skills.awa"),
       acr: SkillConfiguration.skill("agi", "dc20rpg.skills.acr"),
-      ani: SkillConfiguration.skill("cha", "dc20rpg.skills.ani"),
       ath: SkillConfiguration.skill("mig", "dc20rpg.skills.ath"),
       inf: SkillConfiguration.skill("cha", "dc20rpg.skills.inf"),
       inm: SkillConfiguration.skill("mig", "dc20rpg.skills.inm"),
       ins: SkillConfiguration.skill("cha", "dc20rpg.skills.ins"),
       inv: SkillConfiguration.skill("int", "dc20rpg.skills.inv"),
-      med: SkillConfiguration.skill("int", "dc20rpg.skills.med"),
       ste: SkillConfiguration.skill("agi", "dc20rpg.skills.ste"),
       sur: SkillConfiguration.skill("int", "dc20rpg.skills.sur"),
-      tri: SkillConfiguration.skill("agi", "dc20rpg.skills.tri")
     },
     trades: {
       arc: SkillConfiguration.skill("int", "dc20rpg.trades.arc"), 
@@ -26,6 +23,7 @@ export function defaultSkillList() {
       eng: SkillConfiguration.skill("int", "dc20rpg.trades.eng"), 
       alc: SkillConfiguration.skill("max", "dc20rpg.trades.alc", ["int", "agi"]), 
       bla: SkillConfiguration.skill("mig", "dc20rpg.trades.bla"), 
+      ani: SkillConfiguration.skill("cha", "dc20rpg.trades.ani"),
       bre: SkillConfiguration.skill("max", "dc20rpg.trades.bre", ["int", "agi", "cha"]), 
       cap: SkillConfiguration.skill("max", "dc20rpg.trades.cap", ["mig", "agi"]), 
       car: SkillConfiguration.skill("max", "dc20rpg.trades.car", ["int", "agi"]), 
@@ -69,6 +67,11 @@ export function defaultSkillList() {
       dee: SkillConfiguration.lang("outer", "dc20rpg.languages.dee"),
     }
   }
+}
+
+export async function refreshSkillStoreWithDefault() {
+  const skillStore = defaultSkillList();
+  await game.settings.set("dc20rpg", "skillStore", skillStore);
 }
 
 export class SkillConfiguration extends DC20Dialog {

@@ -26,6 +26,7 @@
         <div class="top-level">
           <span data-tooltip="{{localize "dc20rpg.sheet.level"}}">Lv.{{system.details.level}}</span>
           <span data-tooltip="{{localize "dc20rpg.sheet.combatMastery"}}">CM {{system.details.combatMastery}}</span>
+          <span data-tooltip="{{localize "dc20rpg.sheet.tier"}}">T +{{system.details.tier}}</span>
         </div>
         <div class="bottom-buttons">
           {{#ifCond system.details.level '<' 20}}

@@ -428,9 +428,7 @@ function _basicTargetModifiers(actor) {
 		name: "Impact",
 		linkWithToggle: false,
 		flags: {
-			ignorePdr: false,
-			ignoreEdr: false,
-			ignoreMdr: false,
+			ignoreLimited: {},
 			ignoreResistance: {},
 			ignoreImmune: {},
 			reduceAd: "",
@@ -457,9 +455,7 @@ function _basicTargetModifiers(actor) {
 			name: "Impactful Unarmed Strike",
 			linkWithToggle: false,
 			flags: {
-				ignorePdr: false,
-				ignoreEdr: false,
-				ignoreMdr: false,
+				ignoreLimited: {},
 				ignoreResistance: {},
 				ignoreImmune: {},
 				reduceAd: "",

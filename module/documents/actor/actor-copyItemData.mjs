@@ -119,6 +119,7 @@ export function prepareEquippedItemsFlags(actor) {
  */
 export function prepareRollDataForItems(actor) {
 	_combatMatery(actor);
+	_tierValue(actor);
 	_coreAttributes(actor);
 	_primeModifier(actor);
 	_modifierAndSaveDC(actor);
@@ -302,6 +303,11 @@ function _combatMatery(actor) {
 		actor.system.details.combatMastery = Math.ceil(level/2);
 		if (actor.type === "npc" && level === 0) actor.system.details.combatMastery = 1;
 	}
+}
+
+function _tierValue(actor) {
+	const level = actor.system.details.level;
+	actor.system.details.tier = 1 + Math.floor(level/5);
 }
 
 function _coreAttributes(actor) {

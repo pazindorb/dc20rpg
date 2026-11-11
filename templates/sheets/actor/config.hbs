@@ -370,7 +370,7 @@
   {{#unless sheetFlags.dmgReductionClosed}}
   <div class="content-wrapper config-table">
     {{#each system.damageReduction.damageTypes as |dmgType key|}}
-    <div class="row" style="grid-template-columns: 1fr 40px 40px 40px 40px 40px">
+    <div class="row" style="grid-template-columns: 1fr 40px 40px 40px 40px">
       <div class="column icon">
         <img src="systems/dc20rpg/images/sheet/resistances/{{key}}.svg"/>
         <span>{{dmgType.label}}</span>
@@ -378,14 +378,11 @@
       <a class="column" data-tooltip="{{dmgType.label}} {{localize "dc20rpg.sheet.dmgTypes.vulnerabilityHalf"}}" data-cType="activable" data-path="system.damageReduction.damageTypes.{{key}}.vulnerability">
         <i class="fa-lg {{#if dmgType.vulnerability}}fa-solid fa-heart-crack{{/if}}"></i>
       </a>
-      <a class="column" data-tooltip="{{dmgType.label}} {{localize "dc20rpg.sheet.dmgTypes.vulnerabilityX"}}" data-cType="numeric-toggle" data-path="system.damageReduction.damageTypes.{{key}}.vulnerable">
-        <span>{{dmgType.vulnerable}}</span>
+      <a class="column" data-tooltip="{{dmgType.label}} {{localize "dc20rpg.sheet.dmgTypes.resistanceLimited"}}" data-cType="activable" data-path="system.damageReduction.damageTypes.{{key}}.limited">
+        <i class="fa-lg {{#if dmgType.limited}}fa-solid fa-shield-quartered {{/if}}"></i>
       </a>
       <a class="column" data-tooltip="{{dmgType.label}} {{localize "dc20rpg.sheet.dmgTypes.resistanceHalf"}}" data-cType="activable" data-path="system.damageReduction.damageTypes.{{key}}.resistance">
         <i class="fa-lg {{#if dmgType.resistance}}fa-solid fa-shield-halved {{/if}}"></i>
-      </a>
-      <a class="column" data-tooltip="{{dmgType.label}} {{localize "dc20rpg.sheet.dmgTypes.resistanceX"}}" data-cType="numeric-toggle" data-path="system.damageReduction.damageTypes.{{key}}.resist">
-        <span>{{dmgType.resist}}</span>
       </a>
       <a class="column" data-tooltip="{{dmgType.label}} {{localize "dc20rpg.sheet.dmgTypes.resistanceImmune"}}" data-cType="activable" data-path="system.damageReduction.damageTypes.{{key}}.immune">
         <i class="fa-lg {{#if dmgType.immune}}fa-solid fa-shield{{/if}}"></i>

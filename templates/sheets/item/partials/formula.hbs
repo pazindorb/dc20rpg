@@ -57,15 +57,16 @@
     </div>
   </div>
 
+  {{!-- TODO: Doesn't work - is it even needed? Will one attack target 2 formulas? --}}
   {{!-- Override Target Defence --}}
-  {{#ifCond formula.category "===" "damage"}}
+  {{!-- {{#ifCond formula.category "===" "damage"}}
   <div class="form-group symetric">
     <label>{{localize "dc20rpg.item.sheet.formulas.overrideDefence"}}</label>
     <select name="{{path}}.overrideDefence">
       {{selectOptions @root.config.DROPDOWN_DATA.defences selected=formula.overrideDefence blank=""}}
     </select>
   </div>
-  {{/ifCond}}
+  {{/ifCond}} --}}
 
   {{!-- Other Formula Label --}}
   {{#ifCond formula.category "===" "other"}}

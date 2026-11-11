@@ -132,9 +132,7 @@ export class TargetModifier {
   linkWithToggle = false;
   bonus = "";
   flags = {
-    ignorePdr: false,
-    ignoreEdr: false,
-    ignoreMdr: false,
+    ignoreLimited: {},
     ignoreResistance: {},
     ignoreImmune: {}
   };

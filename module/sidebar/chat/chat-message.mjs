@@ -315,6 +315,9 @@ export class DC20ChatMessage extends ChatMessage {
     const roll = this.winningRoll;
     if (roll) target.setCoreRollValue(roll.total);
 
+    const tier = this.speakerActor?.system?.details?.tier || 1;
+    target.setTier(tier);
+
     const targetRollStore = this.system.targetRollStore;
     const cached = targetRollStore?.[target.targetHash];
     if (cached) {

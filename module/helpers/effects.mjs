@@ -497,11 +497,10 @@ function _damageReduction() {
   const reduction = {};
   Object.entries(CONFIG.DC20RPG.DROPDOWN_DATA.damageTypes).forEach(([key, dmgLabel]) => {
     if (key !== "true") {
-      reduction[`system.damageReduction.damageTypes.${key}.resist`] = `${dmgLabel}: Resistance (X)`
-      reduction[`system.damageReduction.damageTypes.${key}.resistance`] = `${dmgLabel}: Resistance (Half)`
-      reduction[`system.damageReduction.damageTypes.${key}.immune`] = `${dmgLabel}: Resistance (Immune)`
-      reduction[`system.damageReduction.damageTypes.${key}.vulnerable`] = `${dmgLabel}: Vulnerable (X)`
-      reduction[`system.damageReduction.damageTypes.${key}.vulnerability`] = `${dmgLabel}: Vulnerability (Double)`
+      reduction[`system.damageReduction.damageTypes.${key}.limited`] = `${dmgLabel}: Resistance (Limited)`
+      reduction[`system.damageReduction.damageTypes.${key}.resistance`] = `${dmgLabel}: Resistance`
+      reduction[`system.damageReduction.damageTypes.${key}.immune`] = `${dmgLabel}: Immune`
+      reduction[`system.damageReduction.damageTypes.${key}.vulnerability`] = `${dmgLabel}: Vulnerability`
     } 
   });
   return reduction;
