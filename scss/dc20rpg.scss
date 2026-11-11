@@ -4,15 +4,12 @@
 // Import utilities.
 @import 'utils/typography';
 @import 'utils/colors';
-@import 'utils/mixins';
 @import 'utils/variables';
 
 /* Global styles */
 @import 'global/window';
 @import 'global/grid';
-@import 'global/flex';
 @import 'global/margin';
-@import 'global/padding';
 @import 'global/creators';
 @import 'global/token-hud';
 @import 'global/area-delete-controls';
@@ -29,19 +26,8 @@
 .dc20rpg {
   @import 'components/globals';
   @import 'components/effects';
-  @import 'components/traits';
   @import 'components/dialogs';
   @import 'components/item-table';
-
-  .actor_v2 {
-    display: flex;
-    flex-direction: column;
-    @import 'components/actor/character';
-    @import 'components/actor/npc';
-    @import 'components/actor/pc';
-    @import 'components/actor/storage';
-    @import 'components/actor/common';
-  }
 
   &.item-v13 {
     overflow: visible;
