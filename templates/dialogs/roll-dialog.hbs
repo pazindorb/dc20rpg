@@ -89,29 +89,6 @@
       </div>
     </div>
 
-    {{!-- Spend Grit on Advantage --}}
-    {{#if canSpendGrit}}
-    <div class="enh-row">
-      <div class="column name">
-        <i class="cost-icon fa-clover cost-icon fa-solid" style="color:var(--grit); background: linear-gradient(60deg, #49494d 35%, #d65252)"></i>
-        <div class="name margin-left-5">{{localize 'dc20rpg.dialog.rollDialog.gritForAdv'}}</div>
-      </div> 
-      <div class="column usage" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.enhRoll'}}"></div>
-      <div class="column usage costs" data-tooltip="{{localize 'dc20rpg.sheet.itemTable.resources'}}">
-        <ul class="cost-printer">
-          <li class="cost grit" data-tooltip="{{localize "dc20rpg.resources.grit"}}"><i class="grit fa-clover cost-icon fa-solid"></i></li>
-        </ul>
-      </div>
-      <div class="column enh-number">
-        {{#if heldAction}}
-          <i>{{rollMenu.gritCost}}</i>
-        {{else}}
-          <a class="toggle" data-cType="toggle" data-path="gritForAdv" data-tooltip="{{localize 'dc20rpg.dialog.rollDialog.gritForAdv'}}">{{rollMenu.gritCost}}</a>
-        {{/if}}
-      </div>
-    </div>
-    {{/if}}
-
     {{!-- Enhancements --}}
     {{#eachOrder enhancements groupBy="sourceItemId" as |enhancement key|}}
       {{#unless enhancement.hide}}

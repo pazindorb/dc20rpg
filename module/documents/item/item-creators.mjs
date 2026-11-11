@@ -14,7 +14,6 @@ export class Enhancement {
     health: null,
     mana: null,
     stamina: null, 
-    grit: null,
     restPoints: null,
   };
   altCostMax = 0;

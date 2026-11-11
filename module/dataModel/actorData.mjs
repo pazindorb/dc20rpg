@@ -261,25 +261,6 @@ export class DC20CharacterData extends DC20BaseActorData {
       movement: new MovementFields(false),
       rest: new RestFields(),
       equipmentSlots: new EquipmentSlotFields(),
-      tokenHotbar: new f.SchemaField({ // TODO backward compatibilty remove as part of 0.11.0 update    
-        sectionA: new f.ObjectField({required: true}),
-        sectionB: new f.ObjectField({required: true}),
-        resource1: new f.ObjectField({required: true, initial: {
-          color: "#e1d676",
-          key: "stamina",
-          label: "Stamina",
-        }}),
-        resource2: new f.ObjectField({required: true, initial: {
-          color: "#81a3e7",
-          key: "mana",
-          label: "Mana",
-        }}),
-        resource3: new f.ObjectField({required: true, initial: {
-          color: "#991a1aff",
-          key: "grit",
-          label: "Grit",
-        }}),
-      })
     });
   } 
 }

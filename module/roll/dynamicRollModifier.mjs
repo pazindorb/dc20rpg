@@ -74,11 +74,11 @@ export async function runItemDRMCheck(item, actor, initial={adv: 0, dis: 0, modi
 
   // Modifications from Enhancements
   const enhModResult = _enhancementModifications(actor, item.enhancements.active);
-  // Modifications from spending AP and Grit
-  const apGritResult = _apGritModifications(actor, rollMenu);
+  // Modifications from spending AP
+  const apResult = _apModifications(actor, rollMenu);
   // Multiple Check Penalty
   const mcpResult = rollMenu.ignoreMCP ? [] : _multipleCheckPenalty(actor, item.checkKey);
-  results = [...results, ...apGritResult, ...enhModResult, ...mcpResult];
+  results = [...results, ...apResult, ...enhModResult, ...mcpResult];
 
   // Run DRM macro
   await runTemporaryItemMacro(item, "onDRMCheck", actor, {results: results});
@@ -114,11 +114,11 @@ export async function runSheetDRMCheck(details, actor, initial={adv: 0, dis: 0, 
 
   // Modifications from Enhancements
   const enhModResult = _enhancementModifications(actor, details.enhancements);
-  // Modifications from spending AP and Grit
-  const apGritResult = _apGritModifications(actor, rollMenu);
+  // Modifications from spending AP
+  const apResult = _apModifications(actor, rollMenu);
   // Multiple Check Penalty
   const mcpResult = rollMenu.ignoreMCP ? [] : _multipleCheckPenalty(actor, checkKey);
-  results = [...results, ...apGritResult, ...enhModResult, ...mcpResult];
+  results = [...results, ...apResult, ...enhModResult, ...mcpResult];
 
   // Final result
   return _finalResult(results, initial, details.statuses);
@@ -385,13 +385,10 @@ function _enhancementModifications(actor, enhancements) {
   return result;
 }
 
-function _apGritModifications(actor, rollMenu) {
+function _apModifications(actor, rollMenu) {
   const result = [];
   if (rollMenu.apCost > 0) {
     result.push({type: "adv", value: rollMenu.apCost, label: "AP spent of ADV", targetHash: actor.targetHash});
-  }
-  if (rollMenu.gritCost > 0) {
-    result.push({type: "adv", value: rollMenu.gritCost, label: "Grit spent of ADV", targetHash: actor.targetHash});
   }
   return result;
 }

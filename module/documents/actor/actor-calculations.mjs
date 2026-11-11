@@ -9,7 +9,6 @@ export function makeCalculations(actor) {
 	if (actor.type === "character") {
 		_maxMana(actor);
 		_maxStamina(actor);
-		_maxGrit(actor);
 		_maxRestPoints(actor);
 
 		_skillPoints(actor);
@@ -172,11 +171,6 @@ function _maxMana(actor) {
 function _maxStamina(actor) {
 	const stamina = actor.system.resources.stamina;
 	stamina.max = evaluateDicelessFormula(stamina.maxFormula, actor.getRollData()).total
-}
-
-function _maxGrit(actor) {
-	const grit = actor.system.resources.grit;
-	grit.max = evaluateDicelessFormula(grit.maxFormula, actor.getRollData()).total
 }
 
 function _maxRestPoints(actor) {

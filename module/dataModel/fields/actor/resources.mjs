@@ -54,16 +54,6 @@ export default class ResourceFields extends foundry.data.fields.SchemaField {
             full: "Full Rest",
           }}),
         }),
-        grit: new f.SchemaField({ 
-          ...resource(),
-          label: new f.StringField({initial: "dc20rpg.resource.grit"}),
-          maxFormula: new f.StringField({ required: true, initial: "2 + @chaValue + @resources.grit.bonus"}),
-          reset: new f.StringField({initial: "long"}), // TODO: backward compatibilty Remove as part of 0.11.0
-          refresh: new f.ObjectField({required: true, initial: {
-            long: "Long Rest",
-            full: "Full Rest",
-          }}),
-        }),
         restPoints: new f.SchemaField({
           ...resource(), 
           label: new f.StringField({initial: "dc20rpg.resource.restPoints"}), 

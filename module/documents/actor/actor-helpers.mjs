@@ -159,7 +159,7 @@ function _canSpendResource(amount, resource, actor) {
 async function _createCustomResource(data={}, key, actor) {
   const resourceKey = key || generateKey();
   // TODO: should we scan all keys active on actor and forbid all
-  const forbidenKeys = ["ap", "mana", "stamina", "grit", "restPoints", "health"]; 
+  const forbidenKeys = ["ap", "mana", "stamina", "restPoints", "health"]; 
   if (forbidenKeys.includes(key)) {
     ui.notifications.warn(`Forbidden resource key: '${key}', use different one!`);
     return;
@@ -954,6 +954,9 @@ async function _refreshResources(refreshType, actor, restHistory) {
       restHistory.resources[resource.key] = newValue - oldValue;
     }
   }
+
+  const stamina = actor.resources.stamina;
+  if (stamina?.max > 0) stamina.regain("half");
 }
 
 async function _refreshItem(refreshType, item) {

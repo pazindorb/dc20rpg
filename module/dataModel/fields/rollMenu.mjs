@@ -8,7 +8,6 @@ export default class RollMenu extends foundry.data.fields.SchemaField {
       dis: new f.NumberField(init0),
       adv: new f.NumberField(init0),
       apCost: new f.NumberField(init0),
-      gritCost: new f.NumberField(init0),
       autoCrit: new f.BooleanField({required: true, initial: false}),
       autoFail: new f.BooleanField({required: true, initial: false}),
       coreFormula: new f.SchemaField({
@@ -42,8 +41,6 @@ export function enrichRollMenuObject(object) {
   object.system.rollMenu.helpDiceFormula = () => _helpDiceFormula(object);
   object.system.rollMenu.apForAdvUp = async () => await _resourceForAdv(object, "ap", true);
   object.system.rollMenu.apForAdvDown = async () => await _resourceForAdv(object, "ap", false);
-  object.system.rollMenu.gritForAdvUp = async () => await _resourceForAdv(object, "grit", true);
-  object.system.rollMenu.gritForAdvDown = async () => await _resourceForAdv(object, "grit", false);
 }
 
 async function _clearRollMenu(object) {
@@ -51,7 +48,6 @@ async function _clearRollMenu(object) {
     dis: 0,
     adv: 0,
     apCost: 0,
-    gritCost: 0,
     autoCrit: false,
     autoFail: false,
     coreFormula: {

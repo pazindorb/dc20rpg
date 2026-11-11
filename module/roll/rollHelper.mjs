@@ -352,7 +352,6 @@ function _collectUseCost(actor, sheetData) {
   }
 
   _addToResources(cost, "ap", rollMenu.apCost, actor);
-  _addToResources(cost, "grit", rollMenu.gritCost, actor);
   if (!enhancements) return cost;
 
   for (const [key, enh] of enhancements.entries()) {

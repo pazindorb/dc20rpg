@@ -158,8 +158,6 @@ function _setValues(form, actor, itemCards) {
   _text(form.getTextField("Stamina Points Max"), actor.system.resources.stamina.max);
   _text(form.getTextField("Mana Points Current"), actor.system.resources.mana.max);
   _text(form.getTextField("Mana Points Max"), actor.system.resources.mana.max);
-  _text(form.getTextField("Grit Point Current"), actor.system.resources.grit.max);
-  _text(form.getTextField("Grit Point Cap"), actor.system.resources.grit.max);
   _text(form.getTextField("Rest Point Current"), actor.system.resources.restPoints.max);
   _text(form.getTextField("Rest Point Cap"), actor.system.resources.restPoints.max);
   _setCustomResources(form, actor);

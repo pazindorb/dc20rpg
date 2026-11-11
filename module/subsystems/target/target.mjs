@@ -342,7 +342,9 @@ export class DC20Target {
     final.modified = await this.#targetModifierBonus(final.modified, calcData);
 
     if (options.isDamage) {
-      if (options.isAttack && attackHit < 10) this.#applyLimitedDamageResistance(final.modified, reduction);
+      if (options.isAttack && attackHit < 10 && !calcData?.isCritSuccess) {
+        this.#applyLimitedDamageResistance(final.modified, reduction);
+      }
       final.modified = this.#damageModifications(final.modified, reduction);
       final.clear = this.#damageModifications(final.clear, reduction);
     }
@@ -500,7 +502,6 @@ export class DC20Target {
     const ignoreImmune = ignore.immune && ignore.immune.has(type);
     const modifications = dr.damageTypes[type];
 
-    // STEP 1 - Doubling & Halving
     // Immunity
     if (modifications.immune && !ignoreImmune) {
       formula.source = "Immune";

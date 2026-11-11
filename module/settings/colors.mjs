@@ -41,13 +41,11 @@ function _defaultColors() {
     ['--mana']: "#124b8b",
     ['--health-point']: "#921a1a",
     ['--health']: "#138241",
-    ['--grit']: "#7a0404",
 
     ['--health-bar']: "#6fde75",
     ['--temp-health-bar']: "#ccac7d",
     ['--stamina-bar']: "#e1d676",
     ['--mana-bar']: "#81a3e7",
-    ['--grit-bar']: "#b36363",
 
     ['--crit']: "#0e8b1e",
     ['--crit-background']: "#4f9f5c",

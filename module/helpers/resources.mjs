@@ -48,7 +48,6 @@ function _short(key) {
     case "ap": return "AP";
     case "stamina": return "SP";
     case "mana": return "MP";
-    case "grit": return "GP";
     case "restPoints": return "RP";
     case "health": return "HP";
   }
@@ -59,7 +58,6 @@ function _icon(key) {
     case "ap": return "ap fa-dice-d6 cost-icon";
     case "stamina": return "sp fa-hand-fist cost-icon";
     case "mana": return "mp fa-star cost-icon";
-    case "grit": return "grit fa-clover cost-icon";
     case "restPoints": return "restPoints fa-campground cost-icon";
     case "health": return "hp fa-heart cost-icon";
     case "charge-self": return "fa-battery-half cost-icon";

@@ -196,7 +196,6 @@ function _collectUseCost(item, clean=false) {
 
   // Collect cost from Roll Menu
   _addToResources(cost, "ap", item.system.rollMenu.apCost, actor);
-  _addToResources(cost, "grit", item.system.rollMenu.gritCost, actor);
 
   // Collect cost from Enhancements
   for (const enhancement of item.activeEnhancements.values()) {
@@ -1464,7 +1463,7 @@ function _overrideResources(spell, options) {
   }
   if (options.skipEnhancementCost) {
     for (const enhancement of Object.values(spell.system.enhancements)) {
-      enhancement.resources = {ap: null, grit: null, health: null, mana: null, restPoints: null, stamina: null, custom: {}};
+      enhancement.resources = {ap: null, health: null, mana: null, restPoints: null, stamina: null, custom: {}};
     }
   }
 }

@@ -242,41 +242,6 @@ export async function runPostRollEffectActions() {
   game.dc20rpg.postRollEffectAction = new Map(); // Reset
 }
 
-export async function addFlatDamageReductionEffect(actor) {
-  const damageReduction = {
-    name: "Grit - Damage Reduction",
-    img: "systems/dc20rpg/images/sheet/header/grit.svg",
-    description: "<p>You are spending Grit to reduce incoming damage</p>",
-    duration: {
-      rounds: 1,
-      expiry: "turnStart",
-    },
-    system: {
-      duration: {
-        expiryAction: "delete"
-      },
-      changes: [
-        {
-          key: "system.globalModifier.modify.damageTaken.flat",
-          type: "add",
-          value: -1
-        },
-        {
-          key: "system.events",
-          type: "add",
-          value:'"eventType": "basic", "trigger": "targetConfirm", "label": "Grit - Damage Reduction", "postTrigger": "delete", "actorId": "#SPEAKER_ID#"'
-        },
-        {
-          key: "system.events",
-          type: "add",
-          value:'"eventType": "basic", "trigger": "damageTaken", "label": "Grit - Damage Reduction", "postTrigger": "delete", "actorId": "#SPEAKER_ID#"'
-        }
-      ]
-    },
-  }
-  await DC20RpgActiveEffect.gmCreate(damageReduction, {parent: actor});
-}
-
 //===========================================================
 /**
  * List of default actor keys that are expected to be modified by effects
@@ -316,8 +281,6 @@ export function getEffectModifiableKeys() {
     "system.resources.stamina.bonus": "Stamina: Max Value Bonus",
     "system.resources.stamina.maxFormula" : "Stamina: Calculation Formula",
     "system.details.staminaSpendLimit.bonus": "Stamina Spend Limit Bonus",
-    "system.resources.grit.bonus": "Grit: Max Value Bonus",
-    "system.resources.grit.maxFormula" : "Grit: Calculation Formula",
     "system.resources.restPoints.bonus" : "Rest Points: Max Value Bonus",
     "system.resources.restPoints.maxFormula" : "Rest Points: Calculation Formula",
     "system.resources.restPoints.regenerationFormula" : "Rest Points: Regeneration Formula",

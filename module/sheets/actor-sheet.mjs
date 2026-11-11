@@ -498,6 +498,7 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
 
     switch (middleClick) {
       case "sheet": if (object) object.sheet.render(true);
+      case "stamina": this.actor.resources.stamina.regain("half");
     }
   }
 

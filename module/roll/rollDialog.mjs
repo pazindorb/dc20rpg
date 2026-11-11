@@ -266,7 +266,6 @@ export class RollDialog extends DC20Dialog {
       context.expectedCost = this.item.use?.useCostDisplayData();
       context.canSubtractCost = context.rollMenu.free || this.item.use?.canSubtractCost();
       context.rollLabel = `Roll Item: ${this.item.name}`;
-      context.canSpendGrit = false;
       context.hasModifications = true;
     }
 
@@ -275,7 +274,6 @@ export class RollDialog extends DC20Dialog {
       context.expectedCost = this.sheetRollData.useCostDisplayData();
       context.canSubtractCost = context.rollMenu.free || this.sheetRollData.canSubtractCost();
       context.enhancements = this._prepareEnhancements(this.sheetRollData.enhancements);
-      context.canSpendGrit = this.sheetRollData.type === "save";
       context.hasModifications = false;
       context.rollLabel = `Roll: ${this.sheetRollData.label}`;
     }
@@ -590,7 +588,7 @@ export class RollDialog extends DC20Dialog {
     if (path.includes("system.enhancements")) {
       await this._onToggleEnhancement(path, which, max, min, dataset.itemId, dataset.actorId, dataset.runDrmCheck === "true");
     }
-    else if (["apForAdv", "gritForAdv"].includes(path)) {
+    else if (["apForAdv"].includes(path)) {
       await this._onToggleRollLevel(path, which, max, min);
     }
     else {
@@ -624,10 +622,6 @@ export class RollDialog extends DC20Dialog {
     if (path.includes("apForAdv")) {
       if (which === 1) await rollMenu.apForAdvUp();
       if (which === 3) await rollMenu.apForAdvDown();
-    }
-    if (path.includes("gritForAdv")) {
-      if (which === 1) await rollMenu.gritForAdvUp();
-      if (which === 3) await rollMenu.gritForAdvDown();
     }
     this.render();
   }
