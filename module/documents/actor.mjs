@@ -111,11 +111,6 @@ export class DC20RpgActor extends Actor {
       else return combatant.actorId === this.id;
     }));
     if (myTurn) return true;
-
-    if (companionShare(this, "initiative")) {
-      const ownerTurn = !!(activeCombat.activeCombatants.find(combatant => combatant.actorId === this.companionOwner.id));
-      if (ownerTurn) return true;
-    }
     return false;
   }
 

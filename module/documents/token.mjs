@@ -300,7 +300,6 @@ export class DC20RpgTokenDocument extends TokenDocument {
     await this.actor.gmUpdate({
       ["flags.dc20rpg.transformationHash"]: foundry.utils.randomID(),
       ["effects"]: transferableEffects,
-
     });
   }
 

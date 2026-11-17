@@ -1,5 +1,3 @@
-import { companionShare } from "../helpers/actors/companion.mjs";
-
 export async function addStatusWithIdToActor(actor, id, extras) {
   actor.toggleStatusEffect(id, { active: true, extras: extras });
 }
@@ -82,17 +80,6 @@ export function enhanceStatusEffectWithExtras(effect, extras) {
 function _isActorCurrentCombatant(actorId, combat) {
   for (const combatant of combat.activeCombatants) {
     if (combatant.actor.id === actorId) return true;
-    
-    if (combatant.companions && combatant.companions.length !== 0) {
-      // Check companions
-      const comapnionIds = combatant.companions;
-      for (const cmb of combat.combatants) {
-        if (!comapnionIds.includes(cmb.id)) continue;
-        if (companionShare(cmb.actor, "initiative")) {
-          if (cmb.actor.id === actorId) return true;
-        }
-      }
-    }
   }
   return false;
 }

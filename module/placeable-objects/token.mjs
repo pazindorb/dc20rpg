@@ -7,6 +7,29 @@ import { Area } from "../subsystems/area/area.mjs";
 
 export class DC20RpgToken extends foundry.canvas.placeables.Token {
 
+  /** @override */
+  _refreshTurnMarker() {
+    const {turnMarker} = this.document;
+    const markersEnabled = CONFIG.Combat.settings.turnMarker.enabled
+      && (turnMarker.mode !== CONST.TOKEN_TURN_MARKER_MODES.DISABLED);
+    const isTurn = game.combat?.activeCombatants.some(combatant => combatant.tokenId === this.id);
+    const markerActive = markersEnabled && isTurn;
+
+    if (markerActive) {
+      if (!this.turnMarker) {
+        const TokenTurnMarker = foundry.canvas.placeables.tokens.TokenTurnMarker;
+        this.turnMarker = this.addChildAt(new TokenTurnMarker(this), 0);
+      }
+      canvas.tokens.turnMarkers.add(this);
+      this.turnMarker.draw();
+    }
+    else if (this.turnMarker) {
+      canvas.tokens.turnMarkers.delete(this);
+      this.turnMarker.destroy();
+      this.turnMarker = null;
+    }
+  }
+
   static tokenCostFunction(document, options) {
     return (cost) => {
       const slowed = document.actor?.slowed || 0;

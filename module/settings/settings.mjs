@@ -104,17 +104,6 @@ export function registerGameSettings(settings) {
     }}),
   });
 
-  // ======================================
-  // ==              COMBAT              ==
-  // ======================================
-  settings.register("dc20rpg", "combatSlotMerge", {
-    name: "Simultaneous turns for the same slot",
-    hint: "If selected, all actors sharing the same initiative slot will take their turns simultaneously.",
-    scope: "world",
-    config: true,
-    default: false,
-    type: Boolean
-	});
 
   // ======================================
   // ==           TARGETING             ==

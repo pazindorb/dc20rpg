@@ -1,16 +1,11 @@
-import { initiativeSlotSelector } from "../dialogs/initiativeSlotSelector.mjs";
-import { RollDialog } from "../roll/rollDialog.mjs";
-import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { clearMovePoints } from "../helpers/actors/actions.mjs";
+import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";
 import { actorIdFilter, currentRoundFilter, reenableEventsOn, runEventsFor } from "../helpers/actors/events.mjs";
-import { getActiveActorOwners } from "../helpers/users.mjs";
-import { emitSystemEvent } from "../helpers/sockets.mjs";
-import DC20RpgActiveEffect from "./activeEffect.mjs";
-import { DC20ChatMessage } from "../sidebar/chat/chat-message.mjs";
-import { DC20Target } from "../subsystems/target/target.mjs";
 
 export class DC20RpgCombat extends Combat {
+
+  static SLOT_INITIATIVE_BASE = 20;
 
   get lastActiveTurn() {
     const indexes = [];
@@ -21,129 +16,208 @@ export class DC20RpgCombat extends Combat {
 
   get activeCombatants() {
     if (!this.combatant) return [];
-    const combatSlotMerge = game.settings.get("dc20rpg", "combatSlotMerge");
-    if (!combatSlotMerge) return [this.combatant];
-    return this.#getAllCombatantsForInitiative(this.combatant.initiative);
+    return this.getCombatantsInSlot(this.combatant);
   }
 
-  #getAllCombatantsForInitiative(initative) {
-    return this.combatants.filter(combatant => combatant.initiative === initative);
-  }
-
-  // ===================================
-  // ==         PREPARE DATA          ==
-  // ===================================
-  prepareData() {
-    super.prepareData();
-    this._prepareCompanionSharingInitiative();
-  }
-
-  _prepareCompanionSharingInitiative() {
-    this.combatants.forEach(combatant => {
-      if (companionShare(combatant.actor, "initiative")) {
-        const companionOwnerId = combatant.actor.companionOwner.id;
-        const owner = this.combatants.find(combatant => combatant.actorId === companionOwnerId);
-        if (!owner) {
-          combatant.skip = false;
-          return;
-        }
-
-        combatant.skip = true;
-        const companions = owner.companions || [];
-        // We want to add companion only once
-        if (!companions.find(companionId => companionId === combatant._id)) companions.push(combatant._id); 
-        owner.companions = companions;
-      }
-      else {
-        combatant.skip = false;
-      }
-    });
-  }
-
-  // ===================================
-  // ==        ROLL INITIATIVE        ==
-  // ===================================
-  async rollPlayers(options) {
-    const rollableCharacters = this.combatants.filter(combatant => {
-      if (combatant.actor.type === "character") return true;
-      if (combatant.actor.type === "companion") {
-        if (companionShare(combatant.actor, "initiative")) return false;
-        else return true;
-      }
-      return false;
-    });
-
-    rollableCharacters.forEach(combatant => {
-      const actor = combatant.actor;
-      if (!actor) return;
-      
-      const activeOwners = getActiveActorOwners(actor, false);
-      if (activeOwners.length === 0) actor.rollInitiative({rerollInitiative: true});
-      else emitSystemEvent("initative", {actorId: actor.id});
-    });
-  }
-
-  /** @override **/
-  async rollInitiative(ids, {formula=null, updateTurn=true, messageOptions={}}={}) {
-    if (game.combat.started) {
-      ui.notifications.warn(game.i18n.localize("dc20rpg.combatTracker.combatStarted"));
-      return;
+  /** @override */
+  _updateTurnMarkers() {
+    super._updateTurnMarkers();
+    if (!canvas.ready || !this.isView) return;
+    for (const combatant of this.activeCombatants) {
+      combatant.token?.object?.renderFlags.set({refreshTurnMarker: true});
     }
-    // Structure input data
-    ids = typeof ids === "string" ? [ids] : ids;
-    const currentId = this.combatant?.id;
+  }
 
-    // Iterate over Combatants, performing an initiative roll for each
-    const updates = [];
-    const messages = [];
-    for ( let [i, id] of ids.entries() ) {
-
-      // Get Combatant data (non-strictly)
-      const combatant = this.combatants.get(id);
-      if ( !combatant?.isOwner ) continue;
-
-      let initiative = null;
-      if (combatant.actor.type === "character") initiative = await this._initiativeRollForPC(combatant);
-      if (combatant.actor.type === "companion") initiative = await this._initiativeForCompanion(combatant);
-      if (initiative === null) return;
-      updates.push({_id: id, initiative: initiative, flags: {["dc20rpg.initativeOutcome"]: combatant.initativeOutcome}});
+  getCombatantsInSlot(combatantOrInitiative) {
+    const initiative = typeof combatantOrInitiative === "number"
+      ? combatantOrInitiative
+      : combatantOrInitiative?.initiative;
+    if (!Number.isFinite(initiative)) {
+      return combatantOrInitiative && typeof combatantOrInitiative !== "number" ? [combatantOrInitiative] : [];
     }
-    if ( !updates.length ) return this;
+    return this.turns.filter(combatant => combatant.initiative === initiative);
+  }
 
-    // Update multiple combatants
+  getSlotNumber(combatant) {
+    if (!Number.isFinite(combatant?.initiative)) return null;
+    const slot = DC20RpgCombat.SLOT_INITIATIVE_BASE - combatant.initiative;
+    return Number.isInteger(slot) && slot >= 1 ? slot : null;
+  }
+
+  get nextSlotNumber() {
+    const slots = this.combatants
+      .map(combatant => this.getSlotNumber(combatant))
+      .filter(Number.isFinite);
+    return slots.length ? Math.max(...slots) + 1 : 1;
+  }
+
+  _getSharingOwner(combatant) {
+    if (!companionShare(combatant?.actor, "initiative")) return null;
+    return this.combatants.find(candidate => candidate.actorId === combatant.actor.companionOwner.id) ?? null;
+  }
+
+  _getSharingGroup(combatant) {
+    const owner = this._getSharingOwner(combatant) ?? combatant;
+    const group = [owner];
+    for (const candidate of this.combatants) {
+      if (candidate.id === owner.id) continue;
+      if (!companionShare(candidate.actor, "initiative")) continue;
+      if (candidate.actor.companionOwner.id === owner.actorId) group.push(candidate);
+    }
+    return group;
+  }
+
+  getInitiativeSharingPartners(combatant) {
+    const owner = this._getSharingOwner(combatant);
+    if (owner) return [owner];
+    return this.combatants.filter(candidate => this._getSharingOwner(candidate)?.id === combatant.id);
+  }
+
+  async _updateInitiatives(updates) {
+    updates = this._compactSlotUpdates(updates);
+    if (!updates.length) return this;
+    const activeId = this.combatant?.id;
     await this.updateEmbeddedDocuments("Combatant", updates);
-
-    // Ensure the turn order remains with the same combatant
-    if ( updateTurn && currentId ) {
-      await this.update({turn: this.turns.findIndex(t => t.id === currentId)});
+    if (this.started && activeId) {
+      const activeTurn = this.turns.findIndex(combatant => combatant.id === activeId);
+      if (activeTurn >= 0 && activeTurn !== this.turn) await this.update({turn: activeTurn});
     }
-
-    // Create multiple chat messages
-    await DC20ChatMessage.implementation.create(messages);
     return this;
   }
 
-  async _initiativeRollForPC(combatant) {
-    const actor = combatant.actor;
-    if (!actor) return;
+  _compactSlotUpdates(updates) {
+    const updatesById = new Map(updates.map(update => [update._id, {...update}]));
+    const projectedInitiatives = new Map(
+      this.combatants.map(combatant => [combatant.id, combatant.initiative])
+    );
+    for (const update of updates) {
+      if (Object.hasOwn(update, "initiative")) projectedInitiatives.set(update._id, update.initiative);
+    }
 
-    const roll = await actor.roll("initiative", "check", {rollTitle: "Initiative", customLabel: "Initiative Roll"});
-    if (!roll) return null;
+    const occupiedSlots = [...new Set(
+      [...projectedInitiatives.values()]
+        .filter(Number.isFinite)
+        .map(initiative => DC20RpgCombat.SLOT_INITIATIVE_BASE - initiative)
+        .filter(slot => Number.isInteger(slot) && slot >= 1)
+    )].sort((slotA, slotB) => slotA - slotB);
+    const compactedSlots = new Map(occupiedSlots.map((slot, index) => [slot, index + 1]));
 
-    combatant.initativeOutcome = {crit: roll.crit, fail: roll.fail};
-    return roll.total;
+    for (const combatant of this.combatants) {
+      const projectedInitiative = projectedInitiatives.get(combatant.id);
+      if (!Number.isFinite(projectedInitiative)) continue;
+      const projectedSlot = DC20RpgCombat.SLOT_INITIATIVE_BASE - projectedInitiative;
+      const compactedSlot = compactedSlots.get(projectedSlot);
+      if (!compactedSlot) continue;
+
+      const compactedInitiative = DC20RpgCombat.SLOT_INITIATIVE_BASE - compactedSlot;
+      const existingUpdate = updatesById.get(combatant.id);
+      if (!existingUpdate && combatant.initiative === compactedInitiative) continue;
+      if (existingUpdate?.initiative === compactedInitiative) continue;
+      const update = existingUpdate ?? {_id: combatant.id};
+      update.initiative = compactedInitiative;
+      updatesById.set(combatant.id, update);
+    }
+    return [...updatesById.values()];
   }
 
-  async _initiativeForCompanion(combatant) {
-    if (companionShare(combatant.actor, "initiative")) {
-      const companionOwnerId = combatant.actor.companionOwner.id;
-      const owner = this.combatants.find(combatant => combatant.actorId === companionOwnerId);
-      if (!owner) ui.notifications.warn("This companion shares initiative with its owner. You need to roll for Initiative for the owner!");
-      return null;
+  async assignSlot(combatant, slot) {
+    const numericSlot = Number.parseInt(slot);
+    if (!combatant || !Number.isInteger(numericSlot) || numericSlot < 1) return this;
+    const initiative = DC20RpgCombat.SLOT_INITIATIVE_BASE - numericSlot;
+    const updates = this._getSharingGroup(combatant)
+      .filter(member => member.initiative !== initiative)
+      .map(member => ({_id: member.id, initiative}));
+    return this._updateInitiatives(updates);
+  }
+
+  async clearSlot(combatant) {
+    if (!combatant) return this;
+    const updates = this._getSharingGroup(combatant)
+      .filter(member => member.initiative !== null)
+      .map(member => ({_id: member.id, initiative: null}));
+    return this._updateInitiatives(updates);
+  }
+
+  async moveCombatantToSlot(combatant, target, placement = "same") {
+    if (!combatant || !target || combatant.id === target.id) return this;
+    if (!["above", "same", "below"].includes(placement)) return this;
+
+    const targetSlot = this.getSlotNumber(target);
+    if (targetSlot === null) return this;
+
+    const movingGroup = this._getSharingGroup(combatant);
+    const movingIds = new Set(movingGroup.map(member => member.id));
+    if (movingIds.has(target.id)) return this;
+
+    const slots = new Map();
+    for (const candidate of this.turns) {
+      if (movingIds.has(candidate.id)) continue;
+      const slot = this.getSlotNumber(candidate);
+      if (slot === null) continue;
+      if (!slots.has(slot)) slots.set(slot, []);
+      slots.get(slot).push(candidate);
     }
-    else {
-      return this._initiativeRollForPC(combatant);
+
+    const targetGroup = slots.get(targetSlot);
+    if (!targetGroup) return this;
+
+    const orderedSlots = [...slots.entries()]
+      .sort(([slotA], [slotB]) => slotA - slotB)
+      .map(([, members]) => members);
+    const targetIndex = orderedSlots.indexOf(targetGroup);
+
+    if (placement === "same") targetGroup.push(...movingGroup);
+    else orderedSlots.splice(targetIndex + (placement === "below" ? 1 : 0), 0, movingGroup);
+
+    const updates = [];
+    for (const [index, members] of orderedSlots.entries()) {
+      const initiative = DC20RpgCombat.SLOT_INITIATIVE_BASE - (index + 1);
+      for (const member of members) {
+        if (member.initiative !== initiative) updates.push({_id: member.id, initiative});
+      }
     }
+    return this._updateInitiatives(updates);
+  }
+
+  async synchronizeCompanionSlots() {
+    const updates = [];
+    for (const companion of this.combatants) {
+      const owner = this._getSharingOwner(companion);
+      if (!owner || companion.initiative === owner.initiative) continue;
+      updates.push({_id: companion.id, initiative: owner.initiative});
+    }
+    return this._updateInitiatives(updates);
+  }
+
+  async assignUnslottedCombatants() {
+    let slot = this.nextSlotNumber;
+    for (const combatant of this.combatants) {
+      if (this.getSlotNumber(combatant) !== null) continue;
+      const owner = this._getSharingOwner(combatant);
+      if (owner) continue;
+      await this.assignSlot(combatant, slot++);
+    }
+    for (const combatant of this.combatants) {
+      if (this.getSlotNumber(combatant) !== null) continue;
+      await this.assignSlot(combatant, slot++);
+    }
+    return this;
+  }
+
+  /** Compatibility with core/module calls: DC20 0.11 assigns slots instead of rolling. */
+  async rollInitiative(ids) {
+    ids = typeof ids === "string" ? [ids] : Array.from(ids ?? []);
+    let slot = this.nextSlotNumber;
+    const assignedGroups = new Set();
+    for (const id of ids) {
+      const combatant = this.combatants.get(id);
+      if (!combatant?.isOwner) continue;
+      const groupId = this._getSharingOwner(combatant)?.id ?? combatant.id;
+      if (assignedGroups.has(groupId)) continue;
+      assignedGroups.add(groupId);
+      await this.assignSlot(combatant, slot++);
+    }
+    return this;
   }
 
   // =================================
@@ -151,34 +225,14 @@ export class DC20RpgCombat extends Combat {
   // =================================
   /** @override **/
   async startCombat() {
-    if (!this.flags.dc20rpg?.initiativeDC) {
-      ui.notifications.warn(game.i18n.localize("dc20rpg.combatTracker.provideDC"));
-      return;
-    }
-
-    let numberOfPCs = 0;
-    let successPCs = 0;
-    this.combatants.forEach(combatant => {
+    await this.synchronizeCompanionSlots();
+    await this.assignUnslottedCombatants();
+    for (const combatant of this.combatants) {
       const actor = combatant.actor;
-      if (!actor) return;
-
-      if (actor.type === "character") {
-        numberOfPCs++;
-        successPCs += this._checkInvidualOutcomes(combatant);
-      }
+      if (!actor) continue;
       actor.refresh.on("combatStart");
       runEventsFor("combatStart", actor);
       reenableEventsOn("combatStart", actor);
-    });
-
-    await this.resetAll();
-    if (successPCs >= Math.ceil(numberOfPCs/2)) {
-      await initiativeSlotSelector(this, "pc");
-      await this.update({["flags.dc20rpg.winningTeam"]: "pc"});
-    }
-    else {
-      await initiativeSlotSelector(this, "enemy");
-      await this.update({["flags.dc20rpg.winningTeam"]: "enemy"});
     }
     return await super.startCombat();
   }
@@ -204,71 +258,30 @@ export class DC20RpgCombat extends Combat {
   }
 
   /** @override **/
-  //NEW UPDATE CHECK: We need to make sure it works fine with future foundry updates
   async nextTurn() {
-    let turn = this.turn ?? -1;
-    let skip = this.settings.skipDefeated;
-
-    // Check if should skip next combatant (e.g. When companion shares initiative with the owner) 
-    //======== INJECTED =========
-    let combatant = {skip: false};
-    let next = null;
-    do {
-      // Determine the next turn number
-      if ( skip ) {
-        for ( let [i, t] of this.turns.entries() ) {
-          if ( i <= turn ) continue;
-          if ( t.isDefeated ) continue;
-          next = i;
-          break;
-        }
-      }
-      else {
-        next = turn + 1;
-      }
-      combatant = this.turns[next];
-      if (combatant !== undefined && !combatant.skip) combatant.skip = this.activeCombatants.find(cmb => cmb.id === combatant.id);
-      turn++;
-    } while (combatant !== undefined && combatant.skip);
-    //============================
-
-    // Maybe advance to the next round
-    let round = this.round;
-    if ( (this.round === 0) || (next === null) || (next >= this.turns.length) ) {
-      return this.nextRound();
+    let next = this.lastActiveTurn + 1;
+    while (next < this.turns.length) {
+      const slot = this.getCombatantsInSlot(this.turns[next]);
+      if (!this.settings.skipDefeated || slot.some(combatant => !combatant.isDefeated)) break;
+      next += Math.max(slot.length, 1);
     }
+    if ((this.round === 0) || (next >= this.turns.length)) return this.nextRound();
 
-    // Update the document, passing data through a hook first
-    const updateData = {round, turn: next};
+    const updateData = {round: this.round, turn: next};
     const updateOptions = {direction: 1, worldTime: {delta: CONFIG.time.turnTime}};
     Hooks.callAll("combatTurn", this, updateData, updateOptions);
     return this.update(updateData, updateOptions);
   }
 
   /** @override **/
-  //NEW UPDATE CHECK: We need to make sure it works fine with future foundry updates
   async previousTurn() {
-    if ( (this.turn === 0) && (this.round === 0) ) return this;
-    let previousTurn = (this.turn ?? this.turns.length) - 1;
-
-    // Check if should skip previous combatant (e.g. When companion shares initiative with the owner) 
-    //======== INJECTED =========
-    const combatSlotMerge = game.settings.get("dc20rpg", "combatSlotMerge");
-    let combatant = this.turns[previousTurn];
-    while (combatant !== undefined && combatant.skip) {
-      previousTurn--;
-      combatant = this.turns[previousTurn];
-    }
-    if (combatSlotMerge && combatant !== undefined) {
-      const combatants = this.#getAllCombatantsForInitiative(combatant.initiative);
-      const indexes = [];
-      combatants.forEach(combatant => indexes.push(this.turns.indexOf(combatant)));
-      previousTurn = Math.min(...indexes);
-      combatant = this.turns[previousTurn];
-    }
-    //===========================
-
+    if ((this.turn === 0) && (this.round === 0)) return this;
+    const activeIndexes = this.activeCombatants.map(combatant => this.turns.indexOf(combatant));
+    const firstActiveTurn = activeIndexes.length ? Math.min(...activeIndexes) : (this.turn ?? this.turns.length);
+    let previousTurn = firstActiveTurn - 1;
     if ( (previousTurn < 0) && (this.turn !== null) ) return this.previousRound();
+    const previousSlot = this.getCombatantsInSlot(this.turns[previousTurn]);
+    if (previousSlot.length) previousTurn = Math.min(...previousSlot.map(combatant => this.turns.indexOf(combatant)));
 
     // Update the document, passing data through a hook first
     const updateData = {round: this.round, turn: previousTurn};
@@ -278,27 +291,12 @@ export class DC20RpgCombat extends Combat {
   }
 
   /** @override **/
-  //NEW UPDATE CHECK: We need to make sure it works fine with future foundry updates
   async previousRound() {
     let turn = ( this.round === 0 ) ? 0 : Math.max(this.turns.length - 1, 0);
     if ( this.turn === null ) turn = null;
 
-    // Check if should skip previous combatant (e.g. When companion shares initiative with the owner) 
-    //======== INJECTED =========
-    const combatSlotMerge = game.settings.get("dc20rpg", "combatSlotMerge");
-    let combatant = this.turns[turn];
-    while (combatant !== undefined && combatant.skip) {
-      turn--;
-      combatant = this.turns[turn];
-    }
-    if (combatSlotMerge && combatant !== undefined) {
-      const combatants = this.#getAllCombatantsForInitiative(combatant.initiative);
-      const indexes = [];
-      combatants.forEach(combatant => indexes.push(this.turns.indexOf(combatant)));
-      turn = Math.min(...indexes);
-      combatant = this.turns[turn];
-    }
-    //===========================
+    const previousSlot = this.getCombatantsInSlot(this.turns[turn]);
+    if (previousSlot.length) turn = Math.min(...previousSlot.map(combatant => this.turns.indexOf(combatant)));
     let round = Math.max(this.round - 1, 0);
     if ( round === 0 ) turn = null;
     let advanceTime = -1 * (this.turn || 0) * CONFIG.time.turnTime;
@@ -311,44 +309,26 @@ export class DC20RpgCombat extends Combat {
     return this.update(updateData, updateOptions);
   }
 
-  async _onStartTurn(currentCombatant, context, sharedInitiative) {
-    const combatants = sharedInitiative ? [currentCombatant] : this.activeCombatants; // We have to deal with companion sharing initiative
-    if (!combatants.find(cmb => cmb.id === currentCombatant.id)) return;
+  async _onStartTurn(currentCombatant, context) {
+    const actor = currentCombatant.actor;
+    if (!actor) return;
+    const transformedActorId = currentCombatant.token?.flags?.dc20rpg?.transformationHistory?.actorId;
 
-    for (const combatant of combatants) {
-      const actor = combatant.actor;
-      if (!actor) continue;
-      const transformedActorId = combatant.token?.flags?.dc20rpg?.transformationHistory?.actorId;
-
-    // Skip if combatant shares initative with owner (unless this method was called by the owner itself)
-    if (!sharedInitiative && companionShare(actor, "initiative")) return;
-
-      this._deathsDoorCheck(actor);
-      this._sustainCheck(actor);
-      await actor.refresh.on("roundStart");
-      runEventsFor("turnStart", actor);
-      reenableEventsOn("turnStart", actor);
-      this._runEventsForAllCombatants("actorWithIdStartsTurn", actorIdFilter(actor.id, transformedActorId));
-      actor.help.clear();
-      actor.heldAction.clear();
-      await super._onStartTurn(combatant, context);
-
-      // Run onStartTurn for all linked companions
-      if (combatant.companions) combatant.companions.forEach(companionId => {
-        const companion = this.combatants.get(companionId);
-        if(companion) this._onStartTurn(companion, context, true)
-      });
-    }
+    await this._deathsDoorCheck(actor);
+    await this._sustainCheck(actor);
+    await actor.refresh.on("roundStart");
+    runEventsFor("turnStart", actor);
+    reenableEventsOn("turnStart", actor);
+    this._runEventsForAllCombatants("actorWithIdStartsTurn", actorIdFilter(actor.id, transformedActorId));
+    actor.help.clear();
+    actor.heldAction.clear();
+    await super._onStartTurn(currentCombatant, context);
   }
 
-  async _onEndTurn(combatant, context, sharedInitiative) {
-    const actor = combatant.actor;
+  async _onEndTurn(currentCombatant, context) {
+    const actor = currentCombatant.actor;
     if (!actor) return;
-    const transformedActorId = combatant.token?.flags?.dc20rpg?.transformationHistory?.actorId;
-
-    // Skip if combatant shares initative with owner (unless this method was called by the owner itself)
-    if (!sharedInitiative && companionShare(actor, "initiative")) return;
-
+    const transformedActorId = currentCombatant.token?.flags?.dc20rpg?.transformationHistory?.actorId;
     const currentRound = this.turn === 0 ? this.round - 1 : this.round; 
     await actor.refresh.on("roundEnd");
     runEventsFor("turnEnd", actor);
@@ -359,126 +339,30 @@ export class DC20RpgCombat extends Combat {
     await actor.heldAction.saveMcpState();
     await actor.mcp.clear();
     clearMovePoints(actor);
-    await super._onEndTurn(combatant, context);
+    await super._onEndTurn(currentCombatant, context);
+  }
 
-    // Run onEndTurn for all linked companions
-    if (combatant.companions) combatant.companions.forEach(companionId => {
-      const companion = this.combatants.get(companionId);
-      if(companion) this._onEndTurn(companion, context, true);
-    });
+  async _onEnter(combatant) {
+    await super._onEnter(combatant);
+    if (!this.started || this.getSlotNumber(combatant) !== null) return;
+    const owner = this._getSharingOwner(combatant);
+    if (owner && Number.isFinite(owner.initiative)) await this.assignSlot(combatant, this.getSlotNumber(owner));
+    else await this.assignSlot(combatant, this.nextSlotNumber);
+  }
+
+  async _onExit(combatant) {
+    await super._onExit(combatant);
+    await this._updateInitiatives([]);
   }
 
   async _runEventsForAllCombatants(trigger, filters, currentRound) {
     this.combatants.forEach(combatant => {
       const actor = combatant.actor;
       if (!actor) return;
-      if (currentRound) filters = [...filters, ...currentRoundFilter(actor, currentRound)];
-      runEventsFor(trigger, actor, filters);
-      reenableEventsOn(trigger, actor, filters);
+      const actorFilters = currentRound ? [...filters, ...currentRoundFilter(actor, currentRound)] : filters;
+      runEventsFor(trigger, actor, actorFilters);
+      reenableEventsOn(trigger, actor, actorFilters);
     });
-  }
-
-  // =================================
-  // ==            OTHER            ==
-  // =================================
-  _checkInvidualOutcomes(combatant) {
-    const initiativeDC = this.flags.dc20rpg.initiativeDC;
-    const actor = combatant.actor;
-    if (!actor) return;
-
-    // Crit Success
-    if (combatant.flags.dc20rpg?.initativeOutcome?.crit) {
-      DC20ChatMessage.descriptionMessage({
-        rollTitle: "Initiative Critical Success",
-        image: actor.img,
-        description: "You gain ADV on 1 Check or Save of your choice during the first Round of Combat.",
-      }, actor);
-      DC20RpgActiveEffect.gmCreate(this._getInitiativeCritEffectData(actor), {parent: actor, ignoreResponse: true});
-    }
-    // Crit Fail
-    if (combatant.flags.dc20rpg?.initativeOutcome?.fail) {
-      DC20ChatMessage.descriptionMessage({
-        rollTitle: "Initiative Critical Fail",
-        image: actor.img,
-        description: "The first Attack made against you during the first Round of Combat has ADV.",
-      }, actor);
-      DC20RpgActiveEffect.gmCreate(this._getInitiativeCritFailEffectData(actor), {parent: actor, ignoreResponse: true});
-    }
-    // Success
-    if (combatant.initiative >= initiativeDC) {
-      DC20ChatMessage.descriptionMessage({
-        rollTitle: "Initiative Success",
-        image: actor.img,
-        description: "You gain a d6 Inspiration Die, which you can add to 1 Check or Save of your choice that you make during this Combat. The Inspiration Die expires when the Combat ends.",
-      }, actor);
-      actor.help.prepare({diceValue: 6, duration: "combat"})
-      return true;
-    }
-    return false;
-  }
-
-  _getInitiativeCritEffectData(actor) {
-    const checkKeys = [
-      "attack", "checks.atr", "checks.mar", "checks.spe", "saves.all"
-    ]
-    const change = (checkPath) => {
-      return {
-        key: `system.dynamicRollModifier.onYou.${checkPath}`,
-        type: "add",
-        priority: undefined,
-        value: '"value": 1, "type": "adv", "label": "Initiative Critical Success", "confirmation": true, "afterRoll": "delete"'
-      }
-    };
-
-    const changes = []
-    for (const key of checkKeys) {
-      changes.push(change(key));
-    }
-
-    return {
-      name: "Initiative Critical Success",
-      img: "icons/svg/angel.svg",
-      origin: actor.uuid,
-      duration: {
-        rounds: 1,
-        expiry: "turnStart",
-      },
-      system: {
-        changes: changes,
-        duration: {
-          expiryAction: "delete"
-        }
-      },
-      description: "You gain ADV on 1 Check or Save of your choice during the first Round of Combat.",
-      disabled: false,
-    }
-  }
-
-  _getInitiativeCritFailEffectData(actor) {
-    const changes = [{
-      key: `system.dynamicRollModifier.againstYou.attack`,
-      type: "add",
-      priority: undefined,
-      value: '"value": 1, "type": "adv", "label": "Initiative Critical Fail", "afterRoll": "delete"'
-    }];
-
-    return {
-      name: "Initiative Critical Fail",
-      img: "icons/svg/coins.svg",
-      origin: actor.uuid,
-      duration: {
-        rounds: 1,
-        expiry: "turnStart",
-      },
-      system: {
-        changes: changes,
-        duration: {
-          expiryAction: "delete"
-        }
-      },
-      description: "The first Attack made against you during the first Round of Combat has ADV.",
-      disabled: false,
-    }
   }
 
   async _deathsDoorCheck(actor) {
