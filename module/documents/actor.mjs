@@ -1,7 +1,5 @@
 import { RestDialog } from "../dialogs/rest.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
-import { makeMoveAction, spendMoreApOnMovement, subtractMovePoints } from "../helpers/actors/actions.mjs";
-import { companionShare } from "../helpers/actors/companion.mjs";
 import { runHealthChangeEvent, runResourceChangeEvent } from "../helpers/actors/costManipulator.mjs";
 import { parseEvent } from "../helpers/actors/events.mjs";
 import { displayScrollingTextOnToken, preConfigurePrototype, updateActorHp } from "../helpers/actors/tokens.mjs";
@@ -413,9 +411,9 @@ export class DC20RpgActor extends Actor {
       if (!confirmed) return true;
     }
 
-    let subtracted = await subtractMovePoints(this, 2);
+    let subtracted = await this.move.spendMovePoints(2);
     if (subtracted !== true) {
-      subtracted = await spendMoreApOnMovement(this, subtracted);
+      subtracted = await this.move.spendMoreApOnMovement(subtracted);
     }
     if (subtracted !== true) {
       ui.notifications.warn("Not enough move points to stand up from Prone!");
@@ -807,6 +805,6 @@ export class DC20RpgActor extends Actor {
   }
 
   async moveAction(options={}) {
-    await makeMoveAction(this, options);
+    await this.move.moveAction(options);
   }
 }

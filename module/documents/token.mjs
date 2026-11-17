@@ -1,6 +1,5 @@
 import { runEventsFor } from "../helpers/actors/events.mjs";
 import { generateRandomLootTable } from "../helpers/actors/storage.mjs";
-import { spendMoreApOnMovement, subtractMovePoints } from "../helpers/actors/actions.mjs";
 import { gmCreate, gmDelete, gmUpdate } from "../helpers/sockets.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
 
@@ -157,10 +156,10 @@ export class DC20RpgTokenDocument extends TokenDocument {
     }
 
     const movementCost = movement.passed.cost;
-    let subtracted = await subtractMovePoints(this.actor, movementCost);
+    let subtracted = await this.actor.move.spendMovePoints(movementCost);
 
     if (subtracted !== true) {
-      subtracted = await spendMoreApOnMovement(this.actor, subtracted, this.movementAction);
+      subtracted = await this.actor.move.spendMoreApOnMovement(subtracted, this.movementAction);
     }
 
     // Do not move the actor

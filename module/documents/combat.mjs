@@ -1,4 +1,3 @@
-import { clearMovePoints } from "../helpers/actors/actions.mjs";
 import { SimplePopup } from "../dialogs/simple-popup.mjs";
 import { companionShare } from "../helpers/actors/companion.mjs";
 import { actorIdFilter, currentRoundFilter, reenableEventsOn, runEventsFor } from "../helpers/actors/events.mjs";
@@ -233,6 +232,9 @@ export class DC20RpgCombat extends Combat {
       actor.refresh.on("combatStart");
       runEventsFor("combatStart", actor);
       reenableEventsOn("combatStart", actor);
+      if (actor.type === "character") {
+        actor.move.startingMovement();
+      }
     }
     return await super.startCombat();
   }
@@ -338,7 +340,7 @@ export class DC20RpgCombat extends Combat {
     this._runEventsForAllCombatants("actorWithIdEndsNextTurn", actorIdFilter(actor.id, transformedActorId), currentRound);
     await actor.heldAction.saveMcpState();
     await actor.mcp.clear();
-    clearMovePoints(actor);
+    await actor.move.clear();
     await super._onEndTurn(currentCombatant, context);
   }
 

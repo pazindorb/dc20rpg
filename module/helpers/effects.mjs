@@ -287,6 +287,7 @@ export function getEffectModifiableKeys() {
     
     // Help Dice
     "system.help.maxDice": "Help Dice: Max Dice",
+    "system.startingMovement.bonus": "Starting Movement Bonus",
 
     // Death
     "system.death.bonus": "Death's Door: Threshold Bonus",
