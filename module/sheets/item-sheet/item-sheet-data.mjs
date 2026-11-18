@@ -194,6 +194,9 @@ function _activePropertiesCost(properties) {
   let cost = 0;
   Object.values(properties)
           .filter(property => property.active)
-          .forEach(property => cost += property.cost);
+          .forEach(property => {
+            const multipier = property.valueCostMultiplier ? property.value : 1;
+            cost += property.cost * multipier;
+          });
   return cost;
 }

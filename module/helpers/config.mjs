@@ -388,8 +388,7 @@ DC20RPG.TRANSLATION_LABELS.attributes = {
 DC20RPG.TRANSLATION_LABELS.combatTraining = {
   weapons: "Weapons",
   spellFocuses: "Spell Focuses",
-  lightShield: "Light Shield",
-  heavyShield: "Heavy Shield",
+  shields: "Shields",
   lightArmor: "Light Armor",
   heavyArmor: "Heavy Armor",
 }
@@ -517,8 +516,7 @@ DC20RPG.DROPDOWN_DATA.armorTypes = {
 }
 
 DC20RPG.DROPDOWN_DATA.shieldTypes = {
-  lshield: "Light Shield",
-  hshield: "Heavy Shield",
+  shield: "Shield",
 }
 
 DC20RPG.DROPDOWN_DATA.equipmentTypes = {
@@ -1017,7 +1015,7 @@ DC20RPG.PROPERTIES = {
   attunement: {
     label: "dc20rpg.properties.attunement",
     type: ["weapon", "equipment", "spellFocus", "consumable"],
-    subtype: ["melee", "ranged", "lshield", "hshield", "light", "heavy"],
+    subtype: ["melee", "ranged", "shield", "light", "heavy"],
     cost: 0,
     journalUuid: ""
   },
@@ -1130,7 +1128,7 @@ DC20RPG.PROPERTIES = {
   toss: {
     label: "dc20rpg.properties.toss",
     type: ["weapon", "equipment"],
-    subtype: ["melee", "lshield"],
+    subtype: ["melee", "shield"],
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.iTsd5sG8SiaYCOA6"
   },
@@ -1173,7 +1171,7 @@ DC20RPG.PROPERTIES = {
   adIncrease: {
     label: "dc20rpg.properties.adIncrease",
     type: ["equipment"],
-    subtype: ["lshield", "hshield", "light", "heavy"],
+    subtype: ["shield", "light", "heavy"],
     cost: 1,
     value: 1,
     valueCostMultiplier: true,
@@ -1184,7 +1182,7 @@ DC20RPG.PROPERTIES = {
       for (const prop of properties) {
         const equipmentType = prop.item.system.equipmentType;
         if (["light", "heavy"].includes(equipmentType)) armorBonus += prop.property.value;
-        if (["lshield", "hshield"].includes(equipmentType)) shieldBonus = prop.property.value;
+        if (["shield"].includes(equipmentType)) shieldBonus = prop.property.value;
       }
       actor.system.defences.area.bonuses.always += armorBonus + shieldBonus;
     }
@@ -1192,7 +1190,7 @@ DC20RPG.PROPERTIES = {
   pdIncrease: {
     label: "dc20rpg.properties.pdIncrease",
     type: ["equipment"],
-    subtype: ["lshield", "hshield", "light", "heavy"],
+    subtype: ["shield", "light", "heavy"],
     cost: 1,
     value: 1,
     valueCostMultiplier: true,
@@ -1203,7 +1201,7 @@ DC20RPG.PROPERTIES = {
       for (const prop of properties) {
         const equipmentType = prop.item.system.equipmentType;
         if (["light", "heavy"].includes(equipmentType)) armorBonus += prop.property.value;
-        if (["lshield", "hshield"].includes(equipmentType)) shieldBonus = prop.property.value;
+        if (["shield"].includes(equipmentType)) shieldBonus = prop.property.value;
       }
       actor.system.defences.precision.bonuses.always += armorBonus + shieldBonus;
     }
@@ -1211,7 +1209,7 @@ DC20RPG.PROPERTIES = {
   edr: {
     label: "dc20rpg.properties.edr",
     type: ["equipment"],
-    subtype: ["hshield", "light", "heavy"],
+    subtype: ["light", "heavy"],
     cost: 2,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.wJIrMxAQeTnZejZk",
     applyProperty: (actor) => {
@@ -1222,7 +1220,7 @@ DC20RPG.PROPERTIES = {
   pdr: {
     label: "dc20rpg.properties.pdr",
     type: ["equipment"],
-    subtype: ["hshield", "heavy"],
+    subtype: ["heavy"],
     cost: 2,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.LR1XjGbhGGaJamtB",
     applyProperty: (actor) => {
@@ -1230,18 +1228,10 @@ DC20RPG.PROPERTIES = {
       if (!pdr.skipEqCheck) pdr.active = true;
     }
   },
-  bulky: {
-    label: "dc20rpg.properties.bulky",
-    type: ["equipment"],
-    subtype: ["hshield", "heavy"],
-    cost: -1,
-    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.P5hNhnMIhbqVtTeR",
-    applyProperty: (actor, properties) => actor.system.movement.ground.value -= properties.length
-  },
   rigid: {
     label: "dc20rpg.properties.rigid",
     type: ["equipment"],
-    subtype: ["hshield", "heavy"],
+    subtype: ["heavy"],
     cost: -1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.MB8nIR0MU7A9fPmo",
     applyProperty: (actor, properties) => actor.system.dynamicRollModifier.onYou.checks.agi.push(`"value": ${properties.length}, "type": "dis", "label": "Rigid Property"`)
@@ -1249,14 +1239,14 @@ DC20RPG.PROPERTIES = {
   grasp: {
     label: "dc20rpg.properties.grasp",
     type: ["equipment"],
-    subtype: ["lshield"],
+    subtype: ["shield"],
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.i0kF5bqDBVrU4byE"
   },
   mounted: {
     label: "dc20rpg.properties.mounted",
     type: ["equipment"],
-    subtype: ["hshield"],
+    subtype: ["shield"],
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.D4tbxGmWGbShvtYp"
   },

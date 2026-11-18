@@ -192,7 +192,7 @@
 
           {{!-- Combat Training --}}
           <h3>{{localize "dc20rpg.sheet.combatTraining"}}</h3>
-          <div class="combat-training grid grid-6col">
+          <div class="combat-training grid grid-5col">
           {{#each system.combatTraining as |mastery key|}}
             <img class="mastery {{#if mastery}}active{{/if}}" src="systems/dc20rpg/images/sheet/details/masteries/{{key}}.svg" data-tooltip="{{varLocalize 'dc20rpg.mastery.' key ''}}"/>
           {{/each}}

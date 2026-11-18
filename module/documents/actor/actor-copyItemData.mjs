@@ -88,10 +88,11 @@ export function prepareEquippedItemsFlags(actor) {
 			if (["heavy"].includes(item.system.equipmentType)) {
 				equippedFlags.heavyEquipped = true;
 			}
-			if (["lshield", "hshield"].includes(item.system.equipmentType)) {
+			if (["shield"].includes(item.system.equipmentType)) {
 				equippedFlags.shieldEquipped = true;
 				const properties = item.system.properties;
 				
+				// TODO: Wielding Two Shields - is it still present?
 				if (properties.adIncrease.active) {
 					equippedFlags.shieldBonus.ad = properties.adIncrease.value;
 				}
@@ -245,7 +246,7 @@ function _equipment(items, actor) {
 		if (["light", "heavy"].includes(type)) { 
 			if (!combatTraining) lackArmorTraining = true;
 		}
-		if (["lshield", "hshield"].includes(type)) { 
+		if (["shield"].includes(type)) { 
 			if (!combatTraining) lackShieldTraining = true;
 			shieldWielded++;
 		}
@@ -265,7 +266,7 @@ function _equipment(items, actor) {
 		actor.system.dynamicRollModifier.onYou.checks.spe.push('"value": 1, "type": "dis", "label": "You lack Combat Training in equipped Armor"');
 	}
 
-	// Wielding Two Shields makes player ignore flanking
+	// Wielding Two Shields makes player ignore flanking - TODO: Check if this rule still exist
 	if (shieldWielded >= 2) {
 		actor.system.globalModifier.ignore.flanking = true;
 	}
@@ -436,7 +437,11 @@ function _combatTraining(actor) {
 		for (const advancement of advancements) {
 			if (!advancement.applied) continue;
 			if (advancement.mastery === "spellcaster") actor.system.combatTraining.spellFocuses = true;
-			if (advancement.mastery === "martial") actor.system.combatTraining.weapons = true;
+			if (advancement.mastery === "martial") {
+				actor.system.combatTraining.weapons = true;
+				actor.system.combatTraining.shields = true;
+				actor.system.combatTraining.heavyArmor = true;
+			}
 		}
 	}
 }

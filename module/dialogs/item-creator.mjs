@@ -208,11 +208,11 @@ export class ItemCreatorDialog extends DC20Dialog {
       this.blueprint.system.attack.rangeType = subType;
       this.blueprint.system.attack.closeQuarters = subType === "ranged"; // Set Close Quarters
     }
-    if (["melee", "ranged", "lshield", "hshield"].includes(subType)) {
+    if (["melee", "ranged", "shield"].includes(subType)) {
       this.blueprint.system.costs.resources.ap = 1;
       this.blueprint.system.statuses.slotLink.predefined = "weapon";
     }
-    if (["lshield", "hshield"].includes(subType)) {
+    if (["shield"].includes(subType)) {
       this.blueprint.system.actionType = "attack";
       this.blueprint.system.formulas.weaponDamage = {
           formula: "1",

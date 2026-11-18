@@ -24,7 +24,7 @@ export async function applyAdvancement(advancement, actor, talentType) {
 
   const [extraAdvancements, keywords, tips] = await _addItemsToActor(selectedItems, actor, advancement);
   if (advancement.repeatable) await _addRepeatableAdvancement(advancement, actor);
-  if (advancement.progressPath) await _applyPathProgression(advancement, extraAdvancements, actor);
+  if (advancement.progressPath) await _applyPathProgression(advancement, actor);
 
   await _markAdvancementAsApplied(advancement, actor);
   for (const key of keywords) {
@@ -106,45 +106,42 @@ export async function shouldLearnNewSpellsOrManeuvers(actor, skipRefresh) {
   return shouldLearn;
 }
 
-async function _applyPathProgression(advancement, extraAdvancements, actor) {
+async function _applyPathProgression(advancement, actor) {
   const parentItem = advancement.parentItem;
   const index = advancement.level -1;
   switch(advancement.mastery) {
     case "martial":
-      if (!actor.system.details.staminaFeature) {
-        const expansion = await _getSpellcasterStaminaAdvancement();
-        expansion.level = advancement.level;
-        expansion.key = "spellcasterStamina";
-        expansion.parentItem = advancement.parentItem;
-        extraAdvancements.set(expansion.key, expansion);
-      }
       await _overrideScalingValue(parentItem, index, "martial"); 
       break;
 
     case "spellcaster":
       const classData = actor.system.details.class;
-      if (!classData.hasSpellList) await _selectSpellList(parentItem, advancement);
-      await _overrideScalingValue(parentItem, index, "spellcaster"); 
+      const firstTimeSpellcasterPath = !classData.hasSpellList;
+      if (firstTimeSpellcasterPath) await _selectSpellList(parentItem, advancement);
+      await _overrideScalingValue(parentItem, index, "spellcaster", firstTimeSpellcasterPath); 
       break;
   }
 }
 
-async function _overrideScalingValue(item, index, mastery) {
+async function _overrideScalingValue(item, index, mastery, firstTimeSpellcasterPath=false) {
   if (mastery === "martial") {
     const maneuversKnown = item.system.scaling.maneuversKnown.values;
     const bonusStamina = item.system.scaling.bonusStamina.values;
+    const maxHpBonus = item.system.scaling.maxHpBonus.values;
     bonusStamina[index] = 1;
     maneuversKnown[index] = 1;
+    maxHpBonus[index] = parseInt(maxHpBonus[index]) + 1;
     await item.update({
       [`system.scaling.bonusStamina.values`]: bonusStamina,
       [`system.scaling.maneuversKnown.values`]: maneuversKnown,
+      [`system.scaling.maxHpBonus.values`]: maxHpBonus,
     });
   }
   if (mastery === "spellcaster") {
     const spellsKnown = item.system.scaling.spellsKnown.values;
     const bonusMana = item.system.scaling.bonusMana.values;
     bonusMana[index] = 3;
-    spellsKnown[index] = 1;
+    spellsKnown[index] = firstTimeSpellcasterPath ? 2 : 1;
     await item.update({
       [`system.scaling.bonusMana.values`]: bonusMana,
       [`system.scaling.spellsKnown.values`]: spellsKnown,
@@ -270,18 +267,6 @@ async function _addRepeatableAdvancement(oldAdv, actor) {
   if(oldAdv.cloneKey) await parentItem.update({[`system.advancements.${advKey}.items`]: new foundry.data.operators.ForcedDeletion()});
   await updateAdvancement(parentItem, oldAdv);
   await updateAdvancement(parentItem, newAdv);
-}
-
-async function _getSpellcasterStaminaAdvancement() {
-  const spellcasterStamina = await fromUuid(CONFIG.DC20RPG.SYSTEM_CONSTANTS.spellcasterStamina);
-  if (!spellcasterStamina || !spellcasterStamina?.system) {
-    ui.notifications.warn("Spellcaster Stamina Expansion Item cannot be found")
-    return;
-  }
-  const advancement = Object.values(spellcasterStamina.system.advancements)[0];
-  advancement.customTitle = advancement.name;
-  advancement.img = spellcasterStamina.img;
-  return advancement;
 }
 
 async function _selectSpellList(myClass, advancement) {

@@ -350,6 +350,10 @@ export async function clearOverridenScalingValue(item, index) {
   const bonusStamina = item.system.scaling.bonusStamina.values;
   const spellsKnown = item.system.scaling.spellsKnown.values;
   const bonusMana = item.system.scaling.bonusMana.values;
+  const maxHpBonus = item.system.scaling.maxHpBonus.values;
+
+  const wasMartial = maneuversKnown[index] !== 0;
+  if (wasMartial) maxHpBonus[index] -= 1;
   bonusStamina[index] = 0;
   maneuversKnown[index] = 0;
   bonusMana[index] = 0;
@@ -359,6 +363,7 @@ export async function clearOverridenScalingValue(item, index) {
     [`system.scaling.maneuversKnown.values`]: maneuversKnown,
     [`system.scaling.bonusMana.values`]: bonusMana,
     [`system.scaling.spellsKnown.values`]: spellsKnown,
+    [`system.scaling.maxHpBonus.values`]: maxHpBonus,
   })
 }
 

@@ -133,8 +133,7 @@ function _trainingKey(item) {
     switch (item.system.equipmentType) {
       case "light": return "lightArmor";
       case "heavy": return "heavyArmor";
-      case "lshield": return "lightShield";
-      case "hshield": return "heavyShield"
+      case "shield": return "shields";
     }
   }
 }

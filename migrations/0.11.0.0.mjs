@@ -68,6 +68,9 @@ async function _migrateItems(migrateModules) {
 }
 
 async function _migrateItem(item) {
+  // TODO: MIGRATE lshield and hshield eq type to shield + add missing properties
+
+
   // Update Effects
   for (const effect of item.effects) {
     await _updateEffect(effect);

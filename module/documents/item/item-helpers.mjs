@@ -510,7 +510,7 @@ async function _addCustomProperty(item, data, key) {
 
   let subtype = null;
   if (item.type === "weapon") subtype = ["melee", "ranged"];
-  if (item.type === "equipment") subtype = ["light", "heavy", "lshield", "hshield"];
+  if (item.type === "equipment") subtype = ["light", "heavy", "shield"];
   if (subtype) data.subtype = subtype;
   
   await item.update({[`system.customProperties.${key}`]: data});
@@ -1296,7 +1296,7 @@ function _testRequirements(tags, item) {
   }
   if (tags.shield.active) {
     anyCheckNeeded = true;
-    if (["lshield", "hshield"].includes(item.system.equipmentType)) fulfiled = true;
+    if (["shield"].includes(item.system.equipmentType)) fulfiled = true;
     else requirements += "Shield, ";
   }
 
