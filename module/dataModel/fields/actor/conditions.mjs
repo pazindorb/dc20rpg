@@ -4,8 +4,8 @@ export default class ConditionsFields extends foundry.data.fields.SchemaField {
     const init0 = { required: true, nullable: false, integer: true, initial: 0 };
 
     const condition = () => ({
-      resistance: new f.NumberField(init0),
-      vulnerability: new f.NumberField(init0),
+      resistance: new f.BooleanField({required: true, initial: false}),
+      vulnerability: new f.BooleanField({required: true, initial: false}),
       immunity: new f.BooleanField({required: true, initial: false}),
     });
 
@@ -54,10 +54,6 @@ export default class ConditionsFields extends foundry.data.fields.SchemaField {
         ...condition(),
         label: new f.StringField({initial: "dc20rpg.conditions.deafened"})
       }),
-      disoriented: new f.SchemaField({
-        ...condition(),
-        label: new f.StringField({initial: "dc20rpg.conditions.disoriented"})
-      }),
       doomed: new f.SchemaField({
         ...condition(),
         label: new f.StringField({initial: "dc20rpg.conditions.doomed"})
@@ -69,10 +65,6 @@ export default class ConditionsFields extends foundry.data.fields.SchemaField {
       exposed: new f.SchemaField({
         ...condition(),
         label: new f.StringField({initial: "dc20rpg.conditions.exposed"})
-      }),
-      frightened: new f.SchemaField({
-        ...condition(),
-        label: new f.StringField({initial: "dc20rpg.conditions.frightened"})
       }),
       grappled: new f.SchemaField({
         ...condition(),
@@ -90,21 +82,9 @@ export default class ConditionsFields extends foundry.data.fields.SchemaField {
         ...condition(),
         label: new f.StringField({initial: "dc20rpg.conditions.immobilized"})
       }),
-      incapacitated: new f.SchemaField({
-        ...condition(),
-        label: new f.StringField({initial: "dc20rpg.conditions.incapacitated"})
-      }),
       intimidated: new f.SchemaField({
         ...condition(),
         label: new f.StringField({initial: "dc20rpg.conditions.intimidated"})
-      }),
-      paralyzed: new f.SchemaField({
-        ...condition(),
-        label: new f.StringField({initial: "dc20rpg.conditions.paralyzed"})
-      }),
-      petrified: new f.SchemaField({
-        ...condition(),
-        label: new f.StringField({initial: "dc20rpg.conditions.petrified"})
       }),
       prone: new f.SchemaField({
         ...condition(),
@@ -134,17 +114,9 @@ export default class ConditionsFields extends foundry.data.fields.SchemaField {
         ...condition(),
         label: new f.StringField({initial: "dc20rpg.conditions.tethered"})
       }),
-      terrified: new f.SchemaField({
-        ...condition(),
-        label: new f.StringField({initial: "dc20rpg.conditions.terrified"})
-      }),
       unconscious: new f.SchemaField({
         ...condition(),
         label: new f.StringField({initial: "dc20rpg.conditions.unconscious"})
-      }),
-      weakened: new f.SchemaField({
-        ...condition(),
-        label: new f.StringField({initial: "dc20rpg.conditions.weakened"})
       }),
     };
     super(fields, options);

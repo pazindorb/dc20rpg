@@ -497,8 +497,8 @@ export class DC20RpgActorSheet extends foundry.applications.api.HandlebarsApplic
     const object = this.#getObjectFrom(target.dataset);
 
     switch (middleClick) {
-      case "sheet": if (object) object.sheet.render(true);
-      case "stamina": this.actor.resources.stamina.regain("half");
+      case "sheet": if (object) object.sheet.render(true); break;
+      case "stamina": this.actor.resources.stamina.regain("half"); break;
     }
   }
 

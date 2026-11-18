@@ -154,7 +154,7 @@ export function initJournalLinker() {
 
   const entries = Object.entries(raw).filter(([k]) => !EXCLUDE.has(k));
 
-  // Sort longer first so 'fullyStunned' wins over 'stunned'
+  // Sort longer first
   const ordered = entries
     .map(([k, v]) => ({ k, v }))
     .sort((a, b) => b.k.length - a.k.length);

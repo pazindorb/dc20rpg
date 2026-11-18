@@ -44,6 +44,10 @@ async function _migrateActors(migrateModules) {
 
 async function _migrateActor(actor) {
   await actor.skillAndLanguage.refreshAll();
+
+  for (const effect of actor.effects) {
+    await _updateEffect(effect);
+  }
 }
 
 // ======================= ITEM ========================
@@ -64,5 +68,27 @@ async function _migrateItems(migrateModules) {
 }
 
 async function _migrateItem(item) {
+  // Update Effects
+  for (const effect of item.effects) {
+    await _updateEffect(effect);
+  }
 
+  // Update Rooted Effects
+  for (const effect of (item.collectRootedEffects() || [])) {
+    await _updateEffect(effect);
+  }
+}
+
+// ======================= EFFECTS ========================
+async function _updateEffect(effect) {
+  const changes = effect.system.changes;
+  let hasChanges = false;
+  for (let i = 0; i < changes.length; i++) {
+    if (changes[i].key.includes("system.statusResistances") && (changes[i].key.includes(".resistance") || changes[i].key.includes(".vulnerability"))) {
+      changes[i].type = "override";
+      changes[i].value = true;
+      hasChanges = true;
+    }
+  }
+  // if (hasChanges) await effect.update({["system.changes"]: changes})
 }

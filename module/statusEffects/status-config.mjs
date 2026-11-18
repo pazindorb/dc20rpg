@@ -7,48 +7,38 @@ export function registerDC20Statues() {
 
     _dazed(),
     _deafened(),
-    _disoriented(),
     _doomed(),
-
     _exhaustion(),
-    _exposed(),
-    _frightened(),
-    _grappled(),
 
+    _exposed(),
+    _grappled(),
     _hindered(),
     _immobilized(),
+
     _impaired(),
-    _incapacitated(),
-
     _intimidated(),
-    _invisible(),
-    _paralyzed(),
-    _petrified(),
-
     _prone(),
     _restrained(),
+
     _slowed(),
     _stunned(),
-
     _surprised(), 
     _taunted(),
+
     _tethered(),
-    _terrified(),
-
     _unconscious(),
-    _weakened(),
-
     _partiallyConcealed(),
     _fullyConcealed(),
+
     _unseen(),
     _unheard(),
-
     _hidden(),
+    _invisible(),
+    
     _halfCover(),
     _tqCover(),
     _dead(),
 
-    _fullyStunned(),
     _bloodied(),
     _wellBloodied(),
     _deathsDoor(),
@@ -317,68 +307,6 @@ function _hidden() {
     `
   }
 }
-function _fullyStunned() {
-  return {
-    id: "fullyStunned",
-    _id: "d02g03day8pp8en6",
-    name: "Fully Stunned",
-    label: "Fully Stunned",
-    stackable: false,
-    statuses: ["incapacitated"],
-    system: {
-      statusId: "fullyStunned",
-      hide: true,
-      condition: true,
-      changes: [
-        {
-          key: "system.globalModifier.prevent.goUnderAP",
-          type: "upgrade",
-          priority: undefined,
-          value: 99
-        },
-        {
-          key: "system.movement.ground.bonus",
-          type: "add",
-          priority: undefined,
-          value: -100
-        },
-        {
-          key: "system.dynamicRollModifier.againstYou.attack",
-          type: "add",
-          priority: undefined,
-          value: '"value": 1, "type": "adv", "label": "Fully Stunned"'
-        },
-        {
-          key: "system.dynamicRollModifier.onYou.saves.mig",
-          type: "add",
-          priority: undefined,
-          value: '"label": "Fully Stunned", "autoFail": true, "confirmation": true'
-        },
-        {
-          key: "system.dynamicRollModifier.onYou.saves.agi",
-          type: "add",
-          priority: undefined,
-          value: '"label": "Fully Stunned", "autoFail": true, "confirmation": true'
-        }
-      ]
-    },
-    img: "systems/dc20rpg/images/statuses/fullyStunned.svg",
-    description: `
-    <p>You are subjected to the following effects:</p>
-    <ul>
-        <li>
-            <p>You're <strong>Incapacitated</strong>.</p>
-        </li>
-        <li>
-            <p><span>Attacks against you have ADV.</span></p>
-        </li>
-        <li>
-            <p>You automatically fail Physical Saves (except against Poisons and Diseases).</p>
-        </li>
-    </ul>
-    `
-  }
-}
 function _halfCover() {
   return {
     id: "halfCover",
@@ -441,6 +369,35 @@ function _bleeding() {
     system: {
       statusId: "bleeding",
       condition: true,
+      macro: `
+if (extras.skipBleeding) return;
+
+const healing = extras.amount || 0;
+const bleeding = actor.statuses.get("bleeding")?.stack || 0;
+if (!bleeding || healing <= 0) return;
+
+const header = "Bleeding - Healing";
+const information = [
+  "You can reduce received healing to remove stack of Bleeding",
+  "How many stacks you want to remove?",
+  "Received healing: " + healing
+];
+const options = {};
+const max = bleeding > healing ? healing : bleeding;
+for (let i = 0; i <= max; i++) options[i] = i;
+const inputs = [{
+  type: "select",
+  options: options,
+  preselected: 1
+}]
+const answers = await DC20.dialog.SimplePopup.open("input", {header: header, information: information, inputs: inputs}, {actor: actor});
+const result = parseInt(answers?.[0] || 0);
+if (result > 0) {
+  extras.preventChange = true;
+  for (let i = 0; i < result; i++) await actor.toggleStatusEffect("bleeding", {active: false});
+  await DC20.DC20Target.quickApplyHealingFor(actor, {source: "Healing received - reduced by Bleeding removal", value: healing - result, type: "heal"}, {}, {skipEventCall: true});
+}
+extras.skipBleeding = true;`,
       changes: [
         {
           key: "system.events",
@@ -452,17 +409,26 @@ function _bleeding() {
           key: "system.events",
           type: "add",
           priority: undefined,
-          value: '"eventType": "basic", "trigger": "healingTaken", "label": "Bleeding - Healed", "postTrigger": "delete", "skipTempHpChangeOnly": true'
+          value: '"eventType": "macro", "trigger": "healingTaken", "label": "Bleeding - Healed", "skipTempHpChangeOnly": true'
         }
       ]
     },
     img: "systems/dc20rpg/images/statuses/bleeding.svg",
     description: `
     <p>You take <strong>X</strong> True damage at the start of each of your turns.</p>
-    <p><em><strong>Ending Bleeding:</strong></em> All stacks of the Condition end when you're subjected to an effect that restores your HP. Alternatively, a creature can attempt to remove 1 or more stacks of the Condition by taking the Medicine Action.</p>
-    <p></p>
-    <h4>Medicine (Action)</h4>
-    <p>You can spend <strong>1 AP</strong> to touch a creature and tend to its wounds. Make a <strong>DC 10</strong> Medicine Check. <strong>Success (each 5):</strong> You end 1 stack of <strong>Bleeding</strong> on the target.</p>
+    <p><strong>Patch Wound:</strong> You can spend 1 AP to touch a creature within 1 Space and make a DC 10 Survival Check. </p>
+    <ul>
+        <li>
+            <p><strong>Failure:</strong> You end 1 stack of Bleeding on the target. </p>
+        </li>
+        <li>
+            <p><strong>Success:</strong> You end 2 stacks of Bleeding on the target. </p>
+        </li>
+        <li>
+            <p><strong>Success (each 5):</strong> You end 1 additional stack of Bleeding on the target.</p>
+        </li>
+    </ul>
+    <p><strong>Healing:</strong> When you regain HP, you can choose to reduce the amount of HP regained to end an equal amount of stacks of Bleeding.</p>
     `
   }
 }
@@ -488,7 +454,19 @@ function _burning() {
     img: "systems/dc20rpg/images/statuses/burning.svg",
     description: `
     <p>You take <strong>X</strong> Fire damage at the start of each of your turns.</p>
-    <p><em><strong>Ending Burning:</strong></em> All stacks of the Condition end when you're doused by at least 1 gallon (4 liters) of water or fully immersed in water. Alternatively, a creature within 1 Space can spend <strong>1 AP</strong> to remove 1 stack of the Condition.</p>
+    <p><strong>Treat Burn:</strong> You can spend 1 AP to touch a creature within 1 Space and make a DC 10 Survival Check. </p>
+    <ul>
+        <li>
+            <p><strong>Failure:</strong> You end 1 stack of Burning on the target. </p>
+        </li>
+        <li>
+            <p><strong>Success:</strong> You end 2 stacks of Burning on the target. </p>
+        </li>
+        <li>
+            <p><strong>Success (each 5):</strong> You end 1 additional stack of Burning on the target.</p>
+        </li>
+    </ul>
+    <p><strong>Water:</strong> All stacks of Burning end when you're doused by at least 1 gallon (4 liters) of water or fully immersed in water.</p>
     `
   }
 }
@@ -637,36 +615,9 @@ function _dazed() {
       ]
     },
     img: "systems/dc20rpg/images/statuses/dazed.svg",
-    description: "<p>You have DisADV <strong>X</strong> on Mental Checks.</p>"
-  }
-}
-function _disoriented() {
-  return {
-    id: "disoriented",
-    name: "Disoriented",
-    label: "Disoriented",
-    stackable: true,
-    statuses: [],
-    system: {
-      statusId: "disoriented",
-      condition: true,
-      changes: [
-        {
-          key: "system.dynamicRollModifier.onYou.saves.int",
-          type: "add",
-          priority: undefined,
-          value: '"value": 1, "type": "dis", "label": "Disoriented"'
-        },
-        {
-          key: "system.dynamicRollModifier.onYou.saves.cha",
-          type: "add",
-          priority: undefined,
-          value: '"value": 1, "type": "dis", "label": "Disoriented"'
-        },
-      ]
-    },
-    img: "systems/dc20rpg/images/statuses/disoriented.svg",
-    description: "<p>You have DisADV X on <b>Mental Saves</b>.</p>"
+    description: `
+    <p>You have DisADV <strong>X</strong> on Charisma, Intelligence, and Spell Checks.</p>
+    <p><strong>DC Tip:</strong> Dazed creatures can't Sustain effects, and any effects they're Sustaining end when they become Dazed.</p>`
   }
 }
 function _impaired() {
@@ -702,35 +653,6 @@ function _impaired() {
     statuses: [],
     img: "systems/dc20rpg/images/statuses/impaired.svg",
     description: "<p>You have DisADV <strong>X</strong> on Physical Checks.</p>"
-  }
-}
-function _weakened() {
-  return {
-    id: "weakened",
-    name: "Weakened",
-    label: "Weakened",
-    stackable: true,
-    statuses: [],
-    system: {
-      statusId: "weakened",
-      condition: true,
-      changes: [
-        {
-          key: "system.dynamicRollModifier.onYou.saves.mig",
-          type: "add",
-          priority: undefined,
-          value: '"value": 1, "type": "dis", "label": "Weakened"'
-        },
-        {
-          key: "system.dynamicRollModifier.onYou.saves.agi",
-          type: "add",
-          priority: undefined,
-          value: '"value": 1, "type": "dis", "label": "Weakened"'
-        },
-      ]
-    },
-    img: "systems/dc20rpg/images/statuses/weakened.svg",
-    description: "<p>You have DisADV <strong>X</strong> on Physical Saves.</p>"
   }
 }
 function _slowed() {
@@ -778,18 +700,6 @@ function _stunned() {
     img: "systems/dc20rpg/images/statuses/stunned.svg",
     description: `
     <p>Your current and maximum <strong>AP</strong> is reduced by <strong>X</strong>.</p>
-    <p>While you're Stunned 4 or higher, you are subjected to the following effects:</p>
-    <ul>
-        <li>
-            <p>You're <strong>Incapacitated</strong>.</p>
-        </li>
-        <li>
-            <p><span>Attacks against you have ADV.</span></p>
-        </li>
-        <li>
-            <p>You automatically fail Physical Saves (except against Poisons and Diseases).</p>
-        </li>
-    </ul>
     `
   }
 }
@@ -809,25 +719,33 @@ function _charmed() {
       condition: true,
       changes: [
         {
-          key: "system.dynamicRollModifier.againstYou.checks.cha",
+          key: "system.dynamicRollModifier.againstYou.checks.atr",
           type: "add",
           priority: undefined,
-          value: '"value": 1, "type": "adv", "label": "Charmed", "customMessage": "Is \'#TARGET#\' Charmed by you?", "confirmation": true'
+          value: '"value": 1, "type": "adv", "label": "Charmed", "customMessage": "Is \'#TARGET#\' Charmed by you? Should ADV from Charmed be applied to this roll?", "confirmation": true'
+        },
+        {
+          key: "system.dynamicRollModifier.againstYou.checks.prime",
+          type: "add",
+          priority: undefined,
+          value: '"value": 1, "type": "adv", "label": "Charmed", "customMessage": "Is \'#TARGET#\' Charmed by you? Should ADV from Charmed be applied to this roll?", "confirmation": true'
+        },
+        {
+          key: "system.dynamicRollModifier.againstYou.checks.mar",
+          type: "add",
+          priority: undefined,
+          value: '"value": 1, "type": "adv", "label": "Charmed", "customMessage": "Is \'#TARGET#\' Charmed by you? Should ADV from Charmed be applied to this roll?", "confirmation": true'
+        },
+        {
+          key: "system.dynamicRollModifier.againstYou.checks.spe",
+          type: "add",
+          priority: undefined,
+          value: '"value": 1, "type": "adv", "label": "Charmed", "customMessage": "Is \'#TARGET#\' Charmed by you? Should ADV from Charmed be applied to this roll?", "confirmation": true'
         }
       ]
     },
     img: "systems/dc20rpg/images/statuses/charmed.svg",
-    description: `
-    <p>You are subjected to the following effects:</p>
-    <ul>
-        <li>
-            <p>Your Charmer has ADV on Charisma Checks made against you.</p>
-        </li>
-        <li>
-            <p>You can't target your Charmer with harmful Attacks or effects.</p>
-        </li>
-    </ul>
-    `
+    description: `<p>The source of the charm has ADV on Checks made against you, except Attack Checks and Checks that would force you to make a Save.</p>`
   }
 }
 function _immobilized() {
@@ -846,17 +764,11 @@ function _immobilized() {
           type: "add",
           priority: undefined,
           value: -100
-        },
-        {
-          key: "system.dynamicRollModifier.onYou.saves.agi",
-          type: "add",
-          priority: undefined,
-          value: '"value": 1, "type": "dis", "label": "Immobilized"'
-        },
+        }
       ]
     },
     img: "systems/dc20rpg/images/statuses/immobilized.svg",
-    description: "<p>You can't move and you have <strong>DisADV</strong> on Agility Saves.</p>"
+    description: "<p>You can't move.</p>"
   }
 }
 function _intimidated() {
@@ -924,82 +836,6 @@ function _intimidated() {
     description: "<p>You have <strong>DisADV</strong> on all Checks made against the source.</p>"
   }
 }
-function _frightened() {
-  return {
-    id: "frightened",
-    _id: "7j9cumkgsq6l264c",
-    name: "Frightened",
-    label: "Frightened",
-    stackable: false,
-    statuses: [],
-    system: {
-      statusId: "frightened",
-      condition: true,
-      changes: [
-        {
-          key: "system.dynamicRollModifier.onYou.checks.mig",
-          type: "add",
-          priority: undefined,
-          value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true, "customMessage": "Is that check made against the source of the Frightened condition?"'
-        },
-        {
-          key: "system.dynamicRollModifier.onYou.checks.agi",
-          type: "add",
-          priority: undefined,
-          value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true, "customMessage": "Is that check made against the source of the Frightened condition?"'
-        },
-        {
-          key: "system.dynamicRollModifier.onYou.checks.int",
-          type: "add",
-          priority: undefined,
-          value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true, "customMessage": "Is that check made against the source of the Frightened condition?"'
-        },
-        {
-          key: "system.dynamicRollModifier.onYou.checks.cha",
-          type: "add",
-          priority: undefined,
-          value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true, "customMessage": "Is that check made against the source of the Frightened condition?"'
-        },
-        {
-          key: "system.dynamicRollModifier.onYou.checks.prime",
-          type: "add",
-          priority: undefined,
-          value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true, "customMessage": "Is that check made against the source of the Frightened condition?"'
-        },
-        {
-          key: "system.dynamicRollModifier.onYou.checks.mar",
-          type: "add",
-          priority: undefined,
-          value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true, "customMessage": "Is that check made against the source of the Frightened condition?"'
-        },
-        {
-          key: "system.dynamicRollModifier.onYou.checks.spe",
-          type: "add",
-          priority: undefined,
-          value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true, "customMessage": "Is that check made against the source of the Frightened condition?"'
-        },
-        {
-          key: "system.dynamicRollModifier.onYou.attack",
-          type: "add",
-          priority: undefined,
-          value: '"value": 1, "type": "dis", "label": "Frightened", "confirmation": true, "customMessage": "Is that check made against the source of the Frightened condition?"'
-        }
-      ]
-    },
-    img: "systems/dc20rpg/images/statuses/frightened.svg",
-    description: `
-    <p>You are subjected to the following effects:</p>
-    <ul>
-        <li>
-            <p>You can't willingly move closer to the source.</p>
-        </li>
-        <li>
-            <p>You have <strong>DisADV</strong> on all Checks made against the source.</p>
-        </li>
-    </ul>
-    `
-  }
-}
 function _restrained() {
   return {
     id: "restrained",
@@ -1007,7 +843,7 @@ function _restrained() {
     name: "Restrained",
     label: "Restrained",
     stackable: false,
-    statuses: ["immobilized", "grappled"],
+    statuses: [],
     system: {
       statusId: "restrained",
       condition: true,
@@ -1017,12 +853,6 @@ function _restrained() {
           type: "add",
           priority: undefined,
           value: -100
-        },
-        {
-          key: "system.dynamicRollModifier.onYou.saves.agi",
-          type: "add",
-          priority: undefined,
-          value: '"value": 1, "type": "dis", "label": "Restrained (Immobilized)"'
         },
         {
           key: "system.dynamicRollModifier.onYou.attack",
@@ -1043,7 +873,7 @@ function _restrained() {
     <p>You are subjected to the following effects:</p>
     <ul>
         <li>
-            <p>You're <strong>Immobilized</strong>.</p>
+            <p>You can't move.</p>
         </li>
         <li>
             <p>Your Attacks have DisADV.</p>
@@ -1070,12 +900,36 @@ function _taunted() {
           key: "system.dynamicRollModifier.onYou.attack",
           type: "add",
           priority: undefined,
-          value: '"value": 1, "type": "dis", "label": "Taunt", "confirmation": true, "customMessage": "Your target is NOT the source of the taunt?"'
-        }
+          value: '"value": 1, "type": "dis", "label": "Taunt", "confirmation": true, "customMessage": "Should DisADV from Taunted be applied to this roll?"'
+        },
+        {
+          key: "system.dynamicRollModifier.onYou.checks.mar",
+          type: "add",
+          priority: undefined,
+          value: '"value": 1, "type": "dis", "label": "Taunt", "confirmation": true, "customMessage": "Should DisADV from Taunted be applied to this roll?"'
+        },
+        {
+          key: "system.dynamicRollModifier.onYou.checks.spe",
+          type: "add",
+          priority: undefined,
+          value: '"value": 1, "type": "dis", "label": "Taunt", "confirmation": true, "customMessage": "Should DisADV from Taunted be applied to this roll?"'
+        },
+        {
+          key: "system.dynamicRollModifier.onYou.checks.atr",
+          type: "add",
+          priority: undefined,
+          value: '"value": 1, "type": "dis", "label": "Taunt", "confirmation": true, "customMessage": "Should DisADV from Taunted be applied to this roll?"'
+        },
+        {
+          key: "system.dynamicRollModifier.onYou.checks.prime",
+          type: "add",
+          priority: undefined,
+          value: '"value": 1, "type": "dis", "label": "Taunt", "confirmation": true, "customMessage": "Should DisADV from Taunted be applied to this roll?"'
+        },
       ]
     },
     img: "systems/dc20rpg/images/statuses/taunted.svg",
-    description: "<p>You have DisADV on Attacks against targets other than the source.</p>"
+    description: "<p>You have DisADV on Attack Checks, and Checks that would force a Save, on targets other than the source of the taunt.</p>"
   }
 }
 function _tethered() {
@@ -1092,32 +946,6 @@ function _tethered() {
     },
     img: "systems/dc20rpg/images/statuses/tethered.svg",
     description: "<p>You are <strong>Tethered</strong> to a creature or Space. While <strong>Tethered</strong>, you can't move farther than the specified Spaces from the location of your Tether.</p>",
-  }
-}
-function _terrified() {
-  return {
-    id: "terrified",
-    name: "Terrified",
-    label: "Terrified",
-    stackable: false,
-    statuses: [],
-    system: {
-      statusId: "terrified",
-      condition: true,
-      changes: []
-    },
-    img: "systems/dc20rpg/images/statuses/terrified.svg",
-    description: `
-    <p>You are subjected to the following effects:</p>
-    <ul>
-        <li>
-            <p>You must spend your turns trying to move as far away as you can from the source as possible.</p>
-        </li>
-        <li>
-            <p>The only Action you can take is the Move Action to try to run away, or the Dodge Action if you are prevented from moving or there's nowhere farther to move.</p>
-        </li>
-    </ul>
-    `,
   }
 }
 
@@ -1335,9 +1163,6 @@ function _grappled() {
     <p>The Grapple also ends if any of the following occurs:</p>
     <ul>
         <li>
-            <p><strong>Incapacitated:</strong> The Grappler becomes <strong>Incapacitated</strong>.</p>
-        </li>
-        <li>
             <p><strong>Falling:</strong> The Grappler is unable to carry your weight when you begin falling, provided they are not also falling with you.</p>
         </li>
         <li>
@@ -1352,115 +1177,6 @@ function _grappled() {
     `
   }
 }
-function _incapacitated() {
-  return {
-    id: "incapacitated",
-    name: "Incapacitated",
-    label: "Incapacitated",
-    stackable: false,
-    statuses: [],
-    system: {
-      statusId: "incapacitated",
-      condition: true,
-      changes: [
-        {
-          key: "system.globalModifier.prevent.goUnderAP",
-          type: "upgrade",
-          priority: undefined,
-          value: 99
-        },
-        {
-          key: "system.movement.ground.bonus",
-          type: "add",
-          priority: undefined,
-          value: -100
-        },
-      ]
-    },
-    img: "systems/dc20rpg/images/statuses/incapacitated.svg",
-    description: `
-    <p>You are subjected to the following effects:</p>
-    <ul>
-        <li>
-            <p>You can't move, speak.</p>
-        </li>
-        <li>
-            <p>You can't spend Actions Points or use Minor Actions.</p>
-        </li>
-    </ul>
-    `
-  }
-}
-function _paralyzed() {
-  return {
-    id: "paralyzed",
-    _id: "pze6ctp9bxbfldz5",
-    name: "Paralyzed",
-    label: "Paralyzed",
-    stackable: false,
-    statuses: ["incapacitated"],
-    system: {
-      statusId: "paralyzed",
-      condition: true,
-      changes: [
-        {
-          key: "system.globalModifier.prevent.goUnderAP",
-          type: "upgrade",
-          priority: undefined,
-          value: 99
-        },
-        {
-          key: "system.movement.ground.bonus",
-          type: "add",
-          priority: undefined,
-          value: -100
-        },
-        {
-          key: "system.dynamicRollModifier.againstYou.attack",
-          type: "add",
-          priority: undefined,
-          value: '"value": 1, "type": "adv", "label": "Paralyzed"'
-        },
-        {
-          key: "system.dynamicRollModifier.onYou.saves.mig",
-          type: "add",
-          priority: undefined,
-          value: '"label": "Paralyzed", "autoFail": true'
-        },
-        {
-          key: "system.dynamicRollModifier.onYou.saves.agi",
-          type: "add",
-          priority: undefined,
-          value: '"label": "Paralyzed", "autoFail": true'
-        },
-        {
-          key: "system.dynamicRollModifier.againstYou.attack",
-          type: "add",
-          priority: undefined,
-          value: '"label": "Paralyzed", "autoCrit": true, "confirmation": true, "customMessage": "Are you within 1 Space of \'#TARGET#\'"'
-        }
-      ]
-    },
-    img: "systems/dc20rpg/images/statuses/paralyzed.svg",
-    description: `
-    <p>You are subjected to the following effects:</p>
-    <ul>
-        <li>
-            <p>You're <strong>Incapacitated</strong>.</p>
-        </li>
-        <li>
-            <p>You automatically fail Physical Saves (except against Poisons and Diseases).</p>
-        </li>
-        <li>
-            <p>Attacks against you have <strong>ADV</strong>.</p>
-        </li>
-        <li>
-            <p>Attacks made within 1 Space are considered Critical Hits.</p>
-        </li>
-    </ul>
-    `
-  }
-}
 function _unconscious() {
   return {
     id: "unconscious",
@@ -1468,7 +1184,6 @@ function _unconscious() {
     name: "Unconscious",
     label: "Unconscious",
     stackable: false,
-    statuses: ["incapacitated"],
     system: {
       statusId: "unconscious",
       condition: true,
@@ -1487,34 +1202,28 @@ function _unconscious() {
           value: -100
         },
         {
-          key: "system.dynamicRollModifier.againstYou.attack",
-          type: "add",
-          priority: undefined,
-          value: '"value": 1, "type": "adv", "label": "Unconscious"'
-        },
-        {
           key: "system.dynamicRollModifier.onYou.saves.mig",
           type: "add",
           priority: undefined,
-          value: '"label": "Unconscious", "autoFail": true, "confirmation": true'
+          value: '"label": "Unconscious", "autoFail": true'
         },
         {
           key: "system.dynamicRollModifier.onYou.saves.agi",
           type: "add",
           priority: undefined,
-          value: '"label": "Unconscious", "autoFail": true, "confirmation": true'
+          value: '"label": "Unconscious", "autoFail": true'
         },
         {
           key: "system.dynamicRollModifier.againstYou.attack",
           type: "add",
           priority: undefined,
-          value: '"label": "Unconscious", "autoCrit": true, "confirmation": true, "customMessage": "Are you within 1 Space of \'#TARGET#\'"'
+          value: '"label": "Unconscious", "autoCrit": true, "confirmation": true, "customMessage": "Are you within 1 Space of \'#TARGET#\'?"'
         },
         {
           key: "system.events",
           type: "add",
           priority: undefined,
-          value: '"eventType": "macro", "trigger": "instant", "label": "Unconscious", "actorId": "#SPEAKER_ID#"'
+          value: '"eventType": "macro", "trigger": "instant", "label": "Unconscious"'
         }
       ]
     },
@@ -1523,158 +1232,19 @@ function _unconscious() {
     <p>When you become <strong>Unconscious</strong>, you immediately drop whatever you are holding and fall <strong>Prone</strong>. While <strong>Unconscious</strong>, you're subjected to the following effects:</p>
     <ul>
         <li>
-            <p>You're <strong>Incapacitated</strong>.</p>
+            <p>You're not aware of your surroundings.</p>
         </li>
         <li>
-            <p>You're not aware of your surroundings.</p>
+            <p>You can't move or speak.</p>
+        </li>
+        <li>
+            <p>You can't spend Actions Points or use Minor Actions.</p>
+        </li>
+        <li>
+            <p>Attacks made within 1 Space automatically Hit and are considered Critical Hits.</p>
         </li>
         <li>
             <p>You automatically fail Physical Saves (except against Poisons and Diseases).</p>
-        </li>
-        <li>
-            <p>Attacks against you have ADV.</p>
-        </li>
-        <li>
-            <p>Attacks made within 1 Space are considered Critical Hits.</p>
-        </li>
-    </ul>
-    `
-  }
-}
-function _petrified() {
-  return {
-    id: "petrified",
-    _id: "658otyjsr2571jto",
-    name: "Petrified",
-    label: "Petrified",
-    stackable: false,
-    statuses: ["incapacitated"],
-    system: {
-      statusId: "petrified",
-      condition: true,
-      changes: [
-        {
-          key: "system.globalModifier.prevent.goUnderAP",
-          type: "upgrade",
-          priority: undefined,
-          value: 99
-        },
-        {
-          key: "system.movement.ground.bonus",
-          type: "add",
-          priority: undefined,
-          value: -100
-        },
-        {
-          key: "system.dynamicRollModifier.againstYou.attack",
-          type: "add",
-          priority: undefined,
-          value: '"value": 1, "type": "adv", "label": "Petrified"'
-        },
-        {
-          key: "system.damageReduction.damageTypes.corrosion.resistance",
-          type: "override",
-          priority: undefined,
-          value: "true"
-        },
-        {
-          key: "system.damageReduction.damageTypes.cold.resistance",
-          type: "override",
-          priority: undefined,
-          value: "true"
-        },
-        {
-          key: "system.damageReduction.damageTypes.fire.resistance",
-          type: "override",
-          priority: undefined,
-          value: "true"
-        },
-        {
-          key: "system.damageReduction.damageTypes.radiant.resistance",
-          type: "override",
-          priority: undefined,
-          value: "true"
-        },
-        {
-          key: "system.damageReduction.damageTypes.lightning.resistance",
-          type: "override",
-          priority: undefined,
-          value: "true"
-        },
-        {
-          key: "system.damageReduction.damageTypes.poison.resistance",
-          type: "override",
-          priority: undefined,
-          value: "true"
-        },
-        {
-          key: "system.damageReduction.damageTypes.psychic.resistance",
-          type: "override",
-          priority: undefined,
-          value: "true"
-        },
-        {
-          key: "system.damageReduction.damageTypes.umbral.resistance",
-          type: "override",
-          priority: undefined,
-          value: "true"
-        },
-        {
-          key: "system.damageReduction.damageTypes.piercing.resistance",
-          type: "override",
-          priority: undefined,
-          value: "true"
-        },
-        {
-          key: "system.damageReduction.damageTypes.slashing.resistance",
-          type: "override",
-          priority: undefined,
-          value: "true"
-        },
-        {
-          key: "system.damageReduction.damageTypes.bludgeoning.vulnerability",
-          type: "override",
-          priority: undefined,
-          value: "true"
-        },
-        {
-          key: "system.dynamicRollModifier.onYou.saves.mig",
-          type: "add",
-          priority: undefined,
-          value: '"label": "Petrified", "autoFail": true'
-        },
-        {
-          key: "system.dynamicRollModifier.onYou.saves.agi",
-          type: "add",
-          priority: undefined,
-          value: '"label": "Petrified", "autoFail": true'
-        }
-      ]
-    },
-    img: "systems/dc20rpg/images/statuses/petrified.svg",
-    description: `
-    <p>You and your mundane belongings are turned into a inanimate substance (often stone). While <strong>Petrified</strong>, you count as both an object and a creature, and you're subjected to the following effects:</p>
-    <ul>
-        <li>
-            <p>You're not aware of your surroundings.</p>
-        </li>
-        <li>
-            <p>You're 10 times heavier than normal.</p>
-        </li>
-        <li>
-            <p>You're <strong>Incapacitated</strong>.</p>
-        </li>
-        <li>
-            <p>You automatically fail Physical Saves.</p>
-        </li>
-        <li>
-            <p>Attacks against you have ADV.</p>
-        </li>
-        <li>
-            <p>You gain Bludgeoning Vulnerability (Double) and Resistance (Half) to all other damage.</p>
-        </li>
-        <li>
-            <p>Curses, Diseases, Poisons, or Conditions afflicting you are suspended (unless it imposed the Petrified Condition), and you're immune to gaining new ones.</p>
         </li>
     </ul>
     `

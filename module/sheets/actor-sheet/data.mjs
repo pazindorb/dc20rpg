@@ -288,13 +288,11 @@ function _prepareStatusOneliners(statusResistances, oneliners) {
       oneliners.immune.content.push({oneliner: status.label, img: img, style: "background: #636363;"});
       continue;
     }
-
-    const resistanceX = status.resistance - status.vulnerability;
-    if (resistanceX > 0) {
-      oneliners.resistance.content.push({oneliner: `${status.label} (${resistanceX})`, img: img, style: "background: #636363;"});
+    if (status.resistance && !status.vulnerability) {
+      oneliners.resistance.content.push({oneliner: status.label, img: img, style: "background: #636363;"});
     }
-    if (resistanceX < 0) {
-      oneliners.vulnerability.content.push({oneliner: `${status.label} (${Math.abs(resistanceX)})`, img: img, style: "background: #636363;"});
+    if (!status.resistance && status.vulnerability) {
+      oneliners.vulnerability.content.push({oneliner: status.label, img: img, style: "background: #636363;"});
     }
   }
 }

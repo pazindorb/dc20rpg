@@ -136,7 +136,7 @@ export class DC20RpgToken extends foundry.canvas.placeables.Token {
     const enemyDispositions = DC20RpgTokenDocument.getEnemyTokenDispositionsFor(this.document.disposition);
     const tokens = (await this.getTokensInRange(1))
                   .filter(token => enemyDispositions.includes(token.document.disposition))
-                  .filter(token => !token.actor.hasAnyStatus(["incapacitated", "dead", "prone"]))
+                  .filter(token => !token.actor.hasAnyStatus(["dead", "prone"]))
     if (tokens.length < 2) return false;
 
     // If specific token provided

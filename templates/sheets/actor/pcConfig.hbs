@@ -310,14 +310,14 @@
         <img src="systems/dc20rpg/images/statuses/{{key}}.svg" style="background-color:black;"/>
         <span>{{status.label}}</span>
       </div>
-      <a class="column" data-tooltip="{{status.label}} {{localize "dc20rpg.sheet.condImm.vulnerability"}}" data-cType="numeric-toggle" data-path="system.statusResistances.{{key}}.vulnerability">
-        <span>{{status.vulnerability}}</span>
+      <a class="column" data-tooltip="{{status.label}} {{localize 'dc20rpg.sheet.condImm.vulnerability'}}" data-cType="activable" data-path="system.statusResistances.{{key}}.vulnerability">
+        <i class="fa-lg {{#if status.vulnerability}}fa-solid fa-heart-crack{{/if}}"></i>
       </a>
-      <a class="column" data-tooltip="{{status.label}} {{localize "dc20rpg.sheet.condImm.resistance"}}" data-cType="numeric-toggle" data-path="system.statusResistances.{{key}}.resistance">
-        <span>{{status.resistance}}</span>
+      <a class="column" data-tooltip="{{status.label}} {{localize 'dc20rpg.sheet.condImm.resistance'}}" data-cType="activable" data-path="system.statusResistances.{{key}}.resistance">
+        <i class="fa-lg {{#if status.resistance}}fa-solid fa-shield-halved{{/if}}"></i>
       </a>
       <a class="column" data-tooltip="{{status.label}} {{localize 'dc20rpg.sheet.condImm.immunity'}}" data-cType="activable" data-path="system.statusResistances.{{key}}.immunity">
-        <i class="fa-lg {{#if status.immunity}}fa-solid fa-check{{/if}}"></i>
+        <i class="fa-lg {{#if status.immunity}}fa-solid fa-shield{{/if}}"></i>
       </a>
     </div>
     {{/each}}

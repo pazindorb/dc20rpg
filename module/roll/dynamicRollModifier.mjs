@@ -56,18 +56,19 @@ export async function runItemDRMCheck(item, actor, initial={adv: 0, dis: 0, modi
     const details = DC20Roll.prepareCheckDetails(check.checkKey);
     
     // DRM on you
+    const validationData = {actorAskingForCheck: actor};
     const checkPath = `system.dynamicRollModifier.onYou.${_getCheckPath(details, actor)}`;
-    const checkResult = await _getDRMValueForPath(checkPath, actor, {actorAskingForCheck: actor});
-    const specificDRMResult = await _getSpecificDRMResult(details, actor);
+    const checkResult = await _getDRMValueForPath(checkPath, actor, validationData);
+    const specificDRMResult = await _getSpecificDRMResult(details, actor, validationData);
     results = [...results, ...checkResult, ...specificDRMResult];
 
     // Target Checks
     for (const token of game.user.targets) {
       if (!token.actor) continue;
       const checkTargetPath = `system.dynamicRollModifier.againstYou.${_getCheckPath(details, token.actor)}`;
-      const targetCheckResult = await _getDRMValueForPath(checkTargetPath, token.actor, {actorAskingForCheck: actor}, true);
+      const targetCheckResult = await _getDRMValueForPath(checkTargetPath, token.actor, validationData, true);
       const targetSizeResult = rollConfig.respectSizeRules ? _sizeCheck(token, attacker) : [];
-      const specificDRMResult = await _getSpecificDRMResult(details, actor, true);
+      const specificDRMResult = await _getSpecificDRMResult(details, token.actor, validationData, true);
       results = [...results, ...targetCheckResult, ...specificDRMResult, ...targetSizeResult];  
     }
   }
@@ -94,9 +95,10 @@ export async function runSheetDRMCheck(details, actor, initial={adv: 0, dis: 0, 
   const checkKey = details.checkKey;
 
   // DRM on you
+  const validationData = {actorAskingForCheck: actor};
   const checkPath = `system.dynamicRollModifier.onYou.${_getCheckPath(details, actor)}`;
-  const checkResult = await _getDRMValueForPath(checkPath, actor, {actorAskingForCheck: actor});
-  const specificDRMResult = await _getSpecificDRMResult(details, actor);
+  const checkResult = await _getDRMValueForPath(checkPath, actor, validationData);
+  const specificDRMResult = await _getSpecificDRMResult(details, actor, validationData);
   results = [...results, ...checkResult, ...specificDRMResult];
 
   // Against Status Check
@@ -106,9 +108,9 @@ export async function runSheetDRMCheck(details, actor, initial={adv: 0, dis: 0, 
   // Target Checks
   for (const token of game.user.targets) {
     const checkTargetPath = `system.dynamicRollModifier.againstYou.${_getCheckPath(details, token.actor)}`;
-    const targetCheckResult = await _getDRMValueForPath(checkTargetPath, token.actor, {actorAskingForCheck: actor}, true);
+    const targetCheckResult = await _getDRMValueForPath(checkTargetPath, token.actor, validationData, true);
     const targetSizeResult = details.respectSizeRules ? _sizeCheck(token, attacker) : [];
-    const specificDRMResult = await _getSpecificDRMResult(details, actor, true);
+    const specificDRMResult = await _getSpecificDRMResult(details, token.actor, validationData, true);
     results = [...results, ...targetCheckResult, ...specificDRMResult, ...targetSizeResult];   
   }
 
@@ -127,32 +129,32 @@ export async function runSheetDRMCheck(details, actor, initial={adv: 0, dis: 0, 
 //========================================
 //               DRM CHECK               =
 //========================================
-async function _getSpecificDRMResult(details, actor, target=false) {
-  const anyAttribute = await _getAnyAttributeDRM(details, actor, target);
-  const specificSkill = await _getSpecificSkillDRM(details, actor, target);
-  const anySave = await _getAnySaveDRM(details, actor, target);
+async function _getSpecificDRMResult(details, actor, validationData, target=false) {
+  const anyAttribute = await _getAnyAttributeDRM(details, actor, validationData, target);
+  const specificSkill = await _getSpecificSkillDRM(details, actor, validationData, target);
+  const anySave = await _getAnySaveDRM(details, actor, validationData, target);
   return [...anyAttribute, ...specificSkill, ...anySave]
 }
 
-async function _getAnyAttributeDRM(details, actor, target=false) {
+async function _getAnyAttributeDRM(details, actor, validationData, target=false) {
   if (details.type !== "attributeCheck" && details.type !== "skillCheck") return [];
   const partial = target ? "againstYou" : "onYou";
   const path = `system.dynamicRollModifier.${partial}.checks.atr`;
-  return await _getDRMValueForPath(path, actor, {actorAskingForCheck: actor}, target)
+  return await _getDRMValueForPath(path, actor, validationData, target)
 }
 
-async function _getSpecificSkillDRM(details, actor, target=false) {
+async function _getSpecificSkillDRM(details, actor, validationData, target=false) {
   if (details.type !== "skillCheck") return [];
   const partial = target ? "againstYou" : "onYou";
   const path = `system.dynamicRollModifier.${partial}.skills`;
-  return await _getDRMValueForPath(path, actor, {actorAskingForCheck: actor, specificSkill: details.checkKey}, target);
+  return await _getDRMValueForPath(path, actor, {...validationData, specificSkill: details.checkKey}, target);
 }
 
-async function _getAnySaveDRM(details, actor, target=false) {
+async function _getAnySaveDRM(details, actor, validationData, target=false) {
   if (details.type !== "save") return [];
   const partial = target ? "againstYou" : "onYou";
   const path = `system.dynamicRollModifier.${partial}.saves.all`;
-  return await _getDRMValueForPath(path, actor, {actorAskingForCheck: actor}, target)
+  return await _getDRMValueForPath(path, actor, validationData, target)
 }
 
 async function _getDRMValueForPath(path, actor, validationData, target=false) {
@@ -186,19 +188,21 @@ async function _getDRMValueForPath(path, actor, validationData, target=false) {
 
 async function _shouldApply(modification, target, validationData) {
   if (_runValidationDataCheck(modification, validationData)) {
-    if (modification.confirmation) {
-      const defaultMessage = `Should "${modification.label}" be applied to "${target.name}"?`;
-      const customMessage = modification.customMessage ? modification.customMessage.replaceAll("#TARGET#", target.name) : "";
-      const message = customMessage || defaultMessage;
-      return await SimplePopup.confirm(message);
-    }
+    let shouldApply = true;
     if (modification.runMacro) {
       const effect = target.getEffectById(modification.effectId);
       if (!effect) return false;
       const result = await effect.runMacro({drm: true, target: target, actorAskingForCheck: validationData.actorAskingForCheck, modification: modification, validationData: validationData});
-      return !!result;
+      if (!result) shouldApply = !!result;
     }
-    else return true;
+    if (shouldApply && modification.confirmation) {
+      const defaultMessage = `Should "${modification.label}" be applied to "${target.name}"?`;
+      const customMessage = modification.customMessage ? modification.customMessage.replaceAll("#TARGET#", target.name) : "";
+      const message = customMessage || defaultMessage;
+      const answer = await SimplePopup.confirm(message);
+      if (!answer) shouldApply = !!answer;
+    }
+    return shouldApply;
   }
   return false;
 }
@@ -289,8 +293,8 @@ function _againstStatuses(statuses, actor) {
   const result = [];
   const statusLevel = actor.system.statusResistances;
   for (const statusId of new Set(statuses)) {
-    const resistance = statusLevel[statusId]?.resistance || 0;
-    const vulnerability = statusLevel[statusId]?.vulnerability || 0;
+    const resistance = statusLevel[statusId]?.resistance ? 1 : 0;
+    const vulnerability = statusLevel[statusId]?.vulnerability ? 1 : 0;
     const saveLevel = resistance - vulnerability;
     const statusLabel = getLabelFromKey(statusId, CONFIG.DC20RPG.DROPDOWN_DATA.allStatuses);
 
@@ -405,7 +409,7 @@ async function _closeQuartersCheck(attacker) {
   const tokens = await attacker.getTokensInRange(canvas.tokens.maxMeleeThreat || 1);
   for (const token of tokens) {
     if (!enemyDispositions.includes(token.document.disposition)) continue;       // Enemy
-    if (token.actor.hasAnyStatus(["incapacitated", "dead"])) continue;           // Not incapacitated or dead
+    if (token.actor.hasAnyStatus(["dead"])) continue;                            // Not dead
 
     const meleeThreatRange = token.actor.system?.globalModifier?.melee?.threat || 1;
     const inMeleeRange = await token.isTokenInRange(attacker, meleeThreatRange);

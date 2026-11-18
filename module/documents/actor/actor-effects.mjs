@@ -22,7 +22,10 @@ export function prepareStatuses(actor) {
       else {
         const status = CONFIG.statusEffects.find(s => s.id === statusId);
         if (!status) {
-          ui.notifications.error(`Status with id '${statusId}' not found in the system conifg.`);
+          if (ui.notifications) {
+            ui.notifications.error(`Status with id '${statusId}' not found in the system conifg. Removing the effect from actor`);
+          }
+          effect.delete();
           continue;
         }
         actor.statuses.set(statusId, {
@@ -41,24 +44,8 @@ export function prepareStatuses(actor) {
 }
 
 export function runSpecialStatusChecks(actor) {
-  fullyStunnedCheck(actor);
   exhaustionCheck(actor);
   dazedCheck(actor);
-}
-
-function fullyStunnedCheck(actor) {
-  const stunned = actor.statuses.get("stunned");
-  const fullyStunned = actor.statuses.get("fullyStunned");
-  if (!stunned) return;
-
-  // Add Fully Stunned
-  if (!fullyStunned && stunned.stack >= 4) {
-    actor.toggleStatusEffect("fullyStunned", { active: true });
-  }
-  // Remove Fully Stunned
-  if (fullyStunned && stunned.stack < 4) {
-    actor.toggleStatusEffect("fullyStunned", { active: false });
-  }
 }
 
 function exhaustionCheck(actor) {

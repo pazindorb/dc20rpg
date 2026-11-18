@@ -394,9 +394,9 @@ export function getEffectModifiableKeys() {
     "system.globalModifier.spell.range.normal": "Spell Normal Range (bonus)",
     "system.globalModifier.spell.range.max": "Spell Max Range (bonus)",
 
-    "system.globalModifier.modify.healingTaken.flat": "Healing Taken (Flat)",
-    "system.globalModifier.modify.healingTaken.reduce": "Healing Taken (Reduce Half)",
-    "system.globalModifier.modify.healingTaken.amplify": "Healing Taken (Amplify Double)",
+    "system.globalModifier.modify.healingTaken.flat": "Healing Received (Flat)",
+    "system.globalModifier.modify.healingTaken.reduce": "Healing Received (Reduce Half)",
+    "system.globalModifier.modify.healingTaken.amplify": "Healing Received (Amplify Double)",
     "system.globalModifier.modify.damageTaken.flat": "Damage Taken (Flat)",
     "system.globalModifier.modify.damageTaken.reduce": "Damage Taken (Reduce Half)",
     "system.globalModifier.modify.damageTaken.amplify": "Damage Taken (Amplify Double)",
