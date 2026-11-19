@@ -903,11 +903,7 @@
                   justify-content: end;
                   gap: 3px;
 
-                  padding-left: 10px;
-                  border-left: 1px solid black;
                   border-radius: 10px;
-                  background-color: var(--pc-secondary-dark);
-                  transition: padding 250ms ease, gap 250ms ease;
 
                   input, input:disabled {
                     padding-right: 6px;
@@ -924,20 +920,9 @@
                     height: 30px;
                   }
 
-                  &:not(:hover) {
-                    padding: 0;
-                    gap: 0;
-
-                    .roll-button {
-                      width: 0;
-                      opacity: 0;
-                      border-width: 0;
-                      pointer-events: none;
-                    }
-                  }
 
                   .roll-button {
-                    font-size: 14px;
+                    font-size: 12px;
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -945,20 +930,20 @@
                     border-radius: 5px;
                     border: 1px solid var(--pc-secondary-darker);
                     background-color: var(--pc-secondary-light);
-                    width: 25px;
-                    height: 25px;
+                    width: 23px;
+                    height: 23px;
                     flex-shrink: 0;
                     overflow: hidden;
                     transition: width 150ms ease, opacity 150ms ease, border-width 150ms ease;
-                    
+                    text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+
                     .original {
                       margin-top: 2px;
                       display: flex;
                     }
 
                     .hovered {
-                      text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
-                      font-size: 16px;
+                      font-size: 14px;
                       display: none;
                       font-weight: bold;
                     }

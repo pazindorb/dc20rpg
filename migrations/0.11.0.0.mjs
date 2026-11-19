@@ -44,9 +44,18 @@ async function _migrateActors(migrateModules) {
 
 async function _migrateActor(actor) {
   await actor.skillAndLanguage.refreshAll();
+  await _migrateMaxHp(actor);
 
   for (const effect of actor.effects) {
     await _updateEffect(effect);
+  }
+}
+
+async function _migrateMaxHp(actor) {
+  const maxFormula = actor.system.resources?.health?.maxFormula || "";
+  if (maxFormula.includes("@migValue")) {
+    maxFormula.replace("@migValue", "@migHpBonus");
+    await actor.update({["system.resources.health.maxFormula"]: maxFormula});
   }
 }
 

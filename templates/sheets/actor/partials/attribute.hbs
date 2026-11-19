@@ -18,11 +18,11 @@
   {{!-- Display --}}
   <input class="attribute-name" type="text" style="background-color: {{color-by-key key}};" disabled value="{{localize (concat "dc20rpg.attributes.short." key)}}"/>
   <div class="attribute-menu">
-    <a class="roll-button" data-action="roll" data-type="save" data-key="{{key}}" data-tooltip="{{attribute.label}} {{localize "DC20RPG.Save"}}">
+    <a class="roll-button" style="color: {{color-by-key key}}" data-action="roll" data-type="save" data-key="{{key}}" data-tooltip="{{attribute.label}} {{localize "DC20RPG.Save"}}">
       <span class="original"><i class="fa-solid fa-shield fa-lg"></i></span>
       <span class="hovered">{{numberFormat attribute.save sign=true}}</span>
     </a>
-    <a class="roll-button" data-action="roll" data-type="check" data-key="{{key}}" data-tooltip="{{attribute.label}} {{localize "DC20RPG.Check"}}">
+    <a class="roll-button" style="color: {{color-by-key key}}" data-action="roll" data-type="check" data-key="{{key}}" data-tooltip="{{attribute.label}} {{localize "DC20RPG.Check"}}">
       <span class="original"><i class="fa-regular fa-dice-d20 fa-lg"></i></span>
       <span class="hovered">{{numberFormat attribute.check sign=true}}</span>
     </a>

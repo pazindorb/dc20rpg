@@ -72,7 +72,7 @@ export default class ResourceFields extends foundry.data.fields.SchemaField {
           max: new f.NumberField({ required: true, nullable: false, integer: true, initial: 6 }),
           temp: new f.NumberField({ required: true, nullable: true, integer: true, initial: null }),
           useFlat: new f.BooleanField({required: true, initial: false}),
-          maxFormula: new f.StringField({ required: true, initial: "@classHp + @migValue + @resources.health.bonus"}),
+          maxFormula: new f.StringField({ required: true, initial: "@classHp + @migHpBonus + @resources.health.bonus"}),
           reset: new f.StringField({initial: ""}), // TODO: backward compatibilty Remove as part of 0.11.0
           refresh: new f.ObjectField({required: true, initial: {}}),
         }),

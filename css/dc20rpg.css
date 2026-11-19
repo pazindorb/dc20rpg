@@ -8354,12 +8354,7 @@
   -ms-flex-pack: end;
   justify-content: end;
   gap: 3px;
-  padding-left: 10px;
-  border-left: 1px solid black;
   border-radius: 10px;
-  background-color: var(--pc-secondary-dark);
-  -webkit-transition: padding 250ms ease, gap 250ms ease;
-  transition: padding 250ms ease, gap 250ms ease;
 }
 .dc20rpg.actor-v13 .pc-sheet-section .two-column .left-side .subtab-wrapper .tab-content .attributes-column .attributes .attribute .attribute-menu input, .dc20rpg.actor-v13 .pc-sheet-section .two-column .left-side .subtab-wrapper .tab-content .attributes-column .attributes .attribute .attribute-menu input:disabled {
   padding-right: 6px;
@@ -8375,18 +8370,8 @@
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
   height: 30px;
 }
-.dc20rpg.actor-v13 .pc-sheet-section .two-column .left-side .subtab-wrapper .tab-content .attributes-column .attributes .attribute .attribute-menu:not(:hover) {
-  padding: 0;
-  gap: 0;
-}
-.dc20rpg.actor-v13 .pc-sheet-section .two-column .left-side .subtab-wrapper .tab-content .attributes-column .attributes .attribute .attribute-menu:not(:hover) .roll-button {
-  width: 0;
-  opacity: 0;
-  border-width: 0;
-  pointer-events: none;
-}
 .dc20rpg.actor-v13 .pc-sheet-section .two-column .left-side .subtab-wrapper .tab-content .attributes-column .attributes .attribute .attribute-menu .roll-button {
-  font-size: 14px;
+  font-size: 12px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -8399,13 +8384,14 @@
   border-radius: 5px;
   border: 1px solid var(--pc-secondary-darker);
   background-color: var(--pc-secondary-light);
-  width: 25px;
-  height: 25px;
+  width: 23px;
+  height: 23px;
   -ms-flex-negative: 0;
   flex-shrink: 0;
   overflow: hidden;
   -webkit-transition: width 150ms ease, opacity 150ms ease, border-width 150ms ease;
   transition: width 150ms ease, opacity 150ms ease, border-width 150ms ease;
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 }
 .dc20rpg.actor-v13 .pc-sheet-section .two-column .left-side .subtab-wrapper .tab-content .attributes-column .attributes .attribute .attribute-menu .roll-button .original {
   margin-top: 2px;
@@ -8414,8 +8400,7 @@
   display: flex;
 }
 .dc20rpg.actor-v13 .pc-sheet-section .two-column .left-side .subtab-wrapper .tab-content .attributes-column .attributes .attribute .attribute-menu .roll-button .hovered {
-  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
-  font-size: 16px;
+  font-size: 14px;
   display: none;
   font-weight: bold;
 }

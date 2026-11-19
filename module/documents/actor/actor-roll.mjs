@@ -5,6 +5,7 @@
 export function prepareRollData(actor, data) {
   _attributes(data);
   _details(data);
+	_migHpBonus(data, actor);
   _mods(data, actor);
 	_allSkills(data, actor);
 	_defences(data, actor);
@@ -21,6 +22,7 @@ export function prepareRollData(actor, data) {
 export function prepareRollDataForEffectCall(actor, data) {
 	_calculateAttributes(data, actor);
 	_calculateDetails(data, actor);
+	_migHpBonus(data, actor);
 	_monsterData(data, actor);
 	return data;
 }
@@ -89,6 +91,11 @@ function _details(data) {
 	}
 
 	data.classHp = data.details?.class?.maxHpBonus || "6";
+}
+
+function _migHpBonus(data, actor) {
+	const level = actor.system.details.level || 0;
+	data.migHpBonus = level > 0 ? (2*data.migValue) : data.migValue;
 }
 
 function _mods(data, actor) {
