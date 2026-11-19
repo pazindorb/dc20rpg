@@ -36,7 +36,6 @@ export function preprareSheetData(context, item) {
   context.sheetData = {
     infoBoxes: itemDetailsToHtml(item)
   };
-  // TODO: Configure poperty cost in the item (set default when changin between melee and ranged weapon?)
 }
 
 export function prepareContainer(item, context) {

@@ -45,10 +45,6 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
       heldAction: new f.ObjectField({required: true}),
       defences: new DefenceFields(),
       damageReduction: new DamageReductionFields(), 
-      healingReduction: new f.SchemaField({ // TODO: Przenieść do "globalModifier" - dodać opcję flatValue, reduce i amplify
-        flat: new f.NumberField({ required: true, nullable: false, integer: true, initial: 0 }),   // TODO backward compatibilty remove as part of 0.11.0 update
-        flatHalf: new f.BooleanField({required: true, initial: false}),   // TODO backward compatibilty remove as part of 0.11.0 update
-      }),
       statusResistances: new ConditionsFields(),
       additionalInfo: new f.StringField({initial: ""}),
       size: new SizeFields(),
@@ -174,13 +170,6 @@ class DC20BaseActorData extends foundry.abstract.TypeDataModel {
       sustain: new f.ObjectField({required: true, initial: {}}),
       freeSustain: new f.BooleanField({required: true, initial: false}),
       journal: new f.StringField({required: true, initial: ""}),
-      tokenHotbar: new f.SchemaField({ // TODO backward compatibilty remove as part of 0.11.0 update
-        sectionA: new f.ObjectField({required: true}),
-        sectionB: new f.ObjectField({required: true}),
-        resource1: new f.ObjectField({required: true}),
-        resource2: new f.ObjectField({required: true}),
-        resource3: new f.ObjectField({required: true}),
-      })
     }
   }
 

@@ -4,23 +4,12 @@ export default class DynamicRollModifierFields extends foundry.data.fields.Schem
     fields = {
       onYou: new f.SchemaField({
         attack: new f.ArrayField(new f.StringField(), {required: true}),
-        martial: new f.SchemaField({ // TODO backward compatibilty remove as part of 0.11.0 update
-          melee: new f.ArrayField(new f.StringField(), {required: true}),
-          ranged: new f.ArrayField(new f.StringField(), {required: true}),
-          area: new f.ArrayField(new f.StringField(), {required: true}),
-        }),
-        spell: new f.SchemaField({ // TODO backward compatibilty remove as part of 0.11.0 update
-          melee: new f.ArrayField(new f.StringField(), {required: true}),
-          ranged: new f.ArrayField(new f.StringField(), {required: true}),
-          area: new f.ArrayField(new f.StringField(), {required: true}),
-        }),
         checks: new f.SchemaField({
           atr: new f.ArrayField(new f.StringField(), {required: true}),
           mig: new f.ArrayField(new f.StringField(), {required: true}),
           agi: new f.ArrayField(new f.StringField(), {required: true}),
           int: new f.ArrayField(new f.StringField(), {required: true}),
           cha: new f.ArrayField(new f.StringField(), {required: true}),
-          att: new f.ArrayField(new f.StringField(), {required: true}), // TODO backward compatibilty remove as part of 0.11.0 update
           spe: new f.ArrayField(new f.StringField(), {required: true}),
           mar: new f.ArrayField(new f.StringField(), {required: true}),
           prime: new f.ArrayField(new f.StringField(), {required: true}),
@@ -38,23 +27,12 @@ export default class DynamicRollModifierFields extends foundry.data.fields.Schem
       }),
       againstYou: new f.SchemaField({
         attack: new f.ArrayField(new f.StringField(), {required: true}),
-        martial: new f.SchemaField({ // TODO backward compatibilty remove as part of 0.11.0 update
-          melee: new f.ArrayField(new f.StringField(), {required: true}),
-          ranged: new f.ArrayField(new f.StringField(), {required: true}),
-          area: new f.ArrayField(new f.StringField(), {required: true}),
-        }),
-        spell: new f.SchemaField({ // TODO backward compatibilty remove as part of 0.11.0 update
-          melee: new f.ArrayField(new f.StringField(), {required: true}),
-          ranged: new f.ArrayField(new f.StringField(), {required: true}),
-          area: new f.ArrayField(new f.StringField(), {required: true}),
-        }),
         checks: new f.SchemaField({
           atr: new f.ArrayField(new f.StringField(), {required: true}),
           mig: new f.ArrayField(new f.StringField(), {required: true}),
           agi: new f.ArrayField(new f.StringField(), {required: true}),
           int: new f.ArrayField(new f.StringField(), {required: true}),
           cha: new f.ArrayField(new f.StringField(), {required: true}),
-          att: new f.ArrayField(new f.StringField(), {required: true}), // TODO backward compatibilty remove as part of 0.11.0 update
           spe: new f.ArrayField(new f.StringField(), {required: true}),
           mar: new f.ArrayField(new f.StringField(), {required: true}),
           prime: new f.ArrayField(new f.StringField(), {required: true}),

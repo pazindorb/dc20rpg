@@ -243,46 +243,6 @@ export function registerGameSettings(settings) {
 	});
 
   // ======================================
-  // ==          TOKEN HOTBAR            ==
-  // ======================================
-  // TODO backward compatibilty remove as part of 0.11.0 update
-  settings.register("dc20rpg", "tokenHotbar", {
-    scope: "client",
-    config: false,
-    default: true,
-    type: Boolean
-  });
-
-  // TODO backward compatibilty remove as part of 0.11.0 update
-  settings.register("dc20rpg", "tokenHotbarSettings", {
-    scope: "client",
-    config: false,
-    default: {
-      sectionA: {
-        columns: 10,
-        rows: 3
-      },
-      sectionB: {
-        columns: 3,
-        rows: 3
-      },
-      effects: {
-        rowSize: 8,
-        position: "sectionA"
-      },
-      help: {
-        rowSize: 3,
-        position: "sectionA"
-      },
-      borderColor: true,
-      markers: true,
-      showCharges: true,
-      displayToken: false,
-    },
-    type: Object
-  });
-
-  // ======================================
   // ==         VARIANT RULES            ==
   // ======================================
   settings.register("dc20rpg", "useMaxPrime", {

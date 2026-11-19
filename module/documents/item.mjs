@@ -56,12 +56,10 @@ export class DC20RpgItem extends Item {
   }
 
   get allEnhancements() {
-    // TODO - replace with "enhancements.all" - leave depracated message?
     return this.enhancements.all;
   }
 
   get activeEnhancements() {
-    // TODO - replace with "enhancements.active" - leave depracated message?
     return this.enhancements.active;
   }
 

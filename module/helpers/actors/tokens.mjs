@@ -208,7 +208,7 @@ async function _canvasActorDrop(canvas, data, event) {
   const token = canvas.tokens.placeables.find(token => token.bounds.contains(data.x, data.y));
   if (token && token.actor) {
     const actor = await fromUuid(data.uuid);  
-    const confirmed = await SimplePopup.confirm(`Do you want to transform '${token.actor.name}' into '${actor.name}'`); // TODO: Change it to fully configurable window? Ask about transfering effects/conditons + templates? (only temporary ones?) - if false we need to remove those from actor data
+    const confirmed = await SimplePopup.confirm(`Do you want to transform '${token.actor.name}' into '${actor.name}'`);
     if (confirmed) return token.document.transformation(actor);
   }
   return canvas.tokens._onDropActorData(event, data);

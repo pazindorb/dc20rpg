@@ -92,13 +92,9 @@ export function prepareEquippedItemsFlags(actor) {
 				equippedFlags.shieldEquipped = true;
 				const properties = item.system.properties;
 				
-				// TODO: Wielding Two Shields - is it still present?
-				if (properties.adIncrease.active) {
-					equippedFlags.shieldBonus.ad = properties.adIncrease.value;
-				}
-				if (properties.pdIncrease.active) {
-					equippedFlags.shieldBonus.pd = properties.pdIncrease.value;
-				}
+				// TODO: Wielding Two Shields - player can decide which shield bonus should be applied - introduce that option
+				equippedFlags.shieldBonus.ad = properties.adIncrease.value;
+				equippedFlags.shieldBonus.pd = properties.pdIncrease.value;
 			}
 			if (item.system.impactfulUnarmedStries) {
 				equippedFlags.impactfulUnarmedStries = true;

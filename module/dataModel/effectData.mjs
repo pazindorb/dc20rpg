@@ -19,9 +19,7 @@ export class DC20BaseActiveEffectData extends foundry.data.ActiveEffectTypeDataM
       statusId: new f.StringField({required: true}),
       condition: new f.BooleanField({required: true, initial: false}),
       duration: new f.SchemaField({
-        useCounter: new f.BooleanField({required: true, initial: false}),         // TODO: REMOVE
         resetWhenEnabled: new f.BooleanField({required: true, initial: false}),
-        onTimeEnd: new f.StringField({required: true}),                           // TODO: REMOVE
         expiryAction: new f.StringField({required: true, initial: ""}),
       }),
       effectKey: new f.StringField({required: true}),

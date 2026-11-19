@@ -1,4 +1,3 @@
-import AttackFormulaFields from "./fields/item/attackFormula.mjs";
 import CheckFields from "./fields/item/check.mjs";
 import EffectsConfigFields from "./fields/item/effectConfig.mjs";
 import PropertyFields from "./fields/item/properties.mjs";
@@ -64,7 +63,6 @@ class DC20UsableItemData extends DC20BaseItemData {
         offOnSustainDrop: new f.BooleanField({required: true, initial: false}),
       }),
       actionType: new f.StringField({required: true, initial: ""}),
-      attackFormula: new AttackFormulaFields(), // TODO backward compatibilty remove as part of 0.11.0 update
       attack: new f.SchemaField({
         rangeType: new f.StringField({required: true, initial: "melee"}),
         checkType: new f.StringField({required: true, initial: "martial"}),
@@ -102,18 +100,8 @@ class DC20UsableItemData extends DC20BaseItemData {
       target: new f.SchemaField({
         count: new f.NumberField({ required: true, nullable: true, integer: true, initial: null }),
         type: new f.StringField({required: true, initial: ""}), 
-        areas: new f.ObjectField({required: true, initial: { // TODO: backward compatibilty remove as part of 0.11.0 update
-          default: {
-            area: "",
-            distance: null,
-            width: null,
-            unit: "",
-            difficult: "",
-          }
-        }})
       }),
       areas: new f.ObjectField({required: true, initail: {}}),
-      conditionals: new f.ObjectField({required: true}),  // TODO backward compatibilty remove as part of 0.11.0 update
       targetModifiers: new f.ObjectField({required: true}),
       hasAdvancement: new f.BooleanField({required: true, initial: false}),
       advancements: new f.ObjectField({required: true, initial: {default: createNewAdvancement(true)}}),
@@ -292,7 +280,6 @@ export class DC20FeatureData extends DC20UsableItemData {
       resource: new f.SchemaField({
         name: new f.StringField({required: true, initial: ""}),
         resourceKey: new f.StringField({required: true, initial: "key"}),
-        reset: new f.StringField({required: true, initial: ""}), // TODO: backward compatibilty Remove as part of 0.11.0
         refresh: new f.ObjectField({required: true, initial: {}}),
         useStandardTable: new f.BooleanField({required: true, initial: true}),
         customMaxFormula: new f.StringField({required: true, initial: ""}),
@@ -393,13 +380,11 @@ export class DC20InfusionData extends DC20UsableItemData {
             label: new f.StringField({initial: "dc20rpg.infusion.tags.charges"}),
             max: new f.StringField({required: true, initial: ""}),
             refresh: new f.ObjectField({required: true, initial: {}}),
-            reset: new f.StringField({required: true, initial: ""}), // TODO: backward compatibilty Remove as part of 0.11.0
           }),
           uses: new f.SchemaField({
             active: new f.BooleanField({required: true, initial: false}),
             label: new f.StringField({initial: "dc20rpg.infusion.tags.uses"}),
             max: new f.StringField({required: true, initial: ""}),
-            reset: new f.StringField({required: true, initial: ""}), // TODO: backward compatibilty Remove as part of 0.11.0
             refresh: new f.ObjectField({required: true, initial: {}}),
             limited: new f.BooleanField({required: true, initial: false}),
           }),
@@ -408,7 +393,6 @@ export class DC20InfusionData extends DC20UsableItemData {
           effects: new f.BooleanField({required: true, initial: false}),
           enhancements: new f.BooleanField({required: true, initial: false}),
           macros: new f.BooleanField({required: true, initial: false}),
-          conditionals: new f.BooleanField({required: true, initial: false}), // TODO backward compatibilty remove as part of 0.11.0 update
           targetModifiers: new f.BooleanField({required: true, initial: false}),
           formulas: new f.BooleanField({required: true, initial: false}),
           rollRequests: new f.BooleanField({required: true, initial: false}),
@@ -428,7 +412,6 @@ export class DC20SpellData extends DC20UsableItemData {
       spellType: new f.StringField({required: true, initial: ""}),
       spellSchool: new f.StringField({required: true, initial: ""}),
       knownLimit: new f.BooleanField({required: true, initial: true}),
-      attackFormula: new AttackFormulaFields({checkType: new f.StringField({required: true, initial: "spell"})}), // TODO backward compatibilty remove as part of 0.11.0 update
       attack: new f.SchemaField({
         rangeType: new f.StringField({required: true, initial: "melee"}),
         checkType: new f.StringField({required: true, initial: "spell"}),
