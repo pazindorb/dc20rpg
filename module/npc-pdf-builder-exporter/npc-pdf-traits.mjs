@@ -142,6 +142,7 @@ export function buildSensesAndOtherSpeeds(actor) {
 
 // Damage Reduction
 export function buildDamageReductionLine(actor) {
+  return "";
   const drRoot = get(actor, 'system.damageReduction', {}) || {};
   const order = ['pdr', 'mdr', 'edr'];
   const keys = [

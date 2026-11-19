@@ -173,22 +173,6 @@
         </select>
       </div>
     </div>
-
-    {{!-- Damage Reduction --}}
-    <div class="form-group">
-      <label>{{localize "dc20rpg.sheet.npcConfig.defense.reduction"}}</label>
-      <div class="form-fields">
-        <i class="fa-solid fa-sword"></i>
-        <span>{{localize "dc20rpg.properties.pdr"}}</span>
-        <input type="checkbox" name="system.damageReduction.pdr.active" {{checked system.damageReduction.pdr.active}}/>
-        <i class="fa-solid fa-fire"></i>
-        <span>{{localize "dc20rpg.properties.edr"}}</span>
-        <input type="checkbox" name="system.damageReduction.edr.active" {{checked system.damageReduction.edr.active}}/>
-        <i class="fa-solid fa-wand-sparkles"></i>
-        <span>{{localize "dc20rpg.properties.mdr"}}</span>
-        <input type="checkbox" name="system.damageReduction.mdr.active" {{checked system.damageReduction.mdr.active}}/>
-      </div>
-    </div>
     
   </div>
   {{/unless}}

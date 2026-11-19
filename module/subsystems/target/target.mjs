@@ -45,9 +45,6 @@ export class DC20Target {
       img: "icons/svg/target.svg",
       system: {
         damageReduction: {
-          pdr: {active: false},
-          edr: {active: false},
-          mdr: {active: false},
           damageTypes: {
             corrosion: {},
             cold: {},

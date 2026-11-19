@@ -282,9 +282,6 @@ export class DC20NpcData extends DC20BaseActorData {
           tremorsense: new f.BooleanField({required: true, initial: false}),
           blindsight: new f.BooleanField({required: true, initial: false}),
           truesight: new f.BooleanField({required: true, initial: false}),
-          pdr: new f.BooleanField({required: true, initial: false}),
-          edr: new f.BooleanField({required: true, initial: false}),
-          mdr: new f.BooleanField({required: true, initial: false}),
           maxHpModifier: new f.NumberField({ required: true, nullable: true, integer: false, initial: 1 }),
           damageModifier: new f.StringField({required: true, initial: ""}),
           flatHpModifier: new f.NumberField({ required: true, nullable: true, integer: false, initial: 0 }),
@@ -292,6 +289,7 @@ export class DC20NpcData extends DC20BaseActorData {
           adModifier: new f.NumberField({ required: true, nullable: true, integer: true, initial: 0 }),
           damageVulnerability: new f.ObjectField({}),
           damageResistance: new f.ObjectField({}),
+          damageLimited: new f.ObjectField({}),
           damageImmunity: new f.ObjectField({}),
           conditionResistance: new f.ObjectField({}),
           conditionVulnerability: new f.ObjectField({}),
@@ -354,11 +352,6 @@ export class DC20CompanionData extends DC20NpcData {
         defences: new f.SchemaField({
           area: new f.BooleanField({required: true, initial: false}),
           precision: new f.BooleanField({required: true, initial: false}),
-        }),
-        damageReduction: new f.SchemaField({
-          pdr: new f.BooleanField({required: true, initial: false}),
-          edr: new f.BooleanField({required: true, initial: false}),
-          mdr: new f.BooleanField({required: true, initial: false}),
         }),
         attributes: new f.SchemaField({
           mig: new f.BooleanField({required: true, initial: false}),

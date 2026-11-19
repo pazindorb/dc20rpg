@@ -289,11 +289,6 @@ export class MonsterCreatorDialog extends DC20Dialog {
     updateData.system.defences.precision.normal = this.summary.finalPd;
     updateData.system.defences.area.normal = this.summary.finalAd;
 
-    // Reduction
-    updateData.system.damageReduction.pdr.active = baseTraits.pdr;
-    updateData.system.damageReduction.edr.active = baseTraits.edr;
-    updateData.system.damageReduction.mdr.active = baseTraits.mdr;
-
     // Damage Taken
     for (const key of Object.keys(updateData.system.damageReduction.damageTypes)) {
       if (baseTraits.damageVulnerability[key]) updateData.system.damageReduction.damageTypes[key].vulnerability = true;
@@ -404,10 +399,6 @@ export class MonsterCreatorDialog extends DC20Dialog {
       if (value.immunity) basicTraits.conditionImmunity[key] = value.label;
     }
 
-    // Reductions
-    basicTraits.pdr = this.actor.system.damageReduction.pdr.active;
-    basicTraits.edr = this.actor.system.damageReduction.edr.active;
-    basicTraits.mdr = this.actor.system.damageReduction.mdr.active;
     return basicTraits;
   }
 
@@ -531,9 +522,6 @@ const CLEAN_UPDATE_DATA = {
   type: "npc",
   system: {
     damageReduction: {
-      pdr: {active: false},
-      edr: {active: false},
-      mdr: {active: false},
       damageTypes: {
         corrosion: {vulnerability: false, resistance: false, immune: false},
         cold: {vulnerability: false, resistance: false, immune: false},
@@ -605,9 +593,6 @@ const DEFAULT_BASIC_TRAITS = {
   tremorsense: false,
   blindsight: false,
   truesight: false,
-  pdr: false,
-  edr: false,
-  mdr: false,
   maxHpModifier: 1,
   damageModifier: "",
   flatHpModifier: 0,

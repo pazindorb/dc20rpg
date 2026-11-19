@@ -164,14 +164,24 @@
           <input data-path="data.baseTraits.adModifier" type="number" data-cType="numeric" value="{{data.baseTraits.adModifier}}"/>
         </div>
 
-        {{!-- Damage Reduction --}}
-        <div class="form-group">
-          <label style="text-align: center;">{{localize "dc20rpg.properties.pdr"}}</label>
-          <input type="checkbox" data-cType="boolean" data-path="data.baseTraits.pdr" {{checked data.baseTraits.pdr}}/>
-          <label style="text-align: center;">{{localize "dc20rpg.properties.edr"}}</label>
-          <input type="checkbox" data-cType="boolean" data-path="data.baseTraits.edr" {{checked data.baseTraits.edr}}/>
-          <label style="text-align: center;">{{localize "dc20rpg.properties.mdr"}}</label>
-          <input type="checkbox" data-cType="boolean" data-path="data.baseTraits.mdr" {{checked data.baseTraits.mdr}}/>
+        {{!-- Limited Damage Resistance --}}
+        <div class="multi-select-wrapper">
+          <div class="form-group margin-top-5 symetric">
+            <label>{{localize "dc20rpg.dialog.monsterCreator.damage"}} {{localize "dc20rpg.dialog.monsterCreator.limited"}}</label>
+            <select class="multi-select" data-cType="multi-select" data-path="data.baseTraits.damageLimited">
+              {{selectOptions config.DROPDOWN_DATA.damageResistances blank=""}}
+            </select>
+          </div>
+          <div class="selected-options">
+            {{#each data.baseTraits.damageLimited as |option key|}}
+              {{#if option}}
+              <div class="option">
+                <span>{{option}}</span>
+                <a class="margin-left-3 fa-solid fa-xmark" data-cType="remove-option" data-path="data.baseTraits.damageLimited" data-key="{{key}}"></a>
+              </div>
+              {{/if}}
+            {{/each}}
+          </div>
         </div>
         {{!-- Damage Resistance --}}
         <div class="multi-select-wrapper">

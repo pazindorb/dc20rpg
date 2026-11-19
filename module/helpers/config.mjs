@@ -1206,26 +1206,32 @@ DC20RPG.PROPERTIES = {
       actor.system.defences.precision.bonuses.always += armorBonus + shieldBonus;
     }
   },
-  edr: {
-    label: "dc20rpg.properties.edr",
+  elr: {
+    label: "dc20rpg.properties.elr",
     type: ["equipment"],
     subtype: ["light", "heavy"],
     cost: 2,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.wJIrMxAQeTnZejZk",
     applyProperty: (actor) => {
-      const edr = actor.system.damageReduction.edr;
-      if (!edr.skipEqCheck) edr.active = true;
+      const damageTypes = actor.system.damageReduction.damageTypes;
+      damageTypes.fire.limited = true;
+      damageTypes.cold.limited = true;
+      damageTypes.corrosion.limited = true;
+      damageTypes.poison.limited = true;
+      damageTypes.lightning.limited = true;
     }
   },
-  pdr: {
-    label: "dc20rpg.properties.pdr",
+  plr: {
+    label: "dc20rpg.properties.plr",
     type: ["equipment"],
     subtype: ["heavy"],
     cost: 2,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.LR1XjGbhGGaJamtB",
     applyProperty: (actor) => {
-      const pdr = actor.system.damageReduction.pdr;
-      if (!pdr.skipEqCheck) pdr.active = true;
+      const damageTypes = actor.system.damageReduction.damageTypes;
+      damageTypes.slashing.limited = true;
+      damageTypes.bludgeoning.limited = true;
+      damageTypes.piercing.limited = true;
     }
   },
   rigid: {
@@ -1322,16 +1328,6 @@ DC20RPG.PROPERTIES = {
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.q7FNZW6aRK7e1fWL",
     applyProperty: (actor, properties) => {
       actor.system.dynamicRollModifier.onYou.attack.push(`"modifier": "+ ${properties.length}", "label": "Vicious Property", "attackType": "spell"`);
-    }
-  },
-  warded: {
-    label: "dc20rpg.properties.warded",
-    type: ["spellFocus"],
-    cost: 1,
-    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.u7S4lYMKvBrydwcM",
-    applyProperty: (actor) => {
-      const mdr = actor.system.damageReduction.mdr;
-      if (!mdr.skipEqCheck) mdr.active = true;
     }
   },
 }
@@ -1619,9 +1615,6 @@ DC20RPG.MONSTERS.BASE_TRAITS_COST = {
   tremorsense: 2,
   blindsight: 2,
   truesight: 4,
-  pdr: 1,
-  edr: 1,
-  mdr: 1,
   maxHpModifier: 4,
   flatHpModifier: 1,
   damageModifier: 4,
@@ -1641,7 +1634,7 @@ DC20RPG.MONSTERS.BASE_TRAITS_COST = {
   climb: 2
 }
 DC20RPG.MONSTERS.ROLE_CHANGES = {
-  brute: {maxHpModifier: 1.25, damageModifier: "25#+", pdModifier: -4, adModifier: -4, pdr: true, edr: true},
+  brute: {maxHpModifier: 1.25, damageModifier: "25#+", pdModifier: -4, adModifier: -4, damageLimited: {slashing: "Slashing", bludgeoning: "Bludgeoning", piercing: "Piercing"}},
   defender: {damageModifier: "25#-", pdModifier: +2, adModifier: +2, maxTraitModifier: -4},
   leader: {damageModifier: "25#-", maxTraitModifier: 4},
   soldier: {},
@@ -1657,10 +1650,10 @@ DC20RPG.MONSTERS.TYPE_CHANGES = {
   elemental: {},
   fey: {conditionResistance: {charmed: "Charmed"}},
   fiend: {darkvision:true, damageVulnerability: {radiant: "Radiant"}, damageResistance: {umbral: "Umbral"}},
-  giant: {pdr: true},
+  giant: {damageLimited: {slashing: "Slashing", bludgeoning: "Bludgeoning", piercing: "Piercing"}},
   humanoid: {},
   monstrosity: {},
-  ooze: {pdr: true},
+  ooze: {damageLimited: {slashing: "Slashing", bludgeoning: "Bludgeoning", piercing: "Piercing"}},
   plant: {conditionImmunity: {bleeding: "Bleeding"}, damageVulnerability: {fire: "Fire"}},
   undead: {conditionImmunity: {poisoned: "Poisoned", bleeding: "Bleeding"}, damageVulnerability: {radiant: "Radiant"}}
 }

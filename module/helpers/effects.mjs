@@ -261,12 +261,6 @@ export function getEffectModifiableKeys() {
     "system.defences.area.customFormula": "Area Defence: Custom Calculation Formula",
 
     // Damage reduction
-    "system.damageReduction.pdr.active": "PDR",
-    "system.damageReduction.pdr.skipEqCheck": "PDR - Ignore Equipment Bonus",
-    "system.damageReduction.edr.active": "EDR",
-    "system.damageReduction.edr.skipEqCheck": "EDR - Ignore Equipment Bonus",
-    "system.damageReduction.mdr.active": "MDR",
-    "system.damageReduction.mdr.skipEqCheck": "MDR - Ignore Equipment Bonus",
     ..._damageReduction(),
 
     // Status resistances

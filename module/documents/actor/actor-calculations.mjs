@@ -31,7 +31,6 @@ export function makeCalculations(actor) {
 
 	_precisionDefence(actor);
 	_areaDefence(actor);
-	_damageReduction(actor);
 	_deathsDoor(actor);
 	_basicTargetModifiers(actor);
 }
@@ -376,12 +375,6 @@ function _areaDefence(actor) {
 	ad.value = ad.normal + bonus;
 	ad.heavy = ad.value + 5;
 	ad.brutal = ad.value + 10;
-}
-
-function _damageReduction(actor) {
-	if (companionShare(actor, "damageReduction.pdr")) actor.system.damageReduction.pdr.active = actor.companionOwner.system.damageReduction.pdr.active;
-	if (companionShare(actor, "damageReduction.mdr")) actor.system.damageReduction.mdr.active = actor.companionOwner.system.damageReduction.mdr.active;
-	if (companionShare(actor, "damageReduction.edr")) actor.system.damageReduction.edr.active = actor.companionOwner.system.damageReduction.edr.active;
 }
 
 function _deathsDoor(actor) {

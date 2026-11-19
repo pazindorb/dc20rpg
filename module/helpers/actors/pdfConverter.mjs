@@ -143,9 +143,9 @@ function _setValues(form, actor, itemCards) {
   _text(form.getTextField("PD Brutal Threshold"), actor.system.defences.precision.brutal);
   _text(form.getTextField("MD Heavy Threshold"), actor.system.defences.area.heavy);
   _text(form.getTextField("MD Brutal Threshold"), actor.system.defences.area.brutal);
-  _checkbox(form.getCheckBox("Physical-Damage-Reduction"), actor.system.damageReduction.pdr.active, "circle");
-  _checkbox(form.getCheckBox("Elemantal-Damage-Reduction"), actor.system.damageReduction.edr.active, "circle");
-  _checkbox(form.getCheckBox("Mental-Damage-Reduction"), actor.system.damageReduction.mdr.active, "circle");
+  // _checkbox(form.getCheckBox("Physical-Damage-Reduction"), actor.system.damageReduction.pdr.active, "circle");
+  // _checkbox(form.getCheckBox("Elemantal-Damage-Reduction"), actor.system.damageReduction.edr.active, "circle");
+  // _checkbox(form.getCheckBox("Mental-Damage-Reduction"), actor.system.damageReduction.mdr.active, "circle");
 
   _text(form.getTextField("Attack Check"), prime + combatMastery);
   _text(form.getTextField("Save DC"), 10 + prime + combatMastery);
