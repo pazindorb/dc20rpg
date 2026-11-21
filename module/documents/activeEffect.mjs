@@ -199,17 +199,17 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
    * Returns item that is the source of that effect. If item isn't the source it will return null;
    */
   getSourceItem() {
-    if (this.parent.documentName === "Item") {
+    if (this.parent?.documentName === "Item") {
       return this.parent;
     }
     return null;
   }
   
   getOwningActor() {
-    if (this.parent.documentName === "Item") {
-      return this.parent.actor;
+    if (this.parent?.documentName === "Item") {
+      return this.parent?.actor;
     }
-    if (this.parent.documentName === "Actor") {
+    if (this.parent?.documentName === "Actor") {
       return this.parent;
     }
     return null;
@@ -252,7 +252,7 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
   }
 
   async _preCreate(data, options, user) {
-    if (this.parent.documentName === "Actor") {
+    if (this.parent?.documentName === "Actor") {
       await runEventsFor("effectApplied", this.parent, effectEventsFilters(this.name, this.statuses, this.system.effectKey), {createdEffect: this}); 
       await reenableEventsOn("effectApplied", this.parent, effectEventsFilters(this.name, this.statuses, this.system.effectKey), {createdEffect: this}); 
       if (this.preventCreation) return false;
@@ -262,7 +262,7 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
   }
 
   async _preDelete(options, user) {
-    if (this.parent.documentName === "Actor") {
+    if (this.parent?.documentName === "Actor") {
       await runEventsFor("effectRemoved", this.parent, effectEventsFilters(this.name, this.statuses, this.system.effectKey), {removedEffect: this}); 
       await reenableEventsOn("effectRemoved", this.parent, effectEventsFilters(this.name, this.statuses, this.system.effectKey), {removedEffect: this}); 
       if (this.preventRemoval) return false;
@@ -273,7 +273,7 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
   _onCreate(data, options, userId) {
     super._onCreate(data, options, userId);
     if (userId === game.user.id) {
-      if (this.parent.documentName === "Actor") {
+      if (this.parent?.documentName === "Actor") {
         runInstantEvents(this, this.parent);
       }
       this._shouldAddToSustainList(data.system.sustained);

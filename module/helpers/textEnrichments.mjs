@@ -97,11 +97,27 @@ async function _handleRoll(data, token) {
 }
 
 function _handleSave(data, actor) {
-  RollDialog.open(actor, DC20Roll.prepareSaveDetails(data.subtype), {sendToActorOwners: true});
+  const options = {};
+  if (data.value) {
+    for (const v of data.value.split(":")) {
+      if (v.startsWith("DC")) { // Save DC
+        options.against = parseInt(v.replace("DC", ""));
+      }
+    }
+  }
+  RollDialog.open(actor, DC20Roll.prepareSaveDetails(data.subtype, options), {sendToActorOwners: true});
 }
 
 function _handleCheck(data, actor) {
-  RollDialog.open(actor, DC20Roll.prepareCheckDetails(data.subtype), {sendToActorOwners: true});
+  const options = {};
+  if (data.value) {
+    for (const v of data.value.split(":")) {
+      if (v.startsWith("DC")) { // Save DC
+        options.against = parseInt(v.replace("DC", ""));
+      }
+    }
+  }
+  RollDialog.open(actor, DC20Roll.prepareCheckDetails(data.subtype, options), {sendToActorOwners: true});
 }
 
 function _handleDamage(data, token) {
@@ -131,7 +147,37 @@ async function _handleEffect(data, token) {
 }
 
 function _handleStatus(data, token) {
-  token.actor.toggleStatusEffect(data.subtype, {active: true});
+  let stacks = 1;
+  const extras = {};
+  if (data.value) {
+    const variables = data.value.split(":");
+    for (const v of variables) {
+      if (v.startsWith("D")) { // Duration
+        const duration = v.replace("D", "");
+        if (duration === "start") {
+          extras.untilTargetNextTurnStart = true;
+        }
+        if (duration === "end") {
+          extras.untilTargetNextTurnEnd = true;
+        }
+        if (parseInt(duration)) {
+          extras.forXRounds = parseInt(duration);
+        }
+      }
+      if (v.startsWith("S")) { // Stacks
+        stacks = parseInt(v.replace("S", "")) || 1;
+      }
+      if (v.startsWith("R")) { // Repeated Save Key
+        extras.id = data.subtype;
+        extras.repeatedSave = true;
+        extras.repeatedSaveKey = v.replace("R", "");
+      }
+      if (v.startsWith("DC")) { // Repeated Save DC
+        extras.against = parseInt(v.replace("DC", ""));
+      }
+    }
+  }
+  for (let i = 0; i < stacks; i++) token.actor.toggleStatusEffect(data.subtype, {active: true, extras: extras});
 }
 
 //==========================================

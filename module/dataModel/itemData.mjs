@@ -110,7 +110,9 @@ class DC20UsableItemData extends DC20BaseItemData {
         key: new f.StringField({required: true, initial: ""}),
         message: new f.StringField({required: true, initial: ""}),
         selectOptions: new f.StringField({required: true, initial: ""})
-      })
+      }),
+      martialEffect: new f.BooleanField({required: true, initial: false}),
+      magicalEffect: new f.BooleanField({required: true, initial: false})
     })
   }
 }

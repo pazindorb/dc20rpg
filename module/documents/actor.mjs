@@ -633,8 +633,6 @@ export class DC20RpgActor extends Actor {
       // Add mp/sp on ap converters and martial enhancements
       const mpToAp = await this._basicActionData(CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.apConverters.mpToAp, "mpToAp");
       actionsData.push(mpToAp);
-      const spToAp = await this._basicActionData(CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.apConverters.spToAp, "spToAp");
-      actionsData.push(spToAp);
       const martialEnhancements = await this._basicActionData(CONFIG.DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.martialEnhancements, "martialEnhancements");
       actionsData.push(martialEnhancements);
 

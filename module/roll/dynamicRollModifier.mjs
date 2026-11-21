@@ -319,9 +319,9 @@ function _againstStatuses(statuses, actor) {
 //========================================
 function _sizeCheck(target, attacker) {
   if (!attacker) return [];
-  const attackerSize = attacker.actor.system.size.size;
-  const targetSize = target.actor.system.size.size;
-  const sizeDiff = _sizeNumericValue(attackerSize) - _sizeNumericValue(targetSize);
+  const attackerSize = attacker.actor.system.size.category;
+  const targetSize = target.actor.system.size.category;
+  const sizeDiff = attackerSize - targetSize;
   if (sizeDiff >= 1) {
     return [{type: "adv", value: 1, label: "1 or more size smaller then the attacker", targetHash: target.actor.targetHash, target: true}];
   }
@@ -332,19 +332,6 @@ function _sizeCheck(target, attacker) {
     return [{autoFail: true, label: "More than 1 size larger then the attacker", targetHash: target.actor.targetHash, target: true}];
   }
   return [];
-}
-
-function _sizeNumericValue(size) {
-  switch (size) {
-    case "tiny": return 0;
-    case "small": return 1;
-    case "medium": return 2;
-    case "large": return 3;
-    case "huge": return 4;
-    case "gargantuan": return 5;
-    case "colossal": return 6;
-    case "titanic": return 7;
-  }
 }
 
 //========================================

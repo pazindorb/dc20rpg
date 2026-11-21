@@ -246,7 +246,6 @@ export class DC20CharacterData extends DC20BaseActorData {
         spellcaster: new f.BooleanField({required: true, initial: false}),
         infuser: new f.BooleanField({required: true, initial: false}),
       }),
-      size: new SizeFields(true),
       movement: new MovementFields(false),
       rest: new RestFields(),
       equipmentSlots: new EquipmentSlotFields(),

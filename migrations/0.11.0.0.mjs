@@ -45,6 +45,7 @@ async function _migrateActors(migrateModules) {
 async function _migrateActor(actor) {
   await actor.skillAndLanguage.refreshAll();
   await _migrateMaxHp(actor);
+  await _migrateSize(actor);
 
   for (const effect of actor.effects) {
     await _updateEffect(effect);
@@ -57,6 +58,21 @@ async function _migrateMaxHp(actor) {
     maxFormula.replace("@migValue", "@migHpBonus");
     await actor.update({["system.resources.health.maxFormula"]: maxFormula});
   }
+}
+
+async function _migrateSize(actor) {
+  let category = 2;
+  switch (actor.system.size.size) {
+    case "tiny":        category = 0; break;
+    case "small":       category = 1; break;
+    case "medium":      category = 2; break;
+    case "large":       category = 3; break;
+    case "huge":        category = 4; break;
+    case "gargantuan":  category = 5; break;
+    case "colossal":    category = 6; break;
+    case "titanic":     category = 7; break;
+  }
+  await actor.update({["system.size.category"]: category});
 }
 
 // ======================= ITEM ========================

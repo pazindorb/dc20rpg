@@ -51,7 +51,7 @@ export class MonsterCreatorDialog extends DC20Dialog {
         creatureRole: details.creatureRole,
         tier: scaling.tier,
         rank: scaling.rank,
-        size: this.actor.system.size.size,
+        sizeCategory: this.actor.system.size.category,
         reactionPoints: scaling.reactionPoints,
         itemTraits: this.#itemsToTraits(),
         baseTraits: this.#actorConfiguredBasicTraits(scaling.baseTraits),
@@ -66,7 +66,7 @@ export class MonsterCreatorDialog extends DC20Dialog {
         creatureRole: "",
         tier: "hard",
         rank: "normal",
-        size: "medium",
+        sizeCategory: 2,
         reactionPoints: 0,
         itemTraits: {},
         baseTraits: foundry.utils.deepClone(DEFAULT_BASIC_TRAITS)
@@ -334,7 +334,7 @@ export class MonsterCreatorDialog extends DC20Dialog {
     updateData.system.scaling.tier = this.data.tier;
     updateData.system.scaling.rank = this.data.rank;
     updateData.system.scaling.reactionPoints = this.data.reactionPoints;
-    updateData.system.size = {size: this.data.size};
+    updateData.system.size = {category: this.data.sizeCategory};
 
     const dialog =  new SimplePopup("info", {hideButtons: true, header: "Creating Monster...", information: ["Please wait it might take a while..."]});
     await dialog.render(true);

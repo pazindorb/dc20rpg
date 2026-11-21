@@ -329,8 +329,9 @@ export function getEffectModifiableKeys() {
     "system.senses.truesight.orOption.bonus": "Truesight: Bonus (if other source exist)",
 
     // Creature size
-    "system.size.size": "Size (Category)",
-    "system.size.spaceOccupation": "Size (Occupied Spaces)",
+    "system.size.category": "Size (Base Category)",
+    "system.size.increaseBy": "Size (Increase by)",
+    "system.size.spaceOccupation": "Size (Override Occupied Spaces)",
 
     // Attack and Save
     "system.attackMod.bonus.spell": "Spell Attack Bonus",
@@ -417,7 +418,7 @@ export function getEffectModifiableKeys() {
     "system.dynamicRollModifier.onYou.initiative": "DRM: Initiative Check",
     "system.dynamicRollModifier.onYou.skills": "DRM: Skill Check",
 
-    "system.dynamicRollModifier.onYou.saves.all": "DRM: All Saves",
+    "system.dynamicRollModifier.onYou.saves.all": "DRM: All Attribute Saves",
     "system.dynamicRollModifier.onYou.saves.mig": "DRM: Might Save",
     "system.dynamicRollModifier.onYou.saves.agi": "DRM: Agility Save",
     "system.dynamicRollModifier.onYou.saves.cha": "DRM: Charisma Save",
@@ -435,7 +436,7 @@ export function getEffectModifiableKeys() {
     "system.dynamicRollModifier.againstYou.checks.spe": "DRM (Against): Spell Check",
     "system.dynamicRollModifier.againstYou.skills": "DRM (Against): Skill Check",
 
-    "system.dynamicRollModifier.againstYou.saves.all": "DRM (Against): All Saves",
+    "system.dynamicRollModifier.againstYou.saves.all": "DRM (Against): All Attribute Saves",
     "system.dynamicRollModifier.againstYou.saves.mig": "DRM (Against): Might Save",
     "system.dynamicRollModifier.againstYou.saves.agi": "DRM (Against): Agility Save",
     "system.dynamicRollModifier.againstYou.saves.cha": "DRM (Against): Charisma Save",

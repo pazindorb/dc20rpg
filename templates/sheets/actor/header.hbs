@@ -53,8 +53,8 @@
 
     <div class="detail-row">
       {{!-- Size --}}
-      <select {{#unless editMode}}disabled{{/unless}} data-cType="string" data-path="system.size.size" data-tooltip="{{localize 'dc20rpg.sheet.size'}}" >
-        {{selectOptions @root.config.DROPDOWN_DATA.sizes selected=system.size.size}}
+      <select {{#unless editMode}}disabled{{/unless}} data-cType="string" data-path="system.size.category" data-tooltip="{{localize 'dc20rpg.sheet.size'}}" >
+        {{selectOptions @root.config.DROPDOWN_DATA.sizes selected=system.size.category}}
       </select>
 
       {{!-- Creature Type --}}

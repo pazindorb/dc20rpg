@@ -21,6 +21,8 @@ export function makeCalculations(item) {
   if (item.system.monsterTrait) _monsterTraitModifications(item);
   _checkIdentified(item);
   _combatTraining(item);
+  _martialEffect(item);
+  _magicalEffect(item);
 }
 
 function _checkIdentified(item) {
@@ -170,4 +172,22 @@ function _monsterTraitModifications(item) {
 
   // If the item's impact is set to -1 we want to ignore impact from monster dmg scaling
   if (itemImpact !== -1 && monsterImpact && isAttack) item.system.monsterTrait.impact = 1;
+}
+
+function _martialEffect(item) {
+  if (item.system.martialEffect) return;
+  const isMartialAttack = item.isMartialAttack;
+  const isMartialCheck = item.checkKey === "mar";
+  const isManeuver = item.type === "maneuver";
+  const costStamina = item.system?.costs?.resources?.stamina > 0;
+  item.system.martialEffect = isMartialAttack || isMartialCheck || isManeuver || costStamina;
+}
+
+function _magicalEffect(item) {
+  if (item.system.magicalEffect) return;
+  const isSpellAttack = item.isSpellAttack;
+  const isSpellCheck = item.checkKey === "spe";
+  const isSpell = item.type === "spell";
+  const costMana = item.system?.costs?.resources?.mana > 0;
+  item.system.magicalEffect = isSpellAttack || isSpellCheck || isSpell || costMana;
 }

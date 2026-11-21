@@ -169,7 +169,7 @@ function _attributes(context) {
 }
 
 function _size(context) {
-  context.system.size.label = getLabelFromKey(context.system.size.size, CONFIG.DC20RPG.DROPDOWN_DATA.sizes)
+  context.system.size.label = getLabelFromKey(context.system.size.category, CONFIG.DC20RPG.DROPDOWN_DATA.sizes)
 }
 
 function _skills(context) {

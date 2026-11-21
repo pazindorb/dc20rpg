@@ -28,6 +28,7 @@ export function makeCalculations(actor) {
 	_senses(actor);
 	_movement(actor);
 	_jump(actor);
+	_size(actor);
 
 	_precisionDefence(actor);
 	_areaDefence(actor);
@@ -329,6 +330,11 @@ function _jump(actor) {
 	if (jump.key === "flat") value = jump.value;
 	if (value <= 0) value = 1;
 	jump.current = (value + jump.bonus) * jump.multiplier;
+}
+
+function _size(actor) {
+	const size = actor.system.size;
+	size.category += size.increaseBy;
 }
 
 function _precisionDefence(actor) {

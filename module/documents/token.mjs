@@ -77,7 +77,7 @@ export class DC20RpgTokenDocument extends TokenDocument {
     if (!size) return;
     if (this.flags?.dc20rpg?.notOverrideSize) return;
 
-    const spaceOccupation = size.spaceOccupation || this._sizeCategoryToSpaces(size.size);
+    const spaceOccupation = size.spaceOccupation || this._sizeCategoryToSpaces(size.category);
     this._updateSize(spaceOccupation);
   }
 
@@ -88,19 +88,19 @@ export class DC20RpgTokenDocument extends TokenDocument {
     const size = this.actor?.system?.size;
     if (!size || this.flags?.dc20rpg?.notOverrideSize) return result;
 
-    const spaceOccupation = size.spaceOccupation || this._sizeCategoryToSpaces(size.size);
+    const spaceOccupation = size.spaceOccupation || this._sizeCategoryToSpaces(size.category);
     this.updateSource({width: spaceOccupation, height: spaceOccupation});
     return result;
   }
 
   _sizeCategoryToSpaces(category) {
     switch(category) {
-      case "tiny":                  return 0.5;
-      case "large":                 return 2;
-      case "huge":                  return 3;
-      case "gargantuan":            return 4;
-      case "colossal":              return 5;
-      case "titanic":               return 7;
+      case 0: return 0.5;
+      case 3: return 2;
+      case 4: return 3;
+      case 5: return 4;
+      case 6: return 5;
+      case 7: return 7;
     }
     return 1; // small, medium
   }
@@ -226,6 +226,11 @@ export class DC20RpgTokenDocument extends TokenDocument {
     if (transformationHistory) {
       ui.notifications.error("This token has already been transformed - revert the previous transformation before applying the new one.");
       return;
+    }
+
+    if (!game.actors.get(transformTo.id)) {
+      transformTo = await Actor.create(transformTo);
+      if (!transformTo) return;
     }
 
     const token = await transformTo.getTokenDocument({}, {parent: this.parent}); // Create dummy token

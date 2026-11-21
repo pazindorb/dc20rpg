@@ -206,7 +206,7 @@ export function initDC20Config() {
     "att#attackCheck": "Attack Check",
     "mar#martialCheck": "Martial Check",
     "spe#spellCheck": "Spell Check",
-    "all#save": "All Saves",
+    "all#save": "All Attribute Saves",
     "all#attributeCheck": "All Attribute Checks",
     "all#skillCheck": "All Skill Checks",
 
@@ -397,14 +397,14 @@ DC20RPG.TRANSLATION_LABELS.combatTraining = {
 //    DROPDOWN-DATA - We are using that for dropodowns and key->label translations   =
 //====================================================================================
 DC20RPG.DROPDOWN_DATA.sizes = {
-  tiny: "Tiny",
-  small: "Small",
-  medium: "Medium",
-  large: "Large",
-  huge: "Huge",
-  gargantuan: "Gargantuan",
-  colossal: "Colossal",
-  titanic: "Titanic",
+  0: "Tiny",
+  1: "Small",
+  2: "Medium",
+  3: "Large",
+  4: "Huge",
+  5: "Gargantuan",
+  6: "Colossal",
+  7: "Titanic",
 }
 
 DC20RPG.DROPDOWN_DATA.levels = {
@@ -1392,7 +1392,6 @@ DC20RPG.SYSTEM_CONSTANTS.precisionDefenceFormulas = {
 DC20RPG.SYSTEM_CONSTANTS.areaDefenceFormulas = {
   standard: "8 + @combatMastery + @migValue + @chaValue + @ad.bonus",
 }
-DC20RPG.SYSTEM_CONSTANTS.spellcasterStamina = "Compendium.dc20rpg.system-items.Item.y7T8fH64IizcTw0K";
 DC20RPG.SYSTEM_CONSTANTS.reactionPoints = "Compendium.dc20rpg.monster-features.Item.VbK7YOCwB3FNK4bm";
 
 DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.deathsDoor = "Compendium.dc20rpg.rules.JournalEntry.VZnS8CgyXu6HmeZh.JournalEntryPage.000a46e5db7cb982"
@@ -1530,7 +1529,6 @@ DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.weaponStyleItems = {
 DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.unarmedStrike = "Compendium.dc20rpg.system-items.Item.7wavDCvKyFj2HDV4";
 DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.martialEnhancements = "Compendium.dc20rpg.system-items.Item.r6Lzh5dG0sJ0DgBu";
 DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.apConverters = {
-  spToAp: "Compendium.dc20rpg.system-items.Item.myVD8OrciokDai2s",
   mpToAp: "Compendium.dc20rpg.system-items.Item.fZJ3BxmAjAW6rpYs"
 }
 
