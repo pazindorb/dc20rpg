@@ -47,6 +47,9 @@ async function _migrateActor(actor) {
   await _migrateMaxHp(actor);
   await _migrateSize(actor);
 
+  // TODO: Update basic actions
+  // TODO: delete spend sp on ap enhancements item
+
   for (const effect of actor.effects) {
     await _updateEffect(effect);
   }

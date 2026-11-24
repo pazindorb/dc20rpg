@@ -67,9 +67,8 @@ export async function runItemDRMCheck(item, actor, initial={adv: 0, dis: 0, modi
       if (!token.actor) continue;
       const checkTargetPath = `system.dynamicRollModifier.againstYou.${_getCheckPath(details, token.actor)}`;
       const targetCheckResult = await _getDRMValueForPath(checkTargetPath, token.actor, validationData, true);
-      const targetSizeResult = rollConfig.respectSizeRules ? _sizeCheck(token, attacker) : [];
       const specificDRMResult = await _getSpecificDRMResult(details, token.actor, validationData, true);
-      results = [...results, ...targetCheckResult, ...specificDRMResult, ...targetSizeResult];  
+      results = [...results, ...targetCheckResult, ...specificDRMResult];  
     }
   }
 
@@ -105,13 +104,18 @@ export async function runSheetDRMCheck(details, actor, initial={adv: 0, dis: 0, 
   const statusesResult = _againstStatuses(details.statuses, actor);
   results = [...results, ...statusesResult];
 
+  // Size Check
+  if (details.performerSize != null) {
+    const sizeResult = _sizeCheck(actor, details.performerSize);
+    results = [...results, ...sizeResult];
+  }
+
   // Target Checks
   for (const token of game.user.targets) {
     const checkTargetPath = `system.dynamicRollModifier.againstYou.${_getCheckPath(details, token.actor)}`;
     const targetCheckResult = await _getDRMValueForPath(checkTargetPath, token.actor, validationData, true);
-    const targetSizeResult = details.respectSizeRules ? _sizeCheck(token, attacker) : [];
     const specificDRMResult = await _getSpecificDRMResult(details, token.actor, validationData, true);
-    results = [...results, ...targetCheckResult, ...specificDRMResult, ...targetSizeResult];   
+    results = [...results, ...targetCheckResult, ...specificDRMResult];   
   }
 
   // Modifications from Enhancements
@@ -317,19 +321,16 @@ function _againstStatuses(statuses, actor) {
 //========================================
 //            SIZE RULES CHECK           =
 //========================================
-function _sizeCheck(target, attacker) {
-  if (!attacker) return [];
-  const attackerSize = attacker.actor.system.size.category;
-  const targetSize = target.actor.system.size.category;
-  const sizeDiff = attackerSize - targetSize;
-  if (sizeDiff >= 1) {
-    return [{type: "adv", value: 1, label: "1 or more size smaller then the attacker", targetHash: target.actor.targetHash, target: true}];
+function _sizeCheck(actor, performerSize) {
+  const size = actor.system.size.category;
+  if (size > (performerSize + 1)) {
+    return [{autoCrit: true, label: "You are 2 or more sizes larger then the performer", targetHash: actor.targetHash}];
   }
-  if (sizeDiff === -1) {
-    return [{type: "dis", value: 1, label: "1 size larger then the attacker", targetHash: target.actor.targetHash, target: true}];
+  if (size > performerSize) {
+    return [{type: "adv", value: 1, label: "You are 1 size larger then the performer", targetHash: actor.targetHash}];
   }
-  if (sizeDiff < -1) {
-    return [{autoFail: true, label: "More than 1 size larger then the attacker", targetHash: target.actor.targetHash, target: true}];
+  if (size < performerSize) {
+    return [{type: "dis", value: 1, label: "You are 1 or more size smaller then the performer", targetHash: actor.targetHash}];
   }
   return [];
 }

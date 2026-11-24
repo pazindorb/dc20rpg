@@ -26,6 +26,7 @@ export function getStatusWithId(actor, statusId) {
 export function enhanceStatusEffectWithExtras(effect, extras) {
   if (!extras) return effect;
   const changes = effect.system.changes;
+  _replaceKeywords(changes, extras);
 
   if (extras.mergeDescription) {
     effect.description += extras.mergeDescription;
@@ -75,6 +76,22 @@ export function enhanceStatusEffectWithExtras(effect, extras) {
   }
   effect.system.changes = changes;
   return effect;
+}
+
+function _replaceKeywords(changes, extras) {
+  for (let i = 0; i < changes.length; i++) {
+    let changeV = changes[i].value;
+    if (typeof changeV === "string" && changeV.includes("#SPEAKER_ID#") && extras.actorId) {
+      changeV = changeV.replaceAll("#SPEAKER_ID#", extras.actorId);
+    }
+    if (typeof changeV === "string" && changeV.includes("#SAVE_DC#") && extras.against) {
+      changeV = changeV.replaceAll("#SAVE_DC#", extras.against);
+    }
+    if (typeof changeV === "string" && changeV.includes("#TARGET_HASH#") && extras.targetHash) {
+      changeV = changeV.replaceAll("#TARGET_HASH#", extras.targetHash);
+    }
+    changes[i].value = changeV;
+  }
 }
 
 function _isActorCurrentCombatant(actorId, combat) {

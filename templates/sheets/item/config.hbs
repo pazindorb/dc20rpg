@@ -87,6 +87,12 @@
         <label>{{localize "dc20rpg.item.sheet.config.stackable"}}</label>
         <input type="checkbox" name="system.stackable" {{checked system.stackable}}/>
       </div>
+      {{#ifCond type '!==' "consumable"}}
+      <div class="form-group margin-top-5">
+        <label>{{localize "dc20rpg.item.sheet.config.combatTraining"}}</label>
+        <input type="checkbox" name="system.combatTraining" {{checked system.combatTraining}}/>
+      </div>
+      {{/ifCond}}
     {{/if}}
 
     {{!-- Spell Specific --}}

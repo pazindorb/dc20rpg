@@ -732,7 +732,7 @@ export class DC20ChatMessage extends ChatMessage {
     event.preventDefault();
     const { AreaPlacer } = await import("../../subsystems/area/areaPlacer.mjs");
 
-    const actor = DC20Target.getActorFromTargetHash(`${this.speaker.actor}#${this.speaker.token}`);
+    const actor = this.speakerActor;
     const effects = this.system.effects
                       .filter(effectData => effectData.system.applyToTemplate)
                       .map(effectData => {
@@ -838,11 +838,17 @@ export class DC20ChatMessage extends ChatMessage {
   #getDetailsForRequest(request, isContest, statuses) {
     const key = isContest ? request.contestedKey : request.saveKey;
     const against = isContest ? this.winningRoll.total : request.dc;
+    const options = {against: against, statuses: statuses};
+    const isSave = ["phy", "men", "mig", "agi", "int", "cha"].includes(key);
+    const details = isSave ? DC20Roll.prepareSaveDetails(key, options) : DC20Roll.prepareCheckDetails(key, options);
 
-    if (["phy", "men", "mig", "agi", "int", "cha"].includes(key)) {
-      return DC20Roll.prepareSaveDetails(key, {against: against, statuses: statuses});
+    // If size should be respected (grapple, shove, etc) we need to add performer size to the roll details
+    if (this.system?.rollConfig?.respectSizeRules) {
+      details.performerSize = this.speakerActor.system.size.category;
     }
-    return DC20Roll.prepareCheckDetails(request.contestedKey, {against: against, statuses: statuses});
+
+    details.performerHash = `${this.speaker.actor}#${this.speaker.token}`;
+    return details;
   }
 
   async #sendRollRequest(actor, details, isContest) {
@@ -858,7 +864,7 @@ export class DC20ChatMessage extends ChatMessage {
   //===================
   #onApplyEffect(data) {
     const applierHash = `${this.speaker.actor}#${this.speaker.token}`;
-    const actor = DC20Target.getActorFromTargetHash(`${this.speaker.actor}#${this.speaker.token}`);
+    const actor = this.speakerActor;
     const enhanceData = {sustain: this.system.sustain, actor: actor, itemId: this.system.itemId};
     if (data.targetHash) {
       const target = this.targets[data.targetHash];
@@ -899,7 +905,7 @@ export class DC20ChatMessage extends ChatMessage {
   }
 
   #collectExtras(status) {
-    const actor = DC20Target.getActorFromTargetHash(`${this.speaker.actor}#${this.speaker.token}`);
+    const actor = this.speakerActor;
     const saveDC = actor.system.saveDC.value;
     const extras = {
       ...status,

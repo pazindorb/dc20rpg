@@ -26,7 +26,7 @@ export class DC20BaseActiveEffectData extends foundry.data.ActiveEffectTypeDataM
       macro: new f.StringField({required: true}),
       addToChat: new f.BooleanField({required: true, initial: false}),
       applyToSelf: new f.BooleanField({required: true, initial: false}),
-      applyToTemplate: new f.BooleanField({required: true, initial: true}),
+      applyToTemplate: new f.BooleanField({required: true, initial: false}),
       requireEquip: new f.BooleanField({required: true, initial: false}),
       nonessential: new f.BooleanField({required: true, initial: false}),
       refreshTarget: new f.BooleanField({required: true, initial: false}),

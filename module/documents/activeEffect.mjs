@@ -71,6 +71,9 @@ export default class DC20RpgActiveEffect extends foundry.documents.ActiveEffect 
       if (typeof changeValue === "string" && changeValue.includes("#SAVE_DC#")) {
         changeValue = changeValue.replaceAll("#SAVE_DC#", against);
       }
+      if (typeof changeValue === "string" && changeValue.includes("#TARGET_HASH#")) {
+        changeValue = changeValue.replaceAll("#TARGET_HASH#", actor.targetHash);
+      }
       effect.system.changes[i].value = changeValue;
     }
   }

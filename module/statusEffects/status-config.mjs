@@ -32,7 +32,6 @@ export function registerDC20Statues() {
 
     _unseen(),
     _unheard(),
-    _hidden(),
     _invisible(),
     
     _halfCover(),
@@ -121,7 +120,7 @@ function _deathsDoor() {
           key: "system.events",
           type: "add",
           priority: undefined,
-          value: '"eventType": "macro", "trigger": "instant", "label": "Death\'s Door", "actorId": "#SPEAKER_ID#"'
+          value: '"eventType": "macro", "trigger": "instant", "label": "Death\'s Door"'
         }
       ]
     },
@@ -219,14 +218,12 @@ function _unheard() {
     statuses: [],
     img: "systems/dc20rpg/images/statuses/unheard.svg",
     description: `
-    <p>
-      You are Unheard while you remain silent, talk no louder than a whisper, or are within an area effected by the Silence Spell or a similar effect. While Unheard, you're subjected to the following effects.
-      <ul>
-        <li>
-          You have ADV on Attacks against creatures you're Flanking that can't hear you.
-        </li>
-      </ul>
-    </p>
+<p>You're Unheard by a creature when you succeed on the Sneak Action against them, they're Deafened, or you're within an area affected by the Muffle Spell. While Unheard, you're subjected to the following effect:</p>
+<ul>
+    <li>
+        <p><strong>Unheard Attacker:</strong> You have ADV on Attacks against creatures you're Flanking that can't hear you.</p>
+    </li>
+</ul>
     `
   }
 }
@@ -256,54 +253,15 @@ function _unseen() {
     statuses: [],
     img: "systems/dc20rpg/images/statuses/unseen.svg",
     description: `
-    <p>
-      You are Unseen by a creature while you're imperceivable to its visual senses, such as when you're Fully Concealed, you're Invisible, or it's <strong>Blinded</strong>. While Unseen, you're subjected to the following effects.
-      <ul>
-        <li>
-          You have ADV on Attacks against creatures that can't see you.
-        </li>
-        <li>
-          Creatures that can't see you have DisADV on Attacks against you
-        </li>
-      </ul>
-    </p>
-    `
-  }
-}
-function _hidden() {
-  return {
-    id: "hidden",
-    _id: "z2xmhm7ggruUq7i4",
-    name: "Hidden",
-    label: "Hidden",
-    stackable: false,
-    system: {
-      statusId: "hidden",
-      changes: [
-        {
-          key: "system.dynamicRollModifier.againstYou.attack",
-          type: "add",
-          priority: undefined,
-          value: '"value": 1, "type": "dis", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
-        },
-        {
-          key: "system.dynamicRollModifier.onYou.attack",
-          type: "add",
-          priority: undefined,
-          value: '"value": 1, "type": "adv", "label": "Unseen (Enemy can\'t see you)", "confirmation": true'
-        },
-        {
-          key: "system.dynamicRollModifier.onYou.attack",
-          type: "add",
-          priority: undefined,
-          value: '"value": 1, "type": "adv", "label": "Unheard (You are Flanking enemy that can\'t hear you)", "confirmation": true, "rangeType": "melee"'
-        }
-      ]
-    },
-    statuses: ["unseen", "unheard"],
-    img: "systems/dc20rpg/images/statuses/hidden.svg",
-    description: `
-    <p>You are Hidden from a creature while you are both <strong>Unseen</strong> and <strong>Unheard</strong> by it. Your location is unknown to creatures you're Hidden from.</p>
+<p>You are Unseen by a creature while you're imperceivable to its visual senses, such as when you're Fully Concealed, you're Invisible, or it's <strong>Blinded</strong>. While Unseen, you're subjected to the following effects.</p>
+<ul>
+    <li>
+        <p><strong>Unseen Attacker:</strong> You have ADV on Attacks against creatures that can't see you.</p>
+    </li>
+    <li>
+        <p><strong>Unseen Target:</strong> Creatures that can't see you have DisADV on Attacks against you</p>
+    </li>
+</ul>
     `
   }
 }
@@ -1140,6 +1098,35 @@ function _grappled() {
     statuses: ["immobilized"],
     system: {
       statusId: "grappled",
+      macro: `
+const size = actor.system.size.category;
+const options = {
+  "": "Same Size",
+  1: "1 Size Larger",
+  [-1]: "1 or more Sizes Smaller"
+}
+const sizeMod = await DC20.dialog.SimplePopup.select("What is the Grappler's size compared to yours?", options)
+const grapplerSize = parseInt(sizeMod) ? (size + parseInt(sizeMod)) : size;
+
+const save = await DC20.dialog.SimplePopup.open("confirm", {
+  message: "Which save do you want to make?",
+  confirmLabel: "Might",
+  denyLabel: "Agility"
+})
+const key = save ? "mig" : "agi";
+const details = {
+  statuses: ["grappled"]
+};
+const against = parseInt(event.against)
+if (against) details.against = against;
+
+const rollDetails = DC20.DC20Roll.prepareSaveDetails(key, details);
+rollDetails.performerSize = grapplerSize;
+const roll = await actor.roll(key, "save", {}, rollDetails);
+
+if (against && roll) {
+  if (roll.total >= against) effect.delete()
+}`,
       changes: [
         {
           key: "system.movement.ground.bonus",
@@ -1148,32 +1135,35 @@ function _grappled() {
           value: -100
         },
         {
-          key: "system.dynamicRollModifier.onYou.saves.agi",
+          key: "system.events",
           type: "add",
           priority: undefined,
-          value: '"value": 1, "type": "dis", "label": "Grappled (Immobilized)"'
+          value: '"label": "Escape Grapple", "trigger": "manual", "eventType": "macro", "preTrigger": "spendAP", "against": "#SAVE_DC#"'
         },
       ]
     },
     img: "systems/dc20rpg/images/statuses/grappled.svg",
     description: `
-    <p>You're <strong>Immobilized</strong>.</p>
+    <p>You're Immobilized.</p>
     <p><span style="text-decoration:underline"><strong><span style="text-decoration: underline;">Escape Grapple</span></strong></span></p>
-    <p>You can spend <strong>1 AP</strong> to attempt to free yourself from a <strong>Grapple</strong>. Make a Martial Check contested by the Grappler's Athletics Check. <strong>Success:</strong> The Grapple immediately ends.</p>
+    <p>You can spend <strong>1 AP</strong> to attempt to free yourself from a Grapple. Make a Might or Agility Save contested by the Grappler's Save DC. You may have ADV or DisADV on your Save based on the size difference between you and the Grappler (see Moving & Grappling Creatures.</p>
+    <p><strong>Success:</strong> The Grapple immediately ends.</p>
     <p>The Grapple also ends if any of the following occurs:</p>
     <ul>
         <li>
-            <p><strong>Falling:</strong> The Grappler is unable to carry your weight when you begin falling, provided they are not also falling with you.</p>
+            <p><strong>Incapacitated Grappler:</strong> Grappler is unable to take Actions (such as being Stunned 4 or being Unconscious)</p>
         </li>
         <li>
-            <p><strong>Forced Movement:</strong> An effect forcibly moves you or the Grappler, causing you to move outside Grappler's reach. If the effect requires a Contested Check or Save, the Grappler makes the Check or Save instead of you. If the effect targets both you and the Grappler, the Grappler makes 1 Check or Save for both of you. <strong>Success:</strong> The targets are not moved. <strong>Failure:</strong> The targets are moved.</p>
+            <p><strong>Falling: </strong>The Grappler is unable to carry your weight when you begin falling, provided they aren't also falling with you.</p>
+        </li>
+        <li>
+            <p><strong>Forced Movement:</strong> An effect forcibly moves you or the Grappler, causing you to move outside the Grappler's reach. If the effect requires a Contested Check or Save, the Grappler makes the Check or Save instead of you. If the effect targets both you and the Grappler, the Grappler makes 1 Check or Save for both of you. <strong>Success:</strong> The targets are not moved. <strong>Failure:</strong> The targets are moved.</p>
         </li>
     </ul>
     <p></p>
     <p><span style="text-decoration:underline"><strong><span style="text-decoration: underline;">Grappled by Multiple Creatures</span></strong></span></p>
-    <p>A creature that is <strong>Grappled</strong> by more than 1 creature only suffers the effects of being <strong>Grappled</strong> once. However, a creature <strong>Grappled</strong> by multiple sources will remain <strong>Grappled</strong> until they are free from being <strong>Grappled</strong> by all sources.</p>
-    <p id="1cf1b90a-e081-81f5-b4d4-ee30bbddab42" class="block-color-blue_background" style="box-sizing: border-box; user-select: text; scrollbar-width: thin; scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track); margin: 3px 0px; padding: 6px; border: 2px solid rgb(0, 39, 124); background-color: rgb(160, 175, 209); border-radius: 2px; color: black; font-family: Signika, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; text-align: start"><span style="font-family: Signika, sans-serif"><strong style="box-sizing:border-box;user-select:text;scrollbar-width:thin;scrollbar-color:var(--color-scrollbar) var(--color-scrollbar-track)">Example:</strong> While <strong>Grappled</strong>, a creature is <strong>Immobilized</strong> (DisADV on Agility Saves). A creature doesn't have DisADV 2 on Agility Saves as a result of being <strong>Grappled</strong> by 2 creatures. They only have DisADV on Agility Saves.</span></p>
-    <p><strong>Moving the Target:</strong> If multiple creatures are <strong>Grappling</strong> the same target and one of them tries to move the <strong>Grappled</strong> target, it must make a Contested Athletics Check against all creatures <strong>Grappling</strong> the same target. <strong>Success:</strong> It ends the <strong>Grapple</strong> on the target by all creatures other than itself, allowing it to move the creature as normal.</p>
+    <p>A creature that's Grappled by more than 1 creature only suffers the effects of being Grappled once. However, a creature Grappled by multiple sources will remain Grappled until they're free from being Grappled by all sources.</p>
+    <p><strong>Moving the Target:</strong> If multiple creatures are Grappling the same target and one of them tries to move the Grappled target, it must make a Contested Athletics Check against all creatures Grappling the same target. <strong>Success:</strong> It ends the Grapple on the target by all creatures other than itself, allowing it to move the creature as normal.</p>
     `
   }
 }
