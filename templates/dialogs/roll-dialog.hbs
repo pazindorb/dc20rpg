@@ -224,20 +224,27 @@
       </div>
       {{/if}}
 
+      {{!-- Help Dice --}}
+      {{#if help}}
+      <div class="row margin-top-10 modifications">
+        {{#each help}}
+        <a class="help-dice {{#if active}}fa-solid active{{else}}fa-light{{/if}} {{#if blocked}}blocked{{/if}} {{icon}}" {{#unless blocked}}data-action="help" data-key="{{key}}"{{/unless}} data-tooltip="{{tooltip}}"></a>
+        {{/each}}
+      </div>
+      {{/if}}
+
+      {{!-- Custom Roll Modification --}}
       <div class="row select-row margin-top-10">
-        <label class="margin-right-10">{{localize "dc20rpg.dialog.rollDialog.helpDice"}}</label>
         <div class="multi-select-wrapper">
           <div class="tags input-element-tags">
-            {{#each rollMenu.help}} 
+            {{#each rollMenu.modification}} 
             <div class="tag" data-key="{{this}}">
               <span>{{this}}</span>
-              <a class="remove fa-solid fa-xmark" data-cType="remove-option" data-path="system.rollMenu.help" data-value="{{this}}" data-tooltip="{{localize "dc20rpg.dialog.rollDialog.removeHelpDice"}}"></a>
+              <a class="remove fa-solid fa-xmark" data-cType="remove-option" data-path="system.rollMenu.modification" data-value="{{this}}" data-tooltip="{{localize "dc20rpg.dialog.rollDialog.removeModification"}}"></a>
             </div>
             {{/each}}
           </div>
-          <select class="margin-top-2" data-cType="multi-select" data-path="system.rollMenu.help" data-duplicates="allow">
-            {{selectOptions helpOptions selected="" blank=""}}
-          </select>
+          <input style="padding:0 5px;" class="custom-formula" data-cType="multi-select" data-duplicates="allow" data-path="system.rollMenu.modification" placeholder="{{localize "dc20rpg.dialog.rollDialog.modification"}}"/>
         </div>
       </div>
 

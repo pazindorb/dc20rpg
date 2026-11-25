@@ -4,13 +4,16 @@ import { DC20Target } from "../subsystems/target/target.mjs";
 
 export class DRMDialog extends DC20Dialog {
 
-  static open(result, options={}) {
-    new DRMDialog(result, options).render(true);
+  static open(result, stickTo, options={}) {
+    const dialog = new DRMDialog(result, stickTo, options);
+    dialog.render(true);
+    return dialog;
   }
 
-  constructor(result, options = {}) {
+  constructor(result, stickTo, options = {}) {
     super(options);
-    this.result = this._prepareResult(result);
+    this.prepareResult(result);
+    this.stickTo = stickTo;
   }
 
   static PARTS = {
@@ -26,7 +29,7 @@ export class DRMDialog extends DC20Dialog {
     });
   }
 
-  _prepareResult(result) {
+  prepareResult(result) {
     const resultPerTarget = [];
     const targets = result.targets.entries();
     const statuses = result.statuses.entries();
@@ -44,12 +47,14 @@ export class DRMDialog extends DC20Dialog {
     }
 
     if (this.#isEmpty(resultPerTarget)) {
-      return [{
+      this.result = [{
         label: "",
-        values: [{icon: "fa-square-xmark", text: "No changes found"}]
+        values: [{icon: "fa-square-xmark", text: "No roll modifications"}]
       }]
     }
-    return resultPerTarget;
+    else {
+      this.result = resultPerTarget;
+    }
   }
 
   #isEmpty(resultPerTarget) {
@@ -102,13 +107,55 @@ export class DRMDialog extends DC20Dialog {
     const initialized = super._initializeApplicationOptions(options);
     initialized.window.title = "Dynamic Roll Modifier Result";
     initialized.window.icon = "fa-light fa-dice-d20";
-    initialized.position.width = 500;
+    initialized.position.width = 300;
     return initialized;
+  }
+
+  async _renderFrame(options) {
+    const frame = await super._renderFrame(options);
+    const header = frame.querySelector(":scope > .window-header");
+    if (header) header.style.display = "none";
+    return frame;
   }
 
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
     context.result = this.result;
     return context;
+  }
+
+  async _onRender(context, options) {
+    await super._onRender(context, options);
+    if (!this.stickTo?.element) return;
+
+    const position = () => {
+      const anchor = this.stickTo?.element;
+      if (!anchor?.isConnected || !this.element?.isConnected) return;
+
+      const anchorRect = anchor.getBoundingClientRect();
+      const dialogRect = this.element.getBoundingClientRect();
+      this.setPosition({
+        left: anchorRect.left - dialogRect.width,
+        top: anchorRect.bottom - dialogRect.height
+      });
+    };
+
+    position();
+    this._stickToResizeObserver?.disconnect();
+    this._stickToMutationObserver?.disconnect();
+    this._stickToResizeObserver = new ResizeObserver(position);
+    this._stickToResizeObserver.observe(this.stickTo.element);
+    this._stickToResizeObserver.observe(this.element);
+    this._stickToMutationObserver = new MutationObserver(position);
+    this._stickToMutationObserver.observe(this.stickTo.element, {
+      attributes: true,
+      attributeFilter: ["style"]
+    });
+  }
+
+  async close(options) {
+    this._stickToResizeObserver?.disconnect();
+    this._stickToMutationObserver?.disconnect();
+    return super.close(options);
   }
 }

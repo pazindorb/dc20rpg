@@ -74,7 +74,6 @@ function _action(item) {
       const help = item.system.help;
       let label = "Help";
       if (help.duration) label += ` (Duration: ${getLabelFromKey(help.duration, CONFIG.DC20RPG.DROPDOWN_DATA.helpDiceDuration)})`;
-      if (help.subtract) label += ` [Subtracted]`;
       action.push(_infoBox(label, "purple", "tier1"))
   }
   return action;

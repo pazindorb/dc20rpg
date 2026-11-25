@@ -14,7 +14,7 @@ export default class RollMenu extends foundry.data.fields.SchemaField {
         modifier: new f.StringField({required: true, initial: ""}),
         source: new f.StringField({required: true, initial: ""}),
       }),
-      help:new f.ArrayField(new f.StringField(), {required: true}),
+      modification: new f.ArrayField(new f.StringField(), {required: true}),
       ignoreMCP: new f.BooleanField({required: true, initial: false}),
       free: new f.BooleanField({required: true, initial: false}),
       ...fields
@@ -38,7 +38,7 @@ export default class RollMenu extends foundry.data.fields.SchemaField {
 export function enrichRollMenuObject(object) {
   object.system.rollMenu.rollLevel = _rollLevel(object);
   object.system.rollMenu.clear = async () => await _clearRollMenu(object);
-  object.system.rollMenu.helpDiceFormula = () => _helpDiceFormula(object);
+  object.system.rollMenu.customModificationFormula = () => _customModificationFormula(object);
   object.system.rollMenu.apForAdvUp = async () => await _resourceForAdv(object, "ap", true);
   object.system.rollMenu.apForAdvDown = async () => await _resourceForAdv(object, "ap", false);
 }
@@ -54,6 +54,7 @@ async function _clearRollMenu(object) {
       modifier: "",
       source: ""
     },
+    modification: [],
     help: [],
     ignoreMCP: false,
     free: false,
@@ -66,10 +67,10 @@ async function _clearRollMenu(object) {
   await object.update({["system.rollMenu"]: clearRollMenu})
 }
 
-function _helpDiceFormula(object) {
+function _customModificationFormula(object) {
   let formula = "";
-  object.system.rollMenu.help.forEach(dice => {
-    formula += ` ${dice}`;
+  object.system.rollMenu.modification.forEach(mod => {
+    formula += ` ${mod}`;
   })
   return formula;
 }

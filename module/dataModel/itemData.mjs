@@ -46,8 +46,6 @@ class DC20UsableItemData extends DC20BaseItemData {
       usable: new f.BooleanField({required: true, initial: true, readonly: true}),
       isReaction: new f.BooleanField({required: true, initial: false}),
       help: new f.SchemaField({
-        ignoreMHP: new f.BooleanField({required: true, initial: false}),
-        subtract: new f.BooleanField({required: true, initial: false}),
         duration: new f.StringField({required: true, initial: "round"}),
         diceValue: new f.NumberField({ required: true, nullable: true, integer: true, initial: null }),
       }),

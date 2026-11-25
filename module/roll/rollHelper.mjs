@@ -442,7 +442,9 @@ function _refreshEnhancemetns(actor, sheetData) {
 
 async function _clearEnhancements(sheetData) {
   for (const enh of sheetData.enhancements.values()) {
-    if (enh.active) await enh.clear()
+    if (enh.number !== 0 || enh.defaultState) {
+      await enh.clear()
+    }
   }
 }
 

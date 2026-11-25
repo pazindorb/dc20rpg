@@ -567,6 +567,13 @@ export class DC20RpgActor extends Actor {
         }
       }
     }
+
+    // Refresh RollDialog for actor (if opened)
+    const apps = [...foundry.applications.instances.values()];
+    apps
+      .filter(app => app instanceof RollDialog)
+      .filter(app => app.actor.uuid === this.uuid)
+      .forEach(app => app.render());
   }
 
   /** @inheritDoc */

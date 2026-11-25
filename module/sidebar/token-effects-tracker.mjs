@@ -66,7 +66,7 @@ class TokenEffectsTracker extends DC20Dialog {
     const [active, disabled] = await this._prepareEffects(actor);
 
     context.ownerId = actor.id;
-    context.help = actor.help.active;
+    context.help = actor.system.help.active;
     context.active = active;
     context.disabled = disabled;
     return context;
@@ -106,13 +106,6 @@ class TokenEffectsTracker extends DC20Dialog {
         this._sidebarResizeObserver.observe(sidebar);
       }
     }
-
-    new foundry.applications.ux.DragDrop.implementation({
-      dragSelector: ".help-dice",
-      callbacks: {
-        dragstart: this._onDragStart.bind(this),
-      }
-    }).bind(this.element);
   }
 
   #positionNextToSidebar() {
@@ -123,27 +116,6 @@ class TokenEffectsTracker extends DC20Dialog {
     this.element.style.right = `${sidebarRect.width}px`;
   }
 
-  _onDragStart(event) {
-    if (event.target.classList.contains('help-dice')) this._onDragHelpDice(event);
-  }
-
-  _onDragHelpDice(event) {
-    if (!this.actor) return;
-    const dataset = event.target.dataset;
-    const key = dataset.key;
-
-    const helpDice = this.actor.help.active[key];
-    if (helpDice) {
-      const dto = {
-        key: key,
-        formula: helpDice.formula,
-        type: "help",
-        actorId: this.actor.id,
-        tokenId: this.token.id,
-      }
-      event.dataTransfer.setData("text/plain", JSON.stringify(dto));
-    }
-  }
 
   // ==================== ACTIONS =====================
   _onMouseDown(event) {

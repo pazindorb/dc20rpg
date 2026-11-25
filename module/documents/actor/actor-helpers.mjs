@@ -946,33 +946,101 @@ async function _addReactionPoints(actor) {
 //==================================//==================================
 function _enrichSpecialActions(actor) {
   actor.help = {
-    active: _activeHelp(actor),
-    prepare: async (options) => await _prepareHelp(actor, options),
-    clear: async (key, duration) => await _clearHelp(actor, key, duration)
+    grantDice: async (helpData, targets) => await _grantDice(actor, helpData, targets),
+    hasDice: (key) => _hasDice(key, actor),
+    getDice: (key) => _getDice(key, actor),
+    prepare: async (helpData) => await _prepareHelp(actor, helpData),
+    clear: async (key, duration) => await _clearHelp(actor, key, duration),
+    getHelpForCheck: (check) => _getHelpForCheck(actor, check)
   }
 }
 
 //==================================
 //           HELP ACTION           =
 //==================================
-async function _prepareHelp(actor, options={}) {
-  const activeDice = actor.system.help.active; 
-  let maxDice = actor.system.help.maxDice;
+async function _grantDice(actor, helpData={}, targets) {
+  if (!targets)  targets = [...game.user.targets];
+  if (targets.length === 0) {
+    ui.notifications.warn("You need to choose the target that you want to help.")
+    return;
+  }
 
-  if (options.diceValue) {
-    maxDice = options.diceValue;
+  const check = await SimplePopup.select("Select Check you want to help with", CONFIG.DC20RPG.ROLL_KEYS.allChecks);
+  if (!check) return;
+
+  helpData.helper = actor;
+  helpData.check = check;
+  for (const token of targets) {
+    const target = token.actor;
+    await target.help.prepare(helpData);
   }
-  else if (actor.inCombat && !options.ignoreMHP) {
-    const reduction = actor.mcp.getValueFor("help") * 2;
-    maxDice = Math.max(maxDice - reduction, 4);
-    actor.mcp.apply("help");
+}
+
+async function _prepareHelp(actor, helpData={}) {
+  const dice = _getValidatedHelpData(helpData, actor);
+  if (!dice) return;
+
+  const formula = `d${dice}`;
+  const duration = helpData.duration || "round";
+  const check = helpData.check;
+  const icon = `fa-dice-d${dice}`;
+  const helpObject = {
+    check: check,
+    formula: formula,
+    value: dice,
+    duration: duration,
+    icon: icon,
+    tooltip: _helpDiceTooltip(formula, check, duration, helpData.helper),
   }
-  const subtract = options.subtract ? "-" : "";
-  activeDice[generateKey()] = {
-    value: `${subtract}d${maxDice}`,
-    duration: options.duration || "round"
+  if (helpData.helper) helpObject.source = helpData.helper.uuid;
+
+  const key = helpData.ignoreDiceLimit ? generateKey() : formula;
+  await actor.gmUpdate({[`system.help.active.${key}`]: helpObject});
+}
+
+function _getValidatedHelpData(helpData, actor) {
+  const helper = helpData.helper;
+
+  // Check Key
+  if (!helpData.check) {
+    ui.notifications.error("You need to specify the check type.");
+    return;
   }
-  await actor.update({["system.help.active"]: activeDice});
+
+  // Dice Value
+  let dice = helpData.dice || helper?.system?.help?.maxDice;
+  if (!dice) {
+    ui.notifications.error("You need to provide dice type or an actor that makes the help action.");
+    return;
+  }
+  if (!helpData.ignoreDiceLimit) {
+    while (actor.help.hasDice(`d${dice}`) || dice < 4) {
+      if (dice < 4) {
+        ui.notifications.error("All available help dice slots were taken.");
+        return;
+      }
+      dice -= 2;
+    }
+  }
+
+  return dice;
+}
+
+function _getDice(key, actor) {
+  return actor.system.help.active[key];
+}
+
+function _hasDice(key, actor) {
+  return !!_getDice(key, actor);
+}
+
+function _getHelpForCheck(actor, check) {
+  return Object.entries(actor.system.help.active)
+          .filter(([key, dice]) => dice.check === check)
+          .map(([key, dice]) => {
+            dice.key = key;
+            return dice;
+          });
 }
 
 async function _clearHelp(actor, key, duration="round") {
@@ -986,34 +1054,12 @@ async function _clearHelp(actor, key, duration="round") {
   }
 }
 
-function _activeHelp(actor) {
-  const dice = {};
-  for (const [key, help] of Object.entries(actor.system.help.active)) {
-    let icon = "fa-dice";
-    switch (help.value) {
-      case "d20": case "-d20": icon = "fa-dice-d20"; break;
-      case "d12": case "-d12": icon = "fa-dice-d12"; break; 
-      case "d10": case "-d10": icon = "fa-dice-d10"; break; 
-      case "d8": case "-d8": icon = "fa-dice-d8"; break; 
-      case "d6": case "-d6": icon = "fa-dice-d6"; break; 
-      case "d4": case "-d4": icon = "fa-dice-d4"; break; 
-    }
-    dice[key] = {
-      formula: help.value,
-      icon: icon,
-      subtraction: help.value.includes("-"),
-      duration: help.duration,
-      tooltip: _helpDiceTooltip(help)
-    }
-  }
-  return dice;
-}
-
-function _helpDiceTooltip(help) {
-  const header = `${game.i18n.localize("dc20rpg.sheet.help.helpDice")} (${help.value})`
-  const duration = `${game.i18n.localize("dc20rpg.sheet.help.duration")}: ${game.i18n.localize(`dc20rpg.help.${help.duration}`)}`;
-  const icon = "<i class='fa-solid fa-stopwatch margin-right'></i>";
-  return `<h4 class='margin-top-5'>${header}</h4> <div class='middle-section'><p>${icon} ${duration}</p></div><hr/>${game.i18n.localize("dc20rpg.sheet.help.dropOnChat")}`;
+function _helpDiceTooltip(formula, check, time, helper) {
+  const header = `${game.i18n.localize("dc20rpg.sheet.help.helpDice")} (${formula})`
+  const duration = `<i class='fa-solid fa-stopwatch'></i> ${game.i18n.localize("dc20rpg.sheet.help.duration")}: ${game.i18n.localize(`dc20rpg.help.${time}`)}`;
+  const roll = `<i class="fa-solid fa-dice"></i> ${game.i18n.localize("dc20rpg.sheet.help.check")}: ${CONFIG.DC20RPG.ROLL_KEYS.allChecks[check]}`;
+  const source = `<i class="fa-solid fa-handshake-angle"></i> ${game.i18n.localize("dc20rpg.sheet.help.source")}: ${helper?.name || "???"}`
+  return `<h4 class='margin-top-5'>${header}</h4> <div class='middle-section'><p>${roll}</p><p>${duration}</p><p>${source}</p></div><hr/>${game.i18n.localize("dc20rpg.sheet.help.tip")}`;
 } 
 
 //===================================

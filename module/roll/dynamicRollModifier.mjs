@@ -7,14 +7,13 @@ import { DC20Roll } from "./rollApi.mjs";
 
 export async function runItemDRMCheck(item, actor, initial={adv: 0, dis: 0, modifier: ""}) {
   let results = [];
-  const rollConfig = item.system.rollConfig;
   const rollMenu = item.system.rollMenu;
   const attacker = actor.getActiveTokens()[0];
 
   if (item.system.actionType === "attack") {
     const attack = item.system.attack;
     const rangeType = rollMenu.rangeType || attack.rangeType; // We want to update it if roll menu modified it
-    const validationData = {actorAskingForCheck: actor, rangeType: rangeType, attackType: attack.checkType};
+    const validationData = {actorAskingForCheck: actor, rangeType: rangeType, attackType: attack.checkType, item: item};
 
     // DRM on you
     const attackPath = "system.dynamicRollModifier.onYou.attack";
@@ -56,7 +55,7 @@ export async function runItemDRMCheck(item, actor, initial={adv: 0, dis: 0, modi
     const details = DC20Roll.prepareCheckDetails(check.checkKey);
     
     // DRM on you
-    const validationData = {actorAskingForCheck: actor};
+    const validationData = {actorAskingForCheck: actor, item: item};
     const checkPath = `system.dynamicRollModifier.onYou.${_getCheckPath(details, actor)}`;
     const checkResult = await _getDRMValueForPath(checkPath, actor, validationData);
     const specificDRMResult = await _getSpecificDRMResult(details, actor, validationData);
@@ -90,11 +89,10 @@ export async function runItemDRMCheck(item, actor, initial={adv: 0, dis: 0, modi
 export async function runSheetDRMCheck(details, actor, initial={adv: 0, dis: 0, modifier: ""}) {
   let results = [];
   const rollMenu = actor.system.rollMenu;
-  const attacker = actor.getActiveTokens()[0];
   const checkKey = details.checkKey;
 
   // DRM on you
-  const validationData = {actorAskingForCheck: actor};
+  const validationData = {actorAskingForCheck: actor, details: details};
   const checkPath = `system.dynamicRollModifier.onYou.${_getCheckPath(details, actor)}`;
   const checkResult = await _getDRMValueForPath(checkPath, actor, validationData);
   const specificDRMResult = await _getSpecificDRMResult(details, actor, validationData);

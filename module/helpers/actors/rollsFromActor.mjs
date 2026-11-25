@@ -45,7 +45,7 @@ export function resetEnhancements(item, actor) {
   if (!item.allEnhancements) return;
   
   item.allEnhancements.forEach((enh, key) => { 
-    if (enh.number !== 0) {
+    if (enh.number !== 0 || enh.defaultState) {
       const enhOwningItem = actor.items.get(enh.sourceItemId);
       if (enhOwningItem) enh.clear();
     }

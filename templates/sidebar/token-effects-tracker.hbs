@@ -23,7 +23,7 @@
   {{!-- Help Dice --}}
   <div class="help-tracker">
   {{#each help as |dice key|}}
-    <div class="help-dice {{#if dice.subtraction}}subtraction{{/if}} draggable"  data-key="{{key}}" data-type="help" data-tooltip="{{dice.tooltip}}">
+    <div class="help-dice" data-key="{{key}}" data-type="help" data-tooltip="{{dice.tooltip}}">
       <i class="fa-solid {{dice.icon}} fa-lg"></i>
     </div>
   {{/each}}

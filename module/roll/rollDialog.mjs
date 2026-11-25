@@ -116,6 +116,7 @@ export class RollDialog extends DC20Dialog {
       this.itemRoll = true;
       this.item = data;
       this.updateObject = this.item;
+      this.checkKey = this.item.checkKey;
 
       this._prepareAttack();
       const areas = this.item.system.areas || {};
@@ -125,6 +126,7 @@ export class RollDialog extends DC20Dialog {
       this.itemRoll = false;
       this.sheetRollData = sheetRollDataFrom(data, this.actor);
       this.updateObject = this.actor;
+      if (data.type !== "save") this.checkKey = data.checkKey;
     }
     this.quickRoll = !!options.quickRoll;
     this.messageMode = options.messageMode || options.rollMode || game.settings.get("core", "messageMode");
@@ -134,12 +136,13 @@ export class RollDialog extends DC20Dialog {
     this.forceTargets = game.settings.get("dc20rpg", "forceTargets");
     this.modifyFormula = options.customFormula || false;
     this.heldAction = options.heldAction;
+    this.activeHelp = {};
     this._autoDRMCheck();
   }
 
   _autoDRMCheck() {
     if (this.autoDRMCheck) {
-      this._DRMCheck(false); // it deals with quick roll as well
+      this._DRMCheck(); // it deals with quick roll as well
     }
     else {
       this.DRMChecked = false;
@@ -180,6 +183,7 @@ export class RollDialog extends DC20Dialog {
 
     initialized.actions.holdAction = this._onHoldAction;
     initialized.actions.roll = this._onRoll;
+    initialized.actions.help = this._onHelp;
 
     initialized.actions.drm = this._onDRMCheck;
     initialized.actions.rangeChange = this._onRangeChange;
@@ -200,7 +204,7 @@ export class RollDialog extends DC20Dialog {
     const context = await super._prepareContext(options);
     
     // COMMON DATA
-    this._prepareCoreFormula();
+    this._prepareCoreFormula(context);
     context.coreFormula = this.coreFormula;
     context.modifyFormula = this.modifyFormula;
     context.header = {
@@ -210,22 +214,6 @@ export class RollDialog extends DC20Dialog {
     }
     context.heldAction = this.heldAction;
     context.rollMenu = this.updateObject.system.rollMenu;
-    context.helpOptions = {
-      "+ d8": "d8",
-      "+ d6": "d6",
-      "+ d4": "d4",
-      "+ d10": "d10",
-      "+ d12": "d12",
-      "- d8": "-d8",
-      "- d6": "-d6",
-      "- d4": "-d4",
-      "- d10": "-d10",
-      "- d12": "-d12",
-      "+ 2": "+2",
-      "+ 5": "+5",
-      "- 2": "-2",
-      "- 5": "-5"
-    };
     context.disableRollLevel = context.rollMenu.autoFail || context.rollMenu.autoCrit;
     context.DRMChecked = this.DRMChecked;
     context.messageModes = {
@@ -362,11 +350,12 @@ export class RollDialog extends DC20Dialog {
     return prepared;
   }
 
-  _prepareCoreFormula() {
+  _prepareCoreFormula(context) {
     if (this.modifyFormula) return;
 
     const rollMenu = this.updateObject.system.rollMenu;
-    const helpDice = rollMenu.helpDiceFormula();
+    const customMod = rollMenu.customModificationFormula();
+    const helpDice = this._prepareHelpDice(context);
     const modifier = rollMenu.coreFormula.modifier.replace(/\s\s+/g, ' '); // Get rid of extra space
     const source = rollMenu.coreFormula.source;
     const rollLevel = rollMenu.adv - rollMenu.dis;
@@ -393,7 +382,41 @@ export class RollDialog extends DC20Dialog {
     }
     if (modifier) coreFormula.push({value: modifier, source: source});
     if (helpDice) coreFormula.push({value: helpDice, source: "Help Dice"});
+    if (customMod) coreFormula.push({value: customMod, source: "Custom Core Formula Modifications"});
     this.coreFormula = coreFormula;
+  }
+
+  _prepareHelpDice(context) {
+    if (!this.checkKey) return;
+    const collected = this.actor.help.getHelpForCheck(this.checkKey);
+    if (collected.length === 0) return;
+
+    const activeSources = new Set();
+    const helpDiceContext = [];
+    let helpDiceFormula = "";
+    // Mark dice as active
+    for (const help of foundry.utils.deepClone(collected)) {
+      help.tooltip = help.tooltip.split("<hr/>")[0];
+
+      const activationSource = this.activeHelp[help.key];
+      if (activationSource) {
+        activeSources.add(activationSource);
+        help.active = true;
+        helpDiceFormula += ` + ${help.formula}`;
+      }
+      helpDiceContext.push(help);
+    }
+
+    // Block help dice if another dice from that source is already active
+    helpDiceContext.forEach(dice => {
+      if (dice.active) return;
+      if (activeSources.has(dice.source)) {
+        dice.blocked = true;
+        dice.tooltip += `<hr/> <i>${game.i18n.localize("dc20rpg.sheet.rollMenu.helpSource")}</i>`
+      }
+    })
+    context.help = helpDiceContext;
+    return helpDiceFormula;
   }
 
   //==========================================
@@ -411,7 +434,7 @@ export class RollDialog extends DC20Dialog {
     const index = ranges.indexOf(current);
     const newRange = ranges[index + 1] || ranges[0];
     await this.item.update({["system.rollMenu.rangeType"]: newRange});
-    if (this.autoDRMCheck) this._DRMCheck(false);
+    if (this.autoDRMCheck) this._DRMCheck();
     else this.render();
   }
 
@@ -421,6 +444,18 @@ export class RollDialog extends DC20Dialog {
     this.actor.heldAction.hold(this.item)
     this.promiseResolve(null);
     this.close();
+  }
+
+  _onHelp(event, target) {
+    const key = target.dataset.key;
+    if (this.activeHelp[key]) {
+      delete this.activeHelp[key];
+    }
+    else {
+      const dice = this.actor.help.getDice(key);
+      this.activeHelp[key] = dice.source;
+    }
+    this.render();
   }
 
   async _onRoll(event) {
@@ -482,7 +517,7 @@ export class RollDialog extends DC20Dialog {
 
   async _onDRMCheck(event) {
     event.preventDefault();
-    this._DRMCheck(true);
+    this._DRMCheck();
   }
 
   async _onWeaponReload() {
@@ -490,13 +525,7 @@ export class RollDialog extends DC20Dialog {
     this.render();
   }
 
-  async _DRMCheck(display) {
-    let drmRunningPopup = null;
-    if (display) {
-      drmRunningPopup = new SimplePopup("info", {hideButtons: true, header: "DRM Check", information: [`Waiting for Dynamic Roll Modifier Check to finish...`]});
-      await drmRunningPopup.render(true);
-    }
-
+  async _DRMCheck() {
     // If this is a held action we want to replace mcp with saved one
     if (this.heldAction) this.actor.system.mcp = this.actor.heldAction.mcp;
 
@@ -505,15 +534,18 @@ export class RollDialog extends DC20Dialog {
     if (this.itemRoll) [finalValue, result] = await runItemDRMCheck(this.item, this.actor, this.initialRollMenuValue);
     else [finalValue, result] = await runSheetDRMCheck(this.sheetRollData, this.actor, this.initialRollMenuValue);
     
-    if (drmRunningPopup) drmRunningPopup.close();
     await this._updateRollMenu(finalValue);
     if (this.quickRoll) {
       this._prepareCoreFormula();
       return this._onRoll();
     }
 
-    if (display || finalValue.manualChanges || finalValue.autoCrit || finalValue.autoFail) {
-      DRMDialog.open(result);
+    if (this?.drmResult?.rendered) {
+      this.drmResult.prepareResult(result);
+      this.drmResult.render();
+    }
+    else {
+      this.drmResult = DRMDialog.open(result, this);
     }
     this.render()
   }
@@ -580,7 +612,7 @@ export class RollDialog extends DC20Dialog {
   async _onActivable(path, dataset) {
     await super._onActivable(path, dataset);
     if (path.includes(".rollMenu.") && !(path.includes(".auto") || path.includes(".free"))) {
-      if (this.autoDRMCheck) this._DRMCheck(false);
+      if (this.autoDRMCheck) this._DRMCheck();
     }
   }
   
@@ -614,7 +646,7 @@ export class RollDialog extends DC20Dialog {
     }
 
     if (this.sheetRollData) this.sheetRollData.refreshEnhancemetns();
-    if (this.autoDRMCheck && runDrmCheck) this._DRMCheck(false);
+    if (this.autoDRMCheck && runDrmCheck) this._DRMCheck();
   }
 
   async _onToggleRollLevel(path, which) {
@@ -653,6 +685,7 @@ export class RollDialog extends DC20Dialog {
   close(options) {
     this.actor.system.rollMenu.clear();
     if (this.item) this.item.system.rollMenu.clear();
+    if (this.drmResult) this.drmResult.close();
     
     if (this.promiseResolve) this.promiseResolve(null);
     super.close(options);

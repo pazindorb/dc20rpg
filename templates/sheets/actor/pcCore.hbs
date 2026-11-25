@@ -43,16 +43,17 @@
       </div>
 
       {{!-- Sub Menu --}}
+      {{#if (hasKeys system.help.active)}} 
       <div class="sub-menu">
         <div class="wrapper">
-          <a data-class="help-action" data-tooltip="{{localize "Perform Help Action"}}" data-action="help"><i class="fa-solid fa-handshake-angle"></i></a>
-          {{#each help.dice as |dice key|}}
-            <div class="help-dice draggable {{#if dice.subtraction}}subtraction{{/if}}" data-key="{{key}}" data-rAction="help" data-tooltip="{{dice.tooltip}}">
+          {{#each system.help.active as |dice key|}}
+            <div class="help-dice" data-key="{{key}}" data-rAction="help" data-tooltip="{{dice.tooltip}}">
               <i class="fa-solid {{dice.icon}} fa-lg"></i>
             </div>
           {{/each}}
         </div>
       </div>
+      {{/if}}
     </div>
 
     {{!-- Held Action --}}

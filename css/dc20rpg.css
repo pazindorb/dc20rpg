@@ -2507,6 +2507,14 @@
 .dc20rpg #roll-prompt .roll-menu .column .row.modifications a {
   margin: 0 8px;
 }
+.dc20rpg #roll-prompt .roll-menu .column .row.modifications .help-dice.active {
+  color: #3b934a;
+}
+.dc20rpg #roll-prompt .roll-menu .column .row.modifications .help-dice.blocked {
+  -webkit-filter: opacity(0.6);
+  filter: opacity(0.6);
+  cursor: default;
+}
 .dc20rpg #roll-prompt .roll-menu .column .select-row {
   font-size: 16px;
 }
@@ -6157,6 +6165,7 @@
   border-radius: 0 0 8px 8px;
   background-color: var(--secondary-dark);
   padding: 2px 5px;
+  height: 24px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -6181,8 +6190,15 @@
 }
 .dc20rpg.actor-v13 .actor-sheet-section .top-menu-wrapper .sub-menu .wrapper .help-dice {
   font-size: 10px;
-  cursor: -webkit-grab;
-  cursor: grab;
+  height: 18px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
 }
 .dc20rpg.actor-v13 .actor-sheet-section .top-menu-wrapper i.fa-duotone {
   --fa-primary-opacity: 1;
@@ -10176,14 +10192,6 @@
   color: #3f0344;
   border: 2px solid #3f0344;
   border-radius: 5px;
-}
-#token-effects-tracker .help-tracker .help-dice.subtraction {
-  color: #b20000;
-}
-#token-effects-tracker .help-tracker .help-dice:hover {
-  cursor: pointer;
-  -webkit-box-shadow: 0 0 6px 0 inset #3f0344;
-  box-shadow: 0 0 6px 0 inset #3f0344;
 }
 
 #tooltip-container {
