@@ -132,17 +132,6 @@ export class ItemCreatorDialog extends DC20Dialog {
       this.blueprint.system.range.max = 90;
     }
 
-    // Disable Heavy if Two Handed not active
-    if (properties.twoHanded && properties.heavy) {
-      if (!properties.twoHanded.active) {
-        properties.heavy.active = false;
-        properties.heavy.disabled = true;
-      }
-      else {
-        properties.heavy.disabled = false;
-      }
-    }
-
     // Disable Versatile if Two Handed is active 
     if (properties.twoHanded && properties.versatile) {
       if (properties.twoHanded.active) {
