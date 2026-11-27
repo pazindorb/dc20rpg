@@ -1027,10 +1027,10 @@ DC20RPG.PROPERTIES = {
     ammoId: "",
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.IpmJVCqJnQzf0PEh"
   },
-  concealable: {
-    label: "dc20rpg.properties.concealable",
+  quickDraw: {
+    label: "dc20rpg.properties.quickDraw",
     type: ["weapon"],
-    subtype: ["melee"],
+    subtype: ["melee", "ranged"],
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.cRUMPH5Vkc4eZ26J"
   },
@@ -1054,20 +1054,21 @@ DC20RPG.PROPERTIES = {
     subtype: ["melee"],
     cost: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.FKrFwwAOH2Ff5JKe",
+    // There might be more than one "guard" property active on the actor - each should give +1 PD bonus
     applyProperty: (actor, properties) => actor.system.defences.precision.bonuses.always += properties.length
   },
   heavy: {
     label: "dc20rpg.properties.heavy",
     type: ["weapon"],
     subtype: ["melee", "ranged"],
-    cost: 2,
+    cost: 3,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.uuQtegS7r4BqkRWY"
   },
   impact: {
     label: "dc20rpg.properties.impact",
     type: ["weapon"],
     subtype: ["melee", "ranged"],
-    cost: 1,
+    cost: 2,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.eRclHKhWpouQHVIY"
   },
   longRanged: {
@@ -1082,6 +1083,8 @@ DC20RPG.PROPERTIES = {
     type: ["weapon"],
     subtype: ["melee", "ranged"],
     cost: 1,
+    value: 1,
+    valueCostMultiplier: true,
     selected: "first",
     weaponStyle: {
       first: "",
@@ -1094,11 +1097,18 @@ DC20RPG.PROPERTIES = {
     labelKey: "",
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.d5boT5j6ZPsWscm6"
   },
+  pinpoint: {
+    label: "dc20rpg.properties.pinpoint",
+    type: ["weapon"],
+    subtype: ["melee", "ranged"],
+    cost: 1,
+    journalUuid: ""
+  },
   reach: {
     label: "dc20rpg.properties.reach",
     type: ["weapon"],
     subtype: ["melee"],
-    cost: 1,
+    cost: 2,
     value: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.IRVvREIp7pesOtkB",
     applyProperty: (actor, properties) => {
@@ -1113,7 +1123,7 @@ DC20RPG.PROPERTIES = {
     label: "dc20rpg.properties.reload",
     type: ["weapon"],
     subtype: ["ranged"],
-    cost: -1,
+    cost: 0,
     loaded: true,
     value: 1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.1oVYxj3fsucBTFqv"
@@ -1150,7 +1160,7 @@ DC20RPG.PROPERTIES = {
     label: "dc20rpg.properties.unwieldy",
     type: ["weapon"],
     subtype: ["melee"],
-    cost: -1,
+    cost: -2,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.vRcRgNKeLkMSjO4w"
   },
   versatile: {
@@ -1168,8 +1178,8 @@ DC20RPG.PROPERTIES = {
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.51wyjg5pkl8Vmh8e.JournalEntryPage.1NPnFMz7rkb33Cog"
   },
 
-  adIncrease: {
-    label: "dc20rpg.properties.adIncrease",
+  protectiveA: {
+    label: "dc20rpg.properties.protectiveA",
     type: ["equipment"],
     subtype: ["shield", "light", "heavy"],
     cost: 1,
@@ -1182,13 +1192,13 @@ DC20RPG.PROPERTIES = {
       for (const prop of properties) {
         const equipmentType = prop.item.system.equipmentType;
         if (["light", "heavy"].includes(equipmentType)) armorBonus += prop.property.value;
-        if (["shield"].includes(equipmentType)) shieldBonus = prop.property.value;
+        if (["shield"].includes(equipmentType)) shieldBonus += prop.property.value;
       }
       actor.system.defences.area.bonuses.always += armorBonus + shieldBonus;
     }
   },
-  pdIncrease: {
-    label: "dc20rpg.properties.pdIncrease",
+  guardA: {
+    label: "dc20rpg.properties.guardA",
     type: ["equipment"],
     subtype: ["shield", "light", "heavy"],
     cost: 1,
@@ -1206,8 +1216,8 @@ DC20RPG.PROPERTIES = {
       actor.system.defences.precision.bonuses.always += armorBonus + shieldBonus;
     }
   },
-  elr: {
-    label: "dc20rpg.properties.elr",
+  insulated: {
+    label: "dc20rpg.properties.insulated",
     type: ["equipment"],
     subtype: ["light", "heavy"],
     cost: 2,
@@ -1221,11 +1231,11 @@ DC20RPG.PROPERTIES = {
       damageTypes.lightning.limited = true;
     }
   },
-  plr: {
-    label: "dc20rpg.properties.plr",
+  tempered: {
+    label: "dc20rpg.properties.tempered",
     type: ["equipment"],
-    subtype: ["heavy"],
-    cost: 2,
+    subtype: ["light", "heavy"],
+    cost: 3,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.LR1XjGbhGGaJamtB",
     applyProperty: (actor) => {
       const damageTypes = actor.system.damageReduction.damageTypes;
@@ -1257,12 +1267,28 @@ DC20RPG.PROPERTIES = {
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.qLqSJ8hpW0yvogRt.JournalEntryPage.D4tbxGmWGbShvtYp"
   },
 
+  amplify: {
+    label: "dc20rpg.properties.amplify",
+    type: ["spellFocus"],
+    cost: 1,
+    value: 1,
+    valueCostMultiplier: true,
+    journalUuid: "",
+  },
   channeling: {
     label: "dc20rpg.properties.channeling",
     type: ["spellFocus"],
     cost: 1,
+    value: 1,
+    valueCostMultiplier: true,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.mBflttRgeLdylTZZ",
-    applyProperty: (actor, properties) => actor.system.dynamicRollModifier.onYou.checks.spe.push(`"modifier": "+ ${properties.length}", "label": "Channeling Property"`)
+    applyProperty: (actor, properties) => {
+      let channelingBonus = 0;
+      for (const prop of properties) {
+        channelingBonus += (prop.property.value || 0);
+      }
+      actor.system.dynamicRollModifier.onYou.checks.spe.push(`"modifier": "+ ${channelingBonus}", "label": "Channeling Property"`)
+    }
   },
   closeQuarters: {
     label: "dc20rpg.properties.closeQuarters",
@@ -1275,19 +1301,21 @@ DC20RPG.PROPERTIES = {
     label: "dc20rpg.properties.longRangedSF",
     type: ["spellFocus"],
     cost: 1,
+    value: 1,
+    valueCostMultiplier: true,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.wDGeoUrkQvn3th35",
-    applyProperty: (actor) => actor.system.globalModifier.spell.range.normal += 5
-  },
-  muffled: {
-    label: "dc20rpg.properties.muffled",
-    type: ["spellFocus"],
-    cost: 1,
-    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.ISzf2phZTZvwiHsq"
+    applyProperty: (actor, properties) => {
+      let multiplier = 0;
+      for (const prop of properties) {
+        multiplier += (prop.property.value || 0);
+      }
+      actor.system.globalModifier.spell.range.normal += (10 * multiplier);
+    }
   },
   powerful: {
     label: "dc20rpg.properties.powerful",
     type: ["spellFocus"],
-    cost: 2,
+    cost: 3,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.Udv5sCjHaa4Bx2Zp",
     applyProperty: (actor, properties) => {
       actor.system.globalFormulaModifiers.damage.spell.melee.push(`"value": "+ ${properties.length}", "source": "Powerful Property"`);
@@ -1313,7 +1341,29 @@ DC20RPG.PROPERTIES = {
     label: "dc20rpg.properties.reactive",
     type: ["spellFocus"],
     cost: 1,
-    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.sURvDJvKs1wdvY9t"
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.sURvDJvKs1wdvY9t",
+    applyProperty: (actor) => actor.system.details.reactive = true
+  },
+  silentSF: {
+    label: "dc20rpg.properties.silentSF",
+    type: ["spellFocus"],
+    cost: 1,
+    journalUuid: ""
+  },
+  vicious: {
+    label: "dc20rpg.properties.vicious",
+    type: ["spellFocus"],
+    cost: 1,
+    value: 1,
+    valueCostMultiplier: true,
+    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.q7FNZW6aRK7e1fWL",
+    applyProperty: (actor, properties) => {
+      let viciousBonus = 0;
+      for (const prop of properties) {
+        viciousBonus += (prop.property.value || 0);
+      }
+      actor.system.dynamicRollModifier.onYou.attack.push(`"modifier": "+ ${viciousBonus}", "label": "Vicious Property", "attackType": "spell"`);
+    }
   },
   twoHandedSF: {
     label: "dc20rpg.properties.twoHandedSF",
@@ -1321,14 +1371,11 @@ DC20RPG.PROPERTIES = {
     cost: -1,
     journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.0H6XuLWBPDKvgaD0"
   },
-  vicious: {
-    label: "dc20rpg.properties.vicious",
+  provoking: {
+    label: "dc20rpg.properties.provoking",
     type: ["spellFocus"],
-    cost: 1,
-    journalUuid: "Compendium.dc20rpg.rules.JournalEntry.JBdpWkRewnrSPuLr.JournalEntryPage.q7FNZW6aRK7e1fWL",
-    applyProperty: (actor, properties) => {
-      actor.system.dynamicRollModifier.onYou.attack.push(`"modifier": "+ ${properties.length}", "label": "Vicious Property", "attackType": "spell"`);
-    }
+    cost: -1,
+    journalUuid: ""
   },
 }
 
@@ -1479,37 +1526,33 @@ DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.weaponStylesJournal = {
 }
 
 DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.basicActionItems = {
+  comboActionHelper: "Compendium.dc20rpg.system-items.Item.9ZjcrW9vgdyud5rF",
   attack: "Compendium.dc20rpg.system-items.Item.hN1j1N0Bh8gTy0pG",
   disarm: "Compendium.dc20rpg.system-items.Item.Ks9SnrRBfRhVWgWo",
   grapple: "Compendium.dc20rpg.system-items.Item.Uc2lzTTEJL8GEf5y",
   shove: "Compendium.dc20rpg.system-items.Item.QDPNjfb8u5Jn3XPL",
-  tackle: "Compendium.dc20rpg.system-items.Item.IolKDTVBEKdYMiGQ",
-  throw: "Compendium.dc20rpg.system-items.Item.stkxBrB4D0xrUPuc",
   disengage: "Compendium.dc20rpg.system-items.Item.ZK9sD2F2Sq7Jt3Kz",
-  fullDisengage: "Compendium.dc20rpg.system-items.Item.KyNqnZf5DBLasmon",
   dodge: "Compendium.dc20rpg.system-items.Item.Y6oevdLqA31GPcbt",
-  fullDodge: "Compendium.dc20rpg.system-items.Item.fvJRQv7oI9Pgoudk",
-  hide: "Compendium.dc20rpg.system-items.Item.N5w8JDg9ddpC8nkm",
+  sneak: "Compendium.dc20rpg.system-items.Item.N5w8JDg9ddpC8nkm",
   move: "Compendium.dc20rpg.system-items.Item.GjZ8kGIOKxTzs7ZE",
   help: "Compendium.dc20rpg.system-items.Item.Tzha5zpqwpCZFIQ5",
-  object: "Compendium.dc20rpg.system-items.Item.aIaSBL0WEAQbINL7",
   spell: "Compendium.dc20rpg.system-items.Item.AXG3pw2NOpxaJziA",
+  maneuver: "Compendium.dc20rpg.system-items.Item.ijnO2HDP7Rmzgg9w",
+  sustain: "Compendium.dc20rpg.system-items.Item.BWX0CWhJE1S1PY9x",
+  throw: "Compendium.dc20rpg.system-items.Item.stkxBrB4D0xrUPuc",
   analyzeCreature: "Compendium.dc20rpg.system-items.Item.5aV1c024MqxOEJFp",
   calmAnimal: "Compendium.dc20rpg.system-items.Item.d3qUXdLMHegA8yID",
   combatInsight: "Compendium.dc20rpg.system-items.Item.g41WHLdM8uNaSCWG",
-  conceal: "Compendium.dc20rpg.system-items.Item.dcpEpJZlvD56Kz8E",
-  feint: "Compendium.dc20rpg.system-items.Item.BzJl9QYjAprURubF",
+  concealObject: "Compendium.dc20rpg.system-items.Item.dcpEpJZlvD56Kz8E",
   intimidate: "Compendium.dc20rpg.system-items.Item.Ma2kZ3i6ansJoJOC",
   investigate: "Compendium.dc20rpg.system-items.Item.0Rk0wIUIa49m1gx7",
-  jump: "Compendium.dc20rpg.system-items.Item.Z9UxQK1yb6Ht05Xr",
-  medicine: "Compendium.dc20rpg.system-items.Item.ePDjVwzFEldfVy3z",
-  mountedDefence: "Compendium.dc20rpg.system-items.Item.1KXLpI788cdgbe4O",
-  passThrough: "Compendium.dc20rpg.system-items.Item.9KgyzSQbC5xbOwZ4",
+  extendJump: "Compendium.dc20rpg.system-items.Item.Z9UxQK1yb6Ht05Xr",
+  tumble: "Compendium.dc20rpg.system-items.Item.9KgyzSQbC5xbOwZ4",
   search: "Compendium.dc20rpg.system-items.Item.ZLnCG2WI5G58tEW0",
   taunt: "Compendium.dc20rpg.system-items.Item.mvAPxXcDZlQzjamb",
+  comboAction: "Compendium.dc20rpg.system-items.Item.E99zpR06fQMU00eg",
   attackOfOpportunity: "Compendium.dc20rpg.system-items.Item.1OVlkg9k0CcbBXYj",
-  spellDuel: "Compendium.dc20rpg.system-items.Item.fzPWHzvBu1EWJ7Fr",
-  sustain: "Compendium.dc20rpg.system-items.Item.BWX0CWhJE1S1PY9x"
+  spellDuel: "Compendium.dc20rpg.system-items.Item.fzPWHzvBu1EWJ7Fr"
 }
 
 DC20RPG.SYSTEM_CONSTANTS.JOURNAL_UUID.weaponStyleItems = {

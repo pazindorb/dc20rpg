@@ -414,12 +414,17 @@ async function _targetPositionCheck(target, attacker, rangeType, item) {
 
   // Flanking
   if (game.settings.get("dc20rpg", "enableFlankingCheck")) {
-    if (rollMenu.flanks) {
-      result.push({modifier: "+ 2", label: "Is Flanked", target: true, targetHash: target.actor.targetHash});
-    }
-    else if (rangeType === "melee") {
-      const isFlanked = await target.isTokenFlanked(attacker);
-      if (isFlanked) result.push({modifier: "+ 2", label: "Is Flanked", target: true, targetHash: target.actor.targetHash});
+    const isFlanked = rollMenu.flanks || await target.isTokenFlanked();
+    if (isFlanked) {
+      // Add standard flanking bonus
+      if (rollMenu.flanks || rangeType === "melee") {
+        result.push({modifier: "+ 2", label: "Is Flanked", target: true, targetHash: target.actor.targetHash});
+      }
+
+      // Add Pinpoint property bonus
+      if (item.system.properties?.pinpoint?.active) {
+        result.push({modifier: "+ 2", label: "Pinpoint Property", target: true, targetHash: target.actor.targetHash});
+      }
     }
   }
   
@@ -629,7 +634,12 @@ function _finalResult(results, initial, statusIds=[]) {
     finalResult.dis += initial.dis || 0;
     finalResult.modifier += initial.modifier || "";
     finalResult.label += " + Initial Roll Menu State"
-    roller.push({manual: `Initial state of Roll Menu [adv: ${initial.adv}, dis: ${initial.dis}, modifier: ${initial.modifier}]`});
+    let message = "Initial state of Roll Menu [ "
+    if (initial.adv) message += `ADV: ${initial.adv} `;
+    if (initial.dis) message += `DisADV: ${initial.dis} `;
+    if (initial.modifier) message += `Modifier: ${initial.modifier} `;
+    message += "]"
+    roller.push({manual: message});
   }
 
   const allDRMs = {

@@ -143,15 +143,36 @@ export class ItemCreatorDialog extends DC20Dialog {
       }
     }
 
-    // Disable Returning if Toss and throw not active
-    if (properties.toss && properties.thrown && properties.returning) {
-      const anyActive = properties.toss.active || properties.thrown.active;
-      if (!anyActive) {
+    // Disable Versatile if Two Handed is active 
+    if (properties.twoHanded && properties.versatile) {
+      if (properties.twoHanded.active) {
+        properties.versatile.active = false;
+        properties.versatile.disabled = true;
+      }
+      else {
+        properties.versatile.disabled = false;
+      }
+    }
+
+    // Disable Returning if Toss not active
+    if (properties.toss && properties.returning) {
+      if (!properties.toss.active) {
         properties.returning.active = false;
         properties.returning.disabled = true;
       }
       else {
         properties.returning.disabled = false;
+      }
+    }
+
+    // Disable Provoking if Two-handed not active
+    if (properties.twoHandedSF && properties.provoking) {
+      if (!properties.twoHandedSF.active) {
+        properties.provoking.active = false;
+        properties.provoking.disabled = true;
+      }
+      else {
+        properties.provoking.disabled = false;
       }
     }
 
@@ -195,6 +216,7 @@ export class ItemCreatorDialog extends DC20Dialog {
     // Reset properties
     Object.entries(this.blueprint.system.properties).forEach(([key, prop]) => {
       if (["twoHanded", "ammo"].includes(key) && itemSubtype === "ranged") prop.active = true;
+      else if (key === "rigid" && itemSubtype === "heavy") prop.active = true;
       else prop.active = false;
     });
   }

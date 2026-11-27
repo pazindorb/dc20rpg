@@ -219,17 +219,52 @@
       {{/each}}
     </div>
 
-    {{#if system.properties.pdIncrease.active}}
+    {{#if system.properties.guardA.active}}
     <div class="form-group short-form">
-      <label>{{localize "dc20rpg.item.sheet.config.pdIncrease"}}</label>
-      <input type="text" name="system.properties.pdIncrease.value" value="{{system.properties.pdIncrease.value}}" data-dtype="Number" placeholder="-">
+      <label>{{localize "dc20rpg.item.sheet.config.guardA"}}</label>
+      <input type="text" name="system.properties.guardA.value" value="{{system.properties.guardA.value}}" data-dtype="Number" placeholder="-">
     </div>
     {{/if}}
 
-    {{#if system.properties.adIncrease.active}}
+    {{#if system.properties.protectiveA.active}}
     <div class="form-group short-form">
-      <label>{{localize "dc20rpg.item.sheet.config.adIncrease"}}</label>
-      <input type="text" name="system.properties.adIncrease.value" value="{{system.properties.adIncrease.value}}" data-dtype="Number" placeholder="-">
+      <label>{{localize "dc20rpg.item.sheet.config.protectiveA"}}</label>
+      <input type="text" name="system.properties.protectiveA.value" value="{{system.properties.protectiveA.value}}" data-dtype="Number" placeholder="-">
+    </div>
+    {{/if}}
+
+    {{#if system.properties.amplify.active}}
+    <div class="form-group short-form">
+      <label>{{localize "dc20rpg.item.sheet.config.amplify"}}</label>
+      <input type="text" name="system.properties.amplify.value" value="{{system.properties.amplify.value}}" data-dtype="Number" placeholder="-">
+    </div>
+    {{/if}}
+
+    {{#if system.properties.channeling.active}}
+    <div class="form-group short-form">
+      <label>{{localize "dc20rpg.item.sheet.config.channeling"}}</label>
+      <input type="text" name="system.properties.channeling.value" value="{{system.properties.channeling.value}}" data-dtype="Number" placeholder="-">
+    </div>
+    {{/if}}
+
+    {{#if system.properties.vicious.active}}
+    <div class="form-group short-form">
+      <label>{{localize "dc20rpg.item.sheet.config.vicious"}}</label>
+      <input type="text" name="system.properties.vicious.value" value="{{system.properties.vicious.value}}" data-dtype="Number" placeholder="-">
+    </div>
+    {{/if}}
+
+    {{#if system.properties.longRangedSF.active}}
+    <div class="form-group short-form">
+      <label>{{localize "dc20rpg.item.sheet.config.longRangedSF"}}</label>
+      <input type="text" name="system.properties.longRangedSF.value" value="{{system.properties.longRangedSF.value}}" data-dtype="Number" placeholder="-">
+    </div>
+    {{/if}}
+
+    {{#if system.properties.multiFaceted.active}}
+    <div class="form-group short-form">
+      <label>{{localize "dc20rpg.item.sheet.config.multiFaceted"}}</label>
+      <input type="text" name="system.properties.multiFaceted.value" value="{{system.properties.multiFaceted.value}}" data-dtype="Number" placeholder="-">
     </div>
     {{/if}}
 

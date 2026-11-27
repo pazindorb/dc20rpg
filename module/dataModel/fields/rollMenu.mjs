@@ -17,6 +17,7 @@ export default class RollMenu extends foundry.data.fields.SchemaField {
       modification: new f.ArrayField(new f.StringField(), {required: true}),
       ignoreMCP: new f.BooleanField({required: true, initial: false}),
       free: new f.BooleanField({required: true, initial: false}),
+      comboAction: new f.NumberField(init0),
       ...fields
     };
     if (!item) return super(fields, options);
@@ -39,6 +40,7 @@ export function enrichRollMenuObject(object) {
   object.system.rollMenu.rollLevel = _rollLevel(object);
   object.system.rollMenu.clear = async () => await _clearRollMenu(object);
   object.system.rollMenu.customModificationFormula = () => _customModificationFormula(object);
+  object.system.rollMenu.comboActionFormula = () => _comboActionFormula(object);
   object.system.rollMenu.apForAdvUp = async () => await _resourceForAdv(object, "ap", true);
   object.system.rollMenu.apForAdvDown = async () => await _resourceForAdv(object, "ap", false);
 }
@@ -61,7 +63,8 @@ async function _clearRollMenu(object) {
     rangeType: "",
     versatile: false,
     halfCover: false,
-    tqCover: false
+    tqCover: false,
+    comboAction: 0
   }
 
   await object.update({["system.rollMenu"]: clearRollMenu})
@@ -72,6 +75,12 @@ function _customModificationFormula(object) {
   object.system.rollMenu.modification.forEach(mod => {
     formula += ` ${mod}`;
   })
+  return formula;
+}
+
+function _comboActionFormula(object) {
+  let formula = "";
+  for (let i = 0; i < object.system.rollMenu.comboAction; i++) formula += ` + 2`;
   return formula;
 }
 

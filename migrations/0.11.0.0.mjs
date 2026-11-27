@@ -96,8 +96,8 @@ async function _migrateItems(migrateModules) {
 }
 
 async function _migrateItem(item) {
-  // TODO: MIGRATE lshield and hshield eq type to shield + add missing properties
-
+  await _migrateShield(item);
+  await _refreshDefaultProperties(item);
 
   // Update Effects
   for (const effect of item.effects) {
@@ -107,6 +107,29 @@ async function _migrateItem(item) {
   // Update Rooted Effects
   for (const effect of (item.collectRootedEffects() || [])) {
     await _updateEffect(effect);
+  }
+}
+
+async function _refreshDefaultProperties(item) {
+  const systemProperties = CONFIG.DC20RPG.PROPERTIES;
+  const properties = {};
+  Object.entries(item.system.properties).forEach(([key, prop]) => {
+    const systemProperty = systemProperties[key];
+    if (!systemProperty) {
+      properties[key] = new foundry.data.operators.ForcedDeletion();
+      return;
+    }
+    const property = foundry.utils.deepClone(systemProperty);
+    property.active = prop.active;
+    if (prop.value) property.value = prop.value;
+    properties[key] = property;
+  })
+  await item.update({["system.properties"]: properties});
+}
+
+async function _migrateShield(item) {
+  if (["lshield", "hshield"].includes(item.system.equipmentType)) {
+    await item.update({["system.equipmentType"]: "shield"});
   }
 }
 

@@ -216,6 +216,7 @@ export class RollDialog extends DC20Dialog {
     context.rollMenu = this.updateObject.system.rollMenu;
     context.disableRollLevel = context.rollMenu.autoFail || context.rollMenu.autoCrit;
     context.DRMChecked = this.DRMChecked;
+    context.drmCheckRunning = this.drmCheckRunning;
     context.messageModes = {
       public: "Public Roll",
       gm: "GM Roll",
@@ -355,6 +356,7 @@ export class RollDialog extends DC20Dialog {
 
     const rollMenu = this.updateObject.system.rollMenu;
     const customMod = rollMenu.customModificationFormula();
+    const comboAction = rollMenu.comboActionFormula();
     const helpDice = this._prepareHelpDice(context);
     const modifier = rollMenu.coreFormula.modifier.replace(/\s\s+/g, ' '); // Get rid of extra space
     const source = rollMenu.coreFormula.source;
@@ -382,6 +384,7 @@ export class RollDialog extends DC20Dialog {
     }
     if (modifier) coreFormula.push({value: modifier, source: source});
     if (helpDice) coreFormula.push({value: helpDice, source: "Help Dice"});
+    if (comboAction) coreFormula.push({value: comboAction, source: "Combo Action"});
     if (customMod) coreFormula.push({value: customMod, source: "Custom Core Formula Modifications"});
     this.coreFormula = coreFormula;
   }
@@ -529,6 +532,8 @@ export class RollDialog extends DC20Dialog {
     // If this is a held action we want to replace mcp with saved one
     if (this.heldAction) this.actor.system.mcp = this.actor.heldAction.mcp;
 
+    this.drmCheckRunning = true;
+    this.render();
     this.DRMChecked = true;
     let [finalValue, result] = [{}, {}];
     if (this.itemRoll) [finalValue, result] = await runItemDRMCheck(this.item, this.actor, this.initialRollMenuValue);
@@ -547,6 +552,7 @@ export class RollDialog extends DC20Dialog {
     else {
       this.drmResult = DRMDialog.open(result, this);
     }
+    this.drmCheckRunning = false;
     this.render()
   }
 

@@ -52,22 +52,65 @@
   </div>
   {{/if}}
 
-  {{#if properties.pdIncrease.active}}
+  {{#if properties.guardA.active}}
   <div class="form-group" data-tooltip="{{localize "dc20rpg.dialog.itemCreator.changeCostTooltip"}}">
-    <label>{{localize 'dc20rpg.dialog.itemCreator.pdIncrease'}}</label>
+    <label>{{localize 'dc20rpg.dialog.itemCreator.guardA'}}</label>
     <div class="form-fields">
-      <input class="item-name" data-path="blueprint.system.properties.pdIncrease.value" type="number" data-cType="numeric" value="{{blueprint.system.properties.pdIncrease.value}}"/>
+      <input class="item-name" data-path="blueprint.system.properties.guardA.value" type="number" data-cType="numeric" value="{{blueprint.system.properties.guardA.value}}"/>
     </div>
   </div>
   {{/if}}
-  {{#if properties.adIncrease.active}}
+  {{#if properties.protectiveA.active}}
   <div class="form-group" data-tooltip="{{localize "dc20rpg.dialog.itemCreator.changeCostTooltip"}}">
-    <label>{{localize 'dc20rpg.dialog.itemCreator.adIncrease'}}</label>
+    <label>{{localize 'dc20rpg.dialog.itemCreator.protectiveA'}}</label>
     <div class="form-fields">
-      <input class="item-name" data-path="blueprint.system.properties.adIncrease.value" type="number" data-cType="numeric" value="{{blueprint.system.properties.adIncrease.value}}"/>
+      <input class="item-name" data-path="blueprint.system.properties.protectiveA.value" type="number" data-cType="numeric" value="{{blueprint.system.properties.protectiveA.value}}"/>
     </div>
   </div>
   {{/if}}
+
+
+  {{#if properties.amplify.active}}
+  <div class="form-group" data-tooltip="{{localize "dc20rpg.dialog.itemCreator.changeCostTooltip"}}">
+    <label>{{localize 'dc20rpg.dialog.itemCreator.amplify'}}</label>
+    <div class="form-fields">
+      <input class="item-name" data-path="blueprint.system.properties.amplify.value" type="number" data-cType="numeric" value="{{blueprint.system.properties.amplify.value}}"/>
+    </div>
+  </div>
+  {{/if}}
+  {{#if properties.channeling.active}}
+  <div class="form-group" data-tooltip="{{localize "dc20rpg.dialog.itemCreator.changeCostTooltip"}}">
+    <label>{{localize 'dc20rpg.dialog.itemCreator.channeling'}}</label>
+    <div class="form-fields">
+      <input class="item-name" data-path="blueprint.system.properties.channeling.value" type="number" data-cType="numeric" value="{{blueprint.system.properties.channeling.value}}"/>
+    </div>
+  </div>
+  {{/if}}
+  {{#if properties.vicious.active}}
+  <div class="form-group" data-tooltip="{{localize "dc20rpg.dialog.itemCreator.changeCostTooltip"}}">
+    <label>{{localize 'dc20rpg.dialog.itemCreator.vicious'}}</label>
+    <div class="form-fields">
+      <input class="item-name" data-path="blueprint.system.properties.vicious.value" type="number" data-cType="numeric" value="{{blueprint.system.properties.vicious.value}}"/>
+    </div>
+  </div>
+  {{/if}}
+  {{#if properties.longRangedSF.active}}
+  <div class="form-group" data-tooltip="{{localize "dc20rpg.dialog.itemCreator.changeCostTooltip"}}">
+    <label>{{localize 'dc20rpg.dialog.itemCreator.longRangedSF'}}</label>
+    <div class="form-fields">
+      <input class="item-name" data-path="blueprint.system.properties.longRangedSF.value" type="number" data-cType="numeric" value="{{blueprint.system.properties.longRangedSF.value}}"/>
+    </div>
+  </div>
+  {{/if}}
+  {{#if properties.multiFaceted.active}}
+  <div class="form-group" data-tooltip="{{localize "dc20rpg.dialog.itemCreator.changeCostTooltip"}}">
+    <label>{{localize 'dc20rpg.dialog.itemCreator.multiFaceted'}}</label>
+    <div class="form-fields">
+      <input class="item-name" data-path="blueprint.system.properties.multiFaceted.value" type="number" data-cType="numeric" value="{{blueprint.system.properties.multiFaceted.value}}"/>
+    </div>
+  </div>
+  {{/if}}
+  
 
   {{!-- Property Points --}}
   <div class="property-points margin-top-10"> 

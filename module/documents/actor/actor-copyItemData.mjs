@@ -74,28 +74,14 @@ export function prepareEquippedItemsFlags(actor) {
 		heavyEquipped: false,
 		shieldEquipped: false,
 		impactfulUnarmedStries: false,
-		shieldBonus: {
-			ad: 0,
-			pd: 0
-		},
 	}
 
 	actor.items.forEach(item => {
 		if (item.type === 'equipment' && item.system.statuses.equipped) {
-			if (["light", "heavy"].includes(item.system.equipmentType)) {
-				equippedFlags.armorEquipped = true;
-			}
-			if (["heavy"].includes(item.system.equipmentType)) {
-				equippedFlags.heavyEquipped = true;
-			}
-			if (["shield"].includes(item.system.equipmentType)) {
-				equippedFlags.shieldEquipped = true;
-				const properties = item.system.properties;
-				
-				// TODO: Wielding Two Shields - player can decide which shield bonus should be applied - introduce that option
-				equippedFlags.shieldBonus.ad = properties.adIncrease.value;
-				equippedFlags.shieldBonus.pd = properties.pdIncrease.value;
-			}
+			equippedFlags.armorEquipped = equippedFlags.armorEquipped || ["light", "heavy"].includes(item.system.equipmentType);
+			equippedFlags.heavyEquipped = equippedFlags.heavyEquipped || item.system.equipmentType === "heavy";
+			equippedFlags.shieldEquipped = equippedFlags.shieldEquipped || item.system.equipmentType === "shield";
+
 			if (item.system.impactfulUnarmedStries) {
 				equippedFlags.impactfulUnarmedStries = true;
 			}
@@ -105,7 +91,6 @@ export function prepareEquippedItemsFlags(actor) {
 		armorEquipped: equippedFlags.armorEquipped,
 		heavyEquipped: equippedFlags.heavyEquipped,
 		shieldEquipped: equippedFlags.shieldEquipped,
-		shieldBonus: equippedFlags.shieldBonus,
 		impactfulUnarmedStries: equippedFlags.impactfulUnarmedStries,
 	}
 }

@@ -190,13 +190,23 @@
     <div class="column">
       <div class="row">
         <a class="toggle fa-lg {{#if rollMenu.ignoreMCP}}fa-solid{{else}}fa-light{{/if}} fa-check-to-slot" data-cType="activable" style="height:30px" data-path="system.rollMenu.ignoreMCP" data-tooltip="{{localize 'dc20rpg.sheet.rollMenu.ignoreMCP'}}"></a>
+        {{#if rollMenu.comboAction}}<span style="font-size: 24px; margin-right: -18px;">{{rollMenu.comboAction}}</span>{{/if}}
+        <a class="toggle fa-lg {{#if rollMenu.comboAction}}fa-solid{{else}}fa-light{{/if}} fa-swords" data-cType="toggle" style="height:30px" data-max="9" data-path="system.rollMenu.comboAction" data-tooltip="{{localize 'dc20rpg.sheet.rollMenu.comboAction'}}"></a>
       </div>
 
+      {{#if drmCheckRunning}}
+      <div class="row margin-top-5">
+        <div class="letter-circle-icon small" data-style="border-radius: 100px;" data-tooltip="{{localize 'dc20rpg.sheet.rollMenu.drmCheckRunning'}}">
+          <a class="fa-solid fa-spinner fa-spin fa-lg"></a>
+        </div>
+      </div>
+      {{else}}
       <div class="row margin-top-5">
         <div class="letter-circle-icon small clickable" data-tooltip="{{localize 'dc20rpg.sheet.rollMenu.runDRMCheck'}}" data-action="drm">
           <a class="fa-solid fa-magnifying-glass fa-lg {{#unless DRMChecked}}not-used{{/unless}}"></a>    
         </div>
       </div>
+      {{/if}}
 
       {{#if rollMenu.rangeType}}
       <div class="row margin-top-5">
